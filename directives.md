@@ -31,10 +31,12 @@ decisions likely to effect the work of other technical groups.
 
 Not everything that may be considered part of a source or citation is
 within the scope of the S&CEG.  In particular, the following subjects are
-considered beyond of scope of the S&CEG: cross-document information,
+considered beyond of scope of the S&CEG: dates and calendars, personal names,
+place names and other geographical data, cross-document information,
 documentation of inference and reasoning, human-targeted formatting of 
 citation text, formats for integrating citations into existing data formats, 
-and support for hypothetical future use-cases.
+support for hypothetical future use-cases, and metadata outside the usual
+scope of genealogical interest.
 
 The S&CEG shall avoid placing onerous requirements on the choice of
 serialisation formats or data formalisms that may be adopted by the
@@ -105,12 +107,12 @@ Annex A
 =======
 
 This annex contains supplementary information that is not formally part
-of the S&CEG Directives but is appended to them for convenience.  
+of the S&CEG Directives but is appended to them for convenience.
 
 A.1.  Members
 -------------
 
-* Susan Adams (initial member and coordinator)
+* Sue Adams (initial member and coordinator)
 * Nick Hall (initial associate member)
 * M. Diane Rogers (initial member)
 * Richard Tallent (initial member)
