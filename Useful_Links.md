@@ -31,7 +31,9 @@
 
 ## Archives Portal Europe ##
 
-* [Archives Portal Europe](http://apenet.eu/)
+* [Archives Portal Europe](http://www.archivesportaleurope.net/)
+* [APEx project site](www.apex-project.eu/index.php/en/)
+* [APEnet project site (2009–2012)](http://apenet.eu/)
 
 ## BibTeX ##
 
