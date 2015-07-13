@@ -29,6 +29,10 @@
 * [Schema documentation](https://www.dropbox.com/sh/1iizv5emq1jsji5/AABnzja0yqlrbuDzcgs7BRyba/A2ASchema_Documentation_v1.7.pdf)
 * [Data model documentation](https://www.dropbox.com/s/pd88vk6kkvg8f8n/A2ABeschrijving_v1.8.pdf)
 
+## Archives & Records Association ##
+
+* [Guide to Standards](http://www.archives.org.uk/about/sections-interest-groups/archives-a-technology/news-and-events.html)
+
 ## Archives Portal Europe ##
 
 * [Archives Portal Europe](http://www.archivesportaleurope.net/)
