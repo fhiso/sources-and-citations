@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="14cm" height="15cm" viewBox="9 8 274 292" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #90ee90" x="9.95" y="9.47222" width="142.1" height="30.1667"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="9.95" y="9.47222" width="142.1" height="30.1667"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="13.45" y="22.75">
+      <tspan x="13.45" y="22.75">Name: Surrey History Centre</tspan>
+      <tspan x="13.45" y="29.8056">Address: 130 Goldsworth Road, Woking, Surrey</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #90ee90" x="199.6" y="10.675" width="64.4" height="23.1111"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="199.6" y="10.675" width="64.4" height="23.1111"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="203.1" y="20.425">
+      <tspan x="203.1" y="20.425">Name: Ancestry</tspan>
+      <tspan x="203.1" y="27.4806">URL: ancestry.co.uk</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="20.925" y="64.6556" width="120.15" height="72.5"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="20.925" y="64.6556" width="120.15" height="72.5"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="24.425" y="74.4056">
+      <tspan x="24.425" y="74.4056">Title: Abinger, St. James: Parish records</tspan>
+      <tspan x="24.425" y="81.4611">Reference: AB</tspan>
+      <tspan x="24.425" y="88.5167">Date: 1559-1979</tspan>
+      <tspan x="24.425" y="95.5722">Level: Collection</tspan>
+      <tspan x="24.425" y="102.628">Description:</tspan>
+      <tspan x="24.425" y="109.683">Provenance:</tspan>
+      <tspan x="24.425" y="116.739">Introduction:</tspan>
+      <tspan x="24.425" y="123.794">Related records:</tspan>
+      <tspan x="24.425" y="130.85">Access restrictions:</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="43.65" y="161.469" width="74.3" height="37.2222"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="43.65" y="161.469" width="74.3" height="37.2222"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="47.15" y="171.219">
+      <tspan x="47.15" y="171.219">Title: Baptism registers</tspan>
+      <tspan x="47.15" y="178.275">Reference: AB/4</tspan>
+      <tspan x="47.15" y="185.331">Date: 1813-1898</tspan>
+      <tspan x="47.15" y="192.386">Level: Series</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="41.4" y="223.644" width="79.05" height="37.2222"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="41.4" y="223.644" width="79.05" height="37.2222"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="44.9" y="233.394">
+      <tspan x="44.9" y="233.394">Title: Baptism register</tspan>
+      <tspan x="44.9" y="240.45">Reference: AB/4/2</tspan>
+      <tspan x="44.9" y="247.506">Date: Jul 1841-May 1898</tspan>
+      <tspan x="44.9" y="254.561">Level: Item</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffc0cb" x="61.25" y="283.347" width="38.1" height="16.0556"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="61.25" y="283.347" width="38.1" height="16.0556"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="64.75" y="293.097">
+      <tspan x="64.75" y="293.097">Entry: 123</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="182.75" y="222.794" width="99.35" height="37.2222"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="182.75" y="222.794" width="99.35" height="37.2222"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="186.25" y="236.072">
+      <tspan x="186.25" y="236.072">Title: Surrey, England, Baptisms</tspan>
+      <tspan x="186.25" y="243.128">Date: 1813-1912</tspan>
+      <tspan x="186.25" y="250.183">Level: Database</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffc0cb" x="195.725" y="284.022" width="74.85" height="16.0556"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x="195.725" y="284.022" width="74.85" height="16.0556"/>
+    <text font-size="5.64436" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="199.225" y="293.772">
+      <tspan x="199.225" y="293.772">Record: Alfred Munday</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="80.3" y1="283.347" x2="80.7999" y2="265.365"/>
+    <polygon style="fill: #000000" points="82.7992,265.421 80.9111,261.366 78.8007,265.309 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="82.7992,265.421 80.9111,261.366 78.8007,265.309 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="80.925" y1="223.644" x2="80.8225" y2="203.192"/>
+    <polygon style="fill: #000000" points="82.8225,203.182 80.8025,199.192 78.8226,203.202 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="82.8225,203.182 80.8025,199.192 78.8226,203.202 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="80.8" y1="161.469" x2="80.963" y2="141.655"/>
+    <polygon style="fill: #000000" points="82.9629,141.672 80.9959,137.656 78.9631,141.639 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="82.9629,141.672 80.9959,137.656 78.9631,141.639 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="81" y1="64.6556" x2="81" y2="44.1389"/>
+    <polygon style="fill: #000000" points="83,44.1389 81,40.1389 79,44.1389 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="83,44.1389 81,40.1389 79,44.1389 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="232.425" y1="222.794" x2="231.815" y2="38.2861"/>
+    <polygon style="fill: #000000" points="233.815,38.2795 231.802,34.2861 229.815,38.2927 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="233.815,38.2795 231.802,34.2861 229.815,38.2927 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="233.15" y1="284.022" x2="232.561" y2="264.515"/>
+    <polygon style="fill: #000000" points="234.56,264.454 232.44,260.516 230.562,264.575 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="234.56,264.454 232.44,260.516 230.562,264.575 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="195.725" y1="292.05" x2="101.586" y2="291.391"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="104.482,289.411 100.468,291.383 104.454,293.411 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="182.75" y1="241.406" x2="122.686" y2="242.225"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="125.54,240.186 121.568,242.24 125.595,244.186 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="182.75" y1="250.711" x2="145.661" y2="250.512"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="148.554,248.528 144.543,250.506 148.532,252.527 "/>
+  </g>
+</svg>
