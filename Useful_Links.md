@@ -44,10 +44,19 @@
 * [BibTeX](http://www.bibtex.org/)
 * [Wikipedia entry](http://en.wikipedia.org/wiki/BibTeX)
 
+## Cataloging Cultural Objects (CCO) ##
+
+* [CCO Portal](http://cco.vrafoundation.org/)
+* See also VRA core below, a related standard owned by the Library of Congress
+
 ## Citation Style Language (CSL) ##
 
 * [Citation Style Language (CSL)](http://citationstyles.org)
 * [CSL variables](http://citationstyles.org/downloads/specification.html#appendix-iv-variables)
+
+## Describing Archives: A Content Standard (DACS) ##
+
+* [DACS information page](http://www.archivists.org/governance/standards/dacs.asp) -- note this standard is non-free
 
 ## Dublin Core ##
 
@@ -59,6 +68,7 @@
 
 * [Encoded Archival Description (EAD)](http://www.loc.gov/ead/ead.html)
 * [EAD Crosswalks](http://www.loc.gov/ead/tglib/appendix_a.html)
+* [EAD3 Tag Library (pdf)](http://www2.archivists.org/sites/all/files/TagLibrary-VersionEAD3.pdf)
 
 ## Evidence Explained ##
 
@@ -80,6 +90,12 @@
 
 * [ICA standards & guidelines](http://www.icacds.org.uk/eng/standards.htm)
 * [General International Standard Archival Description](http://www.icacds.org.uk/eng/ISAD%28G%29.pdf)
+
+## General International Standard Archival Description (ISAD(G)) ##
+
+* [Description](http://www.icacds.org.uk/eng/standards.htm)
+* [ISAD(G) (English language pdf)](http://www.icacds.org.uk/eng/ISAD%28G%29.pdf)
+* [Links to translations](http://www.icacds.org.uk/eng/standards2.htm)
 
 ## MARC standard for bibliographic data ##
 
@@ -121,6 +137,11 @@
 * [Discovery System RESTful API](http://discovery.nationalarchives.gov.uk/api.htm)
 * [Wikipedia entry](http://en.wikipedia.org/wiki/The_National_Archives_%28United_Kingdom%29)
 * [Cataloguing and archives networks](http://www.nationalarchives.gov.uk/archives-sector/cataloguing-and-archives-networks.htm)
+
+## VRA Core ##
+
+* [VRA Core](http://www.loc.gov/standards/vracore/)
+* See also CCO above, a similar standard owned by the Visual Resource Association
 
 ## XMP ##
 
