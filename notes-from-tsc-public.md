@@ -72,4 +72,4 @@ This is far from complete, just what we've mentioned, and in no particular order
 -   URL
 -   volume
 -   where-within-source
--   X-number for publisher-defined X
+-   *X*-number for publisher-defined *X*
