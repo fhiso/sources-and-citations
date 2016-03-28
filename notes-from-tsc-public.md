@@ -1,9 +1,17 @@
 An informal effort to document progress being made on tsc-public.
 
-# Apparent Decisions
+
+# Progress
+
+## Consensus
 
 -   Authors will be stored in some form of ordered list; the details have not been determined
 -   Each author will be stored in a use-case-based microformat (unless another better option is designed)
+
+## Open issues
+
+-   Select a list-of-authors specification detail (microformat or as-list-in-spec)
+-   Define the author-name microformat details
 
 # Authors
 
