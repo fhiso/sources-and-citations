@@ -31,7 +31,9 @@ An informal effort to document progress being made on tsc-public.
     -   Two options have been discussed:
         -   A microformat based on name parts (family name, prefix, title, etc)
         -   A microformat based on the identified use cases
-    -   Informal polling sided for use-case-based (5 of 6 participating) with 1 vote "we need another option"
+    -   Informal polling sided for use-case-based (6 of 7 participating) with 1 vote "we need another option"
+    -   There is support for defaulting one case to another
+        -   and partial support for more complex defaulting to simplify common occidental names
 
 
 # Potential vocabulary items
