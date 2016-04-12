@@ -1,8 +1,8 @@
 ---
-title: A microformat for authors' names
+title: A microformat for creators' names
 date: 12 April 2016
 ...
-# A microformat for authors' names
+# A microformat for creators' names
 
 [This is a **first draft** of material that may eventually go into a
 Citation Elements standard.  Much of this document comprises suggestions
