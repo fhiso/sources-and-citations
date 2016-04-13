@@ -128,7 +128,7 @@ knowing that its value is a `CreatorsNameList`.] The *class name* for
 the *class* of values encoding a list of the names of the creators of a
 genealogical source that matches this production is:
 
-    http://fhiso.org/term/type/CreatorsNameList
+    http://terms.fhiso.org/type/CreatorsNameList
 
 [*Example &mdash;* A charter jointly written, at least nominally, by
 William III and Mary II could be described using a `CreatorsNameList`
