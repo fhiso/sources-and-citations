@@ -115,8 +115,9 @@ separating them with a `ListSeparator` of a repeated ampersand (U+0026).
     ListSeparator  ::=  S '&&' S
 
 By convention in this standard, the grammar production for such a list
-is the name of the individual item's production suffixed by `List`.  The
-`CreatorsNameList` production follows this convention:
+is the name of the individual item's production suffixed by `List`.  <a
+id="CreatorsNameList"></a>The `CreatorsNameList` production follows this
+convention:
 
     CreatorsNameList  ::=  CreatorsName ( ListSeparator CreatorsName )*
 
