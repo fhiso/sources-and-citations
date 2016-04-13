@@ -286,10 +286,10 @@ after the comma, a space (U+0020), and the substring before the comma.
 [*Example &mdash;* Spanish genealogist Rodrigo Méndez Silva, whose
 family names are Méndez Silva, could be represented in a `CreatorsName`
 as "`Méndez Silva, Rodrigo`".  Not only Western names invert the
-*natural version* in this way to form the *bibliographic version*. 
-Andalusian historian Said al-Andalusi (<span dir="rtl">صاعد
-الأندلسي</span>) may be stored "`al-Andalusī, Ṣā‘id`" in the Latin
-script; or untransliterated, showing the characters in memory order,
+*natural version* to form the *bibliographic version*.  Andalusian 
+historian Said al-Andalusi (<span dir="rtl">صاعد الأندلسي</span>) 
+may be stored "`al-Andalusī, Ṣā‘id`" in the Latin script; or 
+untransliterated, showing the characters in memory order, 
 &#x202D;"`ا`&zwnj;`ل`&zwnj;<!-- 
 -->`أ`&zwnj;`ن`&zwnj;`د`&zwnj;`ل`&zwnj;`س`&zwnj;`ي`<!-- 
 -->`,`&nbsp;`ص`&zwnj;`ا`&zwnj;`ع`&zwnj;`د`"&#x202C;.]
@@ -316,14 +316,18 @@ standard.]
 
 It is *recommended* that if initials or other abbreviations are given,
 they *should* be be formatted with a period (U+002E) and a space
-(U+0020) after each initial, unless followed by another punctuation mark
-or the end of the string, in which case the space *should* be omitted.
-The non-breaking space character (U+00A0) *should not* be used.
-[*Example &mdash;* The *natural version* of the name of historian A J P
-Taylor would be written "`A. J. P. Taylor`", and the *bibliographic
-version* of the name of US jurist Lewis F Powell Jr is "`Powell, Lewis
-F., Jr.`".  When formatting a citation to to Taylor's work, an
-application would be free to remove the additional spaces or periods.]
+(U+0020) after each initial or abbreviation, unless followed by another
+punctuation mark or the end of the string, in which case the space
+*should* be omitted.  The non-breaking space character (U+00A0) *should
+not* be used to separate initials.  [*Example &mdash;* The *natural
+version* of the name of historian A J P Taylor would be written "`A. J.
+P. Taylor`", and the *bibliographic version* of the name of US jurist
+Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".  Note the period after
+Jr, even though some style guides would say it is not needed because
+the last letter of "junior" has not been omitted.  How these are
+presented in a formatted citation is beyond the scope of this standard,
+so an application formatting a citation to Taylor's work would be free
+not to print the periods or spaces.]
 
 It is *recommended* that titles and post-nominals be dropped from the
 authors of published sources unless they are necessary to distinguish
