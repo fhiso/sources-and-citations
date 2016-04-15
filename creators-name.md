@@ -284,10 +284,10 @@ follows.
 If the *bibliographic version* contains no comma (U+002C), then the
 *natural version* defaults to the *bibliographic version*.  [*Example
 &mdash;* In many East Asian cultures, names are naturally written in a
-bibliographic form.  Vietnamese historian Trần Thế Pháp could simply be
-encode "`Trần Thế Pháp | Trần`" in a `CreatorsName`; the omitted
-*natural version* defaults to the *bibliographic version* as it contains
-no comma.]
+bibliographic form.  Burmese historian Kyaw Thet could simply be
+encoded as "`Kyaw Thet`" in a `CreatorsName`; the omitted *natural
+version* defaults to the *bibliographic version* as it contains no
+comma.]
 
 If the *bibliographic version* contains precisely one comma, the
 *natural version* defaults to the *whitespace-normalised* *string*
