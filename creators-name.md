@@ -1,15 +1,17 @@
 ---
 title: A microformat for creators' names
-date: 13 April 2016
+date: 14 April 2016
 ...
 # A microformat for creators' names
 
-[This is a **first draft** of material that may eventually go into a
-Citation Elements standard.  Much of this document comprises suggestions
-for further discussion, rather than being a expression of current
-consensus within FHISO.  Text in square brackets is not intended to form
-a normative part of any eventual standard, though the examples and
-explanatory notes may be retained.]
+[*Editorial note &mdash;* This is an **early draft** of material
+intended to go in a Citation Elements standard.  Text in square
+brackets (such as this paragraph) is not intended to form a normative
+part of any eventual standard.  Such text is labelled as an example,
+note, or editorial note.  Editoral notes are used to record outstanding
+issues, or points where there is no consensus, and will be resolved and
+removed for the final standard.  Examples and notes may be retained in
+the standard.]
 
 This document defines a *class* for storing the name of an 
 creator [or an ordered list of creators] of a genealogical source in a
@@ -30,8 +32,8 @@ numbers, or academic affiliations.
 
 ## Basics
 
-[This section will likely form part of a general introduction to the
-completed standard.]
+[*Editorial note &mdash;* This section will likely form part of a
+general introduction to the completed standard.]
 
 The key words *must*, *must not*, *required*, *shall*, *shall not*,
 *should*, *should not*, *recommended*,  *may*, and *optional* in this
@@ -59,7 +61,6 @@ reserved for encodings such as UTF-16 and not characters in their own
 right), and the invalid characters U+FFFE and U+FFFF.]  
 
     Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-
 
 The value of a *citation element* is a **string**, defined as a sequence
 *characters*.  &#x5B;*Note &mdash;* This definition is indentical to the
@@ -102,17 +103,21 @@ edition of XML 1.1 specification are applicable.
 
 ## List types
 
-[FHISO has deferred a decision on whether a list of creators' names
-should be encoded in a single element value.  This section defines a
-reusable format which can be used for any list-valued elements, should
-it be decided that list-valued elements should be encoded in a
-*string*.]
+[*Editorial note &mdash;* FHISO has deferred a decision on whether a
+list of creators' names should be encoded in a single element value.
+This section defines a reusable format which can be used for any
+list-valued elements, should it be decided that list-valued elements
+should be encoded in a *string*.]
 
 This section defines a general pattern that can be used for serialising
 an ordered list of one or more items into a *citation element* value by
 separating them with a `ListSeparator` of a repeated ampersand (U+0026).
 
     ListSeparator  ::=  S '&&' S
+
+[*Editorial note &mdash;* There is not yet consensus on the choice of
+`ListSeparator`, both in terms of the punctuator and whether surrounding
+whitespace should be required.]
 
 By convention in this standard, the grammar production for such a list
 is the name of the individual item's production suffixed by `List`.  <a
@@ -165,7 +170,11 @@ appear logical when sorted; nevertheless, this standard does not
 require a specific choice of *bibliographic version* format.  [*Example
 &mdash;* The *bibliographic version* of the name of Greek historian
 Maria Nystazopoulou-Pelekidou would is "`Νυσταζοπούλου-Πελεκίδου,
-Μαρία`", if written in Greek.] 
+Μαρία`", if written in Greek.] <!-- --> [*Editorial note &mdash;* There
+is an outstanding issue over the correct representation of non-dropping
+particles: should we write "`La Fontaine, Jean de`"?  Is there a
+use-case for sorting displaying this like that but sorting it under
+'F'?]
 
 The **sort data** will usually be the same as the *bibliographic
 version*, but in some cultures the correct sorting of names requires
@@ -308,12 +317,23 @@ before the first comma ("`Moriarty`"), and the text from the second
 comma to the end ("`, Jr.`").  This results in the correct *natural
 version*: "`G. Andrews Moriarty, Jr.`".]
 
+## Names containing delimiters
+
+If a name contains a comma as part of its natural lexicography, some of the
+defaulting rules listed above may yield incorrect results.  In these cases the
+explicit forms of those name parts should be included.
+
+If a name contains another delimiter (`@`, `|`, or `&&`), it *must* be 
+quoted or escaped.  [*Editorial note &mdash;* This mechanism has not yet been
+determined, but it is anticipated to be added prior to this document being
+incorporated in a FHISO standard.]
+
 ## Stylistic recommendations
 
-[This section gives recommendations on how to format creator's names for
-maximum interoperability, and are based on best practice in citations. 
-They are only guidelines, so may not belong in the main part of the
-standard.]
+This section gives recommendations on how to use the `CreatorsName` for
+maximum interoperability.  [*Editorial note &mdash;* These
+recommendations are based on best practice in citations, but are only
+guidelines, so may not belong in the main part of the standard.]
 
 It is *recommended* that if initials or other abbreviations are given,
 they *should* be be formatted with a period (U+002E) and a space
