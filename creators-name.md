@@ -1,6 +1,6 @@
 ---
 title: A microformat for creators' names
-date: 14 April 2016
+date: 15 April 2016
 ...
 # A microformat for creators' names
 
@@ -13,7 +13,7 @@ issues, or points where there is no consensus, and will be resolved and
 removed for the final standard.  Examples and notes may be retained in
 the standard.]
 
-This document defines a *class* for storing the name of an 
+This standard defines a *class* for storing the name of an 
 creator [or an ordered list of creators] of a genealogical source in a
 *citation element*.  The word "creator" is used rather than "author"
 so as also to include editors, compilers, painters and stonemasons.  The
@@ -37,7 +37,7 @@ general introduction to the completed standard.]
 
 The key words *must*, *must not*, *required*, *shall*, *shall not*,
 *should*, *should not*, *recommended*,  *may*, and *optional* in this
-document are to be interpreted as described in [[RFC
+standard are to be interpreted as described in [[RFC
 2119](http://tools.ietf.org/html/rfc2119)].
 
 The grammar given here uses the same EBNF notation as
@@ -48,11 +48,12 @@ non-conforming values *may* be accepted and processed by a conforming
 application in an implementation-defined manner.
 
 **Characters** are specified by reference [ISO/IEC 10646], without
-regard to the character encoding.  *Characters* may be identified in the
-text by their four-digit hexadecimal character number prefixed with
-"U+".  [*Note &mdash;* This does not preclude serialisation in a
-non-Unicode encoding, so long as the serialisation defines how
-characters in that encoding corresponds to Unicode characters.]
+regard to the character encoding.  In this standard *characters* may be
+identified in the text by their four- or five-digit hexadecimal
+character number prefixed with "U+".  [*Note &mdash;* This does not
+preclude serialisation in a non-Unicode encoding, so long as the
+serialisation defines how characters in that encoding corresponds to
+Unicode characters.]
 
 *Characters* *must* match the `Char` production from 
 [[XML](https://www.w3.org/TR/xml11/)].   [*Note &mdash;* This includes
@@ -170,11 +171,7 @@ appear logical when sorted; nevertheless, this standard does not
 require a specific choice of *bibliographic version* format.  [*Example
 &mdash;* The *bibliographic version* of the name of Greek historian
 Maria Nystazopoulou-Pelekidou would is "`Νυσταζοπούλου-Πελεκίδου,
-Μαρία`", if written in Greek.] <!-- --> [*Editorial note &mdash;* There
-is an outstanding issue over the correct representation of non-dropping
-particles: should we write "`La Fontaine, Jean de`"?  Is there a
-use-case for sorting displaying this like that but sorting it under
-'F'?]
+Μαρία`", if written in Greek.] 
 
 The **sort data** will usually be the same as the *bibliographic
 version*, but in some cultures the correct sorting of names requires
@@ -216,7 +213,7 @@ production below.  The four `Name`s are, in order, the *sort data*, the
 all except the *bibliographic version* are optional.  
 
     CreatorsName  ::=  ( Name S '@' S )? Name 
-                         ( S '|' (S Name)? ( S '|' S Name )? )?
+                         ( S '|' ( S Name )? ( S '|' S Name )? )?
 
 ### Default sort data
 
@@ -317,16 +314,58 @@ before the first comma ("`Moriarty`"), and the text from the second
 comma to the end ("`, Jr.`").  This results in the correct *natural
 version*: "`G. Andrews Moriarty, Jr.`".]
 
-## Names containing delimiters
+## Escaping characters
 
-If a name contains a comma as part of its natural lexicography, some of the
-defaulting rules listed above may yield incorrect results.  In these cases the
-explicit forms of those name parts should be included.
+[*Editorial note &mdash;* There is not yet clear consensus for this
+particular escape syntax.]
 
-If a name contains another delimiter (`@`, `|`, or `&&`), it *must* be 
-quoted or escaped.  [*Editorial note &mdash;* This mechanism has not yet been
-determined, but it is anticipated to be added prior to this document being
-incorporated in a FHISO standard.]
+A `Name` (used to represent any of the four name variants) is a sequence of 
+*characters* or *escape characters* which does not begin or end with
+*whitespace*.
+
+    Name              ::=  NameChar ( ( NameChar | S )* NameChar )?
+    
+    NameChar          ::=  ( Char - ( S | ReservedNameChar ) ) | EscapedChar 
+
+The *characters* `&`, `@` and `|` have specific purposes in a
+`CreatorsNameList`.  If a name naturally contains one of these
+*characters*, or any other character matching the `ReservedNameChar`
+production, it *must* be escaped.  [*Note &mdash;* The *characters* `!`,
+`#` and `$` are assigned no purpose in this standard, but are reserved
+for future use.  The *characters* `{` and `}` are used in this standard,
+but not in a context that would require them to be escaped elsewhere;
+nevertheless, this standard requires them to be escaped to allow
+additional future use of them.]
+
+    ReservedNameChar  ::=  '!' | '#' | '$' | '%' | '&' | '@' | '{' | '|' | '}'
+
+The `%` *character* (U+0025) introduces an *escaped character*, after
+which the hexadecimal number of the character in [ISO/IEC 10646] is
+given in braces (U+007B and U+007D).  The *character* number given
+*should* be for a *character* that matches the `Char` production, and
+applications *may* reject the string if it does not.  *Escaped
+characters* *may* be used to represent any character, not just those
+matching `ReservedNameChar`, but this is *not recommended*; applications
+*may* replace any unnecessary escapes with the unescaped *character*.
+    
+    EscapedChar  ::=  '%' '{' [0-9A-Fa-f]+ '}'
+
+[*Example &mdash;*  The *characters* `!` and `|` are used to write click
+consonants in a number of Southern African languages.  Properly these are
+written using *characters* U+01C3 and U+01C0, respectively, but these
+are missing in many fonts and hard to enter on many keyboards; the
+similar-looking ASCII character U+0021 and U+007C are often substituted.
+Thus the name of Nambian chief ǃNanseb gaib ǀGâbemab might be written
+"`%{21}Nanseb gaib %{7C}Gâbemab`".]
+
+    
+If a name naturally contains a comma, the defaulting rules listed above
+may yield incorrect results.  In these cases the explicit forms of those
+name parts *should* be given.  [*Editorial note &mdash;* This standard
+does not current state whether defaulting acts on the escaped or
+unescaped *bibliographic version*.  It is therefore as-yet undefined
+whether an *escaped character*, `%{2C}`, can hide a comma from the
+defaulting rules.]
 
 ## Stylistic recommendations
 
@@ -335,20 +374,15 @@ maximum interoperability.  [*Editorial note &mdash;* These
 recommendations are based on best practice in citations, but are only
 guidelines, so may not belong in the main part of the standard.]
 
-It is *recommended* that if initials or other abbreviations are given,
-they *should* be be formatted with a period (U+002E) and a space
-(U+0020) after each initial or abbreviation, unless followed by another
-punctuation mark or the end of the string, in which case the space
-*should* be omitted.  The non-breaking space character (U+00A0) *should
-not* be used to separate initials.  [*Example &mdash;* The *natural
-version* of the name of historian A J P Taylor would be written "`A. J.
-P. Taylor`", and the *bibliographic version* of the name of US jurist
-Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".  Note the period after
-Jr, even though some style guides would say it is not needed because
-the last letter of "junior" has not been omitted.  How these are
-presented in a formatted citation is beyond the scope of this standard,
-so an application formatting a citation to Taylor's work would be free
-not to print the periods or spaces.]
+It is *recommended* that diacritics are preserved in all name variants,
+including the *sort data*.  &#x5B;*Example &mdash;* The *short verison* of
+former Polish president Lech Wałęsa's name should be "`Wałęsa`" and not
+"`Walesa`".  If desired, an application can strip the diacritics when
+formatting a citation, but it is not generally possible for an
+application to restore lost diacritics.  Algorithms such as the Unicode
+Collation Algorithm [[UTS 10](http://unicode.org/reports/tr10/)] can
+handle the sorting of Unicode data according to the requirements of
+various locales.]
 
 It is *recommended* that titles and post-nominals be dropped from the
 authors of published sources unless they are necessary to distinguish
@@ -360,15 +394,86 @@ her name might be given as "`Michael, of Kent, Princess`": simply
 putting "`Michael`" (or "`Marie`") would be ambiguous, and as a member
 of the British Royal Family she does not normally use a surname.]
 
-It is *recommended* that diacritics are preserved in all name variants,
-including the *sort data*.  &#x5B;*Example &mdash;* The *short verison* of
-former Polish President Lech Wałęsa's name should be "`Wałęsa`" and not
-"`Walesa`".  If desired, an application can strip the diacritics when
-formatting a citation, but it is not generally possible for an
-application to restore lost diacritics.  Algorithms such as the Unicode
-Collation Algorithm [[UTS 10](http://unicode.org/reports/tr10/)] can
-handle the sorting of Unicode data according to the requirements of
-various locales.]
+If initials or other abbreviations are given, it is *recommended* that 
+they *should* be be formatted with a period (U+002E) and a space
+(U+0020) after each initial or abbreviation, unless followed by another
+punctuation mark or the end of the string, in which case the space
+*should* be omitted.  The non-breaking space *character* (U+00A0) *should
+not* be used to separate initials.  [*Example &mdash;* The *natural
+version* of the name of historian A J P Taylor would be written "`A. J.
+P. Taylor`", and the *bibliographic version* of the name of US Supreme
+Court justice Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".  Note the
+period after "Jr", even though some style guides say it is not needed as
+the last letter of "junior" has not been omitted.  How these are
+presented in a formatted citation is beyond the scope of this standard,
+so an application formatting a citation to Taylor's work would be free
+not to print the periods or spaces.]
+
+When a name contains a single element that is written as two words, but
+logically a single, indivisible entity, a non-breaking space *character*
+(U+00A0) *may* be used to separate them.  [*Example &mdash;* In
+English, St&nbsp;John, and less commonly other saints, can be used as a
+given names or surnames.  Garter King of Arms, Sir Henry St&nbsp;George the
+younger is an example.  The might be represented in a
+`CreatorsName` as "`St%{A0}George, Henry, the younger`"; the suffix
+"the younger" is retained to disambiguate him with his father who had
+the same name and had also been Garter King of Arms.  When formatting a
+citation, applications are not required to honour the non-breaking
+space.]
+
+If additional detail has been added to the author's name that is was not
+present in a published source, it is *recommended* that square brackets
+(U+005B and U+005D) are used to enclose the additional content.
+[*Example &mdash;* English reference work *The Complete Peerage*
+identifies its author only by his initials, G.&nbsp;E.&nbsp;C.  His
+identity is well known and his `CreatorsName` could be written
+"`C[okayne], G.  E.`".]
+
+If it considered desirable to include the original form of a
+transliterated name, it is *recommended* that they are placed after the
+name in parentheses (U+0028 and U+0029). [*Example &mdash;* Japanese
+names lose information when transliterated as many names can be written
+in kanji in different ways.  "`Akiko, of Mikasa, Princess (彬子女王)`"
+shows that Akiko is spelt 彬子 rather than, say, 淳子.]  [*Note &mdash;*
+No special treatment is given to parentheses when determining the
+default *natural version* from the *bibliographic version*, so it is
+generally necessary to give the *natural version* explicitly.]
+
+### Surname particles
+
+In this section, a **surname particle** refers to a short word that may
+appear before the main part of surname, and that may or may not be
+regarded as part of the surname.  [*Example &mdash;* The word "de" used
+in French, Dutch, Spanish and Italian is an example, as is the German
+"von", and the Arabic prefix "al-" (<span dir="rtl">ال</span>).] <!--
+--> [*Note &mdash;* This is not intended as a rigorous definition.]
+
+It is *recommended* that *surname particles* are written in lower case
+in the *bibliographic version* if that is the author's preference or the
+convention in that culture, even if they appear at the start of a
+string.  [*Example &mdash;* The *bibliographic version* of the former
+French president's name would be written "`de Gaulle, Charles`", but the
+French author would be "`La Fontaine, Jean de`".  This because it is
+conventional in French to capitalise "La" but not "de".] 
+
+The process for determining whether a *surname particle* should be put
+in front of the surname or after the given name in the *bibliographic
+version* is complicated and culture-specific, and outside the scope of
+this standard.  It is the responsibility of the party entering the data
+to determine the correct form.  [*Note &mdash;* Two people with the same
+name might properly have different *bibliographic versions* if they live
+in different countries, so the correct *bibliographic version* cannot be
+determined algorithmically from the *natural version* of the name.]
+
+*Sort data* *should not* be used to suppress *surname particles* for the
+purpose of sorting.  [*Note &mdash;* As this standard does not specify
+what collation algorithm applications should use, they are free to
+identify and ignore leading *surname particles* in the *bibliographic
+version* if local conventions or house style so dictates.  There is no
+consensus on exactly what words are *surname particles*, and this
+standard provides no definitive means of identifying them; an
+application wishing to ignore *surname particles* would need to use a
+heuristic to identify them.]
 
 ## References
 
