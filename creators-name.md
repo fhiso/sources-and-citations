@@ -339,7 +339,7 @@ additional future use of them.]
 
     ReservedNameChar  ::=  '!' | '#' | '$' | '%' | '&' | '@' | '{' | '|' | '}'
 
-The `%` *character* (U+0025) introduces an *escaped character*, after
+The `%` *character* (U+0025) introduces an **escaped character**, after
 which the hexadecimal number of the character in [ISO/IEC 10646] is
 given in braces (U+007B and U+007D).  The *character* number given
 *should* be for a *character* that matches the `Char` production, and
@@ -355,7 +355,7 @@ consonants in a number of Southern African languages.  Properly these are
 written using *characters* U+01C3 and U+01C0, respectively, but these
 are missing in many fonts and hard to enter on many keyboards; the
 similar-looking ASCII character U+0021 and U+007C are often substituted.
-Thus the name of Nambian chief ǃNanseb gaib ǀGâbemab might be written
+Thus the name of Namibian chief ǃNanseb gaib ǀGâbemab might be written
 "`%{21}Nanseb gaib %{7C}Gâbemab`".]
 
     
@@ -425,9 +425,9 @@ If additional detail has been added to the author's name that is was not
 present in a published source, it is *recommended* that square brackets
 (U+005B and U+005D) are used to enclose the additional content.
 [*Example &mdash;* English reference work *The Complete Peerage*
-identifies its author only by his initials, G.&nbsp;E.&nbsp;C.  His
+identifies its author only by his initials, G&nbsp;E&nbsp;C; however his
 identity is well known and his `CreatorsName` could be written
-"`C[okayne], G.  E.`".]
+"`C[okayne], G. E.`".]
 
 If it considered desirable to include the original form of a
 transliterated name, it is *recommended* that they are placed after the
