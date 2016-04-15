@@ -489,7 +489,7 @@ heuristic to identify them.]
     RFCs to Indicate Requirement Levels.* See 
     <http://tools.ietf.org/html/rfc2119>
 
-[XML 1.1]
+[XML]
 :   World Wide Web Consortium. *Extensible Markup Language (XML) 1.1.*
     W3C Recommendation. See <https://www.w3.org/TR/xml11/>
 
