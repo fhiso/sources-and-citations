@@ -415,7 +415,7 @@ logically a single, indivisible entity, a non-breaking space *character*
 English, St&nbsp;John, and less commonly other saints, can be used as a
 given names or surnames.  Garter King of Arms, Sir Henry St&nbsp;George the
 younger is an example.  The might be represented in a
-`CreatorsName` as "`St%{A0}George, Henry, the younger`"; the suffix
+`CreatorsName` as "`St.%{A0}George, Henry, the younger`"; the suffix
 "the younger" is retained to disambiguate him with his father who had
 the same name and had also been Garter King of Arms.  When formatting a
 citation, applications are not required to honour the non-breaking
