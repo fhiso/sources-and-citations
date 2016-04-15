@@ -361,10 +361,10 @@ Thus the name of Namibian chief ǃNanseb gaib ǀGâbemab might be written
     
 If a name naturally contains a comma, the defaulting rules listed above
 may yield incorrect results.  In these cases the explicit forms of those
-name parts *should* be given.  [*Editorial note &mdash;* This standard
-does not current state whether defaulting acts on the escaped or
-unescaped *bibliographic version*.  It is therefore as-yet undefined
-whether an *escaped character*, `%{2C}`, can hide a comma from the
+name parts *should* be given.  [*Editorial note &mdash;* This draft
+does not currently state whether defaulting acts on the escaped or
+unescaped *bibliographic version*.  It is therefore not yet defined
+whether the *escaped character* `%{2C}` can hide a comma from the
 defaulting rules.]
 
 ## Stylistic recommendations
