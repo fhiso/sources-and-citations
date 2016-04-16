@@ -77,6 +77,13 @@ implementation-defined manner or reject *strings* containing them.
     RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F] 
                            | [#x7F-#x84] | [#x86-#x9F]
 
+Applications *may* convert any *strings* into Unicode Normalization
+Form C, as defined in any version of Unicode Standard Annex #15 
+[[UAX 15](http://unicode.org/reports/tr15/)].  [*Note &mdash;* This
+allows applications to store strings internally in either Normalization
+Form C or Normalization Form D for ease of searching, sorting and
+comparison, without also retaining the original, unnormalised form.]
+
 [*Note &mdash;* This includes all C0 and C1 control characters except
 tab (U+0009), line feed (U+000A), carriage return (U+000D) and next line
 (U+0085).]  [*Example &mdash;* As applications can process C1 control
@@ -323,9 +330,9 @@ A `Name` (used to represent any of the four name variants) is a sequence of
 *characters* or *escape characters* which does not begin or end with
 *whitespace*.
 
-    Name              ::=  NameChar ( ( NameChar | S )* NameChar )?
+    Name      ::=  NameChar ( ( NameChar | S )* NameChar )?
     
-    NameChar          ::=  ( Char - ( S | ReservedNameChar ) ) | EscapedChar 
+    NameChar  ::=  ( Char - ( S | ReservedNameChar ) ) | EscapedChar 
 
 The *characters* `&`, `@` and `|` have specific purposes in a
 `CreatorsNameList`.  If a name naturally contains one of these
@@ -341,14 +348,15 @@ additional future use of them.]
 
 The `%` *character* (U+0025) introduces an **escaped character**, after
 which the hexadecimal number of the character in [ISO/IEC 10646] is
-given in braces (U+007B and U+007D).  The *character* number given
-*should* be for a *character* that matches the `Char` production, and
-applications *may* reject the string if it does not.  *Escaped
-characters* *may* be used to represent any character, not just those
-matching `ReservedNameChar`, but this is *not recommended*; applications
-*may* replace any unnecessary escapes with the unescaped *character*.
+given, enclosed in braces (U+007B and U+007D).  Applications *may*
+reject *strings* that contain *escaped characters* corresponding to
+*character* that do not match the `Char` production, or that match the
+`RestrictedChar` production.  *Escaped characters* *may* be used to
+represent any character, not just those matching `ReservedNameChar`, but
+this is *not recommended*; applications *may* replace any unnecessary
+escapes with the unescaped *character*.
     
-    EscapedChar  ::=  '%' '{' [0-9A-Fa-f]+ '}'
+    EscapedChar  ::=  '%{' [0-9A-Fa-f]+ '}'
 
 [*Example &mdash;*  The *characters* `!` and `|` are used to write click
 consonants in a number of Southern African languages.  Properly these are
@@ -488,6 +496,10 @@ heuristic to identify them.]
 :   Internet Engineering Task Force. *RFC 2119: Key words for use in
     RFCs to Indicate Requirement Levels.* See 
     <http://tools.ietf.org/html/rfc2119>
+
+[UAX 15]
+:   The Unicode Consortium.  *UAX 15: Unicode Normalization Forms.*
+    Unicode Standard Annex.  See <http://unicode.org/reports/tr15/>
 
 [XML]
 :   World Wide Web Consortium. *Extensible Markup Language (XML) 1.1.*
