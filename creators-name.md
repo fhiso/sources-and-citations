@@ -65,7 +65,7 @@ right), and the invalid characters U+FFFE and U+FFFF.]
     Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
 
 The value of a *citation element* is a **string**, defined as a sequence
-*characters*.  &#x5B;*Note &mdash;* This definition is indentical to the
+*characters*.  &#x5B;*Note &mdash;* This definition is identical to the
 definition of the `xs:string` datatype defined in 
 [[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], 
 used in many XML and Semantic Web technologies.]
