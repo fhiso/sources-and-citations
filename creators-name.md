@@ -47,17 +47,18 @@ generate data not conforming to the syntax given here, but
 non-conforming values *may* be accepted and processed by a conforming
 application in an implementation-defined manner.
 
-**Characters** are specified by reference [ISO/IEC 10646], without
-regard to the character encoding.  In this standard *characters* may be
-identified in the text by their four- or five-digit hexadecimal
-character number prefixed with "U+".  [*Note &mdash;* This does not
-preclude serialisation in a non-Unicode encoding, so long as the
-serialisation defines how characters in that encoding corresponds to
+**Characters** are specified by reference to their *code point* number
+in [ISO/IEC 10646], without regard to any particular character encoding.
+In this standard *characters* may be identified in the text by their
+four- or five-digit hexadecimal code point prefixed with "U+".  [*Note
+&mdash;* The character encoding is a property of the serialisation, and
+not defined in this standard.  Non-Unicode encodings are not precluded,
+so long as it is defined how characters in that encoding corresponds to
 Unicode characters.]
 
 *Characters* *must* match the `Char` production from 
 [[XML](https://www.w3.org/TR/xml11/)].   [*Note &mdash;* This includes
-all code points except the null character, surrogates (which are
+all *code points* except the null character, surrogates (which are
 reserved for encodings such as UTF-16 and not characters in their own
 right), and the invalid characters U+FFFE and U+FFFF.]  
 
@@ -347,14 +348,15 @@ additional future use of them.]
     ReservedNameChar  ::=  '!' | '#' | '$' | '%' | '&' | '@' | '{' | '|' | '}'
 
 The `%` *character* (U+0025) introduces an **escaped character**, after
-which the hexadecimal number of the character in [ISO/IEC 10646] is
-given, enclosed in braces (U+007B and U+007D).  Applications *may*
-reject *strings* that contain *escaped characters* corresponding to
-*character* that do not match the `Char` production, or that match the
-`RestrictedChar` production.  *Escaped characters* *may* be used to
-represent any character, not just those matching `ReservedNameChar`, but
-this is *not recommended*; applications *may* replace any unnecessary
-escapes with the unescaped *character*.
+which the hexadecimal *code point* of one character in [ISO/IEC 10646]
+is given, enclosed in braces (U+007B and U+007D).  The *code point*
+*must* be for a single *character* that matches the `Char` production.
+Applications *may* reject *strings* that contain *escaped characters*
+corresponding to *character* that match the `RestrictedChar` production.
+*Escaped characters* *may* be used to represent any character, not just
+those matching `ReservedNameChar`, but this is *not recommended*;
+applications *may* replace any unnecessary escapes with the unescaped
+*character*.
     
     EscapedChar  ::=  '%{' [0-9A-Fa-f]+ '}'
 
