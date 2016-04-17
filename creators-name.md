@@ -50,11 +50,11 @@ application in an implementation-defined manner.
 **Characters** are specified by reference to their *code point* number
 in [ISO/IEC 10646], without regard to any particular character encoding.
 In this standard *characters* may be identified in the text by their
-four- or five-digit hexadecimal code point prefixed with "U+".  [*Note
-&mdash;* The character encoding is a property of the serialisation, and
-not defined in this standard.  Non-Unicode encodings are not precluded,
-so long as it is defined how characters in that encoding corresponds to
-Unicode characters.]
+hexadecimal code point prefixed with "U+".  [*Note &mdash;* The
+character encoding is a property of the serialisation, and not defined
+in this standard.  Non-Unicode encodings are not precluded, so long as
+it is defined how characters in that encoding corresponds to Unicode
+characters.]
 
 *Characters* *must* match the `Char` production from 
 [[XML](https://www.w3.org/TR/xml11/)].   [*Note &mdash;* This includes
@@ -78,18 +78,18 @@ implementation-defined manner or reject *strings* containing them.
     RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F] 
                            | [#x7F-#x84] | [#x86-#x9F]
 
-Applications *may* convert any *strings* into Unicode Normalization
-Form C, as defined in any version of Unicode Standard Annex #15 
-[[UAX 15](http://unicode.org/reports/tr15/)].  [*Note &mdash;* This
-allows applications to store strings internally in either Normalization
-Form C or Normalization Form D for ease of searching, sorting and
-comparison, without also retaining the original, unnormalised form.]
-
 [*Note &mdash;* This includes all C0 and C1 control characters except
 tab (U+0009), line feed (U+000A), carriage return (U+000D) and next line
 (U+0085).]  [*Example &mdash;* As applications can process C1 control
 characters in an implementation-defined manner, they can opt to handle
 Windows-1252 quotation in data masquerading as Unicode.]
+
+Applications *may* convert any *string* into Unicode Normalization
+Form C, as defined in any version of Unicode Standard Annex #15 
+[[UAX 15](http://unicode.org/reports/tr15/)].  [*Note &mdash;* This
+allows applications to store strings internally in either Normalization
+Form C or Normalization Form D for ease of searching, sorting and
+comparison, without also retaining the original, unnormalised form.]
 
 **Whitespace** is defined as a sequence of one or more space
 *characters*, carriage returns, line feeds, or tabs.  It matches the
