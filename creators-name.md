@@ -166,7 +166,7 @@ The **natural version** of the creator's name is generally the name in
 whatever form it is given in the work.  It is normal for any titles or
 post-nominals to be dropped unless they are necessary to distinguish two
 people of the same name, but the `CreatorsName` format does not enforce
-that.  [*Example &mdash;* The *natural version* of the name is British
+that.  [*Example &mdash;* The *natural version* of the name of British
 medievalist David Dumville is "`David Dumville`".  The quotation marks
 do not form part of the syntax.]
 
