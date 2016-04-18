@@ -335,15 +335,16 @@ A `Name` (used to represent any of the four name variants) is a sequence of
     
     NameChar  ::=  ( Char - ( S | ReservedNameChar ) ) | EscapedChar 
 
-The *characters* `&`, `@` and `|` have specific purposes in a
-`CreatorsNameList`.  If a name naturally contains one of these
-*characters*, or any other character matching the `ReservedNameChar`
-production, it *must* be escaped.  [*Note &mdash;* The *characters* `!`,
-`#` and `$` are assigned no meaning in this standard, but are reserved
-for future use.  The *characters* `{` and `}` are used in this standard,
-but not in a context that would require them to be escaped elsewhere;
-nevertheless, this standard requires them to be escaped to allow
-additional future use of them.]
+The *characters* `%`, `&`, `@` and `|` (U+0025, U+0026, U+0040 and
+U+007C) have specific uses in a `CreatorsNameList`.  If a name naturally
+contains one of these *characters*, or any other character matching the
+`ReservedNameChar` production, it *must* be escaped.  [*Note &mdash;*
+The *characters* `!`, `#` and `$` (U+0021, U+0023 and U+0024) are
+assigned no meaning in this standard, but are reserved for future use.
+The *characters* `{` and `}` (U+007B and U+007D) are used in this
+standard, but not in a context that would require them to be escaped
+elsewhere; nevertheless, this standard requires them to be escaped to
+allow additional future use of them.]
 
     ReservedNameChar  ::=  '!' | '#' | '$' | '%' | '&' | '@' | '{' | '|' | '}'
 
@@ -365,8 +366,9 @@ consonants in a number of Southern African languages.  Properly these are
 written using *characters* U+01C3 and U+01C0, respectively, but these
 are missing in many fonts and hard to enter on many keyboards; the
 similar-looking ASCII character U+0021 and U+007C are often substituted.
-Thus the name of Namibian chief ǃNanseb gaib ǀGâbemab might be written
-"`%{21}Nanseb gaib %{7C}Gâbemab`".]
+Thus the name of Namibian chief ǃNanseb gaib ǀGâbemab *may* be written
+"`%{21}Nanseb gaib %{7C}Gâbemab`", but a representation using the
+correct characters (U+01C3 and U+01C0), unescaped, is *recommended*.]
 
     
 If a name naturally contains a comma, the defaulting rules listed above
@@ -411,25 +413,26 @@ punctuation mark or the end of the string, in which case the space
 *should* be omitted.  The non-breaking space *character* (U+00A0) *should
 not* be used to separate initials.  [*Example &mdash;* The *natural
 version* of the name of historian A J P Taylor would be written "`A. J.
-P. Taylor`", and the *bibliographic version* of the name of US Supreme
-Court justice Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".  Note the
-period after "Jr", even though some style guides say it is not needed as
-the last letter of "junior" has not been omitted.  How these are
-presented in a formatted citation is beyond the scope of this standard,
-so an application formatting a citation to Taylor's work would be free
-not to print the periods or spaces.]
+P. Taylor`", and the *bibliographic version* of the name of former US
+Supreme Court justice Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".
+Note the period after "Jr", even though some style guides say it is not
+needed as the last letter of "junior" has not been omitted.  How these
+are presented in a formatted citation is beyond the scope of this
+standard, so an application formatting a citation to Taylor's work would
+be free not to print the periods or spaces.]
 
 When a name contains a single element that is written as two words, but
 logically a single, indivisible entity, a non-breaking space *character*
 (U+00A0) *may* be used to separate them.  [*Example &mdash;* In
 English, St&nbsp;John, and less commonly other saints, can be used as a
 given names or surnames.  Garter King of Arms, Sir Henry St&nbsp;George the
-younger is an example.  He might be represented in a
-`CreatorsName` as "`St.%{A0}George, Henry, the younger`"; the suffix
-"the younger" is retained to disambiguate him with his father who had
-the same name and had also been Garter King of Arms.  When formatting a
-citation, applications are not required to honour the non-breaking
-space.]
+younger is an example.  He might be represented in a `CreatorsName` as
+"`St.%{A0}George, Henry, the younger`"; the use of the escape character
+`%{A0}` rather than a literal non-breaking space *character* is *not
+recommended*, but is done here for clarity.  The suffix "the younger" is
+retained to disambiguate him with his father who had the same name and
+had also been Garter King of Arms.  When formatting a citation,
+applications are not required to honour the non-breaking space.]
 
 If additional detail has been added to the author's name that is was not
 present in a published source, it is *recommended* that square brackets
