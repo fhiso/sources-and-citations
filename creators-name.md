@@ -339,7 +339,7 @@ The *characters* `&`, `@` and `|` have specific purposes in a
 `CreatorsNameList`.  If a name naturally contains one of these
 *characters*, or any other character matching the `ReservedNameChar`
 production, it *must* be escaped.  [*Note &mdash;* The *characters* `!`,
-`#` and `$` are assigned no purpose in this standard, but are reserved
+`#` and `$` are assigned no meaning in this standard, but are reserved
 for future use.  The *characters* `{` and `}` are used in this standard,
 but not in a context that would require them to be escaped elsewhere;
 nevertheless, this standard requires them to be escaped to allow
@@ -352,7 +352,7 @@ which the hexadecimal *code point* of one character in [ISO/IEC 10646]
 is given, enclosed in braces (U+007B and U+007D).  The *code point*
 *must* be for a single *character* that matches the `Char` production.
 Applications *may* reject *strings* that contain *escaped characters*
-corresponding to *character* that match the `RestrictedChar` production.
+corresponding to *characters* that match the `RestrictedChar` production.
 *Escaped characters* *may* be used to represent any character, not just
 those matching `ReservedNameChar`, but this is *not recommended*;
 applications *may* replace any unnecessary escapes with the unescaped
@@ -439,7 +439,7 @@ identifies its author only by his initials, G&nbsp;E&nbsp;C; however his
 identity is well known and his `CreatorsName` could be written
 "`C[okayne], G. E.`".]
 
-If it considered desirable to include the original form of a
+If it is considered desirable to include the original form of a
 transliterated name, it is *recommended* that they are placed after the
 name in parentheses (U+0028 and U+0029). [*Example &mdash;* Japanese
 names lose information when transliterated as many names can be written
@@ -456,7 +456,7 @@ appear before the main part of surname, and that may or may not be
 regarded as part of the surname.  [*Example &mdash;* The word "de" used
 in French, Dutch, Spanish and Italian is an example, as is the German
 "von", and the Arabic prefix "al-" (<span dir="rtl">ال</span>).] <!--
---> [*Note &mdash;* This is not intended as a rigorous definition.]
+--> [*Note &mdash;* This is not intended to be a rigorous definition.]
 
 It is *recommended* that *surname particles* are written in lower case
 in the *bibliographic version* if that is the author's preference or the
