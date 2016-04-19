@@ -11,7 +11,6 @@ An informal effort to document progress being made on tsc-public.
 ## Open issues
 
 -   Select a list-of-authors specification detail (microformat or as-list-in-spec)
--   Define the author-name microformat details
 
 # Authors
 
