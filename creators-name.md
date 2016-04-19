@@ -328,7 +328,7 @@ version*: "`G. Andrews Moriarty, Jr.`".]
 particular escape syntax.]
 
 A `Name` (used to represent any of the four name variants) is a sequence of 
-*characters* or *escape characters* which does not begin or end with
+*characters* or *escaped characters* which does not begin or end with
 *whitespace*.
 
     Name      ::=  NameChar ( ( NameChar | S )* NameChar )?
@@ -427,7 +427,7 @@ logically a single, indivisible entity, a non-breaking space *character*
 English, St&nbsp;John, and less commonly other saints, can be used as a
 given names or surnames.  Garter King of Arms, Sir Henry St&nbsp;George the
 younger is an example.  He might be represented in a `CreatorsName` as
-"`St.%{A0}George, Henry, the younger`"; the use of the escape character
+"`St.%{A0}George, Henry, the younger`"; the use of the escaped character
 `%{A0}` rather than a literal non-breaking space *character* is *not
 recommended*, but is done here for clarity.  The suffix "the younger" is
 retained to disambiguate him with his father who had the same name and
