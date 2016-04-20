@@ -1,6 +1,6 @@
 ---
 title: A microformat for creator's name
-date: 19 April 2016
+date: 20 April 2016
 ...
 # A microformat for creator's name
 
@@ -173,6 +173,24 @@ A `CreatorsName` contains four separate variants of a name.
     that author's work.
 4.  The *natural version*, giving the full name as it is normally
     written in a first reference.
+
+{.example ...} All these forms might by used by a single citation style.
+A work following *The Chicago Manual of Style* would use the *natural
+version* on the first reference note:
+
+>   1\. &nbsp; Douglas Richardson, *Royal Ancestry* (Salt Lake City: 2013), 
+>   II 484.
+
+Then, when the work is next cited, the *short version* would be used:
+
+>   7\. &nbsp; Richardson, *Royal Ancestry*, IV 426.
+
+Finally, in the source list or bibliography, the *bibliographic version*
+would be used:
+
+>   Richardson, Douglas. *Royal Ancestry.* Salt Lake City: 2013.
+
+{/}
 
 The **natural version** of the creator's name is generally the name in
 whatever form it is given in the work.  It is normal for any titles or
