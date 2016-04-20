@@ -1,8 +1,8 @@
 ---
-title: A microformat for creators' names
+title: A microformat for creator's name
 date: 19 April 2016
 ...
-# A microformat for creators' names
+# A microformat for creator's name
 
 {.ednote} This is an **early draft** of material intended to go in a
 Citation Elements standard.  Text in indented coloured boxes (such as this
@@ -12,14 +12,13 @@ Editoral notes are used to record outstanding issues, or points where
 there is no consensus, and will be resolved and removed for the final
 standard.  Examples and notes will be retained in the standard.
 
-This standard defines a *class* for storing the name of an 
-creator [or an ordered list of creators] of a genealogical source in a
-*citation element*.  The word "creator" is used rather than "author"
-so as also to include editors, compilers, painters and stonemasons.  The
-format is designed to accommodate names conforming to a wide range of
-cultural norms, not just Western ones; however it does not aim to cover
-all variants of names, just those that might reasonably be expected to
-appear in a genealogical citation.  
+This standard defines a *class* for storing the name of a creator of a
+genealogical source in a *citation element*.  The word "creator" is used
+rather than "author" so as also to include editors, compilers, painters
+and stonemasons.  The format is designed to accommodate names conforming
+to a wide range of cultural norms, not just Western ones; however it
+does not aim to cover all variants of names, just those that might
+reasonably be expected to appear in a genealogical citation.  
 
 {.example} The style guides used in the humanities rarely require the
 conversion of authors' given names to initials, and this format does not
