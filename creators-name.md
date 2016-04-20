@@ -144,6 +144,10 @@ convention:
 
     CreatorsNameList  ::=  CreatorsName ( ListSeparator CreatorsName )*
 
+{.example} A charter jointly written, at least nominally, by William III
+and Mary II could be described using a `CreatorsNameList` of "`William
+III && Mary II`".
+
 Applications *should* *whitespace-normalise* any `CreatorsNameList` value
 before processing or serialising it.  
 
@@ -151,15 +155,11 @@ before processing or serialising it.
 application might process an third-party *citation element* without
 knowing that its value is a `CreatorsNameList`.
 
-The *class name* for the *class* of values encoding a list of the names
-of the creators of a genealogical source that matches this production
-is:
+<a id="CreatorsName"></a>The *class name* for the *class* of values
+encoding a list of the names of the creators of a genealogical source
+that matches this production is:
 
     http://terms.fhiso.org/type/CreatorsNameList
-
-{.example} A charter jointly written, at least nominally, by William III
-and Mary II could be described using a `CreatorsNameList` of "`William
-III && Mary II`".
 
 ## Name variants
 
@@ -258,6 +258,15 @@ all except the *bibliographic version* are optional.
 
     CreatorsName  ::=  ( Name S '@' S )? Name 
                          ( S '|' ( S Name )? ( S '|' S Name )? )?
+
+{.ednote} There is not yet consensus on whether the whitespace surrounding 
+the separators should be required or optional.  The choice of escaping
+mechanism may have a bearing on this.
+
+The *class name* for the *class* of values encoding the names of the
+creators of a genealogical source that matches this production is:
+
+    http://terms.fhiso.org/type/CreatorsName
 
 ### Default sort data
 
