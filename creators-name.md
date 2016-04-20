@@ -1,8 +1,8 @@
 ---
-title: A microformat for creator's name
+title: A microformat for creator's names
 date: 20 April 2016
 ...
-# A microformat for creator's name
+# A microformat for creator's names
 
 {.ednote} This is an **early draft** of material intended to go in a
 Citation Elements standard.  Text in indented coloured boxes (such as this
@@ -460,7 +460,7 @@ two people of the same name.
 
 {.example} The *natural version* of the name of Sir George John
 Armytage, Bart., FSA, would normally be written "`George John
-Armytage`".  However were one of Princess Michael of Kent's historical
+Armytage`".  However, were one of Princess Michael of Kent's historical
 books being cited, the *bibliographical version* of her name might be
 given as "`Michael, of Kent, Princess`": simply putting "`Michael`" (or
 "`Marie`") would be ambiguous, and as a member of the British Royal
