@@ -27,7 +27,9 @@ given names are.
 
 It is explicitly not a goal of this microformat to allow the storage of
 additional data on creators, such as their email addresses, phone
-numbers, or academic affiliations.
+numbers or academic affiliations.  The representation of corporate
+authors such as companies, organisations or government departments is
+also outside the scope of this microformat.
 
 
 ## Basics
@@ -49,8 +51,8 @@ application in an implementation-defined manner.
 
 **Characters** are specified by reference to their *code point* number
 in [ISO/IEC 10646], without regard to any particular character encoding.
-In this standard *characters* may be identified in the text by their
-hexadecimal code point prefixed with "U+".  
+In this standard *characters* may be identified in this standard by
+their hexadecimal code point prefixed with "U+".  
 
 {.note} The character encoding is a property of the serialisation, and
 not defined in this standard.  Non-Unicode encodings are not precluded,
@@ -160,6 +162,11 @@ encoding a list of the names of the creators of a genealogical source
 that matches this production is:
 
     http://terms.fhiso.org/type/CreatorsNameList
+
+{.ednote} The meaning of a *class* and its *class name* is given in
+[[Vocab](http://tech.fhiso.org/policies/vocabularies)].  The final
+standard will not reference that document, and will either not use these
+words or will explain their meaning.
 
 ## Name variants
 
@@ -290,8 +297,8 @@ applied to just the *sort data*.
 
 {.note} This is not guaranteed to be true of every collation order.
 French is traditionalled sorted initially by ignoring accents, and only
-considering accents if the text is otherwise equal.  This could result
-in ther ordering being determined by data outside the *sort data*
+considering accents if the strings are otherwise identical.  This could
+result in ther ordering being determined by data outside the *sort data*
 instead of the diacritics within the *sort data*.  An application
 sorting French in this manner might not be able to apply the collation
 algorithm directly to the full `CreatorsName`.
@@ -524,8 +531,8 @@ explicitly.
 ### Surname particles
 
 In this section, a **surname particle** refers to a short word that may
-appear before the main part of surname, and that may or may not be
-regarded as part of the surname.  
+appear before the main part of surname (or other similar name part), and
+that may or may not be regarded as part of the surname.  
 
 {.note} This is not intended to be a rigorous definition.
 
@@ -597,3 +604,8 @@ particles* would need to use a heuristic to identify them.
 :   World Wide Web Consortium. *W3C XML Schema Definition Language (XSD)
     1.1 Part 2: Datatypes*.  W3C Recommendation.  See
     <https://www.w3.org/TR/xmlschema11-2/>
+
+[Vocab]
+:   Family History Information Standards Organisation.  *Preferred
+    Nature of Vocabularies*.  FHISO draft policy.  See
+    <http://tech.fhiso.org/policies/vocabularies>
