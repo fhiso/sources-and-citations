@@ -20,10 +20,12 @@ so as also to include editors, compilers, painters and stonemasons.  The
 format is designed to accommodate names conforming to a wide range of
 cultural norms, not just Western ones; however it does not aim to cover
 all variants of names, just those that might reasonably be expected to
-appear in a genealogical citation.  [*Example &mdash;* The style guides
-used in the humanities rarely require the conversion of authors' given
-names to initials, and this format does not provide a reliable means of
-doing it, nor even of identifying which the given names are.]
+appear in a genealogical citation.  
+
+{.example} The style guides used in the humanities rarely require the
+conversion of authors' given names to initials, and this format does not
+provide a reliable means of doing it, nor even of identifying which the
+given names are.
 
 It is explicitly not a goal of this microformat to allow the storage of
 additional data on creators, such as their email addresses, phone
@@ -80,9 +82,11 @@ implementation-defined manner or reject *strings* containing them.
 
 [*Note &mdash;* This includes all C0 and C1 control characters except
 tab (U+0009), line feed (U+000A), carriage return (U+000D) and next line
-(U+0085).]  [*Example &mdash;* As applications can process C1 control
-characters in an implementation-defined manner, they can opt to handle
-Windows-1252 quotation in data masquerading as Unicode.]
+(U+0085).]  
+
+{.example} As applications can process C1 control characters in an
+implementation-defined manner, they can opt to handle Windows-1252
+quotation in data masquerading as Unicode.
 
 Applications *may* convert any *string* into Unicode Normalization
 Form C, as defined in any version of Unicode Standard Annex #15 
@@ -145,9 +149,9 @@ genealogical source that matches this production is:
 
     http://terms.fhiso.org/type/CreatorsNameList
 
-[*Example &mdash;* A charter jointly written, at least nominally, by
-William III and Mary II could be described using a `CreatorsNameList`
-of "`William III && Mary II`".]
+{.example} A charter jointly written, at least nominally, by William III
+and Mary II could be described using a `CreatorsNameList` of "`William
+III && Mary II`".
 
 ## Name variants
 
@@ -166,9 +170,11 @@ The **natural version** of the creator's name is generally the name in
 whatever form it is given in the work.  It is normal for any titles or
 post-nominals to be dropped unless they are necessary to distinguish two
 people of the same name, but the `CreatorsName` format does not enforce
-that.  [*Example &mdash;* The *natural version* of the name of British
-medievalist David Dumville is "`David Dumville`".  The quotation marks
-do not form part of the syntax.]
+that.  
+
+{.example} The *natural version* of the name of British medievalist
+David Dumville is "`David Dumville`".  The quotation marks do not form
+part of the syntax.
 
 The **bibliographic version** of a name is normally produced by
 reordering the *natural version* of the name to bring the most
@@ -176,24 +182,26 @@ significant parts to the front, and inserting commas, typically to mark
 where the *natural version*'s order was disturbed.  The intended format
 is the one commonly used in bibliographies and indexes which aims to
 appear logical when sorted; nevertheless, this standard does not
-require a specific choice of *bibliographic version* format.  [*Example
-&mdash;* The *bibliographic version* of the name of Greek historian
+require a specific choice of *bibliographic version* format. 
+
+{.example} The *bibliographic version* of the name of Greek historian
 Maria Nystazopoulou-Pelekidou would is "`Νυσταζοπούλου-Πελεκίδου,
-Μαρία`", if written in Greek.] 
+Μαρία`", if written in Greek.
 
 The **sort data** will usually be the same as the *bibliographic
 version*, but in some cultures the correct sorting of names requires
 information that is not normally displayed.  For Japanese names, the
 *sort data* will commonly be an entirely separate version of the name
 written in a kana, as names are sorted base on pronunciation, not their
-kanji spelling.  [*Example &mdash;* The Japanese given names Akiko,
-Junko and Kiyoko are all spelt using the same sequence of kanji
-characters, 淳子, however they are sorted based on their pronunciation
-which can be expressed using hiragana or katakana characters.  In the
-case of the name Akiko, this is represented あきこ or アキコ,
-respectively, and one of these should be used as the *sort data*.  In
-reality most modern Japanese people have a family name as well as a
-given name.]  
+kanji spelling.  
+
+{.example} The Japanese given names Akiko, Junko and Kiyoko are all
+spelt using the same sequence of kanji characters, 淳子, however they
+are sorted based on their pronunciation which can be expressed using
+hiragana or katakana characters.  In the case of the name Akiko, this is
+represented あきこ or アキコ, respectively, and one of these should be
+used as the *sort data*.  In reality most modern Japanese people have a
+family name as well as a given name.
 
 The **short version** of the name is typically just the main component
 of the name, as used in a formal or academic context to refer to a
@@ -202,9 +210,11 @@ normally the surname, but in cultures where the norm is for people to
 have given name and a patronymic, this would be the given name.  The
 *short version* *should not* be used to encode arbitrary shortened forms
 of names, such as versions with initials in place of given names, or
-diminutive forms of names.  [*Example &mdash;* The *short version* of
-the name of Icelandic historian Örnólfur Þorsson would be "`Örnólfur`";
-Þorsson is a patronymic derived from his father's name, Þor.]
+diminutive forms of names.
+
+{.example} The *short version* of the name of Icelandic historian
+Örnólfur Þorsson would be "`Örnólfur`"; Þorsson is a patronymic derived
+from his father's name, Þor.
 
 [*Note &mdash;* Not all style guides make use of all four variants.
 Some bibliographies do not sort entries by author, in which case the
@@ -228,12 +238,14 @@ all except the *bibliographic version* are optional.
 If *sort data* is present, it precedes the *bibliographic version*, and
 is separated from it by an `@` *character* (U+0040).  If the *sort data*
 is not explicitly given in the `CreatorsName`, it defaults to the
-*bibliographic version*.  [*Example &mdash;* "`Homer`" and "`Homer @
-Homer`" are treated identically; the omited *sort data* in the former
-has been written explicitly in the latter.  Japanese names will normally
-need the *sort data* giving explicitly.  Emperor Meiji might be
-represented "`めいじてんのう @ 明治天皇`", where the first part gives
-the pronunciation of Meiji-tennō in hiragana.] 
+*bibliographic version*.  
+
+{.example} "`Homer`" and "`Homer @ Homer`" are treated identically; the
+omited *sort data* in the former has been written explicitly in the
+latter.  Japanese names will normally need the *sort data* giving
+explicitly.  Emperor Meiji might be represented 
+"`めいじてんのう @ 明治天皇`", where the first part gives the
+pronunciation of Meiji-tennō in hiragana.
 
 Because the *sort data* is the leading substring of the `CreatorsName`,
 and if omitted defaults to the *bibliographic version* which would then
@@ -252,75 +264,81 @@ might not be able to apply the collation algorithm directly to the full
 
 If the *short version* is present, if comes immediately after the
 *bibliographic version*, and is separated from it by a `|` *character*
-(U+007C).  [*Example &mdash;* Chinese genealogist Kong Deyong (孔德庸)
-has the family name Kong (孔) which would be normal *short version* of
-his name.  Serialised as a `CreatorsName`, he might be written "`Kong
-Deyong | Kong`" if transliterated into the Latin script, or "`孔德庸 |
-孔`" in Chinese characters.]
+(U+007C).  
+
+{.example} Chinese genealogist Kong Deyong (孔德庸) has the family name
+Kong (孔) which would be normal *short version* of his name.  Serialised
+as a `CreatorsName`, he might be written "`Kong Deyong | Kong`" if
+transliterated into the Latin script, or "`孔德庸 | 孔`" in Chinese
+characters.
 
 If the *short version* is not explicitly given in the `CreatorsName`, it
 defaults to a substring of the *bibliographic version*.  If the
 *bibliographic version* contains no comma (U+002C), then the *short
 version* defaults to the whole *bibliographic version*.  If a comma
 is present, the *short version* defaults to the *whitespace normalised*
-substring up to but excluding the first comma.  [*Example &mdash;*
-French genealogist Christian Settipani might be written in a
+substring up to but excluding the first comma.  
+
+{.example} French genealogist Christian Settipani might be written in a
 `CreatorsName` as "`Settipani, Christian`".  This lacks an explicit
 *short version*, which defaults to "`Settipani`", the substring up to
 the first comma.  This could have been written explicitly as
-"`Settipani, Christian | Settipani`".]
+"`Settipani, Christian | Settipani`".
 
 ### Default natural version
 
 If the *natural version* is present, it comes immediately after the
 *short version*, separated by a `|` *character* (U+007C); if the *short
 version* was omitted, then it follows the *bibliographic version*
-separated by two `|` *characters* with a space between them.  [*Example
-&mdash;* The `CreatorsName` "`Renell, James, Major | | Major James
+separated by two `|` *characters* with a space between them.
+
+{.example} The `CreatorsName` "`Renell, James, Major | | Major James
 Renell`" contains both a *bibliographic version* and a *natural
 version*; the *short version* (which would have been between the two `|`
 *characters*) has been omitted and correctly defaults to "`Renell`", the
-substring of the *bibliographic version* up to the first comma .]
+substring of the *bibliographic version* up to the first comma .
 
 If the *natural version* is not explicitly given in the `CreatorsName`,
 it defaults to a value determined from the *bibliographic version* as
 follows.  
 
 If the *bibliographic version* contains no comma (U+002C), then the
-*natural version* defaults to the *bibliographic version*.  [*Example
-&mdash;* In many East Asian cultures, names are naturally written in a
+*natural version* defaults to the *bibliographic version*.  
+
+{.example} In many East Asian cultures, names are naturally written in a
 bibliographic form.  Burmese historian Kyaw Thet could simply be
 encoded as "`Kyaw Thet`" in a `CreatorsName`; the omitted *natural
 version* defaults to the *bibliographic version* as it contains no
-comma.]
+comma.
 
 If the *bibliographic version* contains precisely one comma, the
 *natural version* defaults to the *whitespace-normalised* *string*
 created by concatenting the substring of the *bibliographic version*
 after the comma, a space (U+0020), and the substring before the comma.
-[*Example &mdash;* Spanish genealogist Rodrigo Méndez Silva, whose
-family names are Méndez Silva, could be represented in a `CreatorsName`
-as "`Méndez Silva, Rodrigo`".  Not only Western names invert the
-*natural version* to form the *bibliographic version*.  Andalusian 
-historian Said al-Andalusi (<span dir="rtl">صاعد الأندلسي</span>) 
-may be stored "`al-Andalusī, Ṣā‘id`" in the Latin script; or 
-untransliterated, showing the characters in memory order, 
-&#x202D;"`ا`&zwnj;`ل`&zwnj;<!-- 
+
+{.example} Spanish genealogist Rodrigo Méndez Silva, whose family names
+are Méndez Silva, could be represented in a `CreatorsName` as "`Méndez
+Silva, Rodrigo`".  Not only Western names invert the *natural version*
+to form the *bibliographic version*.  Andalusian historian Said
+al-Andalusi (<span dir="rtl">صاعد الأندلسي</span>) may be stored
+"`al-Andalusī, Ṣā‘id`" in the Latin script; or untransliterated, showing
+the characters in memory order, &#x202D;"`ا`&zwnj;`ل`&zwnj;<!-- 
 -->`أ`&zwnj;`ن`&zwnj;`د`&zwnj;`ل`&zwnj;`س`&zwnj;`ي`<!-- 
--->`,`&nbsp;`ص`&zwnj;`ا`&zwnj;`ع`&zwnj;`د`"&#x202C;.]
+-->`,`&nbsp;`ص`&zwnj;`ا`&zwnj;`ع`&zwnj;`د`"&#x202C;.
 
 If the *bibliographic version* contains more than one comma, the
 *natural version* defaults to the  *whitespace-normalised* *string*
 created by concatenting the substring of the *bibliographic version*
 between the first and second commas, a space (U+0020), the substring
 before the first comma, and the substring from (and including) the
-second comma to the end of the *string*.  [*Example &mdash;* The
-`CreatorsName` string "`Moriarty, G. Andrews, Jr.`" contains no explicit 
-*natural version*.  The default is formed by concatenating the text 
-between the commas ("`G. Andrews`"), a space ("&nbsp;"), the text 
-before the first comma ("`Moriarty`"), and the text from the second 
-comma to the end ("`, Jr.`").  This results in the correct *natural
-version*: "`G. Andrews Moriarty, Jr.`".]
+second comma to the end of the *string*.  
+
+{.example} The `CreatorsName` string "`Moriarty, G. Andrews, Jr.`"
+contains no explicit *natural version*.  The default is formed by
+concatenating the text between the commas ("`G. Andrews`"), a space
+("&nbsp;"), the text before the first comma ("`Moriarty`"), and the text
+from the second comma to the end ("`, Jr.`").  This results in the
+correct *natural version*: "`G. Andrews Moriarty, Jr.`".
 
 ## Escaping characters
 
@@ -361,16 +379,15 @@ applications *may* replace any unnecessary escapes with the unescaped
     
     EscapedChar  ::=  '%{' [0-9A-Fa-f]+ '}'
 
-[*Example &mdash;*  The *characters* `!` and `|` are used to write click
+{.example}  The *characters* `!` and `|` are used to write click
 consonants in a number of Southern African languages.  Properly these are
 written using *characters* U+01C3 and U+01C0, respectively, but these
 are missing in many fonts and hard to enter on many keyboards; the
 similar-looking ASCII character U+0021 and U+007C are often substituted.
 Thus the name of Namibian chief ǃNanseb gaib ǀGâbemab *may* be written
 "`%{21}Nanseb gaib %{7C}Gâbemab`", but a representation using the
-correct characters (U+01C3 and U+01C0), unescaped, is *recommended*.]
+correct characters (U+01C3 and U+01C0), unescaped, is *recommended*.
 
-    
 If a name naturally contains a comma, the defaulting rules listed above
 may yield incorrect results.  In these cases the explicit forms of those
 name parts *should* be given.  [*Editorial note &mdash;* This draft
@@ -387,87 +404,102 @@ recommendations are based on best practice in citations, but are only
 guidelines, so may not belong in the main part of the standard.]
 
 It is *recommended* that diacritics are preserved in all name variants,
-including the *sort data*.  &#x5B;*Example &mdash;* The *short verison* of
-former Polish president Lech Wałęsa's name should be "`Wałęsa`" and not
-"`Walesa`".  If desired, an application can strip the diacritics when
-formatting a citation, but it is not generally possible for an
-application to restore lost diacritics.  Algorithms such as the Unicode
-Collation Algorithm [[UTS 10](http://unicode.org/reports/tr10/)] can
-handle the sorting of Unicode data according to the requirements of
-various locales.]
+including the *sort data*. 
+
+{.example} The *short verison* of former Polish president Lech Wałęsa's
+name should be "`Wałęsa`" and not "`Walesa`".  If desired, an
+application can strip the diacritics when formatting a citation, but it
+is not generally possible for an application to restore lost diacritics.
+Algorithms such as the Unicode Collation Algorithm [[UTS
+10](http://unicode.org/reports/tr10/)] can handle the sorting of Unicode
+data according to the requirements of various locales.
 
 It is *recommended* that titles and post-nominals be dropped from the
 authors of published sources unless they are necessary to distinguish
-two people of the same name.  [*Example &mdash;*  The *natural version*
-of the name of Sir George John Armytage, Bart., FSA, would normally be
-written "`George John Armytage`".  However were one of Princess Michael
-of Kent's historical books being cited, the *bibliographical version* of
-her name might be given as "`Michael, of Kent, Princess`": simply
-putting "`Michael`" (or "`Marie`") would be ambiguous, and as a member
-of the British Royal Family she does not normally use a surname.]
+two people of the same name.  
+
+{.example} The *natural version* of the name of Sir George John
+Armytage, Bart., FSA, would normally be written "`George John
+Armytage`".  However were one of Princess Michael of Kent's historical
+books being cited, the *bibliographical version* of her name might be
+given as "`Michael, of Kent, Princess`": simply putting "`Michael`" (or
+"`Marie`") would be ambiguous, and as a member of the British Royal
+Family she does not normally use a surname.
 
 If initials or other abbreviations are given, it is *recommended* that 
 they *should* be be formatted with a period (U+002E) and a space
 (U+0020) after each initial or abbreviation, unless followed by another
 punctuation mark or the end of the string, in which case the space
 *should* be omitted.  The non-breaking space *character* (U+00A0) *should
-not* be used to separate initials.  [*Example &mdash;* The *natural
-version* of the name of historian A J P Taylor would be written "`A. J.
-P. Taylor`", and the *bibliographic version* of the name of former US
-Supreme Court justice Lewis F Powell Jr is "`Powell, Lewis F., Jr.`".
-Note the period after "Jr", even though some style guides say it is not
-needed as the last letter of "junior" has not been omitted.  How these
-are presented in a formatted citation is beyond the scope of this
-standard, so an application formatting a citation to Taylor's work would
-be free not to print the periods or spaces.]
+not* be used to separate initials.  
+
+{.example} The *natural version* of the name of historian A J P Taylor
+would be written "`A. J.  P. Taylor`", and the *bibliographic version*
+of the name of former US Supreme Court justice Lewis F Powell Jr is
+"`Powell, Lewis F., Jr.`".  Note the period after "Jr", even though some
+style guides say it is not needed as the last letter of "junior" has not
+been omitted.  How these are presented in a formatted citation is beyond
+the scope of this standard, so an application formatting a citation to
+Taylor's work would be free not to print the periods or spaces.
 
 When a name contains a single element that is written as two words, but
 logically a single, indivisible entity, a non-breaking space *character*
-(U+00A0) *may* be used to separate them.  [*Example &mdash;* In
-English, St&nbsp;John, and less commonly other saints, can be used as a
-given names or surnames.  Garter King of Arms, Sir Henry St&nbsp;George the
-younger is an example.  He might be represented in a `CreatorsName` as
-"`St.%{A0}George, Henry, the younger`"; the use of the escaped character
-`%{A0}` rather than a literal non-breaking space *character* is *not
-recommended*, but is done here for clarity.  The suffix "the younger" is
-retained to disambiguate him with his father who had the same name and
-had also been Garter King of Arms.  When formatting a citation,
-applications are not required to honour the non-breaking space.]
+(U+00A0) *may* be used to separate them.  
+
+{.example} In English, St&nbsp;John, and less commonly other saints, can
+be used as a given names or surnames.  Garter King of Arms, Sir Henry
+St&nbsp;George the younger is an example.  He might be represented in a
+`CreatorsName` as "`St.%{A0}George, Henry, the younger`"; the use of the
+escaped character `%{A0}` rather than a literal non-breaking space
+*character* is *not recommended*, but is done here for clarity.  The
+suffix "the younger" is retained to disambiguate him with his father who
+had the same name and had also been Garter King of Arms.  When
+formatting a citation, applications are not required to honour the
+non-breaking space.
 
 If additional detail has been added to the author's name that is was not
 present in a published source, it is *recommended* that square brackets
 (U+005B and U+005D) are used to enclose the additional content.
-[*Example &mdash;* English reference work *The Complete Peerage*
-identifies its author only by his initials, G&nbsp;E&nbsp;C; however his
-identity is well known and his `CreatorsName` could be written
-"`C[okayne], G. E.`".]
+
+{.example} English reference work *The Complete Peerage* identifies its
+author only by his initials, G&nbsp;E&nbsp;C; however his identity is
+well known and his `CreatorsName` could be written "`C[okayne], G.
+E.`".
 
 If it is considered desirable to include the original form of a
 transliterated name, it is *recommended* that they are placed after the
-name in parentheses (U+0028 and U+0029). [*Example &mdash;* Japanese
-names lose information when transliterated as many names can be written
-in kanji in different ways.  "`Akiko, of Mikasa, Princess (彬子女王)`"
-shows that Akiko is spelt 彬子 rather than, say, 淳子.]  [*Note &mdash;*
-No special treatment is given to parentheses when determining the
-default *natural version* from the *bibliographic version*, so it is
-generally necessary to give the *natural version* explicitly.]
+name in parentheses (U+0028 and U+0029). 
+
+{.example} Japanese names lose information when transliterated as many
+names can be written in kanji in different ways.  "`Akiko, of Mikasa,
+Princess (彬子女王)`" shows that Akiko is spelt 彬子 rather than, say,
+淳子.
+
+[*Note &mdash;* No special treatment is given to parentheses when
+determining the default *natural version* from the *bibliographic
+version*, so it is generally necessary to give the *natural version*
+explicitly.]
 
 ### Surname particles
 
 In this section, a **surname particle** refers to a short word that may
 appear before the main part of surname, and that may or may not be
-regarded as part of the surname.  [*Example &mdash;* The word "de" used
-in French, Dutch, Spanish and Italian is an example, as is the German
-"von", and the Arabic prefix "al-" (<span dir="rtl">ال</span>).] <!--
---> [*Note &mdash;* This is not intended to be a rigorous definition.]
+regarded as part of the surname.  [*Note &mdash;* This is not intended
+to be a rigorous definition.]
+
+{.example} The word "de" used in French, Dutch, Spanish and Italian is
+an example, as is the German "von", and the Arabic prefix "al-" (<span
+dir="rtl">ال</span>).
 
 It is *recommended* that *surname particles* are written in lower case
 in the *bibliographic version* if that is the author's preference or the
 convention in that culture, even if they appear at the start of a
-string.  [*Example &mdash;* The *bibliographic version* of the former
-French president's name would be written "`de Gaulle, Charles`", but the
-French author would be "`La Fontaine, Jean de`".  This because it is
-conventional in French to capitalise "La" but not "de".] 
+string.  
+
+{.example} The *bibliographic version* of the former French president's
+name would be written "`de Gaulle, Charles`", but the French author
+would be "`La Fontaine, Jean de`".  This because it is conventional in
+French to capitalise "La" but not "de".
 
 The process for determining whether a *surname particle* should be put
 in front of the surname or after the given name in the *bibliographic
