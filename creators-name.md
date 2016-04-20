@@ -4,14 +4,13 @@ date: 19 April 2016
 ...
 # A microformat for creators' names
 
-[*Editorial note &mdash;* This is an **early draft** of material
-intended to go in a Citation Elements standard.  Text in square
-brackets (such as this paragraph) is not intended to form a normative
-part of any eventual standard.  Such text is labelled as an example,
-note, or editorial note.  Editoral notes are used to record outstanding
-issues, or points where there is no consensus, and will be resolved and
-removed for the final standard.  Examples and notes may be retained in
-the standard.]
+{.ednote} This is an **early draft** of material intended to go in a
+Citation Elements standard.  Text in indented coloured boxes (such as this
+paragraph) is not intended to form a normative part of any eventual
+standard.  Such text is labelled as an example, note, or editorial note.
+Editoral notes are used to record outstanding issues, or points where
+there is no consensus, and will be resolved and removed for the final
+standard.  Examples and notes will be retained in the standard.
 
 This standard defines a *class* for storing the name of an 
 creator [or an ordered list of creators] of a genealogical source in a
@@ -34,8 +33,8 @@ numbers, or academic affiliations.
 
 ## Basics
 
-[*Editorial note &mdash;* This section will likely form part of a
-general introduction to the completed standard.]
+{.ednote} This section will likely form part of a general introduction
+to the completed standard.
 
 The key words *must*, *must not*, *required*, *shall*, *shall not*,
 *should*, *should not*, *recommended*,  *may*, and *optional* in this
@@ -52,25 +51,30 @@ application in an implementation-defined manner.
 **Characters** are specified by reference to their *code point* number
 in [ISO/IEC 10646], without regard to any particular character encoding.
 In this standard *characters* may be identified in the text by their
-hexadecimal code point prefixed with "U+".  [*Note &mdash;* The
-character encoding is a property of the serialisation, and not defined
-in this standard.  Non-Unicode encodings are not precluded, so long as
-it is defined how characters in that encoding corresponds to Unicode
-characters.]
+hexadecimal code point prefixed with "U+".  
+
+{.note} The character encoding is a property of the serialisation, and
+not defined in this standard.  Non-Unicode encodings are not precluded,
+so long as it is defined how characters in that encoding corresponds to
+Unicode characters.
 
 *Characters* *must* match the `Char` production from 
-[[XML](https://www.w3.org/TR/xml11/)].   [*Note &mdash;* This includes
-all *code points* except the null character, surrogates (which are
-reserved for encodings such as UTF-16 and not characters in their own
-right), and the invalid characters U+FFFE and U+FFFF.]  
+[[XML](https://www.w3.org/TR/xml11/)].
 
     Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
 
+{.note} This includes all *code points* except the null character,
+surrogates (which are reserved for encodings such as UTF-16 and not
+characters in their own right), and the invalid characters U+FFFE and
+U+FFFF.
+
 The value of a *citation element* is a **string**, defined as a sequence
-*characters*.  &#x5B;*Note &mdash;* This definition is identical to the
-definition of the `xs:string` datatype defined in 
-[[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], 
-used in many XML and Semantic Web technologies.]
+*characters*.  
+
+{.note} The definition of a *string* is identical to the definition of
+the `xs:string` datatype defined in [[XSD
+Pt2](https://www.w3.org/TR/xmlschema11-2/)], used in many XML and
+Semantic Web technologies.
 
 *Characters* matching the `RestrictedChar` production from
 [[XML](https://www.w3.org/TR/xml11/)] *should not* appear in
@@ -80,9 +84,9 @@ implementation-defined manner or reject *strings* containing them.
     RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F] 
                            | [#x7F-#x84] | [#x86-#x9F]
 
-[*Note &mdash;* This includes all C0 and C1 control characters except
-tab (U+0009), line feed (U+000A), carriage return (U+000D) and next line
-(U+0085).]  
+{.note} This includes all C0 and C1 control characters except tab
+(U+0009), line feed (U+000A), carriage return (U+000D) and next line
+(U+0085).
 
 {.example} As applications can process C1 control characters in an
 implementation-defined manner, they can opt to handle Windows-1252
@@ -90,10 +94,12 @@ quotation in data masquerading as Unicode.
 
 Applications *may* convert any *string* into Unicode Normalization
 Form C, as defined in any version of Unicode Standard Annex #15 
-[[UAX 15](http://unicode.org/reports/tr15/)].  [*Note &mdash;* This
-allows applications to store strings internally in either Normalization
-Form C or Normalization Form D for ease of searching, sorting and
-comparison, without also retaining the original, unnormalised form.]
+[[UAX 15](http://unicode.org/reports/tr15/)].  
+
+{.note} This allows applications to store strings internally in either
+Normalization Form C or Normalization Form D for ease of searching,
+sorting and comparison, without also retaining the original,
+unnormalised form.
 
 **Whitespace** is defined as a sequence of one or more space
 *characters*, carriage returns, line feeds, or tabs.  It matches the
@@ -103,11 +109,12 @@ production `S` from [[XML](https://www.w3.org/TR/xml11/)].
 
 **Whitespace normalisation** is the process of discarding any leading
 or trailing *whitespace*, and replacing other *whitespace* with a single
-space (U+0020) *character*.  &#x5B;*Note &mdash;* This definition is
-identical to that in [[XML](https://www.w3.org/TR/xml11/)].]  Many
-*citation element* values are *whitespace-normalised* before being
-processed, and in such elements, the production `S` collapses to a
-single space (U+0020).
+space (U+0020) *character*.  Many *citation element* values
+are *whitespace-normalised* before being processed, and in such
+elements, the production `S` collapses to a single space (U+0020).
+
+{.note}  The definition of *whitespace normalisation* is identical to
+that in [[XML](https://www.w3.org/TR/xml11/)].  
 
 In the event of a difference between the definitions of the `Char`,
 `RestrictedChar` and `S` productions given here and those in 
@@ -116,11 +123,10 @@ edition of XML 1.1 specification are applicable.
 
 ## List types
 
-[*Editorial note &mdash;* FHISO has deferred a decision on whether a
-list of creators' names should be encoded in a single element value.
-This section defines a reusable format which can be used for any
-list-valued elements, should it be decided that list-valued elements
-should be encoded in a *string*.]
+{.ednote} FHISO has deferred a decision on whether a list of creators'
+names should be encoded in a single element value.  This section defines
+a reusable format which can be used for any list-valued elements, should
+it be decided that list-valued elements should be encoded in a *string*.
 
 This section defines a general pattern that can be used for serialising
 an ordered list of one or more items into a *citation element* value by
@@ -128,9 +134,9 @@ separating them with a `ListSeparator` of a repeated ampersand (U+0026).
 
     ListSeparator  ::=  S '&&' S
 
-[*Editorial note &mdash;* There is not yet consensus on the choice of
-`ListSeparator`, both in terms of the punctuator and whether surrounding
-whitespace should be required.]
+{.ednote} There is not yet consensus on the choice of `ListSeparator`,
+both in terms of the punctuator and whether surrounding whitespace
+should be required.
 
 By convention in this standard, the grammar production for such a list
 is the name of the individual item's production suffixed by `List`.  <a
@@ -140,12 +146,15 @@ convention:
     CreatorsNameList  ::=  CreatorsName ( ListSeparator CreatorsName )*
 
 Applications *should* *whitespace-normalise* any `CreatorsNameList` value
-before processing or serialising it.  [*Note &mdash;* this is only
-*recommended* and not *required* to allow for the possibility that an
+before processing or serialising it.  
+
+{.note} This is not *required* to allow for the possibility that an
 application might process an third-party *citation element* without
-knowing that its value is a `CreatorsNameList`.] The *class name* for
-the *class* of values encoding a list of the names of the creators of a
-genealogical source that matches this production is:
+knowing that its value is a `CreatorsNameList`.
+
+The *class name* for the *class* of values encoding a list of the names
+of the creators of a genealogical source that matches this production
+is:
 
     http://terms.fhiso.org/type/CreatorsNameList
 
@@ -216,11 +225,11 @@ diminutive forms of names.
 Örnólfur Þorsson would be "`Örnólfur`"; Þorsson is a patronymic derived
 from his father's name, Þor.
 
-[*Note &mdash;* Not all style guides make use of all four variants.
+{.note} Not all style guides make use of all four variants.
 Some bibliographies do not sort entries by author, in which case the
 *sort data* is not used; not all style guides say that second and
 subsequent references to an author should use the *short version*; and
-sometimes the *bibliographic version* is used for all references.]
+sometimes the *bibliographic version* is used for all references.
 
 ## The name format
 
@@ -251,14 +260,15 @@ Because the *sort data* is the leading substring of the `CreatorsName`,
 and if omitted defaults to the *bibliographic version* which would then
 be the leading substring (and cannot be omitted), a collation algorithm
 applied to the whole `CreatorsName` would normally do the same as if
-applied to just the *sort data*.  [*Note &mdash;* This is not guaranteed
-to be true of every collation order.  French is traditionalled sorted
-initially by ignoring accents, and only considering accents if the
-text is otherwise equal.  This could result in ther ordering being
-determined by data outside the *sort data* instead of the diacritics
-within the *sort data*.  An application sorting French in this manner
-might not be able to apply the collation algorithm directly to the full
-`CreatorsName`.]
+applied to just the *sort data*.  
+
+{.note} This is not guaranteed to be true of every collation order.
+French is traditionalled sorted initially by ignoring accents, and only
+considering accents if the text is otherwise equal.  This could result
+in ther ordering being determined by data outside the *sort data*
+instead of the diacritics within the *sort data*.  An application
+sorting French in this manner might not be able to apply the collation
+algorithm directly to the full `CreatorsName`.
 
 ### Default short version
 
@@ -342,8 +352,8 @@ correct *natural version*: "`G. Andrews Moriarty, Jr.`".
 
 ## Escaping characters
 
-[*Editorial note &mdash;* There is not yet clear consensus for this
-particular escape syntax.]
+{.ednote} There is not yet clear consensus for this
+particular escape syntax.
 
 A `Name` (used to represent any of the four name variants) is a sequence of 
 *characters* or *escaped characters* which does not begin or end with
@@ -356,13 +366,14 @@ A `Name` (used to represent any of the four name variants) is a sequence of
 The *characters* `%`, `&`, `@` and `|` (U+0025, U+0026, U+0040 and
 U+007C) have specific uses in a `CreatorsNameList`.  If a name naturally
 contains one of these *characters*, or any other character matching the
-`ReservedNameChar` production, it *must* be escaped.  [*Note &mdash;*
-The *characters* `!`, `#` and `$` (U+0021, U+0023 and U+0024) are
-assigned no meaning in this standard, but are reserved for future use.
-The *characters* `{` and `}` (U+007B and U+007D) are used in this
+`ReservedNameChar` production, it *must* be escaped.  
+
+{.note} The *characters* `!`, `#` and `$` (U+0021, U+0023 and U+0024)
+are assigned no meaning in this standard, but are reserved for future
+use.  The *characters* `{` and `}` (U+007B and U+007D) are used in this
 standard, but not in a context that would require them to be escaped
 elsewhere; nevertheless, this standard requires them to be escaped to
-allow additional future use of them.]
+allow additional future use of them.
 
     ReservedNameChar  ::=  '!' | '#' | '$' | '%' | '&' | '@' | '{' | '|' | '}'
 
@@ -390,18 +401,21 @@ correct characters (U+01C3 and U+01C0), unescaped, is *recommended*.
 
 If a name naturally contains a comma, the defaulting rules listed above
 may yield incorrect results.  In these cases the explicit forms of those
-name parts *should* be given.  [*Editorial note &mdash;* This draft
-does not currently state whether defaulting acts on the escaped or
-unescaped *bibliographic version*.  It is therefore not yet defined
-whether the *escaped character* `%{2C}` can hide a comma from the
-defaulting rules.]
+name parts *should* be given.  
+
+{.ednote} This draft does not currently state whether defaulting acts on
+the escaped or unescaped *bibliographic version*.  It is therefore not
+yet defined whether the *escaped character* `%{2C}` can hide a comma
+from the defaulting rules.
 
 ## Stylistic recommendations
 
 This section gives recommendations on how to use the `CreatorsName` for
-maximum interoperability.  [*Editorial note &mdash;* These
-recommendations are based on best practice in citations, but are only
-guidelines, so may not belong in the main part of the standard.]
+maximum interoperability.  
+
+{.enote} These recommendations are based on best practice in citations,
+but are only guidelines, so may not belong in the main part of the
+standard.
 
 It is *recommended* that diacritics are preserved in all name variants,
 including the *sort data*. 
@@ -436,11 +450,12 @@ not* be used to separate initials.
 {.example} The *natural version* of the name of historian A J P Taylor
 would be written "`A. J.  P. Taylor`", and the *bibliographic version*
 of the name of former US Supreme Court justice Lewis F Powell Jr is
-"`Powell, Lewis F., Jr.`".  Note the period after "Jr", even though some
-style guides say it is not needed as the last letter of "junior" has not
-been omitted.  How these are presented in a formatted citation is beyond
-the scope of this standard, so an application formatting a citation to
-Taylor's work would be free not to print the periods or spaces.
+"`Powell, Lewis F., Jr.`".  Per this recommendation there is a period
+after "Jr" even though some style guides say it is not needed as the
+last letter of "junior" has not been omitted.  How these are presented
+in a formatted citation is beyond the scope of this standard, so an
+application formatting a citation to Taylor's work would be free not to
+print the periods or spaces.
 
 When a name contains a single element that is written as two words, but
 logically a single, indivisible entity, a non-breaking space *character*
@@ -475,17 +490,18 @@ names can be written in kanji in different ways.  "`Akiko, of Mikasa,
 Princess (彬子女王)`" shows that Akiko is spelt 彬子 rather than, say,
 淳子.
 
-[*Note &mdash;* No special treatment is given to parentheses when
+{.note} No special treatment is given to parentheses when
 determining the default *natural version* from the *bibliographic
 version*, so it is generally necessary to give the *natural version*
-explicitly.]
+explicitly.
 
 ### Surname particles
 
 In this section, a **surname particle** refers to a short word that may
 appear before the main part of surname, and that may or may not be
-regarded as part of the surname.  [*Note &mdash;* This is not intended
-to be a rigorous definition.]
+regarded as part of the surname.  
+
+{.note} This is not intended to be a rigorous definition.
 
 {.example} The word "de" used in French, Dutch, Spanish and Italian is
 an example, as is the German "von", and the Arabic prefix "al-" (<span
@@ -505,20 +521,23 @@ The process for determining whether a *surname particle* should be put
 in front of the surname or after the given name in the *bibliographic
 version* is complicated and culture-specific, and outside the scope of
 this standard.  It is the responsibility of the party entering the data
-to determine the correct form.  [*Note &mdash;* Two people with the same
-name might properly have different *bibliographic versions* if they live
-in different countries, so the correct *bibliographic version* cannot be
-determined algorithmically from the *natural version* of the name.]
+to determine the correct form.  
+
+{.note} Two people with the same name might properly have different
+*bibliographic versions* if they live in different countries, so the
+correct *bibliographic version* cannot be determined algorithmically
+from the *natural version* of the name.
 
 *Sort data* *should not* be used to suppress *surname particles* for the
-purpose of sorting.  [*Note &mdash;* As this standard does not specify
-what collation algorithm applications should use, they are free to
-identify and ignore leading *surname particles* in the *bibliographic
-version* if local conventions or house style so dictates.  There is no
-consensus on exactly what words are *surname particles*, and this
-standard provides no definitive means of identifying them; an
-application wishing to ignore *surname particles* would need to use a
-heuristic to identify them.]
+purpose of sorting.  
+
+{.note} As this standard does not specify what collation algorithm
+applications should use, they are free to identify and ignore leading
+*surname particles* in the *bibliographic version* if local conventions
+or house style so dictates.  There is no consensus on exactly what words
+are *surname particles*, and this standard provides no definitive means
+of identifying them; an application wishing to ignore *surname
+particles* would need to use a heuristic to identify them.
 
 ## References
 
