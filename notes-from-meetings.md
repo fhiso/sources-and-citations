@@ -18,6 +18,6 @@ We have several potentially-parallel directions in which to move:
         -   Must be contextual: some tag names are used to mean different things in different contexts (e.g., the `NAME` tag can be either a structure or a text element and can name people, products, or repositories)
         -   Adding a tag to the `HEAD` might work; see, e.g., json-ld's `@context` and event-gedcom's schema
 
-To facilitate preliminary technical work without the hubbub of `tsc-public`, it is proposed that we create a `technical-work` mailing list to facilitate discussions not easily handled via github.
+To facilitate preliminary technical work, it is proposed that we create a `technical-work` mailing list to facilitate discussions not easily handled via github.
 
 A follow-up meeting was set for 2017-02-16 14:00Z
