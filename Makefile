@@ -1,6 +1,21 @@
-ROOT=..
+# This Makefile is here for convenience.  The website build system does 
+# not use it, and instead invokes pandoc.mk directly.
 
-all:	citation-elements-vocabulary.pdf creators-name.pdf
+ROOT    := ..
+
+SOURCES := citation-elements-vocabulary.md creators-name.md
+
+all:	pdf
+pdf:	$(SOURCES:%.md=%.pdf)
+html:	$(SOURCES:%.md=%.html)
+
+clean:
+	rm -f $(SOURCES:%.md=%.pdf) $(SOURCES:%.md=%.html)
+
+MAKEWEB := $(MAKE) -C $(ROOT)/website -f pandoc.mk
 
 %.pdf: %.md
-	$(MAKE) -C $(ROOT)/website -f pandoc.mk $(ROOT)/sources-and-citations/$@
+	$(MAKEWEB) $(ROOT)/sources-and-citations/$@
+
+%.html: %.md
+	$(MAKEWEB) $(ROOT)/sources-and-citations/$@
