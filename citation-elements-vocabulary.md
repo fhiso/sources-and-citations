@@ -268,6 +268,10 @@ have English names, and in such cases the human-legibility of IRIs is
 advantageous.  URIs are a subset of IRIs, and all the *citation element
 names* defined by this standard are also URIs.
 
+An IRI *must not* be used as a *citation element name* unless it is the
+*citation element name* of a *citation element* defined in the manner
+required by §3 of this standard.
+
 The *citation elements* defined in this standard all have *citation
 element names* that begin `http://terms.fhiso.org/`.  It is
 *recommended* that any *extension citation elements* also use the `http`
@@ -321,6 +325,27 @@ would fetch the same resource.
     http://xn--lments-9uab.example.com/nationalit%c3%a9
 
 {/}
+
+An IRI *must not* be used as a *citation element name* unless it can be
+converted to a URI using the algorithm specified in §3.1 of [[RFC
+3987](http://tools.ietf.org/html/rfc3987)], and back to a IRI again
+using the algorithm specified in §3.2 of [[RFC
+3987](http://tools.ietf.org/html/rfc3987)], to yield the original IRI.
+
+{.note}  This requirement ensures that *citation element names* can be
+used in a context where a URI is required, and that the original IRI can
+be regenerated, for example for comparision with a list of known IRIs.
+The vast majority of IRIs, including those in non-Latin scripts, have
+this property.  The effect of this requirement is to prohibit the use of
+IRIs that are already partly converted to a URI, for example through the
+use of unnecessary percent or punycode encoding.  
+
+{.example}  Of the three IRIs given in the previous example on how to
+compare IRIs, only the first may be used as a *citation element name*.
+The second and third are prohibited as a result of the unnecessary
+percent-encoding, and the third is additionally prohibted as a result of
+unnecessary punycode-encoding.
+
 
 ### Citation elements values
 
@@ -413,7 +438,7 @@ element value*, whether it be a *string* or a *translation set*.
 
 ## Defining citation elements
 
-In additional to describing the intended purpose of the *citation
+In addition to describing the intended purpose of the *citation
 element*, the definition of a *citation element* (regardless of whether
 it is one of those defined in this standard, or whether it is an
 *conformant extension citation element*) *shall* state:
