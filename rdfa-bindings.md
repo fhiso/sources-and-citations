@@ -6,11 +6,16 @@ numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
 
-{.ednote} This is a **first draft** of a standard documenting the
+{.ednote ...} This is a **first draft** of a standard documenting the
 proposed usage of the FHISO Citation Elements standard in RDFa.
 This document is not an FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
+
+In particular, some examples in this draft use *citation elements* that
+are not even included in the draft Citation Element Vocabulary.  These
+elements are very likely to be changed as the vocabulary progresses.
+{/}
 
 FHISO's Citation Elements standard provides an extensible framework
 for encoding all the data about a genealogical **source** that might
