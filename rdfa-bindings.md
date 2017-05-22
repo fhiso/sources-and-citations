@@ -61,9 +61,9 @@ The tagging of *citation elements* in *formatted citations* is done
 using a standard set of HTML attributes known as RDFa attributes which
 are defined in [RDFa Core].  Compliance with this FHISO standard does
 not require full RDFa compliance: support for the full [RDFa Core] is
-*optional*, and RDFa features other than those described here 
-*should not* be used when compatibility between implementations is
-desirable.  
+*optional*, and RDFa features other than those for which support is
+*required* in this standard *should not* be used when compatibility
+between implementations is desirable.  
 
 {.note} The specification of [RDFa Core] assumes a good working
 knowledge of the RDF graph model.  A more accessible introduction to
@@ -83,11 +83,23 @@ in two standards, [HTML+RDFa] and [XHTML+RDFa].
 
 In the simplest case, the *citation element name* (which is an IRI)
 can be put in a `property` attribute on an XML or HTML element, and the
-*citation element value* is the text contents of the element.
+*citation element value* is the text contents of the element.  The
+particular type of element on which the attributes are placed is not
+relevant.
 
 {.example ...}  A simplified *formatted citation* to Settipani's book
 *Les ancêtres de Charlemagne* might be marked up as the following HTML
 fragment:
+
+    <p>Settipani, Christian.  <i>Les ancêtres de Charlemagne</i>.</p>
+
+The title of the book can be tagged by adding a `property` attribute to
+the existing `<i>` element.  As written above, no element contains just
+the author's name as the `<p>` element also encloses the title; however
+author's name can be wrapped in an `<span>` element and the `property`
+attributed added to that.  HTML's `<span>` element has no defined
+meaning of its own, but exists to provide a place for attributes such as
+this.
 
     <p><span property="http://terms.fhiso.org/sources/authorName"
       >Settipani, Christian</span>. 
