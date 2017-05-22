@@ -722,6 +722,21 @@ supplied through an external mechanism and no default applies, or if
 provided *language tag* is an empty string, the *citation element* has
 no *language tag*.
 
+## Longer example
+
+{.example ...}  This example gives a full HTML document of the sort a
+genealogist might publish online.  In a paragraph of narrative text it
+gives some brief details of King Edward II's birth and parents.
+Although brief, this information is properly sourced to three published
+books with the citations formatted according to the *Chicago Manual of
+Style*.  Each of these *formatted citations* has been marked up with
+RDFa attributes as described in this standard.  The document includes
+several other instances of RDFa attributes that will not be detected as
+*citation elements* by a compliant parser.
+
+{#include edward_ii.html}
+{/}
+
 ## References
 
 ### Normative references
