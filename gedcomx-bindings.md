@@ -40,7 +40,7 @@ GEDCOM X data model as XML and JSON.  This standard defines how the
 these formats, with examples of their use.
 
 The key words **must**, **must not**, **required**, **shall**, 
-**shall not**, **should**, **should not**, **recommended**,  
+**shall not**, **should**, **should not**, **recommended**,
 **not recommended**, **may** and **optional** in this standard are to be
 interpreted as described in
 &#x5B;[RFC 2119](http://tools.ietf.org/html/rfc2119)].
