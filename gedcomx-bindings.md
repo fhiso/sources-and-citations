@@ -6,11 +6,16 @@ numbersections: true
 ...
 # FHISO Citation Elements: Bindings for GEDCOM X
 
-{.ednote} This is a **first draft** of FHISO's proposed usage of the
-FHISO Citation Elements standard in GEDCOM X.
+{.ednote ...} This is a **first draft** of a standard documenting the
+proposed usage of the FHISO Citation Elements standard in GEDCOM X.
 This document is not an FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
+
+In particular, some examples in this draft use *citation elements* that
+are not even included in the draft Citation Element Vocabulary.  These
+elements are very likely to be changed as the vocabulary progresses.
+{/}
 
 FHISO's Citation Elements standard provides an extensible framework
 for encoding all the data about a genealogical **source** that might
@@ -35,9 +40,11 @@ GEDCOM X data model as XML and JSON.  This standard defines how the
 these formats, with examples of their use.
 
 The key words **must**, **must not**, **required**, **shall**, 
-**shall not**, **should**, **should not**, **recommended**,  **may** and
-**optional** in this standard are to be interpreted as described in
+**shall not**, **should**, **should not**, **recommended**,
+**not recommended**, **may** and **optional** in this standard are to be
+interpreted as described in
 &#x5B;[RFC 2119](http://tools.ietf.org/html/rfc2119)].
+
 
 For the purpose of exposition in this document, the following XML
 namespace prefix bindings are assumed.  
@@ -86,7 +93,7 @@ the `name` *property*.
 {.example} The `http://terms.fhiso.org/sources/publicationDate`
 *citation element* is defined in the Citation Elements standard.  When a
 `CitationElement`'s `name` *property* is equal to this IRI, the `value`
-*property* must contain a date in the prescribed date format based on
+*property* *must* contain a date in the prescribed date format based on
 [ISO 8601].
 
 {.ednote ...} It would be ideal if GEDCOM X were to change their draft
@@ -286,6 +293,29 @@ matching the `langtag` production may contain region or script subtags,
 such as `de-CH` for Swiss German or `ro-Cyrl` for Romanian written using
 Cyrillic letters.  Presumably this is what is meant by a "locale tag".
 
+{.ednote  ...} Do *citation elements* really belong in the
+`SourceCitation`?  At one level it seems obviously right: the elements
+are part of the citation and logically belong there.  But the
+`SourceCitation` is really the representation of a *formatted citation*,
+and a single `SourceDescription` can have several `SourceCitations`
+differing in language or citation style.  The *citation elements* are
+not style-dependent and only rarely language-dependent, so it seems more
+logical that they belong in the `SourceDescription` to avoid
+duplication.  A future draft may well move them there.
+
+Two other slightly related suggestions.  
+
+* The `SourceCitation` should have a `style` property to identify style
+  variants, e.g. Chicago vs MLA.
+* A `SourceReference` also should be able to contain `SourceCitations`
+  and `CitationElements`, as this is where a page number logically
+  belongs, unless it is GEDCOM X's intention that every record, page,
+  etc., should have its own `SourceDescription`.
+
+Neither of these are in scope for FHISO's current work, but are worth
+suggesting to the GEDCOM X team.
+{/}
+
 The `value` and `elements` *properties* contain alternative
 representations of the same underlying information: the former as a
 *formatted citation* designed to be read and understood by a person; the
@@ -373,12 +403,12 @@ could be represented in XML as follows:
     <gx:citation xml:lang="en">
       <gx:value>Christian Settipani, Les ancêtres de Charlemagne, 
         2nd ed.</gx:value>
-      <gx:element name="http://terms.fhiso.org/sources/authorName"
-        >Settipani, Christian</gx:element>
-      <gx:element name="http://terms.fhiso.org/sources/title"
-        xml:lang="fr">Les ancêtres de Charlemagne</gx:element>
-      <gx:element name="http://terms.fhiso.org/sources/edition"
-        >2</gx:element>
+      <cev:element name="http://terms.fhiso.org/sources/authorName"
+        >Settipani, Christian</cev:element>
+      <cev:element name="http://terms.fhiso.org/sources/title"
+        xml:lang="fr">Les ancêtres de Charlemagne</cev:element>
+      <cev:element name="http://terms.fhiso.org/sources/edition"
+        >2</cev:element>
     </gx:citation>
 
 This is the exact XML analogue of the last JSON example.
@@ -387,7 +417,10 @@ In this case, the application of `xml:lang="en"` to the enclosed
 attribute in the XML standard. 
 {/}
 
-### Use of XHTML
+### XHTML `value` properties
+
+GEDCOM X says the *formatted citation* in the `value` *property* of the
+`SourceCitation` *data type* *may* be a fragment of XHTML.
 
 {.ednote ...}  The extact form of the `value` *property* is confused in
 the current GEDCOM X drafts.  It may be a piece of plain text or a
@@ -413,8 +446,8 @@ include such an element.
 
 When HTML in a GEDCOM X `value` property is serialised as XML, the
 [GEDCOM X XML] specification gives no hint as to whether the HTML markup
-must be escaped.  Experimentation with the FamilySearch API suggests it
-is supposed to be, for example:
+must be escaped as a single string.  Experimentation with the
+FamilySearch API suggests it is supposed to be, for example:
 
     <gx:citation xml:lang="en">
       <gx:value><![CDATA[[
@@ -423,8 +456,8 @@ is supposed to be, for example:
     </gx:citation>
 
 This format is consistent with how HTML must be treated in JSON, but is
-unnatural from an XML point of view.  Perhaps GEDCOM X could learn from
-the example of the [RDF XML] spec by allowing unescaped XHTML as a
+unnatural from an XML point of view.  Perhaps GEDCOM X could follow the
+example of the [RDF XML] spec by allowing unescaped XHTML as a
 property value when a `parseType="Literal"` attribute is given?
 
 [GEDCOM X] contains no mechanism for determining whether the `<value>`
@@ -440,36 +473,96 @@ property of the data type, just a piece of syntactic sugar).  This
 XHTML.  Such a property is already used elsewhere in GEDCOM X and its
 values are defined in §1.3.8 of [GEDCOM X].
 
+Including a `textType` *property* will also define the dialect of
+XHTML that is used in a *formatted citation*.  It is currently unclear
+whether the requirements of §1.3.8 apply to this `value` element.  It
+would make sense for them to apply uniformly to all uses of XHTML within
+GEDCOM X.
+
 [GEDCOM X] underspecifies exactly what syntactic form XHTML text may
-take.  It would make sense if, again following the example of [RDF XML],
-it were defined to match the `content` production of [XML] conforming to
-[XML Names].  The `content` production allows anything that might
-reasonably occur at present.  The requirement that XHTML content
-conforms to [XML Names] is already implicit in [GEDCOM X] by virtue of
-it referencing [XHTML].  The FamilySearch API fails to use the XHTML
-namespace correctly; this is contrary to [XHTML] but prohibited in [XML
-Names], so the suggested requirement does not make this any more
-ill-formed than it presently is.
+take: specifically, must it have a top-level element?  It would make
+sense if, again following the example of [RDF XML], it were defined to
+match the `content` production of [XML].  This allows fragments of XML
+without a single top-level element, which is consistent with its current
+use in the FamilySearch API.
+
+A related question is whether the HTML must conform to [XML Names].
+Conformance with it is currently implicit in [GEDCOM X] by virtue of it
+referencing [XHTML], yet the FamilySearch API fails to declare the XHTML
+namespace, which is contrary to [XHTML].  A pragmatic solution would be
+to allow non-XML parsing per [HTML5] when the data is in a string, and
+XML-compatible XHTML parsing when it is included with
+parseType="Literal".  This would make the `xmlns` declaration optional
+when HTML is escaped and legitimise the present behaviour of the
+FamilySearch API.
 
 With the suggestions outlined in this note, the example above could be written:
 
     <gx:citation xml:lang="en" textType="xhtml">
-      <gx:value parseType="Literal">
+      <gx:value xmlns="http://www.w3.org/1999/xhtml"
+                parseType="Literal">
         Christian Settipani, <i>Les ancêtres de Charlemagne</i>
       </gx:value>
     </gx:citation>
 
-Finally, to be forwards compatible, GEDCOM X should give consideration
-to using a definition of HTML other than [XHTML].  Requiring The
-registration of the `text/html` the in [IANA MIME] database generally
-refers to the most recent stable version of HTML, currently 5.1.  Saying
-that XHTML text in GEDCOM X *must* be valid XML content in a `text/html`
-document is perhaps an option.
+Regardless of the above argument for using HTML5's parsing, to be
+forwards compatible, GEDCOM X should give consideration to using a
+definition of HTML other than [XHTML].  Requiring The registration of
+the `text/html` the in [IANA MIME] database generally refers to the most
+recent stable version of HTML, currently 5.1.  Saying that XHTML text in
+GEDCOM X *must* be valid XML content in a `text/html` document is
+perhaps an option.
 
 FHISO would benefit from working with GEDCOM X towards a solution to
 these problems, perhaps by the TSC submitting written feedback to the
 GEDCOM X project on FHISO's behalf.
 {/}
+
+Applications that conform to this FHISO standard *must* allow the
+attributes listed in §5 of [RDFa Core] to be present on XHTML elements
+in the `value` *property*.  Applications *may* reject, ignore or remove
+uses of these attributes that does comply with [RDFa Core].
+
+{.note}  This does not require applications to parse and understand
+those attributes, but an application *must not* treat correctly-used
+RDFa attributes as syntax errors, and *must not* strip them from the
+XHTML other than at the explicit requested of the user.
+
+When new *formatted citations* are created, this FHISO standard
+recommends that they *should* be formatted in XHTML with their
+constituent *citation elements* marked up as described in FHISO's
+[Citation Element RDFa] standard.
+
+{.example ...}  In the previous example, the *formatted citation*
+"Christian Settipani, Les ancêtres de Charlemagne, 2nd ed." was encoded
+as plain text, but this standard recommends the use of HTML with RDFa
+attributes.  This very same *formatted citation* is used as an example
+in the [Citation Element RDFa] standard, where it is correct mark up
+with RDFa attributes is explained.  Including it in a `value` property
+in XML yields the following:
+
+    <gx:citation xml:lang="en">
+      <gx:value><![CDATA[[
+        <span xmlns="http://www.w3.org/1999/xhtml" lang="en"
+              vocab="http://terms.fhiso.org/sources/" typeof="Source">
+          <span property="authorName"
+                content="Settipani, Christian">Christian Settipani</span>, 
+          <i property="title" lang="fr">Les ancêtres de Charlemagne</i>, 
+          <span property="edition" content="2">2nd ed.</span> 
+        </span>
+      ]]></gx:value>
+    </gx:citation>
+{/}
+
+If a `SourceCitation` has a `value` property containing HTML, an
+application *may* parse it according to the rules in [Citation Element
+RDFa] to extract *citation elements*.  If any *citation elements* are
+found, each extracted *citation element* *may* be added to the *citation
+element set* in the `elements` property if and only if it does not have
+the same *layer identifier*, *citation element name* and *language tag*
+as a *citation element* that was in the `elements` *citation element
+set* before the extraction began.
+
 
 ## References
 
@@ -477,7 +570,12 @@ GEDCOM X project on FHISO's behalf.
 
 [Citation Elements]
 :    Family History Information Standards Organisation. *Citation
-     Elements.*  Early draft of standard under development.
+     Elements.*  Early draft of standard.
+
+[Citation Elements RDFa]
+:    Family History Information Standards Organisation. *Citation
+     Elements: Bindings for RDFa.*  Early draft of standard.
+     See <http://tech.fhiso.org/drafts/cev-rdfa-bindings>.
 
 [GEDCOM X]
 :    Intellectual Reserve Inc.  *The GEDCOM X Conceptual Model*. 
