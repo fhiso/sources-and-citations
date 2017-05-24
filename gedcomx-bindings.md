@@ -535,10 +535,11 @@ constituent *citation elements* marked up as described in FHISO's
 
 {.example ...}  In the previous example, the *formatted citation*
 "Christian Settipani, Les ancêtres de Charlemagne, 2nd ed." was encoded
-as plain text.  The very same text is used as an example in the
-[Citation Element RDFa] standard, where it is marked up with RDFa
-attributes.  Including it in a `value` property in XML yields the
-following:
+as plain text, but this standard recommends the use of HTML with RDFa
+attributes.  This very same *formatted citation* is used as an example
+in the [Citation Element RDFa] standard, where it is correct mark up
+with RDFa attributes is explained.  Including it in a `value` property
+in XML yields the following:
 
     <gx:citation xml:lang="en">
       <gx:value><![CDATA[[
