@@ -453,6 +453,7 @@ FamilySearch API suggests it is supposed to be, for example:
       <gx:value><![CDATA[[
         Christian Settipani, <i>Les ancêtres de Charlemagne</i>
       ]]></gx:value>
+    </gx:citation>
 
 This format is consistent with how HTML must be treated in JSON, but is
 unnatural from an XML point of view.  Perhaps GEDCOM X could follow the
