@@ -676,7 +676,7 @@ attributes may be used on an HTML element.  In particular, the
 
 
 {.example ...}
-    <p vocab="http://terms.fhiso.org/sources/" typeof="source" lang="en">
+    <p vocab="http://terms.fhiso.org/sources/" typeof="Source" lang="en">
       <span property="authorName"
             content="Settipani, Christian">Christian Settipani</span>, 
       <i property="title" lang="fr">Les ancêtres de Charlemagne</i>, 
