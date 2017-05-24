@@ -145,7 +145,7 @@ This standard makes use of the following attributes:
    *citation element value* as per §6.3.  Full support for their RDFa
    semantics is *required*.
 
-*  The `xml:lang` and `lang` attributes ar eused to represent a
+*  The `xml:lang` and `lang` attributes are used to represent a
    *language tag* as per §6.4.  Full support for their RDFa semantics is
    *required*.
 
@@ -289,7 +289,7 @@ in §6 of [RDFa Core].
                            ( '?' iquery )?  ( '#' ifragment )?
 
 The definitions of `NCName` is found in [XML Names].  The various
-productions referenced the definition of `reference` are defined in
+productions referenced in the definition of `reference` are defined in
 &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].  None of these
 `ipath` productions match a string beginning "`//`", therefore IRIs of
 the form `http://`... never match the `curie` syntax production.  There
@@ -514,9 +514,12 @@ element*.  This is the only *citation element* in this example.
 The `<p>` and second `<span>` elements are both *source-type elements*.
 The former contains the *formatted citation* "Settipani; citing *Vita
 Sancti Arnulfi*", while the latter contains the *formatted citation*
-"*Vita Sancti Arnulfi*".  The second `<span>` element is also
-*source-exclusion element* of the `<p>` *source-type element*.  This
-means each *source-type element* has one *citation element*. 
+"*Vita Sancti Arnulfi*".  The second `<span>` element is also a
+*source-exclusion element* of the `<p>` *source-type element*, meaning
+the `title` property is only a *citation element* of the nested
+`<span>` *source-type element*, and not also of the enclosing `<p>`
+*source-type element*.   The enclosing `<p>` *source-type element* only
+has one *citation element*: the `authorName`.
 
 This behaviour is intentional, and is how layered citations are expected
 to be implemented.  The details have yet to be finalised.
@@ -703,8 +706,8 @@ to supply the *language tag*.
 {.example}  In a document fetched via HTTP, a `Content-Language`
 header may provide the default *language tag* for the whole document.
 
-{.example}  If the *formatted citation* is fragment of XHTML in a
-different XML language, and value of `xml:lang` attributes in the
+{.example}  If the *formatted citation* is a fragment of XHTML in a
+different XML language, the value of any `xml:lang` attributes in the
 host XML will be inherited by the XHTML as defined in §2.12 of [XML].
 
 When these attributes are used in languages other than HTML, the
