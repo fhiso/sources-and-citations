@@ -1,39 +1,64 @@
 ---
-title: A citation elements vocabulary
-date: 11 November 2016
+title: Citation Elements
+subtitle: General Concepts
+date: 24 May 2017
 numbersections: true
 ...
-# A citation elements vocabulary
+# Citation Elements:<br/> General Concepts and Basic Framework
 
-{.ednote} This is an **early draft** of material intended to form part
-of a FHISO Citation Elements standard.  This document is not endorsed by
-the FHISO membership, and may be updated, replaced or obsoleted by other
-documents at any time. 
+{.ednote ...} This is an **early draft** of the core part of FHISO's
+proposed suite of standards on Citation Elements.  This document is not
+endorsed by the FHISO membership, and may be updated, replaced or
+obsoleted by other documents at any time. 
 
-FHISO's **citation elements vocabulary** provides a standard, extensible
-framework for encoding all the data about a genealogical *source* that
-might reasonably be included in a *formatted citation* to that *source*.
-It does not seek to provide an exhaustive description of *sources*.
+In particular, some examples in this draft use *citation elements* that
+are not even included in the draft Citation Element Vocabulary.  These
+elements are very likely to be changed as the vocabulary progresses.
+{/}
 
-{.note}  This *citation element vocabulary* covers just a small part of
-the genealogy domain, and it is anticipated that parties adopting this
-standard will wish to incorporate it in whatever serialisation format
-they currently use.  For this reason, this standard does not define a
-serialisation format.
+FHISO's suite of **Citation Elements** standards provides an extensible
+framework and vocabulary for encoding all the data about a genealogical
+*source* that might reasonably be included in a *formatted citation* to
+that *source*.  
 
-{.ednote} There should be a general overview before the following
-technical sections, ideally giving some complete examples and their
-serialisations.
+This document defines the general concepts used in FHISO's suite of
+Citation Elements standards, and the basic framework and data model
+underpinning them.  Other standards in the suite are as follows:
 
-## General
+* **Citation Elements Vocabulary**.  This standard defines a collection of
+  *citation elements* allowing the representation of information
+  normally found in *formatted citations* to diverse types of source.
+
+* **Citation Elements: Bindings for RDFa**.  This standard defines a means
+  by which *citation elements* may be identified and tagged using RDFa
+  attributes within HTML and XML *formatted citations*, allowing a
+  computer to extract them in a systematic manner.
+
+* **Citation Elements: Bindings for GEDCOM X**.  This standard defines
+  extensions to the GEDCOM X data model and its JSON and XML
+  serialisations to allow *citation elements* to be represented in
+  GEDCOM X.
+
+* **Citation Elements: Bindings for ELF**.  This standard defines how
+  *citation elements* should be represented in FHISO's Extensible Legacy
+  Format (ELF), a format based on and compatible with GEDCOM 5.5, but
+  with the addition of a new extensibility mechanism.
+
+{.ednote} Not all of these documents are yet at the stage of having a
+first public draft.
+
+## Introduction
+
+### Conventions used
 
 Where this standard gives a specific technical meaning to a word or
 phrase, that word or phrase is formatted in bold text in its initial
 definition, and in italics when used elsewhere.
 The key words **must**, **must not**, **required**, **shall**, 
-**shall not**, **should**, **should not**, **recommended**,  **may** and
-**optional** in this standard are to be interpreted as described in
-[[RFC 2119](http://tools.ietf.org/html/rfc2119)].
+**shall not**, **should**, **should not**, **recommended**,  
+**not recommended**, **may** and **optional** in this standard are to be
+interpreted as described in
+&#x5B;[RFC 2119](http://tools.ietf.org/html/rfc2119)].
 
 An application is **conformant** with this standard if and only if it
 obeys all the requirements and prohibitions contained in this
@@ -61,88 +86,13 @@ resolved and removed for the final standard.  Examples and notes will be
 retained in the standard.
 
 The grammar given here uses the form of EBNF notation defined in §6 of
-[[XML](https://www.w3.org/TR/xml11/)], except that no significance is
+&#x5B;[XML](https://www.w3.org/TR/xml11/)], except that no significance is
 attached to the capitalisation of grammar symbols.  *Conforming*
 applications *must not* generate data not conforming to the syntax given
 here, but non-conforming syntax *may* be accepted and processed by a
 *conforming* application in an implementation-defined manner.
 
-### Characters and strings
-
-**Characters** are specified by reference to their *code point* number
-in [ISO 10646], without regard to any particular character encoding.  In
-this standard, *characters* may be identified in this standard by their
-hexadecimal code point prefixed with "U+".
-
-{.note} The character encoding is a property of the serialisation, and
-not defined in this standard.  Non-Unicode encodings are not precluded,
-so long as it is defined how characters in that encoding corresponds to
-Unicode characters.
-
-*Characters* *must* match the `Char` production from
-[[XML](https://www.w3.org/TR/xml11/)].
-
-    Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-
-{.note} This includes all *code points* except the null character,
-surrogates (which are reserved for encodings such as UTF-16 and not
-characters in their own right), and the invalid characters U+FFFE and
-U+FFFF.
-
-A **string** is a sequence of zero or more *characters*.
-
-{.note} The definition of a *string* is identical to the definition of
-the `string` datatype defined in [[XSD
-Pt2](https://www.w3.org/TR/xmlschema11-2/)], used in many XML and
-Semantic Web technologies.
-
-Applications *may* convert any *citation element value* into Unicode
-Normalization Form C, as defined in any version of Unicode Standard
-Annex #15 [[UAX 15](http://unicode.org/reports/tr15/)].
-
-{.note} This allows applications to store *strings* internally in either
-Normalization Form C or Normalization Form D for ease of searching,
-sorting and comparison, without also retaining the original,
-unnormalised form.
-
-*Characters* matching the `RestrictedChar` production from
-[[XML](https://www.w3.org/TR/xml11/)] *should not* appear in
-*strings*, and applications *may* process such characters in an
-implementation-defined manner or reject *strings* containing them.
-
-    RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F]
-                           | [#x7F-#x84] | [#x86-#x9F]
-
-{.note} This includes all C0 and C1 control characters except tab
-(U+0009), line feed (U+000A), carriage return (U+000D) and next line
-(U+0085).
-
-{.example} As *conformant* applications can process C1 control
-characters in an implementation-defined manner, they can opt to handle
-Windows-1252 quotation marks in data masquerading as Unicode.
-Applications *must not* treat non-ASCII characters as ANSEL, the
-character set properly used in GEDCOM, as ANSEL's non-ASCII characters
-do not correspond to `RestrictedChar`s.
-
-**Whitespace** is defined as a sequence of one or more space
-*characters*, carriage returns, line feeds, or tabs.  It matches the
-production `S` from [[XML](https://www.w3.org/TR/xml11/)].
-
-    S  ::=  (#x20 | #x9 | #xD | #xA)+
-
-**Whitespace normalisation** is the process of discarding any leading
-or trailing *whitespace*, and replacing other *whitespace* with a single
-space (U+0020) *character*.  
-
-{.note}  The definition of *whitespace normalisation* is identical to
-that in [[XML](https://www.w3.org/TR/xml11/)].
-
-In the event of a difference between the definitions of the `Char`,
-`RestrictedChar` and `S` productions given here and those in
-[[XML](https://www.w3.org/TR/xml11/)], the definitions in the latest
-edition of XML 1.1 specification are definitive.
-
-## Sources and citations
+### Basic concepts
 
 A **source** is any resource from which information is obtained during
 the genealogical research process.  *Sources* come in many forms,
@@ -183,32 +133,36 @@ the first use of the *source*, and conforming to [Chicago] might read:
 The ^1^ at the start of the citation is the hypothetical footnote number.
 {/}
 
-A **citation element** is a representation of a logically self-contained
-piece of information about a *source* that might reasonably be included
-in a *formatted citation*.  The information is stored in a sufficiently
-structured way that applications can parse and reformat it as needed
-when producing a *formatted citation*.
+A **citation element** is a logically self-contained piece of
+information about a *source* that might reasonably be included in a
+*formatted citation*.  As this standard does not aim to provide
+facilities for the exhaustive description of *sources*, information
+about *sources* that is not normally included in *formatted citations*
+is not considered to be a *citation element*.
+*Citation elements* are represented in a sufficiently structured and
+language-independent way that applications can parse and reformat it in
+different styles and languages as needed.
 
-This standard defines many *citation elements*, covering the information
-normally found in *formatted citations* to a wide range of common
-*sources*.  Applications *may* define their own *citation elements* or
-use those defined by a third-party standard; such *citation elements*
-are known as **extension citation elements**.  *Conforming* applications
-*must not* discard unrecognised *extension citation elements*, other
-than at the instruction of the user, but *may* opt not to display them.
+{.example}  The date that a *source* like a newspaper article was
+published is an example of a *citation element*.  An American researcher
+might write the date as "Oct 8th, 2000", while the same date might be
+written "zo. 8 okt. 2000" by a Dutch researcher.  The *citation element*
+should use neither of these as its representation of the date and adopt
+a language-neutral format such as one based on [ISO 8601].
 
-A *citation element* consists of four parts: 
+The accompanying Citation Elements Vocabulary standard defines many
+*citation elements*, covering the information normally found in
+*formatted citations* to a wide range of common *sources*.  Applications
+*may* define their own *citation elements* or use those defined by a
+third-party standard; such *citation elements* are known as **extension
+citation elements**.  *Conforming* applications *must not* discard
+unrecognised *extension citation elements*, other than at the
+instruction of the user, but *may* opt not to display them.
 
-*  an optional *layer identifier*, identifying the *citation layer*
-   to which the *citation element* applies;
-*  a name, called the *citation element name*; 
-*  a value, called the *citation element value*; and
-*  an optional *language tag*, identifying the language of value.
-
-A **citation element set** is an ordered list of *citation elements*
-that completely encode the information about a *source* required to
-produce a *formatted citation*.  Given a *citation element set* (and any
-necessary internal state), an application should be able to produce 
+A **citation element set** is a collection of *citation elements* that
+completely encode the information about a *source* required to produce a
+*formatted citation*.  Given a *citation element set* (and any necessary
+internal state), an application should be able to produce
 algorithmically a *formatted citation* in any mainstream citation style;
 they need not use every *citation element* in doing so if the style
 dictates that certain information is omitted in certain contexts.
@@ -232,16 +186,6 @@ readily parse them to convert them to the required format because their
 format is defined by this standard.
 {/}
 
-Although *citation element sets* are defined as ordered lists of
-*citation elements*, *conformant* applications *may* reorder the list
-providing that the relative order is preserved of *citation elements*
-with (i) the same *layer identifier*, and (ii) either the same *citation
-element name* or the same *ultimate super-element*.
-
-{.ednote}  An earlier draft defined *citation element sets* to be
-unordered, and introduced the notion of list-valued elements to preserve
-order in those cases where order was required.
-
 *Citation element sets* *should not* include *citation elements* for
 information that is not normally included in a *formatted citation*. 
 They are not intended to provide a general mechanism for storing
@@ -251,16 +195,118 @@ arbitrary information about *sources*.
 the email addresses, phone numbers or academic affiliations of authors,
 so they should not be included in the *citation element set*.
 
+### Characters and strings
+
+**Characters** are specified by reference to their *code point* number
+in [ISO 10646], without regard to any particular character encoding.  In
+this standard, *characters* may be identified in this standard by their
+hexadecimal code point prefixed with "U+".
+
+{.note} The character encoding is a property of the serialisation, and
+not defined in this standard.  Non-Unicode encodings are not precluded,
+so long as it is defined how characters in that encoding corresponds to
+Unicode characters.
+
+*Characters* *must* match the `Char` production from
+&#x5B;[XML](https://www.w3.org/TR/xml11/)].
+
+    Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+
+{.note} This includes all *code points* except the null character,
+surrogates (which are reserved for encodings such as UTF-16 and not
+characters in their own right), and the invalid characters U+FFFE and
+U+FFFF.
+
+A **string** is a sequence of zero or more *characters*.
+
+{.note} The definition of a *string* is identical to the definition of
+the `string` datatype defined in 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], used in many XML
+and Semantic Web technologies.
+
+Applications *may* convert any *citation element value* into Unicode
+Normalization Form C, as defined in any version of Unicode Standard
+Annex #15 &#x5B;[UAX 15](http://unicode.org/reports/tr15/)].
+
+{.note} This allows applications to store *strings* internally in either
+Normalization Form C or Normalization Form D for ease of searching,
+sorting and comparison, without also retaining the original,
+unnormalised form.
+
+*Characters* matching the `RestrictedChar` production from
+&#x5B;[XML](https://www.w3.org/TR/xml11/)] *should not* appear in
+*strings*, and applications *may* process such characters in an
+implementation-defined manner or reject *strings* containing them.
+
+    RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F]
+                           | [#x7F-#x84] | [#x86-#x9F]
+
+{.note} This includes all C0 and C1 control characters except tab
+(U+0009), line feed (U+000A), carriage return (U+000D) and next line
+(U+0085).
+
+{.example} As *conformant* applications can process C1 control
+characters in an implementation-defined manner, they can opt to handle
+Windows-1252 quotation marks in data masquerading as Unicode.
+Applications *must not* treat non-ASCII characters as ANSEL, the
+character set properly used in GEDCOM, as ANSEL's non-ASCII characters
+do not correspond to `RestrictedChar`s.
+
+**Whitespace** is defined as a sequence of one or more space
+*characters*, carriage returns, line feeds, or tabs.  It matches the
+production `S` from &#x5B;[XML](https://www.w3.org/TR/xml11/)].
+
+    S  ::=  (#x20 | #x9 | #xD | #xA)+
+
+**Whitespace normalisation** is the process of discarding any leading
+or trailing *whitespace*, and replacing other *whitespace* with a single
+space (U+0020) *character*.  
+
+{.note}  The definition of *whitespace normalisation* is identical to
+that in &#x5B;[XML](https://www.w3.org/TR/xml11/)].
+
+In the event of a difference between the definitions of the `Char`,
+`RestrictedChar` and `S` productions given here and those in
+&#x5B;[XML](https://www.w3.org/TR/xml11/)], the definitions in the
+latest edition of XML 1.1 specification are definitive.
+
+## Citations elements
+
+In the data model defined by this standard, a *citation element*
+consists of three parts: 
+
+*  an optional *layer identifier*, identifying the *citation layer*
+   to which the *citation element* applies;
+*  a name, called the *citation element name*; and
+*  a value, called the *citation element value*.
+
+{.ednote}  An earlier draft included a fourth part, a *language tag*.
+This has been moved to the *citation element value* in the
+form of a *translation set*.
+
+A *citation element set* is defined to be an ordered list of *citation
+elements*; however *conformant* applications *may* reorder the list
+providing that the relative order is preserved of *citation elements*
+with (i) the same *layer identifier*, and (ii) either the same *citation
+element name* or the same *ultimate super-element*.
+
+{.ednote}  An earlier draft defined *citation element sets* to be
+unordered, and introduced the notion of list-valued elements to preserve
+order in those cases where order was required.
+
 ### Citation elements names
 
 The **citation element name** is an identifier used to identify what
 information the *citation element* contains.  It is a *string* that
 *shall* take the form of an IRI matching the `IRI` production in §2.2 of
-[[RFC 3987](http://tools.ietf.org/html/rfc3987)].
+&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].
 
-{.example}  This standard defines a *citation element* for the title of
-a *source*.  It has the *citation element name*
-`http://terms.fhiso.org/sources/title`.
+{.example ...}  The Citation Element Vocabulary standard defines a
+*citation element* for the title of a *source*.  It has the *citation
+element name*
+
+    http://terms.fhiso.org/sources/title
+{/}
 
 {.note} IRIs have been chosen in preference to URIs because it is
 recognised that certain culture-specific genealogical concepts may not
@@ -275,21 +321,21 @@ required by §3 of this standard.
 The *citation elements* defined in this standard all have *citation
 element names* that begin `http://terms.fhiso.org/`.  It is
 *recommended* that any *extension citation elements* also use the `http`
-IRI scheme defined in §2.7.1 of [[RFC
-7230](http://tools.ietf.org/html/rfc7230)], and an authority component
-consisting of just a domain name (or subdomain) under the control of the
-party defining the *extension citation elements*. 
+IRI scheme defined in §2.7.1 of 
+&#x5B;[RFC 7230](http://tools.ietf.org/html/rfc7230)], and an authority
+component consisting of just a domain name (or subdomain) under the
+control of the party defining the *extension citation elements*. 
  
 It is *recommended* that an HTTP 1.1 `GET` request made without an
 `Accept` header to the *citation element name* IRI (once converted to a
-URI per §3.1 of [[RFC 3987](http://tools.ietf.org/html/rfc3987)])
+URI per §3.1 of &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)])
 *should* result in a 303 "See Other" redirect to a document containing a
 human-readable definition of the element.  It is *recommended* that this
 definition is in HTML, and that documentation in alternative formats
 *may* be made available when the request includes a suitable `Accept`
-header, per §5.3.2 of [[RFC 7231](//tools.ietf.org/html/rfc7231)].
+header, per §5.3.2 of &#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
 
-{.note}  A 303 redirect is considered best practice for [[Linked
+{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
 Data](http://linkeddatabook.com/editions/1.0/)], so as to
 avoid confusing the *citation element name* IRI with its definition,
 which is found at the post-redirect URL.  The *citation elements*
@@ -305,20 +351,21 @@ elements* is likely to be *recommended* but not *required*, while
 application support for it would be *optional*.
 
 *Citation element names* are compared using the "simple string
-comparison" algorithm given in §5.3.1 of [[RFC
-3987](http://tools.ietf.org/html/rfc3987)].  If a *citation element
-name* does not compare equal to an IRI known to the application, the
-application *must not* make any assumptions on the purpose of the
+comparison" algorithm given in §5.3.1 of 
+&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].  If a *citation
+element name* does not compare equal to an IRI known to the application,
+the application *must not* make any assumptions on the purpose of the
 *citation element* or the meaning of its value based on the IRI.
 
 {.note} This comparison is a simple character-by-character comparison,
 with no normalisation carried out on the IRIs prior to comparison.  This
-is how XML namespace names are compared in [[XML
+is how XML namespace names are compared in &#x5B;[XML
 Names](https://www.w3.org/TR/xml-names11/)].
 
-{.example ...}  For the purpose of comparing *citation element names*,
-the following IRIs are all distinct, even though an HTTP request to them
-would fetch the same resource.
+{.example ...}  The following IRIs are all distinct for the purpose of
+the "simple string comparison" algorithm given in §5.3.1 of 
+&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], , even though an
+HTTP request to them would fetch the same resource.
 
     http://éléments.example.com/nationalité
     HTTP://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
@@ -327,10 +374,11 @@ would fetch the same resource.
 {/}
 
 An IRI *must not* be used as a *citation element name* unless it can be
-converted to a URI using the algorithm specified in §3.1 of [[RFC
-3987](http://tools.ietf.org/html/rfc3987)], and back to a IRI again
-using the algorithm specified in §3.2 of [[RFC
-3987](http://tools.ietf.org/html/rfc3987)], to yield the original IRI.
+converted to a URI using the algorithm specified in §3.1 of 
+&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], and back to a IRI
+again using the algorithm specified in §3.2 of 
+&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], to yield the
+original IRI.
 
 {.note}  This requirement ensures that *citation element names* can be
 used in a context where a URI is required, and that the original IRI can
@@ -338,7 +386,7 @@ be regenerated, for example for comparision with a list of known IRIs.
 The vast majority of IRIs, including those in non-Latin scripts, have
 this property.  The effect of this requirement is to prohibit the use of
 IRIs that are already partly converted to a URI, for example through the
-use of unnecessary percent or punycode encoding.  
+use of unnecessary percent or punycode encoding.
 
 {.example}  Of the three IRIs given in the previous example on how to
 compare IRIs, only the first may be used as a *citation element name*.
@@ -350,33 +398,35 @@ unnecessary punycode-encoding.
 ### Citation elements values
 
 The **citation element value** is the content of the *citation element*.
-It is a *translation set* if the *citation element* contains textual
-data that is in a particular language or script which could need
-several translations or transliterations storing; and is otherwise a
-*string*.
+The *citation element value* *shall* be a *translation set* if the
+*citation element* contains textual data that is in a particular
+language or script which cannot automatically be translated or
+transliterated as required.  Otherwise it *shall* be a *string*.
 
-{.example ...}  In the earlier example of *Les ancêtres de Charlemagne*,
-the year of publication could be encoded in a *citation element* with:
+{.example ...}  A book published in 2015 would have its year of
+publication be encoded in a *citation element* with:
 
 *    the *name* `http://terms.fhiso.org/sources/publicationDate`; and
 *    a *value* comprising the *string* "`2015`".
 
-Even if an application were to need to display the year as <span
-dir="rtl">٢٠١٥</span> in Eastern Arabic numerals, this conversion can be
-done entirely in the application's user interface, so a *translation
-set* is not required.
+Even though an application designed for Arabic researchers might need to
+display the year as "<span dir="rtl">٢٠١٥</span>" using Eastern Arabic
+numerals, this conversion can be done entirely in the application's user
+interface, so a *translation set* is not required and *must not* be
+used.
 {/}
 
 A **translation set** is an ordered list of *strings*, each of which
-is tagged with a **language tag** to identify the language and script in
-which that particular *string* is written.  Each *string* in a
-*translation set* *should* contain the same information, but translated
-or transliterated.  The *language tag* *shall* match the `Language-Tag`
-production from [[RFC 5646](http://tools.ietf.org/html/rfc5646)], and
-*should* contain a script subtags per §2.2.3 of [[RFC
-5646](http://tools.ietf.org/html/rfc5646)] when transliteration has
-occurred.  A *translation set* *must not* contain more than one *string*
-with the same *language tag*.
+*shall* be tagged with a **language tag** to identify the language, and
+where appropriate the script and regional variant, in which that
+particular *string* is written.  Each *string* in a *translation set*
+*should* contain the same information, but translated or transliterated.
+The *language tag* *shall* match the `Language-Tag` production from
+&#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)], and *should*
+contain a script subtags per §2.2.3 of 
+&#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)] when
+transliteration has occurred.  A *translation set* *must not* contain
+more than one *string* with the same *language tag*.
 
 {.example ...}  The `http://terms.fhiso.org/sources/title` element's value
 is a *translation set*.  This might contain, in order:
@@ -386,33 +436,38 @@ is a *translation set*.  This might contain, in order:
 *    a transliteration, perhaps supplied algorithmically, with the value
      "`Hē Genealogia tōn Komnēnōn`" and *language tag* `el-Latn`,
      `Latn` being the code for the Latin script in [ISO 15924];
-*    and a French translation, "`La généalogie des Comnènes`", tagged
-     `fr`.
+*    and a French translation, "`La généalogie des Comnènes`", tagged 
+     with the language code `fr`.
 {/}
 
 {.note} Frequently *translation sets* will contain only a single
 *string*.  Although the *language tags* is *required*, it need not be
 explicit in the serialisation.  A serialisation format *may* provide a
 mechanism for stating the document's default *language tag*, and *may*
-provide a global default such as `und`, defined in [ISO
-639-2](http://www.loc.gov/standards/iso639-2/)] for when the language is
-undetermined.
+provide a global default such as `und`, defined in 
+&#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)] to mean the
+language is undetermined.
 
-Where possible, the first *string* in the *translation set* should be
+Where possible, the first *string* in the *translation set* *should* be
 the untranslated, and ideally untransliterated form of the *citation
-element value*.  *Conformant* applications *may* reorder the
-*translation set*, but *must* leave the first *string* first, so that
-applications wishing to use the orignal, untranslated, untransliterated
-form can do so.
+element value*.  If it is known that the only available values are
+translations, the first *string* in the *translation set* *should* be an
+empty string tagged with the *language tag* `und`, and the translations
+listed afterwards.
+
+*Conformant* applications *may* reorder the *translation set*, but
+*must* leave the first *string* first, so that applications wishing to
+use the orignal, untranslated, untransliterated form can do so.
 
 {.note} A standard may define a serialisation format that does not
 preserve the order of a *translation set*, but *must* take alternative
 steps to record the original version.  For example, the language map in
-[[JSON-LD](https://www.w3.org/TR/json-ld/)] is very similar to a
-*translation map*, except that JSON's object notion, as given in §4 of [[RFC
-7159](http://tools.ietf.org/html/rfc7159)], does not preserve order.
-One possible solution is to append some private use subtag (per §2.2.7 of
-[[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the *language tag*.
+&#x5B;[JSON-LD](https://www.w3.org/TR/json-ld/)] is very similar to a
+*translation map*, except that JSON's object notion, as given in §4 of 
+&#x5B;[RFC 7159](http://tools.ietf.org/html/rfc7159)], does not preserve
+order.  One possible solution is to append some private use subtag (per
+§2.2.7 of &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the
+*language tag*.
 
 {.ednote ...} An earlier draft of this standard put the *language tag* in
 the *citation element*, and made the *citation element value* a list.
@@ -430,8 +485,8 @@ These problems are solved in this version.
 
 If *translation sets* are being serialised in XML, it is
 *recommended* that the special `xml:lang` attribute defined in §2.12 of 
-[[XML](https://www.w3.org/TR/xml11/)] is used to encode the *language
-tag*.  
+&#x5B;[XML](https://www.w3.org/TR/xml11/)] is used to encode the
+*language tag*.  
 
 Applications *may* apply *whitespace-normalisation* to any *citation
 element value*, whether it be a *string* or a *translation set*.
@@ -458,18 +513,23 @@ description of the set of possible *citation element values* for the
 *Classes* are identified by a **class name** which *shall* take the
 form of an IRI.
 
-{.example}  This standard defines a *class* for representing the names
-of authors and other people, which has the *class name*
-`http://terms.fhiso.org/sources/AgentName`.  It is the
-*range* of the `http://terms.fhiso.org/sources/editorName` *citation
-element*.
+{.example ...}  The Citation Elements Vocabulary standard defines a
+*class* for representing the names of authors and other people, which
+has the *class name* 
+
+    http://terms.fhiso.org/sources/AgentName
+
+It is the *range* of several *citation elements* including
+
+    http://terms.fhiso.org/sources/editorName
+{/}
 
 {.note} This definition of a *class* is sufficiently aligned with the
-XML Schema's notion of a simple type, as defined in [[XSD
-Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may* be used as
-the *range* of *citation elements*.  Best practice on how to get an IRI
-for use as the *class name* of XML Schema types can be found in 
-[[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
+XML Schema's notion of a simple type, as defined in 
+&#x5B;[XSD Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may*
+be used as the *range* of *citation elements*.  Best practice on how to
+get an IRI for use as the *class name* of XML Schema types can be found
+in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
 
 The **cardinality** of a *citation element* records how many semantically
 distinct values it can have.  A **multi-valued** *citation element* is
@@ -498,7 +558,7 @@ If a *citation element* is defined to be **translatable**, then its
 *citation element's* *range* applies to each *string* in the
 *translation set*.  If it is not *translatable*, then the *value*
 *shall* be a single *string*.  *Citation elements* with non-textual
-*citation element values* such as numbers or dates *should* be defined
+*citation element values* such as numbers or dates *must* be defined
 as not *translatable*.
 
 ### Sub-elements
@@ -598,169 +658,6 @@ for each *citation element name*; however the handling of *language
 tags* seemingly prevents this from being done in a way that is
 compatible with JSON-LD.
 
-## Citation elements
-
-### `creatorName` and sub-elements
-
-------           -----------------------------------------------
-Name             `http://terms.fhiso.org/sources/creatorName`     
-Range            `http://terms.fhiso.org/sources/AgentName`
-Cardinality      multi-valued
-Translatability  translatable
-Super-element    *none*
-------           -----------------------------------------------
-
-In the definition of this element and its *sub-elements*, the word
-**agent** is used to mean a person, organisation, or other entity
-capable of independent or autonomous action.
-
-{.note} An "other entity capable of independent or autonomous action" 
-might include sufficiently sophisticated software, such as computer
-translation software.
-
-{.note} This definition of an *agent* is aligned to the `Agent` class in
-[[FOAF](http://xmlns.com/foaf/spec/)].
-
-The `creatorName` element contains name of an agent who created or
-contributed to the creation of the *source*.  Many *sub-elements* are
-provided for many specific types of creator, and where appropriate these
-are preferred to the `creatorName` *super-element*.
-
-{.note} Many of the following *sub-elements* have similar or even
-overlapping meanings, and there may be several plausible choices to
-describe a particular creator.  Where possible, the description the
-creators used to describe themselves should be followed.
-
-#### Sub-elements of `creatorName`
-
-`http://terms.fhiso.org/sources/abstratorName`
-:   The `abstractorName` element contains the name of an *agent*
-    responsible or jointly responsible for creating abstract of another
-    *source* &mdash; a shortened versioned containing all the important
-    detail.
-
-`http://terms.fhiso.org/sources/artistName`
-:   The `abstractorName` element contains the name of an *agent*
-    responsible or jointly responsible for 
-
-`http://terms.fhiso.org/sources/authorName`
-:   The `authorName` element contains the name of an *agent* responsible
-    or jointly responsible for creating a significant portion of
-    original content in a written *source*.  
-
-{.note} The `authorName` element should also be used to describe the creator
-of a written *source*
-
-`http://terms.fhiso.org/sources/compilerName`
-:   The `compilerName` element contains the name of an *agent*
-    responsible or jointly responsible for creating a *source* by
-    compiling content from many other *sources*.
-
-`http://terms.fhiso.org/sources/composerName`
-:   The `composerName` element contains the name of an *agent*
-    responsible or jointly responsible for creating a *source* which is
-    a piece of music.
-
-{.note} The `composerName` element has been included largely for
-compatibility with
-[[CSL](//docs.citationstyles.org/en/stable/specification.html)] and
-other vocabularies that have such a role.  It is not anticipated that it
-will be used much.
-
-`http://terms.fhiso.org/sources/directorName`
-:   The `directorName` element contains the name of an *agent*
-    responsible for directing the production of a film or other audio
-    or visual *source*.
-
-`http://terms.fhiso.org/sources/editorName`
-:   The `editorName` element contains the name of an *agent* responsible
-    or jointly responsible for selecting, preparing or editing the
-    content of a *source*.
-
-`http://terms.fhiso.org/sources/editorTranslatorName`
-:   The `editorTranslatorName` element contains the name of an *agent* 
-    reponsible or jointly reponsible for the translation of a *source*
-    from another language or languages, and who was also had a major
-    role in selecting or preparing the choice of material for
-    translation.
-
-{.note} The `editorTranslatorName` element has been included largely for
-compatibility with
-[[CSL](//docs.citationstyles.org/en/stable/specification.html)].  It
-combines the roles of the `editorName` and `translatorName` elements,
-and should only be used when the editorial aspect is significant.
-Usually the `translatorName` element is more appropriate.
-
-`http://terms.fhiso.org/sources/editorialDirectorName`
-:   The `editorialDirectorName` element contains the name of an *agent*
-    responsible or jointly responsible for the overall vision and
-    editorial policies applied across a large number of a publisher's
-    publications.
-
-{.note}  The `editorialDirectorName` element has been included 
-solely for compatibility with
-[[CSL](//docs.citationstyles.org/en/stable/specification.html)].  Few if any
-style guides include it.
-
-`http://terms.fhiso.org/sources/illustratorName`
-:   The `illustratorName` element contains the name of an *agent*
-    responsible or jointly responsible for illustrating a written or
-    visual *source*.
-
-`http://terms.fhiso.org/sources/indexerName`
-:   The `indexerName` element contains the name of an *agent*
-    responsible or jointly responsible for creating a *source* which is
-    primarily an index of one or more other *sources*.
-
-`http://terms.fhios.org/sources/intervieweeName`
-:   The `intervieweeName` element contains the name of a person who is
-    a subject of an interview, and where the *source* is a transcript,
-    recording or other representation of that interview.
-
-`http://terms.fhiso.org/sources/interviewerName`
-:   The `interviewerName` element contains the name of an agent responsible
-    or jointly responsible for asking questions during an interview, and
-    where the *source* is a transcript, recording or other representation
-    of that interview.  A *citation element set* containing an
-    `interviewerName` *should* normally also contain one or more
-    `intervieweeName` *citation elements* identifying who was being
-    interviewed.
-
-`http://terms.fhiso.org/sources/transcriberName`
-:   The `transcriberName` element contains the name of an *agent*
-    responsible or jointly responsible for creating a written *source*
-    which is primarily a verbatim or near-verbatim transcription of one
-    or a small number other *sources*.
-
-{.ednote} This definition needs to be clearer on the distinction between
-compilation and transcription.
-
-`http://terms.fhiso.org/sources/translatorName`
-:   The `translatorName` element contains the name of an *agent*
-    reponsible or jointly reponsible for the translation of a *source*
-    from another language or languages.
-    
-{.ednote ...}  This list of sub-elements is somewhat based on the list
-of roles in
-[[CSL](//docs.citationstyles.org/en/stable/specification.html)].  No
-decision has yet been taken on whether complete harmonisation is
-desirable.
-
-CSL's `collection-editor` and `container-author` have been omitted
-pending a decision on how to deal with more general matters with
-containment.
-
-CSL's `original-author` and `reviewed-author` have been omitted, as it
-is FHISO's current intention to store translations and reviews using
-layers.
-
-No use cases have been found to warrant the inclusion of CSL's
-`editorial-director`.  Applications converting it to FHISO *citation
-elements* should treat it as `editor` or `collection-editor`, or drop
-it. 
-{/}
-
-
 
 ## References
 
@@ -839,6 +736,11 @@ it.
 [FOAF]
 :   Brickley, Dan and Libby Miller.  *FOAF Vocabulary Specification
     0.99*.  2014.  (See <http://xmlns.com/foaf/spec/>.)
+
+[ISO 8601]
+:   ISO (Internation Organization for Standardization).  *ISO
+    8601:2004.  Data elements and interchange formats — Information
+    interchange — Representation of dates and times*.  2004.
 
 [JSON-LD]
 :   W3C (World Wide Web Consortium).  *JSON-LD 1.0 &mdash;  A JSON-based
