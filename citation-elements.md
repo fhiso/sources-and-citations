@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 24 May 2017
+date: 26 May 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts and Basic Framework
@@ -224,9 +224,9 @@ the `string` datatype defined in
 &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], used in many XML
 and Semantic Web technologies.
 
-Applications *may* convert any *citation element value* into Unicode
-Normalization Form C, as defined in any version of Unicode Standard
-Annex #15 &#x5B;[UAX 15](http://unicode.org/reports/tr15/)].
+Applications *may* convert any *string* into Unicode Normalization Form
+C, as defined in any version of Unicode Standard Annex #15 &#x5B;[UAX
+15](http://unicode.org/reports/tr15/)].
 
 {.note} This allows applications to store *strings* internally in either
 Normalization Form C or Normalization Form D for ease of searching,
@@ -286,13 +286,34 @@ form of a *translation set*.
 
 A *citation element set* is defined to be an ordered list of *citation
 elements*; however *conformant* applications *may* reorder the list
-providing that the relative order is preserved of *citation elements*
-with (i) the same *layer identifier*, and (ii) either the same *citation
-element name* or the same *ultimate super-element*.
+subject to the following constraints:
 
-{.ednote}  An earlier draft defined *citation element sets* to be
-unordered, and introduced the notion of list-valued elements to preserve
-order in those cases where order was required.
+*  The relative order of *citation elements* must be preserved when they 
+   have the same *layer identifier* and *ultimate super-element*.
+
+*  When a *citation element set* contains a *citation element* with the
+   *citation element name*
+   `http://terms.fhiso.org/sources/translatedElement`, the previous
+   element in *citation element set* with a different *citation element
+   name* is referred to as its **translation base**.  The *translation
+   base* of any such *citation element* must not change if a *citation
+   element set* is reordered.
+
+{.note} The latter requirement can be avoided by processing
+`translatedElement`s per §3.4.1 of this standard, and then removing them
+from the *citation element set*.
+
+{.note} Subject to these constraints, this standard allows *citation
+element sets* to be reordered because some serialisation languages such
+as JSON and RDF do not guarantee to preserve the order of elements in
+certain important serialisation mechanisms: for example, object members
+in JSON and triples in RDF other than when RDF containers are used.
+
+### Layer identifiers
+
+{.ednote} This draft does not yet address the form of the *layer
+identifier*, and it is probable the data model will be updated so
+that each *citation layer* has its own *citation element set*.
 
 ### Citation elements names
 
@@ -342,13 +363,18 @@ which is found at the post-redirect URL.  The *citation elements*
 defined in this standard are not specifically designed for use in Linked
 Data, but the same considerations apply.
 
-{.ednote} A future draft of this standard is likely to add support for a
-**discovery** mechanism, whereby a HTTP 1.1 `GET` request to the
+Parties defining *extension citation elements* *may* arrange for them to
+support **discovery**.  This when a HTTP 1.1 `GET` request to the
 *citation element name* IRI, made with an appropriate `Accept` header,
 yields 303 redirect to a machine-readable definition of the *citation
-element*.  Support for this by the authors of *extension citation
-elements* is likely to be *recommended* but not *required*, while
-application support for it would be *optional*.
+element*.  
+
+{.ednote}  FHISO does not currently define a *discovery* mechanism, but
+anticipate doing so in a future standard.  If such a standard is ready
+when this standard is released, support for *discovery* by the
+authors of *extension citation elements* is likely to be changed to be
+*recommended*, but not *required*, while application support for it
+would be *optional*.
 
 *Citation element names* are compared using the "simple string
 comparison" algorithm given in §5.3.1 of 
@@ -359,8 +385,8 @@ the application *must not* make any assumptions on the purpose of the
 
 {.note} This comparison is a simple character-by-character comparison,
 with no normalisation carried out on the IRIs prior to comparison.  This
-is how XML namespace names are compared in &#x5B;[XML
-Names](https://www.w3.org/TR/xml-names11/)].
+is how XML namespace names are compared in 
+&#x5B;[XML Names](https://www.w3.org/TR/xml-names11/)].
 
 {.example ...}  The following IRIs are all distinct for the purpose of
 the "simple string comparison" algorithm given in §5.3.1 of 
@@ -391,8 +417,8 @@ use of unnecessary percent or punycode encoding.
 {.example}  Of the three IRIs given in the previous example on how to
 compare IRIs, only the first may be used as a *citation element name*.
 The second and third are prohibited as a result of the unnecessary
-percent-encoding, and the third is additionally prohibted as a result of
-unnecessary punycode-encoding.
+percent-encoding, and the third is additionally prohibited as a result
+of unnecessary punycode-encoding.
 
 
 ### Citation elements values
@@ -416,17 +442,19 @@ interface, so a *translation set* is not required and *must not* be
 used.
 {/}
 
+#### Translation sets
+
 A **translation set** is an ordered list of *strings*, each of which
 *shall* be tagged with a **language tag** to identify the language, and
 where appropriate the script and regional variant, in which that
 particular *string* is written.  Each *string* in a *translation set*
-*should* contain the same information, but translated or transliterated.
-The *language tag* *shall* match the `Language-Tag` production from
+*should* contain the same information, but translated, transliterated or
+localised.  The *language tag* *shall* match the `Language-Tag`
+production from
 &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)], and *should*
 contain a script subtags per §2.2.3 of 
 &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)] when
-transliteration has occurred.  A *translation set* *must not* contain
-more than one *string* with the same *language tag*.
+transliteration has occurred.  
 
 {.example ...}  The `http://terms.fhiso.org/sources/title` element's value
 is a *translation set*.  This might contain, in order:
@@ -439,6 +467,22 @@ is a *translation set*.  This might contain, in order:
 *    and a French translation, "`La généalogie des Comnènes`", tagged 
      with the language code `fr`.
 {/}
+
+{.example} *Translation sets* are not restricted to situations where
+translation is not involved.  They are also used where transliteration
+or other localisation may be needed.  An author' name is rarely
+translated in usual sense, but may be transliterated.  Andalusian
+historian <span dir="rtl">صاعد الأندلسي</span> might be translitered
+"Ṣā‘id al-Andalusī" in the Latin script.  These two values would still
+belong in a *translation set* despite not being translations.  They
+would be tagged `ar` and `ar-Latn`, meaning the Arabic language in its
+default script and in the Latin script, respectively.  An author's names
+may also be respelled to conform to the spelling and grammar rules of
+the reader's language.  An Englishman named Richard may be rendered
+"Rikardo" or "Rićardo" in Esperanto: the change of the "c" to a "k" or a
+"ć" being to conform to Esperanto orthography, while the final "o" marks
+it as a noun.  The respelling would be tagged `eo`, the language code
+for Esperanto.
 
 {.note} Frequently *translation sets* will contain only a single
 *string*.  Although the *language tags* is *required*, it need not be
@@ -467,7 +511,13 @@ steps to record the original version.  For example, the language map in
 &#x5B;[RFC 7159](http://tools.ietf.org/html/rfc7159)], does not preserve
 order.  One possible solution is to append some private use subtag (per
 §2.2.7 of &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the
-*language tag*.
+first *language tag*.
+
+A *translation set* *must not* contain more than one *string* with the
+same *language tag*.  If an application encounters a *translation set*
+with duplicate *language tags*, it *may* drop the second and subsequent
+*strings* with that *language tags*; it *should not* do this if the
+*translation set* has been reordered from its serialised form.
 
 {.ednote ...} An earlier draft of this standard put the *language tag* in
 the *citation element*, and made the *citation element value* a list.
@@ -488,8 +538,10 @@ If *translation sets* are being serialised in XML, it is
 &#x5B;[XML](https://www.w3.org/TR/xml11/)] is used to encode the
 *language tag*.  
 
-Applications *may* apply *whitespace-normalisation* to any *citation
-element value*, whether it be a *string* or a *translation set*.
+Applications *should* apply *whitespace-normalisation* to any *string*
+in a *citation element value*.  This applies both to *strings* in
+*translation sets* and when they are the *citation element value*
+directly.
 
 ## Defining citation elements
 
@@ -499,67 +551,13 @@ it is one of those defined in this standard, or whether it is an
 *conformant extension citation element*) *shall* state:
 
 *   its *citation element name* (an IRI);
+*   whether it is a *sub-element* of some other *citation element*,
+    and if so which one;
 *   its *range*: the formal *class name* of its value space;
 *   its *cardinality*: that is, whether it is *single-valued* or
-    *multi-valued*; 
+    *multi-valued*; and
 *   its *translatability*: whether its *value* is a
-    *translation set*;
-*   whether it is a *sub-element* of some other *citation element*,
-    and if so which one.
-
-The **range** of a *citation element* is a **class**, which is a formal
-description of the set of possible *citation element values* for the
-*citation element*, giving both their lexical form and their semantics.
-*Classes* are identified by a **class name** which *shall* take the
-form of an IRI.
-
-{.example ...}  The Citation Elements Vocabulary standard defines a
-*class* for representing the names of authors and other people, which
-has the *class name* 
-
-    http://terms.fhiso.org/sources/AgentName
-
-It is the *range* of several *citation elements* including
-
-    http://terms.fhiso.org/sources/editorName
-{/}
-
-{.note} This definition of a *class* is sufficiently aligned with the
-XML Schema's notion of a simple type, as defined in 
-&#x5B;[XSD Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may*
-be used as the *range* of *citation elements*.  Best practice on how to
-get an IRI for use as the *class name* of XML Schema types can be found
-in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
-
-The **cardinality** of a *citation element* records how many semantically
-distinct values it can have.  A **multi-valued** *citation element* is
-one that can logically have multiple values in a single *citation*.  It
-*should* be reserved for situations where the values genuinely contains
-different information, and not used to accommodate transliterations,
-translations, or variant forms of something that is logically a single
-value.  *Citation elements* that are not *multi-valued* are
-**single-valued**.
-
-A *citation element set* *must not* contain more than one *citation
-element* with the same *layer identifier* and *citation element name*,
-unless the *citation element* is defined as being *multi-valued*.
-
-{.example}  The `http://terms.fhiso.org/sources/title` *citation
-element* is defined to be *single-valued*, as *citations* do not refer
-to the same *sources* by different titles (though it may translate or
-transliterate the title), so the *citation element set* for a
-*non-layered citation* *must not* contain more than one `title`; but it
-*may* contain several `http://terms.fhiso.org/sources/authorName`
-*citation elements*, as that is defined to be *multi-valued* to
-accommodate *sources* with several authors.
-
-If a *citation element* is defined to be **translatable**, then its
-*citation element value* *shall* be a *translation set*, and the
-*citation element's* *range* applies to each *string* in the
-*translation set*.  If it is not *translatable*, then the *value*
-*shall* be a single *string*.  *Citation elements* with non-textual
-*citation element values* such as numbers or dates *must* be defined
-as not *translatable*.
+    *translation set*.
 
 ### Sub-elements
 
@@ -572,23 +570,33 @@ if it were the *super-element*, with its *value* unchanged.  The
 some loss of meaning, and does not imply anything false about the cited
 *source*.
 
-{.example ...}  The `http://terms.fhiso.org/sources/creatorName`
-*citation element* is defined in this standard as containing name of a
-person, organisation or other entity who created or contributed to the
-creation of the *source*.  Several *sub-elements* of it are defined,
-including `http://terms.fhiso.org/sources/interviewerName` which
-contains the name of an interviewer when the *source* is an interview.
-An interviewer can certainly be considered to have contributed to the
-creation of the interview.  
+{.example ...}  The Citation Elements Vocabulary defines a *citation
+element* with the name 
 
-This standard also defines a
-`http://terms.fhiso.org/sources/recipientName` *citation element* which
-contains the party to whom a *source* such as a letter is written.  
-In many respects it is similar to the *sub-elements* of `creatorName`,
-but because a recipient of a letter cannot be said to have created or
-contributed to the creation of the letter, and might not even be aware
-of its existance if it were not delivered, the `recipientName` element
-cannot be defined as a *sub-element* of `creatorName`.
+    http://terms.fhiso.org/sources/creatorName
+
+which contains name of a person, organisation or other entity who
+created or contributed to the creation of the *source*.  Several
+*sub-elements* of it are defined, including
+
+    http://terms.fhiso.org/sources/interviewerName
+
+which contains the name of an interviewer when the *source* is an
+interview.  An interviewer can certainly be considered to have
+contributed to the creation of the interview.  
+
+The Citation Elements Vocabulary also defines a *citation element* with
+the name 
+
+    http://terms.fhiso.org/sources/recipientName
+
+which contains the party to whom a *source* such as a letter is
+addressed.  In many respects it is similar to the *sub-elements* of
+`creatorName`, but because a recipient of a letter cannot be said to
+have created or contributed to the creation of the letter, and might not
+even be aware of its existance if it were not delivered, the
+`recipientName` element cannot be defined as a *sub-element* of
+`creatorName`.
 {/}
 
 The *range* and *translatability* of a *sub-element* *shall* be the same
@@ -597,9 +605,9 @@ as that of its *super-element*.
 {.ednote}  The *range* of a *sub-element* could be allowed to be a
 sub-class of the *super-element's* *range*, where a sub-class is
 understood to reduce the value space of the *class*.  (It would
-correspond to concept of a restriction in §2.4.3 of [[XSD
-Pt2](https://www.w3.org/TR/xmlschema11-2/)].)   At the moment there is no
-clear use case for this.
+correspond to concept of a restriction in §2.4.3 of 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].)   At the moment
+there is no clear use case for this.
 
 All *sub-elements* and their *super-elements* *shall* be *multi-valued*.
 
@@ -628,36 +636,219 @@ super-element*.  Otherwise, its *ultimate super-element* is the
 that is not a *sub-element*.  It is used in specifying how applications
 are permitted to reorder *citation element sets*.
 
-### Definition serialisation
-
-A **citation element declaration** is a formal, machine-readable
-definition of a *citation element*.  It *must* include the *citation
-element name*, its *cardinality*, *translatability* and (if it is a
-*sub-class*) its *super-class*; *should* include its *range*, and (if
-available) a link to the standard defining it; and *may* include other
-details.
-
-Any standard that defines a serialisation for *citation elements* 
-*must* also provide a serialisation for *citation element declarations*,
-and a *conformant* application must serialise *citation element
-declarations* for every *citation element* used.  The *citation element
-declarations* need not be serialised in the same file as the the
-*citation elements* but must be provided in such a way that they will
-naturally accompany the *citation elements* if they are transmitted to
-another researcher or moved to another computer.
-
-{.note} The serialisation of *citation element declarations* is required
-because no application or standard can possibly know about every
-*extension citation element*. 
+A *citation element set* *must not* contain more than one *citation
+element* with the same *layer identifier* and *ultimate super-element*,
+unless the *ultimate super-element* is defined as being *multi-valued*.
 
 
-{.ednote}  This draft does not define a format for *citation element
-declarations*.  In earlier discussion, a format based on JSON-LD's
-`@context` was mooted, setting `@container` to either `@list` or `null`
-for each *citation element name*; however the handling of *language
-tags* seemingly prevents this from being done in a way that is
-compatible with JSON-LD.
+### Range
 
+The **range** of a *citation element* is a **class**, which is a formal
+description of the set of possible *citation element values* for the
+*citation element*, giving both their lexical form and their semantics.
+*Classes* are identified by a **class name** which *shall* take the
+form of an IRI.
+
+{.example ...}  The Citation Elements Vocabulary standard defines a
+*class* for representing the names of authors and other people, which
+has the *class name* 
+
+    http://terms.fhiso.org/sources/AgentName
+
+It is the *range* of several *citation elements* including
+
+    http://terms.fhiso.org/sources/editorName
+{/}
+
+{.note} This definition of a *class* is sufficiently aligned with the
+XML Schema's notion of a simple type, as defined in 
+&#x5B;[XSD Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may*
+be used as the *range* of *citation elements*.  Best practice on how to
+get an IRI for use as the *class name* of XML Schema types can be found
+in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
+
+The *class name* for the *class* of *strings* is:
+
+    http://www.w3.org/2001/XMLSchema#string
+
+{.ednote} Read XML Schema re the difference between plain literals,
+`xsd:string`s, and plain literals tagged with a *language tag*.
+
+If an application encounters a *citation element value* that does not
+conform to the definition of the *class* used as the *range* of the
+*citation element*, it *may* remove the *citation element* or *may*
+convert it to a valid value in an implementation-defined manner.
+
+{.example}  The *range* of the 
+`http://terms.fhiso.org/sources/publicationDate` element defined in the
+Citation Element Vocabulary is an [ISO 8601]-compatible date.  An
+application encountering a date "8 Okt 2000" in a `publicationDate`
+element in dataset that uses German as its default language *may*
+convert this to "`2000-10-08`".
+
+### Cardinality
+
+The **cardinality** of a *citation element* records how many semantically
+distinct values it can have.  A **multi-valued** *citation element* is
+one that can logically have multiple values in a single *citation*.  It
+*should* be reserved for situations where the values genuinely contains
+different information, and not used to accommodate transliterations,
+translations, or variant forms of something that is logically a single
+value.  *Citation elements* that are not *multi-valued* are
+**single-valued**.
+
+A *citation element set* *must not* contain more than one *citation
+element* with the same *layer identifier* and *citation element name*,
+unless the *citation element* is defined as being *multi-valued*.  If an
+application encouters a *citation element set* containing multiple
+instances of a *single-valued* *citation element*, it *may* remove the
+second and subsequent instance.
+
+{.example}  The `http://terms.fhiso.org/sources/title` *citation
+element* is defined to be *single-valued*, as *citations* do not refer
+to the same *sources* by different titles (though it may translate or
+transliterate the title), so the *citation element set* for a
+*non-layered citation* *must not* contain more than one `title`; but it
+*may* contain several `http://terms.fhiso.org/sources/authorName`
+*citation elements*, as that is defined to be *multi-valued* to
+accommodate *sources* with several authors.
+
+### Translatability
+
+If a *citation element* is defined to be **translatable**, then its
+*citation element value* *shall* be a *translation set*, and the
+*citation element's* *range* applies to each *string* in the
+*translation set*.  If it is not *translatable*, then the *value*
+*shall* be a single *string*.  *Citation elements* with non-textual
+*citation element values* such as numbers or dates *must* be defined
+as not *translatable*.
+
+If an application encounters a *citation element* whose *citation
+element value* is a *translation set*, but where the application knows
+the *citation element* to be defined as not *translatable*, the
+application *may* convert the *translation set* to a *string* by
+discarding all but the first *string* in the *translation set*.  If the
+*translation set* contains only one *string*, and if that *string*
+conforms to the *range* of the *citation element*, this conversion
+*should* be done.  
+
+If an application encounters a *citation element* whose *citation
+element value* is a *string*, but where the application knows the
+*citation element* to be defined as *translatable*, the application
+*should* convert the *string* to a *translation set* by tagging it with
+the *language tag* `und` (defined in 
+&#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)]
+as representing an undetermined language).
+
+#### List-flattening formats
+
+*Conformant* applications *must* support *citation elements* that are
+both *multi-valued* and *translatable*, and *must* ensure that the
+*translation set* for each *citation element value* remains separate.
+
+{.example ...} The `authorName` *citation element* is such an element
+because a source may have multiple authors, each of whom may have names
+that have been transliterated into different scripts.  Suppose a
+researcher wants to cite the Anglo-Japanese Treaty document of 1902
+which was (at least nominally) authored by the Marquess of Lansdowne and
+Count Hayashi Tadasu whose name is written in kanji as 林&nbsp;董.
+
+The following JSON serialisation is not allowed as it flattens
+*translation set* so it is no longer possible to determine how many
+authors there are, and which names are translations of which others.
+
+    [ { "name": "http://terms.fhiso.org/terms/title",
+        "lang": "en",      "value": "The Anglo-Japanese Treaty" },
+      { "name": "http://terms.fhiso.org/terms/authorName",
+        "lang": "en",      "value": "Lord Lansdowne" },
+      { "name": "http://terms.fhiso.org/terms/authorName",
+        "lang": "jp",      "value": "林 董"          },
+      { "name": "http://terms.fhiso.org/terms/authorName",
+        "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
+
+This is an example of a *list-flattening format*.
+{/}
+
+A serialisation format that does not keep the *translation sets* of each
+*citation element value* separate is called a **list-flattening format**,
+and this standard provides a facility to allow such formats to comply
+with this standard by introducing a special *citation element* with the
+following properties:
+
+------           -----------------------------------------------
+Name             `http://terms.fhiso.org/sources/translatedElement`     
+Range            `http://www.w3.org/2001/XMLSchema#string`
+Cardinality      multi-valued
+Translatability  translatable
+Super-element    *none*
+------           -----------------------------------------------
+
+{.ednote}  Check that `xsd:string` is correct.
+
+In a *list-flattening format*, an application *must* consider every
+value to be a separate *citation element value*, and therefore to be a
+*translation set* with one element.
+
+{.note} In most cases this assumption is expected to be valid.
+*Citation element sets* are expected to include translated or
+transliterated elements less often than not.
+
+When a *translation set* with two or more *strings* needs to be
+serialised in a *list-flattening format*, the first *string* *must* be
+serialised according to the normal rules of the format, and subsequent
+*strings* *must* be serialised as if they were separate *citation
+element*, but with the `translatedElement` *citation element name* in
+place of the actual *citation element name*.  This special *citation
+element* indicates that its value is not a distinct *citation element*
+and *should* instead be appended to the *translation set* of its
+*translation base* (i.e. the last preceding *citation element* which is
+not a `translatedElement`), and the `translatedElement` removed from the
+*citation element set*.
+
+{.example ...}  The hypothetical JSON serialisation in the last example
+can be fixed by using a `translatedElement` to serialise the
+transliterated version of Hayashi's name:
+
+    [ { "name": "http://terms.fhiso.org/terms/title",
+        "lang": "en",      "value": "The Anglo-Japanese Treaty" },
+      { "name": "http://terms.fhiso.org/terms/authorName",
+        "lang": "en",      "value": "Lord Lansdowne" },
+      { "name": "http://terms.fhiso.org/terms/authorName",
+        "lang": "jp",      "value": "林 董"          },
+      { "name": "http://terms.fhiso.org/terms/translatedElement",
+        "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
+
+The two `authorName` element are assumed to be separate *citation
+elements* and therefore to refer to different authors.  The use of
+`translatedElement` signifies that this is not a different author.  It
+immediately follows an `authorName` *citation element* with the value 
+林&nbsp;董, and its value ("Hayashi Tadasu", tagged as `jp-Latn`) should
+be appended to that *translation set*.
+{/}
+
+{.note} This standard does not say when the processing of
+`translatedElements` occurs.  Ideally an application *should* do it
+during the process of reading a *list-flattening format*, but *may* do
+it later or not at all.  If the application subsequently serialise the
+data in a non-*list-flattening format*, the `translatedElement`s *may*
+still be present.  Therefore applications reading non-*list-flattening
+format* *should* cope with the possibility of `translatedElements` being
+present.
+
+If the *translation base* does not have a *translation set* as its
+*citation element value* (i.e. if its value is just a *string*), or
+if its *citation element value* is *translation set* that already
+contains a string with the same *language tag*, an application 
+*must not* convert it to *translation set* in order to add the
+`translatedElement`, it *must not* add the `translatedElement` to
+another *citation element*, and it *must not* overwrite or duplicate a
+*language tag* in the *translation set* of the *translation base*.  In
+these circumstance, the application *may* remove the `translatedElement`
+from the *citation element set*.
+
+The use of *list-flattening formats* is *not recommended* except where
+there is a good technical reason.  The use of `translatedElement`s other
+than in *list-flattening formats* is *not recommended*.
 
 ## References
 
@@ -728,14 +919,6 @@ compatible with JSON-LD.
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
     Chicago Press, 2010.
-
-[CSL]
-:   Zelle, Rintze M.  *Citation Style Language 1.0.1 Specification*.  2015.
-    (See <http://docs.citationstyles.org/en/stable/specification.html>.)
-
-[FOAF]
-:   Brickley, Dan and Libby Miller.  *FOAF Vocabulary Specification
-    0.99*.  2014.  (See <http://xmlns.com/foaf/spec/>.)
 
 [ISO 8601]
 :   ISO (Internation Organization for Standardization).  *ISO
