@@ -590,6 +590,15 @@ element* as described in the following sub-sections.
 The `property` attributes *shall* be considered in the order they appear
 in the document. 
 
+{.note}  The detailed specification in §7.5 of [RDFa Core] requires that
+`property` attributes are processed and used to generate RDF triples in
+document order.  However the [RDFa Core] processing model requires these
+triples to be added to an RDF graph which are not required to preserve
+the order of triples.  Nevertheless, most current RDFa processors do
+output properties in document order.  Implementations using an RDFa
+parser to implement this specification should verify that the document
+order of properties can be determined.
+
 For the purpose of this section, the **current element** refers to the
 element that has the `property` attribute which tags the current
 *citation element*.  
