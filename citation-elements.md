@@ -4,7 +4,7 @@ subtitle: General Concepts
 date: 26 May 2017
 numbersections: true
 ...
-# Citation Elements:<br/> General Concepts and Basic Framework
+# Citation Elements:<br/> General Concepts
 
 {.ednote ...} This is an **early draft** of the core part of FHISO's
 proposed suite of standards on Citation Elements.  This document is not
