@@ -6,8 +6,8 @@ numbersections: true
 ...
 # FHISO Citation Elements: Bindings for GEDCOM X
 
-{.ednote ...} This is a **first draft** of a standard documenting the
-proposed usage of the FHISO Citation Elements standard in GEDCOM X.
+{.ednote ...} This is a **exploratory draft** of a standard documenting
+the proposed usage of the FHISO Citation Elements standard in GEDCOM X.
 This document is not an FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
@@ -134,8 +134,8 @@ XML 1.0 also disallows all C0 escape characters except tab
 that GEDCOM X allows strings that cannot be serialised in XML.
 
 GEDCOM X would benefit from clarifying precisely which of these
-characters are allowed in its string type.   The W3C have gradually been
-updating standards to use the 1.1 definitions, and FHISO have followed
+characters are allowed in its string type.   The W3C has gradually been
+updating standards to use the 1.1 definitions, and FHISO has followed
 this precedent.  If GEDCOM X wishes to do the same, it should explicitly
 reference the XML Schema 1.1 standard (or say the most recent one) when
 referencing `xsd:string`, and should explicitly exclude the null

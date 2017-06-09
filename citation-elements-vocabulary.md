@@ -5,10 +5,10 @@ numbersections: true
 ...
 # A citation elements vocabulary
 
-{.ednote} This is an **early draft** of material intended to form part
-of a FHISO Citation Elements standard.  This document is not endorsed by
-the FHISO membership, and may be updated, replaced or obsoleted by other
-documents at any time. 
+{.ednote} This is an **exploratory draft** of material intended to form
+part of a FHISO Citation Elements standard.  This document is not
+endorsed by the FHISO membership, and may be updated, replaced or
+obsoleted by other documents at any time. 
 
 ## `creatorName` and sub-elements
 
