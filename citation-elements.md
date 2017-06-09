@@ -191,7 +191,7 @@ application ought to be able to produce algorithmically a *formatted
 citation* in a reasonable approximation to any mainstream citation
 style.  If higher quality *formatted citations* are desirable,
 applications *should* allow users to manually edit them to fine-tune their
-presentation, and *should* store the result of reuse.  *Formatted
+presentation, and *should* store the result for reuse.  *Formatted
 citations* need not include all the information from a *citation element
 set* if the style dictates that certain information is omitted in the
 relevant context.
