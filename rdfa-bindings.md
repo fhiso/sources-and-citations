@@ -261,6 +261,56 @@ amount of genealogical research has been published online and includes
 these *formatted citations* can be copied and pasted into a genealogy
 application which can convert them back to a *citation element set*.
 
+If an application allows the manual editing of *formatted citations*
+tagged with RDFa attributes per this standard, it *should* take steps to
+prevent this from changing the *citation element values* that a
+*conformant* application would extract from the *formatted citation* to
+be different from the *citation element values* in the *citation element
+set*.
+
+{.note}  This document does not prescribe a particular mechanism for
+ensuring this, but most strategies will involve parse the RDFa
+attributes before and after the edit and identify any *citation
+elements* whose values have changed.  An application might ask the user
+whether the change should be propagated back to the original *citation
+element set*.  If the change is not to be propagated back to the
+*citation element set*, the application might delete the `property`
+attribute so the changed data is no longer recognised as a *citation
+element*, or insert a `content` attribute containing the correct data
+per §4.3.1.
+ 
+{.example ...}  Suppose an application generates the following
+*formatted citation*.
+
+    <p><span property="http://terms.fhiso.org/sources/authorName"
+      >Settipani, Christian</span>. 
+      <i property="http://terms.fhiso.org/sources/title">Les ancêtres 
+        de Charlemagne</i>.</p>
+
+If a user edits this HTML to replace *Les ancêtres de Charlemagne* with 
+*Ibid.*, the application *should* then take steps to ensure a future
+parser does not believe the source literally has the title *Ibid.*
+In this case, clearly the change should not be propagated back to the
+*citation element set* as the source isn't titled *Ibid.*, and the user
+would presumably decline if offered this option.  An application might
+delete the `property` attribute so *Ibid.* is not understood to be a
+title, or insert a `content` attribute containing real title as follows:
+
+    <p><span property="http://terms.fhiso.org/sources/authorName"
+      >Settipani, Christian</span>. 
+      <i property="http://terms.fhiso.org/sources/title"
+         content="Les ancêtres de Charlemagne">Ibid.</i></p>
+{/}
+
+If an application stores *formatted citations* tagged with RDFa
+attributes as per this standard, it *should* take steps to ensure that
+changes to the underlying *citation element set* propagate to the 
+*formatted citation*.
+
+{.note}  An application doing this would parse the *formatted citation*
+per this standard, locating the part of the HTML or XML that contains
+the value and overwriting it with the new value.
+
 ## Shorthand IRIs
 
 The [CEV Concepts] standard makes heavy use of IRIs as identifiers, as
