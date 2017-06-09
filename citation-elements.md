@@ -501,10 +501,9 @@ would be tagged `ar` and `ar-Latn`, meaning the Arabic language in its
 default script and in the Latin script, respectively.  An author's names
 may also be respelled to conform to the spelling and grammar rules of
 the reader's language.  An Englishman named Richard may be rendered
-"Rikardo" or "Rićardo" in Esperanto: the change of the "c" to a "k" or a
-"ć" being to conform to Esperanto orthography, while the final "o" marks
-it as a noun.  The respelling would be tagged `eo`, the language code
-for Esperanto.
+"Rikardo" in Esperanto: the change of the "c" to a "k" being to conform
+to Esperanto orthography, while the final "o" marks it as a noun.  The
+respelling would be tagged `eo`, the language code for Esperanto.
 
 {.note} Frequently *translation sets* will contain only a single
 *string*.  Although the *language tags* is *required*, it need not be
@@ -535,11 +534,13 @@ order.  One possible solution is to append some private use subtag (per
 §2.2.7 of &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the
 first *language tag*.
 
-A *translation set* *must not* contain more than one *string* with the
+A *translation set* *should not* contain more than one *string* with the
 same *language tag*.  If an application encounters a *translation set*
-with duplicate *language tags*, it *may* drop the second and subsequent
-*strings* with that *language tags*; it *should not* do this if the
-*translation set* has been reordered from its serialised form.
+with duplicate *language tags*, or would create one through merging
+*translation sets*, it *should* prefer the first *string*, and *may*
+drop the second and subsequent *strings* with that *language tags*; it
+*should not* drop duplicate *strings* if the *translation set* has been
+reordered from its serialised form.
 
 {.ednote ...} An earlier draft of this standard put the *language tag* in
 the *citation element*, and made the *citation element value* a list.
@@ -724,7 +725,9 @@ element* with the same *layer identifier* and *citation element name*,
 unless the *citation element* is defined as being *multi-valued*.  If an
 application encouters a *citation element set* containing multiple
 instances of a *single-valued* *citation element*, it *may* remove the
-second and subsequent instance.
+second and subsequent instance, or if the *citation element* is
+*translatable* it *may* merge the second and subsequent *translation
+sets* into the first.
 
 {.example}  The `http://terms.fhiso.org/sources/title` *citation
 element* is defined to be *single-valued*, as *citations* do not refer
