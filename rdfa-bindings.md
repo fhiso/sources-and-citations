@@ -261,6 +261,8 @@ amount of genealogical research has been published online and includes
 these *formatted citations* can be copied and pasted into a genealogy
 application which can convert them back to a *citation element set*.
 
+### Synchronising citation elements
+
 If an application allows the manual editing of *formatted citations*
 tagged with RDFa attributes per this standard, it *should* take steps to
 prevent this from changing the *citation element values* that a
@@ -308,8 +310,12 @@ changes to the underlying *citation element set* propagate to the
 *formatted citation*.
 
 {.note}  An application doing this would parse the *formatted citation*
-per this standard, locating the part of the HTML or XML that contains
-the value and overwriting it with the new value.
+per this standard, locate the part of the HTML or XML that contains
+the old *citation element value* and overwrite it with the new value.
+For *citation elements* that are *multi-valued* elements, the
+application needs to know both the old and the new *citation element
+value* so that it knows which value is being updated; for other elements
+it is not necessary to know the old value.
 
 ## Shorthand IRIs
 
