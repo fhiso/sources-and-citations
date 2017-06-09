@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 26 May 2017
+date: 9 June 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa

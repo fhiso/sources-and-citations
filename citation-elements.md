@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 26 May 2017
+date: 9 June 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
