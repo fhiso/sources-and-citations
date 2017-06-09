@@ -6,9 +6,9 @@ numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
 
-{.ednote ...} This is an **early draft** of the core part of FHISO's
-proposed suite of standards on Citation Elements.  This document is not
-endorsed by the FHISO membership, and may be updated, replaced or
+{.ednote ...} This is an **exploratory draft** of the core part of
+FHISO's proposed suite of standards on Citation Elements.  This document
+is not endorsed by the FHISO membership, and may be updated, replaced or
 obsoleted by other documents at any time. 
 
 In particular, some examples in this draft use *citation elements* that
@@ -25,7 +25,7 @@ This document defines the general concepts used in FHISO's suite of
 Citation Elements standards, and the basic framework and data model
 underpinning them.  Other standards in the suite are as follows:
 
-* **Citation Elements Vocabulary**.  This standard defines a collection of
+* **Citation Elements: Vocabulary**.  This standard defines a collection of
   *citation elements* allowing the representation of information
   normally found in *formatted citations* to diverse types of source.
 
@@ -165,11 +165,7 @@ instruction of the user, but *may* opt not to display them.
 
 A **citation element set** is a collection of *citation elements* that
 completely encode the information about a *source* required to produce a
-*formatted citation*.  Given a *citation element set* (and any necessary
-internal state), an application should be able to produce
-algorithmically a *formatted citation* in any mainstream citation style;
-they need not use every *citation element* in doing so if the style
-dictates that certain information is omitted in certain contexts.
+*formatted citation*.  
 
 {.example ...}  The example *formatted citation* to *Les ancêtres de
 Charlemagne* is represented by a *citation element set* containing the
@@ -190,6 +186,26 @@ readily parse them to convert them to the required format because their
 format is defined by this standard.
 {/}
 
+Given a *citation element set* (and any necessary internal state), an
+application ought to be able to produce algorithmically a *formatted
+citation* in a reasonable approximation to any mainstream citation
+style.  If higher quality *formatted citations* are desirable,
+applications *should* allow users to manually edit them to fine-tune their
+presentation, and *should* store the result of reuse.  *Formatted
+citations* need not include all the information from a *citation element
+set* if the style dictates that certain information is omitted in the
+relevant context.
+
+{.note}  Producing *formatted citations* of a professional quality
+following a particular style guide is a difficult art about which books
+have been written.  This standard does not require applications to
+produce *formatted citations*, and throughout this suite of standards,
+there is no expectation that an application choosing to do so should be
+able to do more than a "reasonable approximation" of generating
+*formatted citations* automatically.  That is why this standard
+recommends that users be allowed to fine-tune them by hand if high
+quality *formatted citations* are required.
+
 *Citation element sets* *should not* include *citation elements* for
 information that is not normally included in a *formatted citation*. 
 They are not intended to provide a general mechanism for storing
@@ -197,7 +213,9 @@ arbitrary information about *sources*.
 
 {.example} *Formatted citations* do not normally include details such as
 the email addresses, phone numbers or academic affiliations of authors,
-so they should not be included in the *citation element set*.
+so they should not be included in the *citation element set*.  A more
+general mechanism for describing *sources* may well include such
+elements, but they are beyond the scope of this standard.
 
 ### Characters and strings
 
