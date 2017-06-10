@@ -522,7 +522,7 @@ listed afterwards.
 
 *Conformant* applications *may* reorder the *translation set*, but
 *must* leave the first *string* first, so that applications wishing to
-use the orignal, untranslated, untransliterated form can do so.
+use the original, untranslated, untransliterated form can do so.
 
 {.note} A standard may define a serialisation format that does not
 preserve the order of a *translation set*, but *must* take alternative
