@@ -430,7 +430,7 @@ original IRI.
 
 {.note}  This requirement ensures that *citation element names* can be
 used in a context where a URI is required, and that the original IRI can
-be regenerated, for example for comparision with a list of known IRIs.
+be regenerated, for example for comparison with a list of known IRIs.
 The vast majority of IRIs, including those in non-Latin scripts, have
 this property.  The effect of this requirement is to prohibit the use of
 IRIs that are already partly converted to a URI, for example through the
@@ -494,7 +494,7 @@ is a *translation set*.  This might contain, in order:
 translation is not involved.  They are also used where transliteration
 or other localisation may be needed.  An author' name is rarely
 translated in usual sense, but may be transliterated.  Andalusian
-historian <span dir="rtl">صاعد الأندلسي</span> might be translitered
+historian <span dir="rtl">صاعد الأندلسي</span> might be transliterated
 "Ṣā‘id al-Andalusī" in the Latin script.  These two values would still
 belong in a *translation set* despite not being translations.  They
 would be tagged `ar` and `ar-Latn`, meaning the Arabic language in its
@@ -570,7 +570,7 @@ directly.
 
 In addition to describing the intended purpose of the *citation
 element*, the definition of a *citation element* (regardless of whether
-it is one of those defined in this standard, or whether it is an
+it is one of those defined in this standard, or whether it is a
 *conformant extension citation element*) *shall* state:
 
 *   its *citation element name* (an IRI);
@@ -617,7 +617,7 @@ which contains the party to whom a *source* such as a letter is
 addressed.  In many respects it is similar to the *sub-elements* of
 `creatorName`, but because a recipient of a letter cannot be said to
 have created or contributed to the creation of the letter, and might not
-even be aware of its existance if it were not delivered, the
+even be aware of its existence if it were not delivered, the
 `recipientName` element cannot be defined as a *sub-element* of
 `creatorName`.
 {/}
@@ -723,7 +723,7 @@ value.  *Citation elements* that are not *multi-valued* are
 A *citation element set* *must not* contain more than one *citation
 element* with the same *layer identifier* and *citation element name*,
 unless the *citation element* is defined as being *multi-valued*.  If an
-application encouters a *citation element set* containing multiple
+application encounters a *citation element set* containing multiple
 instances of a *single-valued* *citation element*, it *may* remove the
 second and subsequent instance, or if the *citation element* is
 *translatable* it *may* merge the second and subsequent *translation
