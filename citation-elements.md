@@ -513,8 +513,8 @@ respelling would be tagged `eo`, the language code for Esperanto.
 
 {.note} Frequently *translation sets* will contain only a single
 *string*.  Although the *language tags* is *required*, it need not be
-explicit in the serialisation.  A serialisation format *may* provide a
-mechanism for stating the document's default *language tag*, and *may*
+explicit in the serialisation.  A serialisation format may provide a
+mechanism for stating the document's default *language tag*, and may
 provide a global default such as `und`, defined in 
 &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)] to mean the
 language is undetermined.
