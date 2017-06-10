@@ -123,10 +123,10 @@ register.  These are two separate *citation layers*.
 
 A **formatted citation** is a *citation* that has been rendered into
 human-readable form, typically as a sentence or short paragraph that
-might be used as a footnote, endnote or bibliography entry.  There is no
-single standard on the correct form of *formatted citations*; many
-different style guides exist, each giving their own rules on how to
-construct a *formatted citation*.
+might be used as a footnote, endnote, tablenote or bibliography entry.
+There is no single standard on the correct form of *formatted
+citations*; many different style guides exist, each giving their own
+rules on how to construct a *formatted citation*.
 
 {.example ...}  A *formatted citation* produced for use in a footnote on
 the first use of the *source*, and conforming to [Chicago] might read:
