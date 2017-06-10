@@ -707,9 +707,6 @@ The *class name* for the *class* of *strings* is:
 
     http://www.w3.org/2001/XMLSchema#string
 
-{.ednote} Read XML Schema re the difference between plain literals,
-`xsd:string`s, and plain literals tagged with a *language tag*.
-
 If an application encounters a *citation element value* that does not
 conform to the definition of the *class* used as the *range* of the
 *citation element*, it *may* remove the *citation element* or *may*
@@ -829,8 +826,6 @@ Cardinality      multi-valued
 Translatability  translatable
 Super-element    *none*
 ------           -----------------------------------------------
-
-{.ednote}  Check that `xsd:string` is correct.
 
 In a *list-flattening format*, an application *must* consider every
 value to be a separate *citation element value*, and therefore to be a
