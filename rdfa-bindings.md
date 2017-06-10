@@ -178,9 +178,9 @@ This standard makes use of the following attributes:
    element* per §3.2 and is not processed by this standard.
 
 *  The `property` attribute contains a *citation element name* as per
-   §4.2.  Full support for its RDFa sematics is *required*, other than
+   §4.2.  Full support for its RDFa semantics is *required*, other than
    when it is used in constructs that define *source-exclusion
-   elements*, and except for the special beaviour RDFa gives to an
+   elements*, and except for the special behaviour RDFa gives to an
    `rdfa:copy` property for which support is *optional*.
 
 *  The `content` attribute can be used to represent a *citation element
@@ -208,7 +208,7 @@ This standard makes use of the following attributes:
  
 *  The `datatype` attribute is used in this standard to determine the
    type of the *citation element value* in certain situations.  Full
-   support for its RDFa sematics is *recommended*, except when the
+   support for its RDFa semantics is *recommended*, except when the
    presence of the attribute affects the determination of the *citation
    element value* per §6.3.  Any unsupported use of this attribute
    *shall* be ignored, 
@@ -442,7 +442,7 @@ attribute.
 The `prefix` attribute on the `<div>` defines two *local prefix
 mappings*, one for the `cev` *prefix*, the other for the `dc` *prefix*.
 The `dc` *local prefix mapping* is overridden by the `prefix` atribute on the
-`<i>` element; the `cev` *local prefix mapping* has not been overriden
+`<i>` element; the `cev` *local prefix mapping* has not been overridden
 and remains in operation.
 {/}
 
@@ -508,7 +508,7 @@ tagging *citation elements* it is important not to mix the *citation
 elements* from one *formatted citation* with those of another.
 
 *Citation elements* are identified using `property` attributes.  However
-a `property` attribute *shall* only be interpretted as representing a
+a `property` attribute *shall* only be interpreted as representing a
 *citation element* if:
 
 *   it is on an element contained inside a *source-type element* (but
@@ -561,7 +561,7 @@ attribute is required.
 ### Source-exclusion elements
 
 {.note} The concept of a *source-exclusion element* is necessary to
-prevent a parser from misinterpretting `property` attributes that are
+prevent a parser from misinterpreting `property` attributes that are
 part of more complex RDFa constructs which this standard does not
 require to be supported.  Future FHISO standards may make use of some of
 these RDFa constructs and this restriction also allows for forwards
@@ -640,7 +640,7 @@ produce an RDF triples whose subject has the following RDF type:
 In addition, applications supporting a larger part of RDFa *may* discard
 triples where the object is an RDF blank node.
 
-{.note}  This standard is designed to allow implementors to parse those
+{.note}  This standard is designed to allow implementers to parse those
 RDFa constructs used without having to consider how they map to RDF.
 The preceding text is only of relevant if an implementor wishes to make
 greater use of the RDF features underlying RDFa.
@@ -650,7 +650,7 @@ greater use of the RDF features underlying RDFa.
 As defined in the [CEV Concepts] standard, a *citation element* consists
 of three components:
 
-*  an *optional* *layer identifer*;
+*  an *optional* *layer identifier*;
 *  a *required* *citation element name*; and
 *  a *required* *citation element value*, which shall either be a
    *string* or a *translation set*.
@@ -818,7 +818,7 @@ a `datetime` attribute, the *current propetry value* *shall* be the
 value of the `datetime` attribute.
 
 {.ednote} Consider adding support for the `<date>` element, even without
-a `datatime` attribute, if the *host language* is HTML.
+a `datetime` attribute, if the *host language* is HTML.
 
 Otherwise, in HTML or in other XML languages that support an `href`
 attribute, if the *current element* has an `href` attribute and no
@@ -989,7 +989,7 @@ attributes may be used on an HTML element.  In particular, the
 This *formatted citation* is correctly tagged with the *language tag* `en`
 denoting English.   This is because, even though the book's title is
 French, the citation as a whole is in English.  Had the citation been
-writen in French, the edition would have been written "2ᵉ éd" rather
+written in French, the edition would have been written "2ᵉ éd" rather
 than "2nd ed".
 
 This example contains three *citation elements*.  The `authorName` and
@@ -1031,7 +1031,7 @@ When an application has both a *formatted citation* tagged with RDFa
 attributes per this standard and a *citation element set* for the same
 *citation*, the two will typically have much content in common.  This
 introduces the possibility that the data in the two places becomes
-unsychronised.  This section discusses ways of avoiding this.
+unsynchronised.  This section discusses ways of avoiding this.
 
 In general, applications *should* consider information from the
 *citation element set* to have precedence over information extracted
