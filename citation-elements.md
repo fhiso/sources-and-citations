@@ -539,7 +539,9 @@ the untranslated, and ideally untransliterated form of the *citation
 element value*.  If it is known that the only available values are
 translations, the first *string* in the *translation set* *should* be an
 empty string tagged with the *language tag* `und`, and the translations
-listed afterwards.
+listed afterwards.  An empty *string* in a *translation set* means that
+its value is unknown, rather than that this particular translation is
+literally an empty string.
 
 *Conformant* applications *may* reorder the *translation set*, but
 *must* leave the first *string* first, so that applications wishing to
