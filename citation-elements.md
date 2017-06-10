@@ -744,14 +744,18 @@ If a *citation element* is defined to be **translatable**, then its
 *citation element values* such as numbers or dates *must* be defined
 as not *translatable*.
 
-If an application encounters a *citation element* whose *citation
-element value* is a *translation set*, but where the application knows
-the *citation element* to be defined as not *translatable*, the
-application *may* convert the *translation set* to a *string* by
-discarding all but the first *string* in the *translation set*.  If the
-*translation set* contains only one *string*, and if that *string*
+If an application encounters a *citation element* which is known to be
+not *translatable*, but whose *citation element value* is a *translation
+set*, the application *may* convert the *translation set* to a *string*
+by discarding all but the first *string* in the *translation set*.  If
+the *translation set* contains only one *string*, and if that *string*
 conforms to the *range* of the *citation element*, this conversion
 *should* be done.  
+
+{.note} This situation may arise when an *extension citation element*
+has been serialised in a *list-flattening format* by an application that
+does not know whether it is *translatable*, and subsequently read by an
+application that knows it not to be *translatable*.
 
 If an application encounters a *citation element* whose *citation
 element value* is a *string*, but where the application knows the
@@ -760,6 +764,9 @@ element value* is a *string*, but where the application knows the
 the *language tag* `und` (defined in 
 &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)]
 as representing an undetermined language).
+
+{.ednote} This scenario should not arise when data has consistently
+been processed by *conformant* applications.
 
 #### List-flattening formats
 
