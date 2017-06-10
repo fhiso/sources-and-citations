@@ -811,7 +811,9 @@ authors there are, and which names are translations of which others.
       { "name": "http://terms.fhiso.org/terms/authorName",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
-This is an example of a *list-flattening format*.
+This is an example of a *list-flattening format* that does not conform
+to this specification; a *list-flattening format* that does conform to
+this specification is found in the next example.
 {/}
 
 A serialisation format that does not keep the *translation sets* of each
