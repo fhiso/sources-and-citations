@@ -427,7 +427,7 @@ attribute *must* contain an even number of whitespace separated tokens:
 the first and every subsequent odd token must be an `NCName` followed by
 a colon; the second and every subsequent even token must be an IRI.  The
 `NCName` is the *prefix* and the IRI is its *prefix mapping*.  The
-mapping applies to the element where it is specifide and to all elements
+mapping applies to the element where it is specified and to all elements
 in its content unless overridden.
 
 {.example ...}  The following is an example of a well-formed `prefix`
@@ -441,9 +441,9 @@ attribute.
 
 The `prefix` attribute on the `<div>` defines two *local prefix
 mappings*, one for the `cev` *prefix*, the other for the `dc` *prefix*.
-The `dc` *local prefix mapping* is overridden by the `prefix` atribute on the
-`<i>` element; the `cev` *local prefix mapping* has not been overridden
-and remains in operation.
+The `dc` *local prefix mapping* is overridden by the `prefix` attribute
+on the `<i>` element; the `cev` *local prefix mapping* has not been
+overridden and remains in operation.
 {/}
 
 The *prefix* consisting of a single underscore character (U+005F) has
