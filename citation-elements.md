@@ -512,12 +512,27 @@ to Esperanto orthography, while the final "o" marks it as a noun.  The
 respelling would be tagged `eo`, the language code for Esperanto.
 
 {.note} Frequently *translation sets* will contain only a single
-*string*.  Although the *language tags* is *required*, it need not be
-explicit in the serialisation.  A serialisation format may provide a
-mechanism for stating the document's default *language tag*, and may
-provide a global default such as `und`, defined in 
-&#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)] to mean the
-language is undetermined.
+*string*, and often most of the *strings* in *translation sets* in a
+given document will be in the same language.
+
+Although the *language tags* is *required*, it need not be explicit in
+the serialisation.  A serialisation format *may* provide a mechanism for
+stating the document's default *language tag*, and *may* provide a global
+default which *should* be a language-neutral choice such as `und`,
+defined in &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)] to
+mean an undetermined language.  In the absence of an explicit or
+implicit *language tag*, applications *must not* apply their own
+default, and *must* treat the *string* as if it had the *language tag*
+`und`. 
+
+{.example} The [CEV RDFa] standard provides a means for *citation
+elements* to be extracted from HTML, and uses HTML's `lang` attribute to
+provide a default *language tag* for the document or a part of the
+document.  Thus, if the document begins `<html lang="pt_BR">`, it is not
+necessary to tag each *string* separately for them to be understood to
+be in Brazilian Portuguese.  HTML does not define a default *language
+tag* that applies in the absence of a `lang` tag, and applications 
+*must not* apply one.
 
 Where possible, the first *string* in the *translation set* *should* be
 the untranslated, and ideally untransliterated form of the *citation
@@ -941,6 +956,11 @@ than in *list-flattening formats* is *not recommended*.
     Recommendation.  (See <https://www.w3.org/TR/xml11/>.)
 
 ### Other references
+
+[CEV RDFa]
+:   FHISO (Family History Information Standards Organisation).
+    *Citation Elements: Bindings for RDFa".  Early draft of standard.
+    See <http://tech.fhiso.org/drafts/rdfa-bindings>.
 
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
