@@ -638,21 +638,8 @@ correspond to concept of a restriction in §2.4.3 of
 &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].)   At the moment
 there is no clear use case for this.
 
-All *sub-elements* and their *super-elements* *shall* be *multi-valued*.
-
-{.ednote ...}  If there is a use-case for *single-valued* *sub-elements*
-with *super-elements* of either *cardinality*, it could be accommodated
-in this model at the cost of extra complexity.  The following paragraph
-is a broader alternative to the previous requirement.
-
-A *sub-element* of a *single-valued* *citation element* *must* also be
-defined as *single-valued*.  If all *sub-elements* of *single-valued*
-*citation elements* in a *citation element set* are replaced by their
-*super-element*, recursively until no *sub-elements* of *single-valued*
-*citation elements* exist, the *citation element set* *must not* contain
-more than one *single-valued* *citation element* with any given *layer
-identifier* and *citation element name*.
-{/}
+Any *sub-element* of a *single-valued* *super-element* *must* be
+*single-valued*.
 
 A *citation element's* **ultimate super-element** is defined inductively
 as follows.  If the *citation element* is not a *sub-element* of any
@@ -669,6 +656,9 @@ A *citation element set* *must not* contain more than one *citation
 element* with the same *layer identifier* and *ultimate super-element*,
 unless the *ultimate super-element* is defined as being *multi-valued*.
 
+{.ednote}  This fails to handle the case where the *citation elements*
+have a common *super-element* that is declared to be *single-value*, but
+the *ultimate super-element* is *multi-valued*.
 
 ### Range
 
