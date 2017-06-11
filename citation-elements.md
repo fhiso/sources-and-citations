@@ -557,13 +557,26 @@ order.  One possible solution is to append some private use subtag (per
 §2.2.7 of &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the
 first *language tag*.
 
-A *translation set* *should not* contain more than one *string* with the
+A *translation set* *must not* contain more than one *string* with the
 same *language tag*.  If an application encounters a *translation set*
-with duplicate *language tags*, or would create one through merging
-*translation sets*, it *should* prefer the first *string*, and *may*
-drop the second and subsequent *strings* with that *language tags*; it
-*should not* drop duplicate *strings* if the *translation set* has been
-reordered from its serialised form.
+with duplicate *language tags*, it *should* prefer the first non-empty
+*string* with that *language tag*, and *may* *deduplicate* the
+*translation set*; where possible it *should not* *deduplicate* a
+*translation set* that has been reordered from its serialised form.
+
+To **deduplicate** a *translation set*, the application *shall* discard
+all *strings* other than the first non-empty *string* with any given
+*language tag*.  Before discarding any *strings* the application *shall*
+note the *language tag* of the first *string* in the *translation set*.
+If a *string* with that *language tag* remains after *deduplication*,
+the application *shall* ensure it is the first *string* in the
+*deduplicated* *translation set*; if there is not, the application shall
+insert any empty *string* with that *language tag* as the first *string*
+in the *translation set*.
+
+If an application needs to **merge** two or more *translation sets*, the
+contents of each *translation sets* *shall* be combined in order, and
+the application *must* *deduplicate* the resultant *translation set*.
 
 {.ednote ...} An earlier draft of this standard put the *language tag* in
 the *citation element*, and made the *citation element value* a list.
@@ -658,24 +671,39 @@ there is no clear use case for this.
 Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
 
-A *citation element's* **ultimate super-element** is defined inductively
-as follows.  If the *citation element* is not a *sub-element* of any
-other *citation element*, then it is defined to be its own *ultimate
-super-element*.  Otherwise, its *ultimate super-element* is the
-*ultimate super-element* of its *super-element*.
+A *citation element's* **super-element list** is an ordered list of IRIs
+defined inductively as follows.  If the *citation element* is not a
+*sub-element*, then its *super-element list* contains just its *citation
+element name*.  Otherwise, its *super-element list* is the
+*super-element list* of its *super-element* to which its own *citation
+element name* is appended.
 
-{.note}  This definition of an *ultimate super-element* follows the
-(possibly empty) chain of *super-elements* until it reaches something
-that is not a *sub-element*.  It is used in specifying how applications
-are permitted to reorder *citation element sets*.
+A *citation element's* **ultimate super-element** is defined as the
+first IRI in its *super-element list*.
 
-A *citation element set* *must not* contain more than one *citation
-element* with the same *layer identifier* and *ultimate super-element*,
-unless the *ultimate super-element* is defined as being *multi-valued*.
+{.note}  This definition is equivalent to following the (possibly empty)
+chain of *super-elements* until it reaches something that is not a
+*sub-element*.  It is used in specifying how applications are permitted
+to reorder *citation element sets*.
 
-{.ednote}  This fails to handle the case where the *citation elements*
-have a common *super-element* that is declared to be *single-value*, but
-the *ultimate super-element* is *multi-valued*.
+The **ultimate single-valued super-element** of a *single-valued*
+*citation element* is defined as the first IRI in its *super-element
+list* that is the name of an *citation element* that is *single-valued*.
+
+{.note}  This definition is equivalent to following the (possibly empty)
+chain of *super-elements*, stopping at the last *single-valued* element
+in the chain.  It is used in specifying the constraints on
+*sub-elements* that are *single-valued*.
+
+The **most-refined common super-element** of a collection of *citation
+elements* is defined as the last IRI that appears in the *super-element
+list* of every *citation elements* in the collection.  It is only
+defined for *citation elements* that share a *ultimate super-element*.
+
+{.note} This definition is equivalent to following the chains of
+*super-elements* for each *citation element*, stopping at the first
+element that appears in each chain.  It is used in specifying how to
+*merge* *citation elements*.
 
 ### Range
 
@@ -730,15 +758,6 @@ translations, or variant forms of something that is logically a single
 value.  *Citation elements* that are not *multi-valued* are
 **single-valued**.
 
-A *citation element set* *must not* contain more than one *citation
-element* with the same *layer identifier* and *citation element name*,
-unless the *citation element* is defined as being *multi-valued*.  If an
-application encounters a *citation element set* containing multiple
-instances of a *single-valued* *citation element*, it *may* remove the
-second and subsequent instance, or if the *citation element* is
-*translatable* it *may* merge the second and subsequent *translation
-sets* into the first.
-
 {.example}  The `http://terms.fhiso.org/sources/title` *citation
 element* is defined to be *single-valued*, as *citations* do not refer
 to the same *sources* by different titles (though it may translate or
@@ -748,15 +767,73 @@ transliterate the title), so the *citation element set* for a
 *citation elements*, as that is defined to be *multi-valued* to
 accommodate *sources* with several authors.
 
+Multiple instances of *single-valued* *citation element* in the same
+*citation element set* with the same *layer identifier* and
+*ultimate single-valued super-element* are known as **duplicate citation
+elements**.  *Citation element sets* *should not* contain *duplicate
+citation elements*, and an application *must not* knowingly create
+*duplicate citation elements*.  When *duplication citation elements* are
+present, they can be **deduplicated** according to the rules below.
+
+{.note} Applications might inadvertently create *duplicate citation
+elements* when they do not know the *super-element* or *cardinality* of
+*extension citation elements*.
+
+If an application encounters a *duplicate citation element* that is
+known to be not *translatable*, the application *should* favour the
+first of the *duplicate citation elements* and *may* *deduplicate* the
+*citation element set* by discarding the other *duplicate citation
+elements*.
+
+If an application encounters a *duplicate citation element* that is
+either known to be *translatable* or whose *translatability* is unknown,
+the application *should* *deduplicate* the *citation element set* by
+replacing the *duplicate citation elements* with a single replacement
+*citation element* with the following properties:
+
+*  the *layer identifier* shared by each of the *duplicate citation
+   elements*;
+*  a *citation element name* which *shall* be the *most-refined common
+   super-element* of the *duplication citation elements*; and
+*  a *citation element value* which *shall* be a *translation set*
+   created by *merging* the *translation sets* of each *duplicate
+   citation element*.
+
+
+{.note} There is no requirement for an application to check for
+*duplicate citation elements* and *deduplicate* them other than when
+merging *citation element sets*, though an application *may* do so at
+other times.  In particular, it might be advisable for an application to
+do this when importing third-party data, or if it has recently learnt of
+new *extension citation elements*.
+
+{.ednote ...}  This standard needs to define how to merge *citation
+element sets*.  The following text is a start towards that.
+
+> If an application needs to **merge** two or more *citation element
+> sets*, the contents of each *citation element set* shall be combined
+> in order.  The application *shall* identify any sets of *duplicate
+> citation elements* in the combined *citation element set* and
+> *deduplicate* them according to the rules above.  An application *may*
+> use one or more *discovery* mechanism to attempt to obtain
+> machine-readable definitions of any *extension citation element* used
+> in the *citation element set* before identifying *duplicate citation
+> elements*.
+
+However the merger of *multi-valued* elements requires thought too.
+Even though the data model doesn't require deduplication, it is still
+necessary to prevent duplication of, say, authors.
+{/}
+
 ### Translatability
 
 If a *citation element* is defined to be **translatable**, then its
 *citation element value* *shall* be a *translation set*, and the
 *citation element's* *range* applies to each *string* in the
-*translation set*.  If it is not *translatable*, then the *value*
-*shall* be a single *string*.  *Citation elements* with non-textual
-*citation element values* such as numbers or dates *must* be defined
-as not *translatable*.
+*translation set*.  If it is not *translatable*, then the *citation
+element value* *shall* be a single *string*.  *Citation elements* with
+non-textual *citation element values* such as numbers or dates *must* be
+defined as not *translatable*.
 
 If an application encounters a *citation element* which is known to be
 not *translatable*, but whose *citation element value* is a *translation
