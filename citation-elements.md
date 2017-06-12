@@ -881,7 +881,7 @@ authors there are, and which names are translations of which others.
       { "name": "http://terms.fhiso.org/terms/authorName",
         "lang": "en",      "value": "Lord Lansdowne" },
       { "name": "http://terms.fhiso.org/terms/authorName",
-        "lang": "jp",      "value": "林 董"          },
+        "lang": "jp",      "value": "林 董" },
       { "name": "http://terms.fhiso.org/terms/authorName",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
@@ -933,7 +933,7 @@ transliterated version of Hayashi's name:
       { "name": "http://terms.fhiso.org/terms/authorName",
         "lang": "en",      "value": "Lord Lansdowne" },
       { "name": "http://terms.fhiso.org/terms/authorName",
-        "lang": "jp",      "value": "林 董"          },
+        "lang": "jp",      "value": "林 董" },
       { "name": "http://terms.fhiso.org/terms/translatedElement",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
