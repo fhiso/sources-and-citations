@@ -1112,7 +1112,7 @@ several other instances of RDFa attributes that will not be detected as
 
 [CEV Concepts]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: General Concepts".  Early draft of standard.
+    *Citation Elements: General Concepts".  Exploratory draft of standard.
     See <http://tech.fhiso.org/drafts/cev-concepts>.
 
 [RDFa Core]

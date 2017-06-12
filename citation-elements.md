@@ -1035,7 +1035,7 @@ than in *list-flattening formats* is *not recommended*.
 
 [CEV RDFa]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: Bindings for RDFa".  Early draft of standard.
+    *Citation Elements: Bindings for RDFa".  Exploratory draft of standard.
     See <http://tech.fhiso.org/drafts/rdfa-bindings>.
 
 [Chicago]
