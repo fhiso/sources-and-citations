@@ -104,22 +104,22 @@ including manuscripts, artefacts, books, films, people, recordings and
 websites.  A full mechanism for describing *sources* is
 beyond the scope of this standard.
 
+A **source derivation** is a directional link between two *sources*,
+indicating that the first *source* was derived from, cites or otherwise
+references the second *source*. 
+
+{.note} The term "derivation" is used very broadly in this standard,
+and includes relationships that might not normally be considered
+derivative.  A *source derivation* exists between a digitisation,
+translation, transcription or index and the original document.  A
+*source derivation* exists between a published genealogy and each
+*source* it cites.  A *source derivation* also exists between a paper
+and a earlier paper which it is rebutting.
+
 A **citation** is an abstract reference to a specific *source* from
 which information has been used in some context.  It *should* include
 sufficient detail that a third-party could readily locate the
 information themselves, assuming the *source* remains accessible.
-
-A **layered citation** is a *citation* that includes information about
-the *sources* from which the referenced *source* was derived, in
-addition to information about the referenced *source*.  The information
-in a *layered citation* about a specific *source* (whether the consulted
-*source* or one of *sources* from which it was derived) is known as a
-**citation layer**.  A *citation* with just a single *citation layer*
-(being for the consulted *source*) is a **non-layered citation**.
-
-{.example} A *citation* to a parish register that was consulted on
-microfilm might contain information about the microfilm and about the
-register.  These are two separate *citation layers*.
 
 A **formatted citation** is a *citation* that has been rendered into
 human-readable form, typically as a sentence or short paragraph that
@@ -137,8 +137,36 @@ the first use of the *source*, and conforming to [Chicago] might read:
 The ^1^ at the start of the citation is the hypothetical footnote number.
 {/}
 
+A **layered citation** is a *citation* that includes information about
+several *sources* between which *source derivation links* exist.  The
+information in a *layered citation* about a specific *source*, whether
+the consulted *source* or one of *sources* from which it was derived, is
+known as a **citation layer**.  The *citation layer* containing the
+information about the specific *source* which was consulted is known as
+the **head citation layer**.  
+
+{.example ...} A *citation* to a census return that was consulted on
+microfilm might contain information about the microfilm and as well as
+information about the census return, as in the following *formatted
+citation* from [Evidence Explained]: 
+
+> 1810 U.S. census, York County, Maine, town of York, p.&nbsp;435
+> (penned), line 9, Jabez Young; NARA microfilm publication M252, roll
+> 12.
+
+In this example, the information before the semicolon pertains to the
+census return, while the information after it pertains to the microfilm.
+The microfilm and the census return are different *sources*, and a
+*source derivation* exists between them as the microfilm is derived from
+the census return.  The information in the *citation* about microfilm
+forms the *head citation layer*, while the information about the
+census return forms a separate *citation layer*.  As the *citation*
+contains two *citation layers*, it is an example of a *layered
+citation*.
+{/}
+
 A **citation element** is a logically self-contained piece of
-information about a *source* that might reasonably be included in a
+information in a *citation layer* that might reasonably be included in a
 *formatted citation*.  As this standard does not aim to provide
 facilities for the exhaustive description of *sources*, information
 about *sources* that is not normally included in *formatted citations*
@@ -152,9 +180,9 @@ published is an example of a *citation element*.  An American researcher
 might write the date as "Oct 8th, 2000", while the same date might be
 written "zo. 8 okt. 2000" by a Dutch researcher.  The *citation element*
 should use neither of these as its representation of the date and adopt
-a language-neutral format such as one based on [ISO 8601].
+a language-neutral format, such as one based on [ISO 8601].
 
-The accompanying Citation Elements Vocabulary standard defines many
+The accompanying Citation Elements: Vocabulary standard defines many
 *citation elements*, covering the information normally found in
 *formatted citations* to a wide range of common *sources*.  Applications
 *may* define their own *citation elements* or use those defined by a
@@ -164,8 +192,8 @@ unrecognised *extension citation elements*, other than at the
 instruction of the user, but *may* opt not to display them.
 
 A **citation element set** is a collection of *citation elements* that
-completely encode the information about a *source* required to produce a
-*formatted citation*.  
+completely encode the information about a *source* that is present in a
+particular *citation layer*.
 
 {.example ...}  The example *formatted citation* to *Les ancêtres de
 Charlemagne* is represented by a *citation element set* containing the
@@ -186,7 +214,10 @@ readily parse them to convert them to the required format because their
 format is defined by this standard.
 {/}
 
-Given a *citation element set* (and any necessary internal state), an
+When provided with the *citation element set* for each *citation layer*
+in the *citation*, knowledge of which is the *head citation layer*,
+information about the *source derivations* between *sources* referred to
+in each *citation layer*, and any necessary internal state, an
 application ought to be able to produce algorithmically a *formatted
 citation* in a reasonable approximation to any mainstream citation
 style.  If higher quality *formatted citations* are desirable,
@@ -201,7 +232,7 @@ following a particular style guide is a difficult art about which books
 have been written.  This standard does not require applications to
 produce *formatted citations*, and throughout this suite of standards,
 there is no expectation that an application choosing to do so should be
-able to do more than a "reasonable approximation" of generating
+able to do better than a "reasonable approximation" when generating
 *formatted citations* automatically.  That is why this standard
 recommends that users be allowed to fine-tune them by hand if high
 quality *formatted citations* are required.
@@ -295,31 +326,31 @@ latest edition of XML 1.1 specification are definitive.
 ## Citations elements
 
 In the data model defined by this standard, a *citation element*
-consists of three parts: 
+consists of two parts, both of which are *required*: 
 
-*  an optional *layer identifier*, identifying the *citation layer*
-   to which the *citation element* applies;
 *  a name, called the *citation element name*; and
 *  a value, called the *citation element value*.
 
-{.ednote}  An earlier draft included a fourth part, a *language tag*.
-This has been moved to the *citation element value* in the
+{.ednote}  Earlier drafts of this standard included two other parts: a
+*layer identifier* and a *language tag*.  The *layer identifier* has
+been made an implementation detail of the serialisation, and the
+*language tag* has been moved to the *citation element value* in the
 form of a *translation set*.
 
 A *citation element set* is defined to be an ordered list of *citation
-elements*; however *conformant* applications *may* reorder the list
+elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *layer identifier* and *ultimate super-element*.
+   have the same *ultimate super-element*.
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
    `http://terms.fhiso.org/sources/translatedElement`, the previous
    element in *citation element set* with a different *citation element
    name* is referred to as its **translation base**.  The *translation
-   base* of any such *citation element* must not change if a *citation
-   element set* is reordered.
+   base* of any `translatedElement` *citation element* must not change
+   if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
 `translatedElement`s per §3.4.1 of this standard, and then removing them
@@ -331,12 +362,6 @@ as JSON and RDF do not guarantee to preserve the order of elements in
 certain important serialisation mechanisms: for example, object members
 in JSON and triples in RDF other than when RDF containers are used.
 
-### Layer identifiers
-
-{.ednote} This draft does not yet address the form of the *layer
-identifier*, and it is probable the data model will be updated so
-that each *citation layer* has its own *citation element set*.
-
 ### Citation elements names
 
 The **citation element name** is an identifier used to identify what
@@ -344,9 +369,8 @@ information the *citation element* contains.  It is a *string* that
 *shall* take the form of an IRI matching the `IRI` production in §2.2 of
 &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].
 
-{.example ...}  The Citation Element Vocabulary standard defines a
-*citation element* for the title of a *source*.  It has the *citation
-element name*
+{.example ...}  The [CEV Vocabulary] defines a *citation element* for
+the title of a *source*.  It has the *citation element name*
 
     http://terms.fhiso.org/sources/title
 {/}
@@ -454,11 +478,11 @@ of unnecessary punycode-encoding.
 The **citation element value** is the content of the *citation element*.
 The *citation element value* *shall* be a *translation set* if the
 *citation element* contains textual data that is in a particular
-language or script which cannot automatically be translated or
+language or script and which cannot automatically be translated or
 transliterated as required.  Otherwise it *shall* be a *string*.
 
 {.example ...}  A book published in 2015 would have its year of
-publication be encoded in a *citation element* with:
+publication encoded in a *citation element* with:
 
 *    the *name* `http://terms.fhiso.org/sources/publicationDate`; and
 *    a *value* comprising the *string* "`2015`".
@@ -502,14 +526,15 @@ or other localisation may be needed.  An author' name is rarely
 translated in usual sense, but may be transliterated.  Andalusian
 historian <span dir="rtl">صاعد الأندلسي</span> might be transliterated
 "Ṣā‘id al-Andalusī" in the Latin script.  These two values would still
-belong in a *translation set* despite not being translations.  They
-would be tagged `ar` and `ar-Latn`, meaning the Arabic language in its
-default script and in the Latin script, respectively.  An author's names
-may also be respelled to conform to the spelling and grammar rules of
-the reader's language.  An Englishman named Richard may be rendered
-"Rikardo" in Esperanto: the change of the "c" to a "k" being to conform
-to Esperanto orthography, while the final "o" marks it as a noun.  The
-respelling would be tagged `eo`, the language code for Esperanto.
+belong in a *translation set* despite being transliterations rather than
+translations.  They would be tagged `ar` and `ar-Latn`, meaning the
+Arabic language in its default script and in the Latin script,
+respectively.  An author's names may also be respelled to conform to the
+spelling and grammar rules of the reader's language.  An Englishman
+named Richard may be rendered "Rikardo" in Esperanto: the change of the
+"c" to a "k" being to conform to Esperanto orthography, while the final
+"o" marks it as a noun.  The respelling would be tagged `eo`, the
+language code for Esperanto.
 
 {.note} Frequently *translation sets* will contain only a single
 *string*, and often most of the *strings* in *translation sets* in a
@@ -629,8 +654,8 @@ if it were the *super-element*, with its *value* unchanged.  The
 some loss of meaning, and does not imply anything false about the cited
 *source*.
 
-{.example ...}  The Citation Elements Vocabulary defines a *citation
-element* with the name 
+{.example ...}  The [CEV Vocabulary] defines a *citation element* with
+the name 
 
     http://terms.fhiso.org/sources/creatorName
 
@@ -644,8 +669,7 @@ which contains the name of an interviewer when the *source* is an
 interview.  An interviewer can certainly be considered to have
 contributed to the creation of the interview.  
 
-The Citation Elements Vocabulary also defines a *citation element* with
-the name 
+The [CEV Vocabulary] also defines a *citation element* with the name 
 
     http://terms.fhiso.org/sources/recipientName
 
@@ -713,9 +737,8 @@ description of the set of possible *citation element values* for the
 *Classes* are identified by a **class name** which *shall* take the
 form of an IRI.
 
-{.example ...}  The Citation Elements Vocabulary standard defines a
-*class* for representing the names of authors and other people, which
-has the *class name* 
+{.example ...}  The [CEV Vocabulary] defines a *class* for representing
+the names of authors and other people, which has the *class name* 
 
     http://terms.fhiso.org/sources/AgentName
 
@@ -742,10 +765,10 @@ convert it to a valid value in an implementation-defined manner.
 
 {.example}  The *range* of the 
 `http://terms.fhiso.org/sources/publicationDate` element defined in the
-Citation Element Vocabulary is an [ISO 8601]-compatible date.  An
-application encountering a date "8 Okt 2000" in a `publicationDate`
-element in dataset that uses German as its default language *may*
-convert this to "`2000-10-08`".
+[CEV Vocabulary] is an [ISO 8601]-compatible date.  An application
+encountering a date "8 Okt 2000" in a `publicationDate` element in
+dataset that uses German as its default language *may* convert this to
+"`2000-10-08`".
 
 ### Cardinality
 
@@ -760,20 +783,20 @@ value.  *Citation elements* that are not *multi-valued* are
 
 {.example}  The `http://terms.fhiso.org/sources/title` *citation
 element* is defined to be *single-valued*, as *citations* do not refer
-to the same *sources* by different titles (though it may translate or
-transliterate the title), so the *citation element set* for a
-*non-layered citation* *must not* contain more than one `title`; but it
-*may* contain several `http://terms.fhiso.org/sources/authorName`
-*citation elements*, as that is defined to be *multi-valued* to
-accommodate *sources* with several authors.
+to the same *sources* by multiple titles (though they may translate or
+transliterate the title), so a *citation element set* *must not* contain
+more than one `title`; but it *may* contain several
+`http://terms.fhiso.org/sources/authorName` *citation elements*, as that
+is defined to be *multi-valued* to accommodate *sources* with several
+authors.
 
 Multiple instances of *single-valued* *citation element* in the same
-*citation element set* with the same *layer identifier* and
-*ultimate single-valued super-element* are known as **duplicate citation
-elements**.  *Citation element sets* *should not* contain *duplicate
-citation elements*, and an application *must not* knowingly create
-*duplicate citation elements*.  When *duplication citation elements* are
-present, they can be **deduplicated** according to the rules below.
+*citation element set* with the same *ultimate single-valued
+super-element* are known as **duplicate citation elements**.  *Citation
+element sets* *should not* contain *duplicate citation elements*, and an
+application *must not* knowingly create *duplicate citation elements*.
+When *duplication citation elements* are present, they can be
+**deduplicated** according to the rules below.
 
 {.note} Applications might inadvertently create *duplicate citation
 elements* when they do not know the *super-element* or *cardinality* of
@@ -791,8 +814,6 @@ the application *should* *deduplicate* the *citation element set* by
 replacing the *duplicate citation elements* with a single replacement
 *citation element* with the following properties:
 
-*  the *layer identifier* shared by each of the *duplicate citation
-   elements*;
 *  a *citation element name* which *shall* be the *most-refined common
    super-element* of the *duplication citation elements*; and
 *  a *citation element value* which *shall* be a *translation set*
@@ -1038,9 +1059,17 @@ than in *list-flattening formats* is *not recommended*.
     *Citation Elements: Bindings for RDFa".  Exploratory draft of standard.
     See <http://tech.fhiso.org/drafts/rdfa-bindings>.
 
+[CEV Vocabulary]
+:   FHISO (Family History Information Standards Organisation).
+    *Citation Elements: Vocabulary".  Exploratory draft of standard.
+
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
     Chicago Press, 2010.
+
+[Evidence Explained]
+:   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
+    Genealogial Publishing Company, 2009.
 
 [ISO 8601]
 :   ISO (Internation Organization for Standardization).  *ISO
