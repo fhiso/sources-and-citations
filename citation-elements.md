@@ -165,6 +165,10 @@ contains two *citation layers*, it is an example of a *layered
 citation*.
 {/}
 
+A *citation* with just a single *citation layer* is called a
+**single-layer citation**, and its sole *citation layer* is necessarily
+the *head citation layer*.
+
 A **citation element** is a logically self-contained piece of
 information in a *citation layer* that might reasonably be included in a
 *formatted citation*.  As this standard does not aim to provide
@@ -987,6 +991,46 @@ the *citation element set*.
 The use of *list-flattening formats* is *not recommended* except where
 there is a good technical reason.  The use of `translatedElement`s other
 than in *list-flattening formats* is *not recommended*.
+
+## Layered citations
+
+In the data model defined in this standard, a *citation layer* a
+*citation layer* is represented with two components, both of which
+*must* be present:
+
+*  a *layer identifier* to allow the *citation layer* to be referenced
+   within this data model; and
+*  a *citation element set* containing the information in the *citation
+   layer*.
+
+A *citation* is represented with the following three parts:
+
+*  an unordered set of one or more *citation layers* encoded as above;
+*  the *layer identifier* of the *head citation layer*; and
+*  an unordered set of *citation layer links* encoding the *source
+   derivations* between *sources* represented by the *citation layers*.
+
+The **layer identifier** of each *citation layer* *shall* be unique
+within a given *citation*.  It exists only to provide a means of
+referring to *citation layers* in *citation layer links* and when
+identifying the *head citation layer*; its value *must not* be used in
+other contexts.  Applications *may* re-assign *layer identifiers* at any
+time.
+
+{.note ...} This standard places no restriction on the form of a *layer
+identifier*.  Implementations may use integers, IRIs or other convenient
+*strings*, but they may also use other means such as pointers to
+data structures in memory to represent the links represented in this
+standard by *layer identifiers*.  Serialisation formats will place their
+own restrictions on the form of a *layer identifier* which may different
+between serialisation formats.
+
+In the common case of a *singe-layer citation*, the set of *citation
+layer links* will be empty.  In this case, the *layer identifier* of the
+*citation layer* is academic and an empty string could be used.  This
+means that a *single-layer citation* can be represented using just a
+*citation element set*.
+{/}
 
 ## References
 
