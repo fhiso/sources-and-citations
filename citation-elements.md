@@ -105,8 +105,9 @@ websites.  A full mechanism for describing *sources* is
 beyond the scope of this standard.
 
 A **source derivation** is a directional link between two *sources*,
-indicating that the first *source* was derived from, cites or otherwise
-references the second *source*. 
+incidating that the first *source* was derived from, cites or otherwise
+references the second *source*.   The first *source* is referred to as
+the **derived source**, and the second the **base source**.
 
 {.note} The term "derivation" is used very broadly in this standard,
 and includes relationships that might not normally be considered
@@ -576,7 +577,7 @@ literally an empty string.
 *must* leave the first *string* first, so that applications wishing to
 use the original, untranslated, untransliterated form can do so.
 
-{.note} A standard may define a serialisation format that does not
+{.note} A standard *may* define a serialisation format that does not
 preserve the order of a *translation set*, but *must* take alternative
 steps to record the original version.  For example, the language map in
 &#x5B;[JSON-LD](https://www.w3.org/TR/json-ld/)] is very similar to a
@@ -890,12 +891,13 @@ been processed by *conformant* applications.
 both *multi-valued* and *translatable*, and *must* ensure that the
 *translation set* for each *citation element value* remains separate.
 
-{.example ...} The `authorName` *citation element* is such an element
-because a source may have multiple authors, each of whom may have names
-that have been transliterated into different scripts.  Suppose a
-researcher wants to cite the Anglo-Japanese Treaty document of 1902
-which was (at least nominally) authored by the Marquess of Lansdowne and
-Count Hayashi Tadasu whose name is written in kanji as 林&nbsp;董.
+{.example ...} The `authorName` *citation element* is defined to be both
+*multi-valued* and *translatable* because a source may have multiple
+authors, each of whom may have names that have been transliterated into
+different scripts.  Suppose a researcher wants to cite the
+Anglo-Japanese Treaty document of 1902 which was (at least nominally)
+authored by the Marquess of Lansdowne and Count Hayashi Tadasu whose
+name is written in kanji as 林&nbsp;董.
 
 The following JSON serialisation is not allowed as it flattens
 *translation set* so it is no longer possible to determine how many
@@ -998,24 +1000,23 @@ In the data model defined in this standard, a *citation layer* a
 *citation layer* is represented with two components, both of which
 *must* be present:
 
-*  a *layer identifier* to allow the *citation layer* to be referenced
+*  a **layer identifier** to allow the *citation layer* to be referenced
    within this data model; and
 *  a *citation element set* containing the information in the *citation
    layer*.
 
 A *citation* is represented with the following three parts:
 
-*  an unordered set of one or more *citation layers* encoded as above;
-*  the *layer identifier* of the *head citation layer*; and
+*  an ordered list of one or more *citation layers* encoded as above,
+   the first of which *shall* be the *head citation layer*; and
 *  an unordered set of *citation layer links* encoding the *source
    derivations* between *sources* represented by the *citation layers*.
 
-The **layer identifier** of each *citation layer* *shall* be unique
+The *layer identifier* of each *citation layer* *shall* be unique
 within a given *citation*.  It exists only to provide a means of
-referring to *citation layers* in *citation layer links* and when
-identifying the *head citation layer*; its value *must not* be used in
-other contexts.  Applications *may* re-assign *layer identifiers* at any
-time.
+referring to *citation layers* in *citation layer links*; its value
+*must not* be used in other contexts.  Applications *may* re-assign
+*layer identifiers* at any time.
 
 {.note ...} This standard places no restriction on the form of a *layer
 identifier*.  Implementations may use integers, IRIs or other convenient
@@ -1031,6 +1032,31 @@ layer links* will be empty.  In this case, the *layer identifier* of the
 means that a *single-layer citation* can be represented using just a
 *citation element set*.
 {/}
+
+Applications *may* reorder the list of *citation layers*, but *must*
+leave the *head citation layer* first, so that applications know which
+*citation layer* corresponds to the *source* which was consulted.
+
+{.note} A standard *may* define a serialisation format that does not
+preserve the order of the *citation layers*, but *must* take alternative
+steps to identify the *head citation layer*.  For example, it might
+store the *layer identifier* of the *head citation layer* in its
+serialisation of the *citation*.
+
+### Citation layer links
+
+When the *sources* represented by two *citation layers* are linked by a
+*source derivation*, a **source derivation link** is used to encode
+this.  It has three parts, all of which are *required*:
+
+*  the **derived layer identifier**, which is the *layer identifier* of
+   the *citation layer* representing the *derived source*;
+*  the **base layer identifier**, which is the *layer identifier* of
+   the *citation layer* representing the *base source*; and
+*  the **source derivation type**, which is an IRI used to describe the
+   nature of the *source derivation*.
+
+
 
 ## References
 
