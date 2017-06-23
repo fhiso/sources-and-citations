@@ -115,7 +115,7 @@ derivative.  A *source derivation* exists between a digitisation,
 translation, transcription or index and the original document.  A
 *source derivation* exists between a published genealogy and each
 *source* it cites.  A *source derivation* also exists between a paper
-and a earlier paper which it is rebutting.
+and a second paper which it is rebutting or commenting on.
 
 A **citation** is an abstract reference to a specific *source* from
 which information has been used in some context.  It *should* include
@@ -1044,26 +1044,49 @@ Applications *may* reorder the list of *citation layers*, but *must*
 leave the *head citation layer* first, so that applications know which
 *citation layer* corresponds to the *source* which was consulted.
 
-{.note} A standard *may* define a serialisation format that does not
-preserve the order of the *citation layers*, but *must* take alternative
-steps to identify the *head citation layer*.  For example, it might
-store the *layer identifier* of the *head citation layer* in its
-serialisation of the *citation*.
+{.note} An application *may* use a technology that does not preserve the
+order of the *citation layers*, but *must* take alternative steps to
+identify the *head citation layer*.  For example, it might store the
+*layer identifier* of the *head citation layer* in its representation of
+the *citation*.
 
 ### Citation layer links
 
 When the *sources* represented by two *citation layers* are linked by a
-*source derivation*, a **source derivation link** is used to encode
+*source derivation*, a **layer derivation link** is used to encode
 this.  It has three parts, all of which are *required*:
 
-*  the **derived layer identifier**, which is the *layer identifier* of
-   the *citation layer* representing the *derived source*;
-*  the **base layer identifier**, which is the *layer identifier* of
-   the *citation layer* representing the *base source*; and
-*  the **source derivation type**, which is an IRI used to describe the
+*  the the *layer identifier* of the *citation layer* representing the
+   *derived source*; the 
+*  the *layer identifier* of the *citation layer* representing the *base
+   source*; and
+*  the *source derivation type*, which is an IRI used to describe the
    nature of the *source derivation*.
 
+The two *layer identifiers* in the *layer derivation link* *shall* refer
+to *citation layers* present in the current *citation*.  If an unknown
+*layer identifier* is present, applications *may* discard the *layer
+derivation link*.
 
+The **source derivation type** *shall* be either an IRI defined in
+accordance with a future FHISO standard on source derivation types, or
+the following IRI which represents the most general case of derivation
+supported in this data model:
+
+    http://terms.fhiso.org/sources/derivedFrom
+
+Applications *may* discard any IRI that it knows does not conform to the
+above requirement.
+
+{.ednote}  FHISO intend to produce a Source Derivation Vocabulary
+standard giving a standard vocabulary of source derivation terms, for
+things like transcription, abstraction, translation, indexing,
+referencing, analysing, commenting on and rebutting.  These will be
+sub-types of the `derivedFrom` *source derivation type*.  The Source
+Derivation Vocabulary standard will also provide a mechanism for third
+parties to provider their own **extension source derivation types**.  If
+this document is ready for standardisation at the same time as this
+document, the previous paragraph will be updated to reference it.
 
 ## References
 
