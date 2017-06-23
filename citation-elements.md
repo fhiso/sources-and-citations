@@ -138,6 +138,12 @@ the first use of the *source*, and conforming to [Chicago] might read:
 The ^1^ at the start of the citation is the hypothetical footnote number.
 {/}
 
+{.note} Footnotes and other reference notes sometimes contain
+information besides *citations*.  This may include commentary on the
+accessibility, accuracy, authenticity or provenance of a *source*.
+As this information is not part of a *citation*, it is beyond the scope
+of this standard.
+
 A **layered citation** is a *citation* that includes information about
 several *sources* between which *source derivation links* exist.  The
 information in a *layered citation* about a specific *source*, whether
@@ -1035,7 +1041,7 @@ between serialisation formats.
 
 In the common case of a *singe-layer citation*, the set of *citation
 layer links* will be empty.  In this case, the *layer identifier* of the
-*citation layer* is academic and an empty string could be used.  This
+*citation layer* is immaterial and an empty string could be used.  This
 means that a *single-layer citation* can be represented using just a
 *citation element set*.
 {/}
@@ -1084,9 +1090,13 @@ things like transcription, abstraction, translation, indexing,
 referencing, analysing, commenting on and rebutting.  These will be
 sub-types of the `derivedFrom` *source derivation type*.  The Source
 Derivation Vocabulary standard will also provide a mechanism for third
-parties to provider their own **extension source derivation types**.  If
-this document is ready for standardisation at the same time as this
-document, the previous paragraph will be updated to reference it.
+parties to provider their own **extension source derivation types**, and
+provide a means of determining whether a given IRI is a *source
+derivation type*.  If this document is ready for standardisation at the
+same time as this document, the previous paragraph will be updated to
+reference it.
+
+
 
 ## References
 
