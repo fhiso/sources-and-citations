@@ -166,6 +166,13 @@ contains two *citation layers*, it is an example of a *layered
 citation*.
 {/}
 
+{.note}  *Layered citations* are often used to provide a partial
+statement of provenance, documenting how documents derived from one
+another.  Many treatments of provenance also include information that is
+not included in citations, and hence not covered by this specification,
+such as a custody of ownership or characterization of the completeness
+of sources cited.
+
 A *citation* with just a single *citation layer* is called a
 **single-layer citation**, and its sole *citation layer* is necessarily
 the *head citation layer*.
