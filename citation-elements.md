@@ -148,9 +148,13 @@ A **layered citation** is a *citation* that includes information about
 several *sources* between which *source derivation links* exist.  The
 information in a *layered citation* about a specific *source*, whether
 the consulted *source* or one of *sources* from which it was derived, is
-known as a **citation layer**.  The *citation layer* containing the
-information about the specific *source* which was consulted is known as
-the **head citation layer**.  
+known as a **citation layer**.  A *citation* with just a single *citation
+layer* is called a **single-layer citation**.
+
+The *citation layer* containing the information about the specific *source*
+which was consulted is known as the **head citation layer**.  For a
+*single-layer citation*, its sole *citation layer* is necessarily the
+*head citation layer*.
 
 {.example ...} A *citation* to a census return that was consulted on
 microfilm might contain information about the microfilm and as well as
@@ -170,6 +174,12 @@ forms the *head citation layer*, while the information about the
 census return forms a separate *citation layer*.  As the *citation*
 contains two *citation layers*, it is an example of a *layered
 citation*.
+
+In this example, the *head citation layer* is not presented first in the
+*formatted citation*.  Whether the *head citation layer* is presented
+first is a matter of style and emphasis, and it is common not to present
+the *head citation layer* first when it is a photographic or digital
+reproduction, as in this case.
 {/}
 
 {.note}  *Layered citations* are often used to provide a partial
@@ -179,9 +189,6 @@ not included in citations, and hence not covered by this specification,
 such as a custody of ownership or characterization of the completeness
 of sources cited.
 
-A *citation* with just a single *citation layer* is called a
-**single-layer citation**, and its sole *citation layer* is necessarily
-the *head citation layer*.
 
 A **citation element** is a logically self-contained piece of
 information in a *citation layer* that might reasonably be included in a
