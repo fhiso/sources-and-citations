@@ -1018,7 +1018,7 @@ In the data model defined in this standard, a *citation layer* a
 *  a *citation element set* containing the information in the *citation
    layer*.
 
-A *citation* is represented with the following three parts:
+A *citation* is represented with the following two parts:
 
 *  an ordered list of one or more *citation layers* encoded as above,
    the first of which *shall* be the *head citation layer*; and
@@ -1062,7 +1062,7 @@ When the *sources* represented by two *citation layers* are linked by a
 *source derivation*, a **layer derivation link** is used to encode
 this.  It has three parts, all of which are *required*:
 
-*  the the *layer identifier* of the *citation layer* representing the
+*  the *layer identifier* of the *citation layer* representing the
    *derived source*; the 
 *  the *layer identifier* of the *citation layer* representing the *base
    source*; and
@@ -1096,7 +1096,47 @@ derivation type*.  If this document is ready for standardisation at the
 same time as this document, the previous paragraph will be updated to
 reference it.
 
+{.note} The represention of a *citation* in this data model is
+equivalent to a directed graph whose vertex set is the set of *citation
+layers*, and whose edge set is the set of *layer derivation links*.
+Each edge is labelled with its *source derivation type*, while one
+vertex is labelled as the *head citation layer*.  This graph is called
+the **citation layer graph**.
 
+A *citation layer* is **directly derived** from another *citation layer*
+if there exists a *citation layer link* whose first *layer identifier*
+is that of the former *citation layer* and whose second *layer
+identifier* is that of the latter *citation layer*.  The **direct base
+citation layer set** of a *citation layer* is the set of *citation
+layers* from which the first *citation layer* is *directly derived*.
+
+The **complete base citation layer set** of a *citation layer* is
+defined recursively as follows.  The *citation layer* itself is part of
+its *complete base citation layer set*.  It also contains every
+*citation layer* in the *complete base citation layer set* of every
+*citation layer* in its *direct base citation layer set*.
+
+{.note}  This definition is simply makes the *complete base citation
+layer set* the transitive closure of the *direct base citation layer
+set*.  It contains the *citation layer* itself together with every
+*citation layer* from which it is derived, directly or indirectly.
+
+The *complete base citation layer set* of the *head citation layer*
+*shall* contain every *citation layers* in the *citation*.  If an
+application encounters a *citation* for which this is not the case, it
+*may* discard any *citation layers* that are not in the *complete base
+citation layer set* of the *head citation layer*.
+
+{.note}  This requirement says that the *head citation layer* must be
+derived, directly or indirectly, from every other *citation layer* in
+the *citation*.  There *must not* be additional *citation layers* that
+are unconnected to the *head citation layer*, or which are only derived
+from it.  In graph theory terms, this is equivalent to saying the
+*citation layer graph* *must* be connected, and that every *citation
+layer* must be reachable from the *head citation layer*.  This standard
+does not prohibit there being additional *layer derivation links*
+besides those needed to ensure these conditions, and in particular does
+not require that the graph be acyclic.
 
 ## References
 
