@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 9 June 2017
+date: 24 June 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -648,9 +648,8 @@ greater use of the RDF features underlying RDFa.
 ## Parsing citation elements
 
 As defined in the [CEV Concepts] standard, a *citation element* consists
-of three components:
+of two components:
 
-*  an *optional* *layer identifier*;
 *  a *required* *citation element name*; and
 *  a *required* *citation element value*, which shall either be a
    *string* or a *translation set*.
@@ -675,18 +674,13 @@ For the purpose of this section, the **current element** refers to the
 element that has the `property` attribute which tags the current
 *citation element*.  
 
-### Layer identifiers
-
-{.ednote} This draft does not yet address how the *layer identifier* is
-set.  Possibly with named blank nodes?
-
 ### Citation element names
 
 The *citation element name* *shall* be the value of the `property`
 attribute, once shorthand IRIs have been expanded.  If the `property`
 attribute contains more than one IRI, each *shall* be used as the
 *citation element name* of a separate *citation element* with the same
-*layer identifier* and *citation element value*.
+*citation element value*.
 
 ### Citation element values
 
