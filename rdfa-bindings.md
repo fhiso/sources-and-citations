@@ -110,7 +110,7 @@ using a standard set of HTML attributes known as RDFa attributes which
 are defined in [RDFa Core].  Compliance with this FHISO standard does
 not require full RDFa compliance: support for the full [RDFa Core] is
 *optional*, and RDFa features other than those for which support is
-*required* in this standard *should not* be used when compatibility
+*required* by this standard *should not* be used when compatibility
 between implementations is desirable.  
 
 {.note} The specification of [RDFa Core] assumes a good working
@@ -611,11 +611,11 @@ these RDFa constructs and this restriction also allows for forwards
 compatibility.
 
 An application that supports only those RDFa features for which support
-*must* consider an element to be a **source-exclusion element** of a
-given *source-type element* if it is contained within the *source-type
-element* (but is not the *source-type element* itself) and has an
-attribute named `about`, `inlist`, `rev`, `resource`, `rev`, or
-`typeof`.
+is *required* by this standard *must* consider an element to be a
+**source-exclusion element** of a given *source-type element* if it is
+contained within the *source-type element* (but is not the *source-type
+element* itself) and has an attribute named `about`, `inlist`, `rel`,
+`resource`, `rev`, or `typeof`.
 
 {.ednote}  The circumstances in which the *source-type element* is
 itself excluded needs further consideration giving particular attention
