@@ -909,7 +909,7 @@ as representing an undetermined language).
 {.ednote} This scenario should not arise when data has consistently
 been processed by *conformant* applications.
 
-#### List-flattening formats
+#### List-flattening formats                          {#list-flattening}
 
 *Conformant* applications *must* support *citation elements* that are
 both *multi-valued* and *translatable*, and *must* ensure that the
@@ -1069,7 +1069,7 @@ ignore this order when displaying or formatting *citation layers*.
 *conformant* applications *may* use a technology that does not preserve
 the order of the *citation layers*.
 
-### Layer derivation links
+### Layer derivation links                           {#layer-derivation}
 
 When the *sources* represented by two *citation layers* are linked by a
 *source derivation*, a **layer derivation link** is used to encode

@@ -563,7 +563,7 @@ The *citation elements* contained within a *source-type element* *shall*
 form a *citation element set* which represents a *citation layer* (or a
 *single-layered citation*) as described in §5.
 
-### Source-type elements
+### Source-type elements                             {#source-type-elts}
 
 A **source-type element** is any element that has a `typeof` attribute
 whose value, once shorthand IRIs have been expanded, includes either of
@@ -1115,7 +1115,7 @@ The collection of *citation layers* in a *layered citation* is an
 ordered list, and the *citation layers* *should* be include given in
 document order.
 
-### The head citation layer
+### The head citation layer                                {#head-layer}
 
 The *head citation layer* *may* be indicated by *source-type element*
 with a `typeof` attribute whose value, once shorthand IRIs have been
