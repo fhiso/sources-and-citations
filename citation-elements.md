@@ -1,12 +1,12 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 24 June 2017
+date: 26 June 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
 
-{.ednote ...} This is an **exploratory draft** of the core part of
+{.ednote ...} This is a **first public draft** of the core part of
 FHISO's proposed suite of standards on Citation Elements.  This document
 is not endorsed by the FHISO membership, and may be updated, replaced or
 obsoleted by other documents at any time. 
@@ -14,6 +14,10 @@ obsoleted by other documents at any time.
 In particular, some examples in this draft use *citation elements* that
 are not even included in the draft Citation Element Vocabulary.  These
 elements are very likely to be changed as the vocabulary progresses.
+
+The public [tsc-public@fhiso.org](http://tech.fhiso.org/tsc-public) 
+mailing list is the preferred place for comments, discussion and other
+feedback on this draft.
 {/}
 
 FHISO's suite of **Citation Elements** standards provides an extensible

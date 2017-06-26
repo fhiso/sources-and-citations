@@ -1,12 +1,12 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 24 June 2017
+date: 26 June 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
 
-{.ednote ...} This is an **exploratory draft** of a standard documenting
+{.ednote ...} This is a **first public draft** of a standard documenting
 the proposed usage of the FHISO Citation Elements standard in RDFa.
 This document is not an FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
@@ -17,6 +17,10 @@ are not yet included in the draft Citation Element Vocabulary, and
 *source derivation types* that may be standardised in a future Source
 Derivation Vocabulary.  These are likely to be changed as these
 vocabularies progress.
+
+The public [tsc-public@fhiso.org](http://tech.fhiso.org/tsc-public) 
+mailing list is the preferred place for comments, discussion and other
+feedback on this draft.
 {/}
 
 FHISO's suite of **Citation Elements** standard provides an extensible
