@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 9 June 2017
+date: 24 June 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -13,8 +13,10 @@ membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
 
 In particular, some examples in this draft use *citation elements* that
-are not even included in the draft Citation Element Vocabulary.  These
-elements are very likely to be changed as the vocabulary progresses.
+are not yet included in the draft Citation Element Vocabulary, and
+*source derivation types* that may be standardised in a future Source
+Derivation Vocabulary.  These are likely to be changed as these
+vocabularies progress.
 {/}
 
 FHISO's suite of **Citation Elements** standard provides an extensible
@@ -161,6 +163,11 @@ will extract these two *citation elements* from this HTML:
 `authorName`:            "`Settipani, Christian`"
 `title`:                 "`Les ancêtres de Charlemagne`"
 --------------           --------------------------------------
+
+Note the *citation element value* of `title` *citation element* contains
+no line break, despite the HTML being split across two lines.  This is
+because [CEV Concepts] says applications *should* *whitespace-normalise*
+*citation element values*.
 {/}
 
 #### Index of attributes used
@@ -173,9 +180,9 @@ This standard makes use of the following attributes:
    context* to provide defaults is *optional*.
 
 *  The `typeof` attribute is used to locate *formatted citations* per
-   §3.1.  Support for any other use of this attribute is *optional*, and
-   any other unsupported use of *shall* be marked as a *source-exclusion
-   element* per §3.2 and is not processed by this standard.
+   §3.1.  Support for any other use of this attribute is *optional*;
+   any unsupported use of it *shall* be marked as a *source-exclusion
+   element* per §3.2 and is not further processed by this standard.
 
 *  The `property` attribute contains a *citation element name* as per
    §4.2.  Full support for its RDFa semantics is *required*, other than
@@ -184,35 +191,43 @@ This standard makes use of the following attributes:
    `rdfa:copy` property for which support is *optional*.
 
 *  The `content` attribute can be used to represent a *citation element
-   value* as per §4.3.1.  Full support for its RDFa semantics is
+   value* as per §4.2.1.  Full support for its RDFa semantics is
    *required*.
 
 *  The `href` and `src` attribute can be used to represent a *citation
-   element value* as per §4.3.1.  They are not formally considered RDFa
+   element value* as per §4.2.1.  They are not formally considered RDFa
    attributes but are part of the *host language*.  Full support for
    their RDFa semantics is *required* if the *host language* permit
    their use, as HTML does.
 
 *  The `datetime` attribute can also be used to represent a *citation
-   element value* if the *host language* is HTML.  
+   element value* as per §4.2.1 if the *host language* is HTML.  
 
 *  The `xml:lang` and `lang` attributes are used to represent a
-   *language tag* as per §4.3.3.  Full support for their RDFa semantics
+   *language tag* as per §4.2.3.  Full support for their RDFa semantics
    is *required*.
 
-*  The `about`, `inlist`, `rev`, `resource` and `rel` attributes are not
-   used by this standard.  Support for their RDFa semantics is
-   *optional*, and any unsupported use of them *shall* be marked as a
-   *source-exclusion element* per §3.2 and is not processed by this
-   standard.
- 
 *  The `datatype` attribute is used in this standard to determine the
    type of the *citation element value* in certain situations.  Full
-   support for its RDFa semantics is *recommended*, except when the
-   presence of the attribute affects the determination of the *citation
-   element value* per §6.3.  Any unsupported use of this attribute
-   *shall* be ignored, 
+   support for its RDFa semantics is *recommended*.  Any unsupported use
+   of this attribute *shall* be ignored, except when the presence of
+   this attribute (but not its value) affects the determination of the
+   *citation element value* per §4.2.
 
+*  The `rel` and `rev` attributes are used to denote *layer derivation
+   links* per §5.3.  Support for any other use of this attribute is
+   *optional*; any unsupported use of them *shall* be marked as a
+   *source-exclusion element* per §3.2 and is not further processed by
+   this standard.
+
+*  The `about`, `inlist` and `resource` attributes are not used by this
+   standard.  Support for their RDFa semantics is *optional*.  Any
+   unsupported use of them *shall* be marked as a *source-exclusion
+   element* per §3.2 and is not be processed by this standard, except
+   when the presence of one of these attributes (but not its particular
+   value) prevents the recognition of *nested source-type element* per
+   §5.1.
+ 
 ### Motivation and limitations
 
 In this standard, unless otherwise stated, the term HTML refers to any
@@ -264,12 +279,13 @@ application which can convert them back to a *citation element set*.
 ## Shorthand IRIs
 
 The [CEV Concepts] standard makes heavy use of IRIs as identifiers, as
-does RDFa.  In particular, the `datatype`, `property` and `typeof`
-attributes contain IRIs.  
+does RDFa.  In particular, the `datatype`, `property`, `rel`, `rev` and
+`typeof` attributes contain IRIs.  
 
-The `datatype` attribute *shall* contain a single IRI.  The `property`
-and `typeof` attributes *shall* contain a list of IRIs separated by
-*whitespace*.  Leading and trailing *whitespace* is discarded.
+The `datatype` attribute *shall* contain a single IRI.  The `property`,
+`rel`, `rev` and `typeof` attributes *shall* contain a list of IRIs
+separated by *whitespace*.  Leading and trailing *whitespace* is
+discarded.
 
 {.example ...} A common reason why multiple IRIs might be present is
 when two IRIs exist with similar meanings and the creator of the
@@ -292,7 +308,9 @@ In the uses described by this standard the `property` attribute will
 always contain a *citation element name*, and the `datatype` attribute
 will always contain a *class name*.  The `typeof` attribute will contain
 an IRI that allows this standard's use of RDFa to be distinguished from
-any other uses also present in the document.
+any other uses also present in the document.  The `rev` and `rel`
+attributes will contain a *source derivation type* to denote *citation
+layer links*.
 
 RDFa provides two separate mechanism for abbreviating the IRIs in these
 attributes: by setting a *local default vocabulary*, and by using
@@ -300,9 +318,13 @@ prefixes to create compact URIs expressions (CURIEs).  Applications
 processing *formatted citations* in accordance with this standard *must*
 support both of these mechanisms.  Expansion of *terms* using the
 *local default vocabulary* *shall* be done before the expansion of
-CURIEs.  An application *must* behave as if all `datatype`, `property`
-and `typeof` attributes have been expanded before continuing to process
-the data.
+CURIEs.  An application *must* behave as if all `datatype`, `property`,
+`rel`, `rev` and `typeof` attributes have been expanded before
+continuing to process the data.
+
+{.note} Applications *may* opt to expand these attributes on demand,
+provided the effect is the same.  The `typeof` attribute is the only one
+whose value invariably needs expanding.
 
 ### Default vocabularies
 
@@ -319,12 +341,12 @@ The definitions of `NameChar` and `NCNameStartChar` are found in [XML]
 and [XML Names] respectively.
 {/}
 
-When a `datatype`, `property` or `typeof` attribute contains a *term*,
-it *shall* be converted to an IRI by prepending the *local default
-vocabulary* if one exists.  The **local default vocabulary** is an IRI
-which is specified using a `vocab` attribute.  It applies to the element
-where it is specified and to all elements in its content unless
-overridden with another `vocab` attribute.
+When a `datatype`, `property`, `rel`, `rev` or `typeof` attribute
+contains a *term*, it *shall* be converted to an IRI by prepending the
+*local default vocabulary* if one exists.  The **local default
+vocabulary** is an IRI which is specified using a `vocab` attribute.  It
+applies to the element where it is specified and to all elements in its
+content unless overridden with another `vocab` attribute.
 
 {.note}  Terms look similar to relative IRIs and this process is similar
 to resolving relative IRIs against a base IRI, but the process of
@@ -407,10 +429,11 @@ be omitted and the result still parsed as a CURIE.  A parser
 conforming to this standard *may* safely treat the colon as mandatory.
 {/}
 
-When a `datatype`, `property` or `typeof` attribute contains something
-that is syntactically a CURIE, the parser should look up its *prefix* to
-see whether a *prefix mapping* (which is an IRI) has been defined.  This
-look-up occurs case-insensitively.
+When a `datatype`, `property`, `rel`, `rev` or `typeof` attribute
+contains a *whitespace* separated token that is syntactically a CURIE,
+the parser should look up its *prefix* to see whether a *prefix mapping*
+(which is an IRI) has been defined.  This look-up is done
+case-insensitively.
 
 If the *prefix* has been omitted and the CURIE begins with a colon,
 parsers *may* ignore the CURIE and *must not* fall back to treating it
@@ -501,29 +524,49 @@ ability to ignore unknown schemes should probably be dropped.
 
 ## Locating citation elements
 
-In general a document will contain more than just a single *formatted
-citation*.  Other parts of the document may also contain RDFa attributes
-for entirely different reasons, and even if the only use of RDFa is for
-tagging *citation elements* it is important not to mix the *citation
-elements* from one *formatted citation* with those of another.
+In general a document will contain more than just a single *citation
+element set*, and other parts of the document may also contain RDFa
+attributes for entirely different purposes; even if the only use of RDFa
+is for tagging *citation elements* it is important not to confuse the
+*citation elements* from one *formatted citation* or *citation layer*
+with those of another.
 
 *Citation elements* are identified using `property` attributes.  However
 a `property` attribute *shall* only be interpreted as representing a
 *citation element* if:
 
 *   it is on an element contained inside a *source-type element* (but
-    is not directly on the *source-type element* itself); and 
+    is not directly on the *source-type element* itself); and
 
 *   it is not located on a *source-exclusion element* within the
     *source-type element*, nor is it on an element contained within a
     *source-exclusion element*.
 
+Any `property` attributes matching the above criteria *shall* be
+considered in the order they appear in the document and used to generate
+*citation elements* as described in §4. 
+
+{.note}  The detailed specification in §7.5 of [RDFa Core] requires that
+`property` attributes are processed and used to generate RDF triples in
+document order.  However the [RDFa Core] processing model requires these
+triples be added to an RDF graph, and RDFa graphs are not required to
+preserve the order of triples; nevertheless, most current RDFa
+processors do output properties in document order.  Implementations
+using an RDFa parser to implement this specification should verify that
+the document order of properties can be determined.
+
+The *citation elements* contained within a *source-type element* *shall*
+form a *citation element set* which represents a *citaiton layer* (or a
+*single-layered citation*) as described in §5.
+
 ### Source-type elements
 
 A **source-type element** is any element that has a `typeof` attribute
-whose value once shorthand IRIs have been expanded includes the IRI:
+whose value, once shorthand IRIs have been expanded, includes either of
+the following IRIs:
 
     http://terms.fhiso.org/sources/Source
+    http://terms.fhiso.org/sources/CitedSource
 
 HTML or XML content is only considered to be part of a *formatted
 citation* if it is a *source-type element* or is contained within one. 
@@ -555,8 +598,8 @@ document or fragment a *source-type element*.
 
 {.example} A non-HTML syntax might embed fragments of HTML to represent
 individual *formatted citations*.  It would likely designate each
-fragment to be a *source-type element*, in which case no `typeof`
-attribute is required.
+fragment to be a *source-type element*, in which case the `typeof`
+attribute is *optional*.
 
 ### Source-exclusion elements
 
@@ -568,16 +611,11 @@ these RDFa constructs and this restriction also allows for forwards
 compatibility.
 
 An application that supports only those RDFa features for which support
-is *required* by this standard *must* consider an element to be a
-**source-exclusion element** if:
-
-*  it is contained within a *source-type element* (but is not the
-   *source-type element* itself) and has an attribute named `about`,
-   `inlist`, `rev`, `resource`, `rev`, or `typeof`; or
-
-*  it is the *source-type element* itself and has an attribute named
-   `property`.  In this case no *citation elements* will be found in the
-   *source-type element*.
+*must* consider an element to be a **source-exclusion element** of a
+given *source-type element* if it is contained within the *source-type
+element* (but is not the *source-type element* itself) and has an
+attribute named `about`, `inlist`, `rev`, `resource`, `rev`, or
+`typeof`.
 
 {.ednote}  The circumstances in which the *source-type element* is
 itself excluded needs further consideration giving particular attention
@@ -587,53 +625,38 @@ to the processing sequence in §7.5 of [RDFa Core].
 RDFa attributes, beyond what this standard requires to be understood.
 
     <p prefix="foaf: http://xmlns.com/foaf/0.1/"
-       vocab="http://terms.fhiso.org/sources/" typeof="Source">
+       vocab="http://terms.fhiso.org/sources/" typeof="CitedSource">
       <span rel="foaf:maker">
         <span property="foaf:name">Settipani</span></span>,
       <i property="title">Les ancêtres de Charlemagne</i>.
     </p>
 
 The `<p>` element is a *source-type element* due to the
-`typeof="Source"` attribute, and the *formatted citation* is the string
+`typeof="CitedSource"` attribute, and the *formatted citation* is the string
 "Settipani, *Les ancêtres de Charlemagne*."  
 
-The `<p>` element contains one *source-exclusion element*: the outer
-`<span>` element due to its `rel` attribute.  Parsers are not expected
-to understand the meaning of the `rel` attribute, just to note its
-presence.  As the inner `<span>` element is contained within this 
+The `<p>` element has one *source-exclusion element*: the outer `<span>`
+element due to its `rel` attribute.  Parsers are not expected to
+understand the meaning of this `rel` attribute, just to note its
+presence.  As the inner `<span>` element is contained within this
 *source-exclusion element*, the `property="foaf:name"` attribute *must
-not* be treated as tagging a *citation element*.  
+not* be treated as a *citation element*.  
 
 The `property` attribute on the `<i>` element is not located within a
 *source-exclusion element*, and therefore it does denote a *citation
 element*.  This is the only *citation element* in this example.
 {/}
 
-{.ednote ...} These rules allow *source-type elements* to nest.  
+{.note} These rules allow *source-type elements* to nest, with the
+inner *soruce-type element* being a *source-exclusion element* of the
+outer *source-type element*.  This behaviour used in the representation
+of *layered citations*, as discussed in §5.
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
-      <span property="authorName">Settipani</span>; citing  
-      <span rel="cites" typeof="Source"><i property="title">Vita 
-        Sancti Arnulfi</i></span>.</p>
-
-The `<p>` and second `<span>` elements are both *source-type elements*.
-The former contains the *formatted citation* "Settipani; citing *Vita
-Sancti Arnulfi*", while the latter contains the *formatted citation*
-"*Vita Sancti Arnulfi*".  The second `<span>` element is also a
-*source-exclusion element* of the `<p>` *source-type element*, meaning
-the `title` property is only a *citation element* of the nested
-`<span>` *source-type element*, and not also of the enclosing `<p>`
-*source-type element*.   The enclosing `<p>` *source-type element* only
-has one *citation element*: the `authorName`.
-
-This behaviour is intentional, and is how layered citations are expected
-to be implemented.  The details have yet to be finalised.
-{/}
-
-Applications which support a larger part of RDFa *may* treat fewer
-elements as *source-exclusion elements*.  If so, they *must* ensure
-that RDFa constructs are only treated as *citation elements* when they
-produce an RDF triples whose subject has the following RDF type:
+Applications which support a larger part of RDFa than this standard
+requires *may* treat fewer elements as *source-exclusion elements*.  If
+so, they *must* ensure that RDFa constructs are only treated as
+*citation elements* when they produce an RDF triples whose subject has
+the following RDF types, or a subtype thereof:
  
     http://terms.fhiso.org/sources/Source
 
@@ -648,37 +671,19 @@ greater use of the RDF features underlying RDFa.
 ## Parsing citation elements
 
 As defined in the [CEV Concepts] standard, a *citation element* consists
-of three components:
+of two components:
 
-*  an *optional* *layer identifier*;
-*  a *required* *citation element name*; and
-*  a *required* *citation element value*, which shall either be a
-   *string* or a *translation set*.
+*  a *citation element name*; and
+*  a *citation element value*, which shall either be a *string* or a
+   *translation set*.
  
 Once a parser has identified the `property` attributes that are tagging
 *citation element* it *shall* determine each component of each *citation
 element* as described in the following sub-sections.
 
-The `property` attributes *shall* be considered in the order they appear
-in the document. 
-
-{.note}  The detailed specification in §7.5 of [RDFa Core] requires that
-`property` attributes are processed and used to generate RDF triples in
-document order.  However the [RDFa Core] processing model requires these
-triples to be added to an RDF graph which are not required to preserve
-the order of triples.  Nevertheless, most current RDFa processors do
-output properties in document order.  Implementations using an RDFa
-parser to implement this specification should verify that the document
-order of properties can be determined.
-
 For the purpose of this section, the **current element** refers to the
 element that has the `property` attribute which tags the current
 *citation element*.  
-
-### Layer identifiers
-
-{.ednote} This draft does not yet address how the *layer identifier* is
-set.  Possibly with named blank nodes?
 
 ### Citation element names
 
@@ -686,7 +691,7 @@ The *citation element name* *shall* be the value of the `property`
 attribute, once shorthand IRIs have been expanded.  If the `property`
 attribute contains more than one IRI, each *shall* be used as the
 *citation element name* of a separate *citation element* with the same
-*layer identifier* and *citation element value*.
+*citation element value*.
 
 ### Citation element values
 
@@ -724,8 +729,8 @@ not to do this on the grounds that it would make the RDFa usage
 excessively verbose and contrary to standard RDFa idioms, so much so
 that it would likely compromise the uptake of this standard.
 
-{.example ...}  The following RDFa markup will be misinterpreted by a
-parser conforming to this specification.  
+{.example ...}  The following RDFa markup is well-formed but will be
+misinterpreted by a parser conforming to this specification.  
 
     <p lang="en-GB" typeof="Source">
       <span property="authorName" 
@@ -866,9 +871,11 @@ of the *current element* in document order.
 {.example ...} This definition allows citation elements to nest which
 can be useful when tagging full titles and short versions of them.
 
-    <i property="title"><span property="shortTitle">The visitations 
+    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+      <i property="title"><span property="shortTitle">The visitations 
       of Kent</span>, taken in the years 1530–1 by Thomas Benolte, 
       Clarenceux, and 1574 by Robert Cooke, Clarenceux.</i>
+    </p>
 
 The `shortTitle` property takes the value "The visitations of Kent",
 while the `title` property takes the value "The visitations of Kent,
@@ -1025,6 +1032,244 @@ supplied through an external mechanism and no default applies, or if
 provided *language tag* is an empty string, the *citation element* has
 no *language tag*.
 
+## Layered citations
+
+Once the *citation elements* in a document have been located, parsed and
+grouped into *citation element sets*, an application *shall* convert
+each into a *citation layer*.  The [CEV Concepts] standard models a
+*citation layer* as a *citation element set* tagged with a *layer
+identifier*.  An application parsing RDFa in accordance with this
+standard *shall* synthesise a unique *layer identifier* for each
+*citation layer* it reads.
+
+{.ednote}  It would be trivial to allow the `resource` attribute on the
+*source-type element* to be used as a *layer identifier*, but unless
+this standard is extended to allow *citation layers* to be referenced,
+this serves no purpose.  This may change if explicit *layer derivation
+links* are added, rather than just having them implicit through nesting.
+
+In [CEV Concepts], a *citation* is represented with three parts:
+
+*  a list of *citation layers*; 
+*  the *layer identifier* of the *head citation layer*; and 
+*  a set of *layer derivation links*.
+
+In these RDFa bindings, *citation layers* are represented by a
+*source-type element* which are nested in *layered citations*.
+
+### Nested source-type elements
+
+A **nested source-type element** is an *source-type element* that:
+
+*  is a *source-exclusion element* of some other *source-type element*,
+   known as its **outer source-type element**, but is not contained in 
+   another *source-exclusion element* within the *outer source-type
+   element*;  and
+*  has an attribute named `rev` or `rel` (or has both), but does not
+   also have an attribute named `about`, `href`, `inlist`, `resource` or
+   `src`.
+
+The *citation layer* represented by a *nested source-type element*
+*shall* be part of the same *layered citation* as the *citation layer*
+represented by its *outer source-type element*.  *Source-type elements*
+*may* be nested arbitrarily deep, and multiple *nested source-type
+elements* *may* be present within the same *outer source-type element*:
+they all represent *citation layers* which are part of the same *layered
+citation*.
+
+{.example ...}  The following fragment of HTML represents a *layered
+citation* with three *citation layers*.
+
+    <p vocab="http://terms.fhiso.org/sources/" typeof="CitedSource">
+      <span property="authorName">Settipani</span>, citing  
+      <span rel="cites" typeof="Source"><i property="title">Vita 
+        Sancti Arnulfi</i></span> and 
+      <span rel="cites" typeof="Source"><i property="title">Testamentum
+        Bertichramni</i></span>.</p>
+
+The second `<span>` element is a *source-type element* by virtue of its
+`typeof` attribute, which also makes it a *source-exclusion element* of
+the `<p>` element.  It has a `rel` attribute, and together these facts
+make it a *nested source-type element*.  The `<p>` element is its *outer
+source-type element*.  Exactly the same applies to the third `<span>`
+element, and as both are part of the same *layered citation* as their
+shared *outer source-type element*, both must be in the same *layered
+citation* as each other.
+
+As the second and third `<span>` elements are *source-exclusion
+elements* of the *outer source-type element*, their `title` property is
+only a *citation element* of the *nested source-type elements*, and not
+also of the *outer source-type element*.   The *outer source-type
+element* therefore only has one *citation element*: the `authorName`.
+{/}
+
+All but one of the *source-type elements* in a *layered citation* will
+be *nested source-type elements*.  The one that is not is known as the
+**outermost source-type element**.
+
+The collection of *citation layers* in a *layered citation* is an
+ordered list, and the *citation layers* *should* be include given in
+document order.
+
+### The head citation layer
+
+The *head citation layer* *may* be indicated by *source-type element*
+with a `typeof` attribute whose value, once shorthand IRIs have been
+expanded, includes the following IRI:
+
+    http://terms.fhiso.org/sources/CitedSource
+
+If precisely one such element exists in the *layered citation*, the
+*head citation layer* *shall* be the *citation element* represented
+by that element; otherwise the *head citation layer* *shall* be the
+*citation element* represented by the *outermost source-type element*.
+There *shall not* be more than one *source-type elements* in a *layered
+citation* with a `typeof` attribute whose value includes this IRIs.
+
+{.note}  The *head citation layer* is defined in [CEV Concepts] as the
+*citation layer* representing the *source* that was actually consulted,
+but this need not be presented first in a *formatted citation*.  More
+generally, this suite of standard makes no recommendation on how
+*citation layers* should be ordered within a *formatted citation*.
+Different style guides make different recommendations, and the decision
+may depend on the precise circumstances and what the author wishes to
+emphasise.  The `CitedSource` type is provided to facilitate the correct
+identification of the *head citation layer*, regardless of where it is
+placed. 
+
+{.example ...}  Individual *citation elements* have not been tagged in
+this example for reasons of brevity.
+
+    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+      1810 U.S. census, York County, Maine, town of York,  
+      p.&nbsp;435 (penned), line 9, Jabez Young; 
+      <span rev="facsimileOf" typeof="CitedSource">NARA microfilm 
+        publication M252, roll 12</span>.</p>
+
+This *formatted citation*, based on an example in [Evidence Explained],
+places the *head citation layer* (the microfilm) at the end of the
+*formatted citation*, and marks it with a `CitedSource` type.   In this
+case, the same effect could have been achieved by nesting the HTML
+elements differently:
+
+    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+      <span rel="facsimileOf" typeof="Source">1810 U.S. census, 
+        York County, Maine, town of York, p.&nbsp;435 (penned), 
+        line 9, Jabez Young</span>; 
+      NARA microfilm publication M252, roll 12.</p>
+
+In this second version, there is no need to use the `CitedSource` type
+as it defaults to the *outermost source-type element*. 
+{/}
+
+### Layer derivation links
+
+In the [CEV Concepts] data model, *layer derivation links* have
+components:
+
+*  the *layer identifier* of the *derived source*; 
+*  the *layer identifier* of the *base source*; and 
+*  the *source derivation type*.
+
+In this standard, *layer derivation links* are represented by `rel` and
+`rev` attributes on *nested source-type elements*.  
+
+Once shorthand IRIs have been expanded, each IRI in the `rel` and `rev`
+attributes *shall* be used as the *source derivation type* of a
+new *layer derivation link*.   If the IRI was in a `rel` attribute,
+the *derived source* *shall* be the *source* represented by the *outer
+source-type element*, and the *base source* *shall* be the *source*
+represented by the *nested source-type element*.  If the IRI was in a
+`rev` attribute, the *derived source* *shall* be the *source*
+represented by the *nested source-type element*, and the *base source*
+*shall* be the *source* represented by the *outer source-type element*.
+
+{.note} The `rel` and `rev` attributes provide forwards and reverse
+versions of the same functionality: the difference being that the `rel`
+attribute is placed on the *base source*, while the `rev` attribute is
+placed on the *derived source*.
+
+{.example}  In the previous example, the microfilm is derived from the
+1810 census returns.  The first version needs to use a `rev` attribute
+because the *nested source-type element* is the *derived source*, while
+the second version uses a `rel` attribute because the *nested
+source-type element* is the *base source*.
+
+{.note}  This representation of *layer derivation links* does not allow
+an arbitrary set of *layer derivation links* to be encoded, but it does
+cope with any that are anticipated to arise in practice.  Applications
+supporting a greater range of RDFa functionality can express arbitrary
+collections of *layer derivation links*, and an example of this is given
+in §5.4.
+
+### Full RDFa considerations
+
+{.note} This section is only relevant if an implementation wishes to
+make greater use of the RDF features that underly RDFa.
+
+Documents that use more RDFa features than this standard requires to be
+supported *must not* include any *source-type elements*, other than the
+*head citation layer* as determined by the above rules, whose RDF type
+can be inferred to be:
+
+    http://terms.fhiso.org/sources/CitedSource
+
+{.note} The above restriction is to prevent a full RDFa parser from
+disagreeing with an application just implementing this standard over the
+identity of the *head citation layer*.  The term "inferred" is meant
+broadly, and includes inferences made through entailment regimes, as
+defined in [RDF Semantics].
+
+Applications *may* utilise the fact that
+`http://terms.fhiso.org/sources/CitedSource`
+is an RDF subclass of
+`http://terms.fhiso.org/sources/Source`.
+
+Applications which support a larger part of RDFa *may* find additional
+*layer derivation links*.  If so, they *must* ensure that RDFa
+constructs are only treated as *layer derivation links* when they
+produce an RDF triple whose subject and object both have the following
+RDF types, or a subtype thereof:
+
+    http://terms.fhiso.org/sources/Source
+
+In addition, the predicate of the RDF triple *must* be the following, or
+an RDF subproperty thereof:
+
+    http://terms.fhiso.org/sources/derivedFrom
+
+The subject of the RDF triple corresponds to *derived source* and its
+object is the *base source*; the predicate is the *source derivation
+type*.  Such triples *should not* also be used to generate a *citation
+element* as would otherwise be permitted by §3.2.
+
+{.example ...}  In the following example, the layers have been shorted
+to just contain placeholder text for brevity.
+
+    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+      Source A; derived from
+      <i resource="#B" rel="derivedFrom" typeof="Source">B</i> &amp;
+      <i rel="derivedFrom" typeof="Source">C
+        <span rel="derivedFrom" resource="#B"/>
+      </i>.
+    </p>
+
+An application conforming only to this standard will parse this and find
+three *citation layers*, and two *layer derivation links* saying that A
+is derived from both B and C.  The `resource` attribute on the first
+`<i>` element will be ignored, and the `<span>` element is a
+*source-exclusion element* and so will also be ignored.
+
+However a full RDFa parser will find three `derivedFrom` triples.  In
+addition to the triples saying A is derived from B and C, there is a
+third triple saying that C is derived from B.  An application *may* use
+this information to generate a third *layer derivation link*.
+
+This arrangement of three *layer derivation links* is an example that
+cannot be represented in the subset of RDFa that this standard requires
+to be supported.
+{/}
+
 ## Synchronising citation elements
 
 When an application has both a *formatted citation* tagged with RDFa
@@ -1145,6 +1390,10 @@ several other instances of RDFa attributes that will not be detected as
     Dublin Core recommendation, version 1.1, 1999. 
     See <http://dublincore.org/documents/dcmi-terms/>.
 
+[Evidence Explained]
+:   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
+    Genealogial Publishing Company, 2009.
+
 [HMTL+RDFa]
 :   W3C (World Wide Web Consortium). *HTML+RDFa 1.1*.
     W3C Recommendation, 2nd ed., 2015.
@@ -1165,6 +1414,11 @@ several other instances of RDFa attributes that will not be detected as
 :   ISO (Internation Organization for Standardization).  *ISO
     8601:2004.  Data elements and interchange formats — Information
     interchange — Representation of dates and times*.  2004.
+
+[RDF Semantics]
+:   W3C (World Wide Web Consortium). *RDF 1.1 Semantics*.
+    W3C Recommendation, 2014.
+    See <http://www.w3.org/TR/rdf11-mt>.
 
 [RDFa Primer]
 :   W3C (World Wide Web Consortium). *RDFa 1.1 Primer*.

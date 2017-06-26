@@ -1025,18 +1025,19 @@ In the data model defined in this standard, a *citation layer* a
 *  a *citation element set* containing the information in the *citation
    layer*.
 
-A *citation* is represented with the following two parts:
+A *citation* is represented with the following three parts:
 
-*  an ordered list of one or more *citation layers* encoded as above,
-   the first of which *shall* be the *head citation layer*; and
-*  an unordered set of *citation layer links* encoding the *source
+*  an ordered list of one or more *citation layers* encoded as above;
+*  the *layer identifier* of the *head citation layer*; and
+*  an unordered set of *layer deriviation links* encoding the *source
    derivations* between *sources* represented by the *citation layers*.
 
 The *layer identifier* of each *citation layer* *shall* be unique
 within a given *citation*.  It exists only to provide a means of
-referring to *citation layers* in *citation layer links*; its value
-*must not* be used in other contexts.  Applications *may* re-assign
-*layer identifiers* at any time.
+referring to *citation layers* in *layer derivation links* and when
+identifiying the *head citation layer*; its value *must not* be used in
+other contexts.  Applications *may* re-assign *layer identifiers* at any
+time.
 
 {.note ...} This standard places no restriction on the form of a *layer
 identifier*.  Implementations may use integers, IRIs or other convenient
@@ -1046,24 +1047,25 @@ standard by *layer identifiers*.  Serialisation formats will place their
 own restrictions on the form of a *layer identifier* which may different
 between serialisation formats.
 
-In the common case of a *singe-layer citation*, the set of *citation
-layer links* will be empty.  In this case, the *layer identifier* of the
-*citation layer* is immaterial and an empty string could be used.  This
-means that a *single-layer citation* can be represented using just a
-*citation element set*.
+In the common case of a *singe-layer citation*, the set of *layer
+derivation links* will be empty.  In this case, the *layer identifier*
+of the *citation layer* is immaterial and an empty string could be used.
+This means that a *single-layer citation* can be represented using just
+a *citation element set*.
 {/}
 
-Applications *may* reorder the list of *citation layers*, but *must*
-leave the *head citation layer* first, so that applications know which
-*citation layer* corresponds to the *source* which was consulted.
+Applications *should not* reorder the list of *citation layers*, other
+than at the request of the user.  The order of the *citation layers* is
+an indiciation of the preferred order for displaying the *citation
+layers*, and *should* begin with the one considered most important which
+need not necessarily be the *head citation layer*.  Applications *may*
+ignore this order when displaying or formatting *citation layers*.
 
-{.note} An application *may* use a technology that does not preserve the
-order of the *citation layers*, but *must* take alternative steps to
-identify the *head citation layer*.  For example, it might store the
-*layer identifier* of the *head citation layer* in its representation of
-the *citation*.
+{.note} This is not an absolute prohibition on reording, and
+*conformant* applications *may* use a technology that does not preserve
+the order of the *citation layers*.
 
-### Citation layer links
+### Layer derivation links
 
 When the *sources* represented by two *citation layers* are linked by a
 *source derivation*, a **layer derivation link** is used to encode
@@ -1103,6 +1105,8 @@ derivation type*.  If this document is ready for standardisation at the
 same time as this document, the previous paragraph will be updated to
 reference it.
 
+#### Requirements for layer derivation links
+
 {.note} The represention of a *citation* in this data model is
 equivalent to a directed graph whose vertex set is the set of *citation
 layers*, and whose edge set is the set of *layer derivation links*.
@@ -1111,7 +1115,7 @@ vertex is labelled as the *head citation layer*.  This graph is called
 the **citation layer graph**.
 
 A *citation layer* is **directly derived** from another *citation layer*
-if there exists a *citation layer link* whose first *layer identifier*
+if there exists a *layer derivation link* whose first *layer identifier*
 is that of the former *citation layer* and whose second *layer
 identifier* is that of the latter *citation layer*.  The **direct base
 citation layer set** of a *citation layer* is the set of *citation
