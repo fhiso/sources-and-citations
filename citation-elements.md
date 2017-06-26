@@ -1133,7 +1133,7 @@ set*.  It contains the *citation layer* itself together with every
 *citation layer* from which it is derived, directly or indirectly.
 
 The *complete base citation layer set* of the *head citation layer*
-*shall* contain every *citation layers* in the *citation*.  If an
+*shall* contain every *citation layer* in the *citation*.  If an
 application encounters a *citation* for which this is not the case, it
 *may* discard any *citation layers* that are not in the *complete base
 citation layer set* of the *head citation layer*.
