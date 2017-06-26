@@ -312,7 +312,7 @@ any other uses also present in the document.  The `rev` and `rel`
 attributes will contain a *source derivation type* to denote *citation
 layer links*.
 
-RDFa provides two separate mechanism for abbreviating the IRIs in these
+RDFa provides two separate mechanisms for abbreviating the IRIs in these
 attributes: by setting a *local default vocabulary*, and by using
 prefixes to create compact URIs expressions (CURIEs).  Applications
 processing *formatted citations* in accordance with this standard *must*
@@ -476,7 +476,7 @@ special meaning in §7.4.5 [RDFa Core] for referencing *blank nodes*.  It
 support *blank nodes* *must* ignore CURIEs with a *prefix* consisting of
 a single underscore.
 
-In determining the *local prefix mapppings*, a parser *may* also use 
+In determining the *local prefix mappings*, a parser *may* also use 
 XML namespace declarations as defined in §7.5, item 3 of [RDFa Core].
 This is not required even in full RDFa parsers and is deprecated; it is
 *not recommended* by this standard.  
@@ -556,7 +556,7 @@ using an RDFa parser to implement this specification should verify that
 the document order of properties can be determined.
 
 The *citation elements* contained within a *source-type element* *shall*
-form a *citation element set* which represents a *citaiton layer* (or a
+form a *citation element set* which represents a *citation layer* (or a
 *single-layered citation*) as described in §5.
 
 ### Source-type elements
@@ -648,7 +648,7 @@ element*.  This is the only *citation element* in this example.
 {/}
 
 {.note} These rules allow *source-type elements* to nest, with the
-inner *soruce-type element* being a *source-exclusion element* of the
+inner *source-type element* being a *source-exclusion element* of the
 outer *source-type element*.  This behaviour used in the representation
 of *layered citations*, as discussed in §5.
 
@@ -665,7 +665,7 @@ triples where the object is an RDF blank node.
 
 {.note}  This standard is designed to allow implementers to parse those
 RDFa constructs used without having to consider how they map to RDF.
-The preceding text is only of relevant if an implementor wishes to make
+The preceding text is only of relevant if an implementer wishes to make
 greater use of the RDF features underlying RDFa.
 
 ## Parsing citation elements
@@ -819,7 +819,7 @@ it is to remove `resource` from the list of attributes that make a
 *source-exclusion element*.
 
 Otherwise, if the *host language* is HTML, if the *current element* has
-a `datetime` attribute, the *current propetry value* *shall* be the
+a `datetime` attribute, the *current property value* *shall* be the
 value of the `datetime` attribute.
 
 {.ednote} Consider adding support for the `<date>` element, even without
@@ -1059,7 +1059,7 @@ In these RDFa bindings, *citation layers* are represented by a
 
 ### Nested source-type elements
 
-A **nested source-type element** is an *source-type element* that:
+A **nested source-type element** is a *source-type element* that:
 
 *  is a *source-exclusion element* of some other *source-type element*,
    known as its **outer source-type element**, but is not contained in 
@@ -1205,7 +1205,7 @@ in §5.4.
 ### Full RDFa considerations
 
 {.note} This section is only relevant if an implementation wishes to
-make greater use of the RDF features that underly RDFa.
+make greater use of the RDF features that underlie RDFa.
 
 Documents that use more RDFa features than this standard requires to be
 supported *must not* include any *source-type elements*, other than the
@@ -1392,7 +1392,7 @@ several other instances of RDFa attributes that will not be detected as
 
 [Evidence Explained]
 :   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
-    Genealogial Publishing Company, 2009.
+    Genealogical Publishing Company, 2009.
 
 [HMTL+RDFa]
 :   W3C (World Wide Web Consortium). *HTML+RDFa 1.1*.
@@ -1411,7 +1411,7 @@ several other instances of RDFa attributes that will not be detected as
     <http://www.loc.gov/standards/iso639-2/>.)
 
 [ISO 8601]
-:   ISO (Internation Organization for Standardization).  *ISO
+:   ISO (International Organization for Standardization).  *ISO
     8601:2004.  Data elements and interchange formats — Information
     interchange — Representation of dates and times*.  2004.
 

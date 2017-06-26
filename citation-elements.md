@@ -1230,7 +1230,7 @@ not require that the graph be acyclic.
 
 [Evidence Explained]
 :   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
-    Genealogial Publishing Company, 2009.
+    Genealogical Publishing Company, 2009.
 
 [ISO 8601]
 :   ISO (Internation Organization for Standardization).  *ISO
