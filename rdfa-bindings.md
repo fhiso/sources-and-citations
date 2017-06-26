@@ -649,7 +649,7 @@ element*.  This is the only *citation element* in this example.
 
 {.note} These rules allow *source-type elements* to nest, with the
 inner *source-type element* being a *source-exclusion element* of the
-outer *source-type element*.  This behaviour used in the representation
+outer *source-type element*.  This behaviour is used in the representation
 of *layered citations*, as discussed in §5.
 
 Applications which support a larger part of RDFa than this standard
