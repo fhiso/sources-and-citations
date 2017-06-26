@@ -65,7 +65,7 @@ Where this standard gives a specific technical meaning to a word or
 phrase, that word or phrase is formatted in bold text in its initial
 definition, and in italics when used elsewhere.
 The key words **must**, **must not**, **required**, **shall**, 
-**shall not**, **should**, **should not**, **recommended**,  
+**shall not**, **should**, **should not**, **recommended**,
 **not recommended**, **may** and **optional** in this standard are to be
 interpreted as described in
 &#x5B;[RFC 2119](http://tools.ietf.org/html/rfc2119)].
