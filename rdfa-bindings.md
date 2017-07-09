@@ -154,9 +154,9 @@ attributed added to that.  HTML's `<span>` element has no defined
 meaning of its own, but exists to provide a place for attributes such as
 this.
 
-    <p><span property="http://terms.fhiso.org/sources/authorName"
+    <p><span property="https://terms.fhiso.org/sources/authorName"
       >Settipani, Christian</span>. 
-      <i property="http://terms.fhiso.org/sources/title">Les ancêtres 
+      <i property="https://terms.fhiso.org/sources/title">Les ancêtres 
         de Charlemagne</i>.</p>
 
 An HTML renderer will correctly format this while ignoring the two
@@ -295,7 +295,7 @@ discarded.
 when two IRIs exist with similar meanings and the creator of the
 citation wishes to use both for compatibility.
 
-    <i property="http://terms.fhiso.org/sources/title
+    <i property="https://terms.fhiso.org/sources/title
                  http://purl.org/dc/terms/title">Les ancêtres de
       Charlemagne</i>
 
@@ -373,14 +373,14 @@ implementations *must not* define their own *initial context*.
 
 {.example ...}
     <p><span property="authorName">Settipani, Christian</span>. 
-      <i vocab="http://terms.fhiso.org/sources/"
+      <i vocab="https://terms.fhiso.org/sources/"
          property="title">Les ancêtres de Charlemagne</i>.</p>
 
 In this fragment, both `property` attributes contain a *term*.  The
 `title` *term* is converted to the IRI of FHISO's `title` *citation
 element*:
 
-    http://terms.fhiso.org/sources/title
+    https://terms.fhiso.org/sources/title
 
 In considering the `authorName` *term*, a parser looks for a `vocab`
 attribute on the `<span>` or the enclosing `<p>` element.  No such
@@ -460,7 +460,7 @@ in its content unless overridden.
 {.example ...}  The following is an example of a well-formed `prefix`
 attribute.
 
-    <div prefix="cev: http://terms.fhiso.org/sources/
+    <div prefix="cev: https://terms.fhiso.org/sources/
                  dc:  http://purl.org/dc/elements/1.1/">
       <i prefix="dc:  http://purl.org/dc/terms/"
          property="cev:title dc:title">Les ancêtres de Charlemagne</i>
@@ -503,7 +503,7 @@ prepending the *prefix mapping* to the *reference* part of the CURIE.
 {.example ...} The two CURIEs in the previous example expand to these
 IRIs:
 
-    http://terms.fhiso.org/sources/title
+    https://terms.fhiso.org/sources/title
     http://purl.org/dc/terms/title
 {/}
 
@@ -569,8 +569,8 @@ A **source-type element** is any element that has a `typeof` attribute
 whose value, once shorthand IRIs have been expanded, includes either of
 the following IRIs:
 
-    http://terms.fhiso.org/sources/Source
-    http://terms.fhiso.org/sources/CitedSource
+    https://terms.fhiso.org/sources/Source
+    https://terms.fhiso.org/sources/CitedSource
 
 HTML or XML content is only considered to be part of a *formatted
 citation* if it is a *source-type element* or is contained within one. 
@@ -578,7 +578,7 @@ citation* if it is a *source-type element* or is contained within one.
 {.example ...}  The following example contains two entirely unrelated
 uses of RDFa attributes:
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source">
       <span property="authorName">Settipani</span>, <i>Ibid.</i></p>
     <div vocab="http://creativecommons.org/ns#">Released under a 
       <a href="http://creativecommons.org/licenses/by/3.0/"
@@ -633,7 +633,7 @@ to the processing sequence in §7.5 of [RDFa Core].
 RDFa attributes, beyond what this standard requires to be understood.
 
     <p prefix="foaf: http://xmlns.com/foaf/0.1/"
-       vocab="http://terms.fhiso.org/sources/" typeof="CitedSource">
+       vocab="https://terms.fhiso.org/sources/" typeof="CitedSource">
       <span rel="foaf:maker">
         <span property="foaf:name">Settipani</span></span>,
       <i property="title">Les ancêtres de Charlemagne</i>.
@@ -666,7 +666,7 @@ so, they *must* ensure that RDFa constructs are only treated as
 *citation elements* when they produce an RDF triples whose subject has
 the following RDF types, or a subtype thereof:
  
-    http://terms.fhiso.org/sources/Source
+    https://terms.fhiso.org/sources/Source
 
 In addition, applications supporting a larger part of RDFa *may* discard
 triples where the object is an RDF blank node.
@@ -812,7 +812,7 @@ otherwise used in HTML.  This is particularly important when the
 *citation element* is required to have a value in a format that is
 different to how the element is formatted.
 
-    <span property="http://terms.fhiso.org/sources/publicationDate"
+    <span property="https://terms.fhiso.org/sources/publicationDate"
           content="2017-05-22">May 22nd, 2017</span>
 
 In this case, the use of a `content` attribute is necessary because the
@@ -853,7 +853,7 @@ attributes are on elements that display some form of media, particularly
 {.example ...}  When an `href` or `src` attribute links to an online
 *source*, it can be tagged as a *citation element*.
 
-    <div vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <div vocab="https://terms.fhiso.org/sources/" typeof="Source">
       <a href="http://discovery.nationalarchives.gov.uk/"
          property="accessURL"><span property="title">Discovery</span></a>
       (online catalogue)
@@ -879,7 +879,7 @@ of the *current element* in document order.
 {.example ...} This definition allows citation elements to nest which
 can be useful when tagging full titles and short versions of them.
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source">
       <i property="title"><span property="shortTitle">The visitations 
       of Kent</span>, taken in the years 1530–1 by Thomas Benolte, 
       Clarenceux, and 1574 by Robert Cooke, Clarenceux.</i>
@@ -994,7 +994,7 @@ attributes may be used on an HTML element.  In particular, the
 
 
 {.example ...}
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source" lang="en">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source" lang="en">
       <span property="authorName"
             content="Settipani, Christian">Christian Settipani</span>, 
       <i property="title" lang="fr">Les ancêtres de Charlemagne</i>, 
@@ -1078,7 +1078,7 @@ citation*.
 {.example ...}  The following fragment of HTML represents a *layered
 citation* with three *citation layers*.
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="CitedSource">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="CitedSource">
       <span property="authorName">Settipani</span>, citing  
       <span rel="cites" typeof="Source"><i property="title">Vita 
         Sancti Arnulfi</i></span> and 
@@ -1115,7 +1115,7 @@ The *head citation layer* *may* be indicated by *source-type element*
 with a `typeof` attribute whose value, once shorthand IRIs have been
 expanded, includes the following IRI:
 
-    http://terms.fhiso.org/sources/CitedSource
+    https://terms.fhiso.org/sources/CitedSource
 
 If precisely one such element exists in the *layered citation*, the
 *head citation layer* *shall* be the *citation element* represented
@@ -1138,7 +1138,7 @@ placed.
 {.example ...}  Individual *citation elements* have not been tagged in
 this example for reasons of brevity.
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source">
       1810 U.S. census, York County, Maine, town of York,  
       p.&nbsp;435 (penned), line 9, Jabez Young; 
       <span rev="facsimileOf" typeof="CitedSource">NARA microfilm 
@@ -1150,7 +1150,7 @@ places the *head citation layer* (the microfilm) at the end of the
 case, the same effect could have been achieved by nesting the HTML
 elements differently:
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source">
       <span rel="facsimileOf" typeof="Source">1810 U.S. census, 
         York County, Maine, town of York, p.&nbsp;435 (penned), 
         line 9, Jabez Young</span>; 
@@ -1214,7 +1214,7 @@ supported *must not* include any *source-type elements*, other than the
 *head citation layer* as determined by the above rules, whose RDF type
 can be inferred to be:
 
-    http://terms.fhiso.org/sources/CitedSource
+    https://terms.fhiso.org/sources/CitedSource
 
 {.note} The above restriction is to prevent a full RDFa parser from
 disagreeing with an application just implementing this standard over the
@@ -1223,9 +1223,9 @@ broadly, and includes inferences made through entailment regimes, as
 defined in [RDF Semantics].
 
 Applications *may* utilise the fact that
-`http://terms.fhiso.org/sources/CitedSource`
+`https://terms.fhiso.org/sources/CitedSource`
 is an RDF subclass of
-`http://terms.fhiso.org/sources/Source`.
+`https://terms.fhiso.org/sources/Source`.
 
 Applications which support a larger part of RDFa *may* find additional
 *layer derivation links*.  If so, they *must* ensure that RDFa
@@ -1233,12 +1233,12 @@ constructs are only treated as *layer derivation links* when they
 produce an RDF triple whose subject and object both have the following
 RDF types, or a subtype thereof:
 
-    http://terms.fhiso.org/sources/Source
+    https://terms.fhiso.org/sources/Source
 
 In addition, the predicate of the RDF triple *must* be the following, or
 an RDF subproperty thereof:
 
-    http://terms.fhiso.org/sources/derivedFrom
+    https://terms.fhiso.org/sources/derivedFrom
 
 The subject of the RDF triple corresponds to *derived source* and its
 object is the *base source*; the predicate is the *source derivation
@@ -1248,7 +1248,7 @@ element* as would otherwise be permitted by §3.2.
 {.example ...}  In the following example, the layers have been shorted
 to just contain placeholder text for brevity.
 
-    <p vocab="http://terms.fhiso.org/sources/" typeof="Source">
+    <p vocab="https://terms.fhiso.org/sources/" typeof="Source">
       Source A; derived from
       <i resource="#B" rel="derivedFrom" typeof="Source">B</i> &amp;
       <i rel="derivedFrom" typeof="Source">C
@@ -1305,9 +1305,9 @@ per §4.3.1.
 {.example ...}  Suppose an application generates the following
 *formatted citation*.
 
-    <p><span property="http://terms.fhiso.org/sources/authorName"
+    <p><span property="https://terms.fhiso.org/sources/authorName"
       >Settipani, Christian</span>. 
-      <i property="http://terms.fhiso.org/sources/title">Les ancêtres 
+      <i property="https://terms.fhiso.org/sources/title">Les ancêtres 
         de Charlemagne</i>.</p>
 
 If a user edits this HTML to replace *Les ancêtres de Charlemagne* with 
@@ -1319,9 +1319,9 @@ would presumably decline if offered this option.  An application might
 delete the `property` attribute so *Ibid.* is not understood to be a
 title, or insert a `content` attribute containing real title as follows:
 
-    <p><span property="http://terms.fhiso.org/sources/authorName"
+    <p><span property="https://terms.fhiso.org/sources/authorName"
       >Settipani, Christian</span>. 
-      <i property="http://terms.fhiso.org/sources/title"
+      <i property="https://terms.fhiso.org/sources/title"
          content="Les ancêtres de Charlemagne">Ibid.</i></p>
 {/}
 

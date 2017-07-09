@@ -62,7 +62,7 @@ The key words **must**, **must not**, **required**, **shall**,
 **shall not**, **should**, **should not**, **recommended**,
 **not recommended**, **may** and **optional** in this standard are to be
 interpreted as described in
-&#x5B;[RFC 2119](http://tools.ietf.org/html/rfc2119)].
+&#x5B;[RFC 2119](https://tools.ietf.org/html/rfc2119)].
 
 An application is **conformant** with this standard if and only if it
 obeys all the requirements and prohibitions contained in this
@@ -369,7 +369,7 @@ subject to the following constraints:
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
-   `http://terms.fhiso.org/sources/translatedElement`, the previous
+   `https://terms.fhiso.org/sources/translatedElement`, the previous
    element in *citation element set* with a different *citation element
    name* is referred to as its **translation base**.  The *translation
    base* of any `translatedElement` *citation element* must not change
@@ -390,12 +390,12 @@ in JSON and triples in RDF other than when RDF containers are used.
 The **citation element name** is an identifier used to identify what
 information the *citation element* contains.  It is a *string* that
 *shall* take the form of an IRI matching the `IRI` production in §2.2 of
-&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].
 
 {.example ...}  The [CEV Vocabulary] defines a *citation element* for
 the title of a *source*.  It has the *citation element name*
 
-    http://terms.fhiso.org/sources/title
+    https://terms.fhiso.org/sources/title
 {/}
 
 {.note} IRIs have been chosen in preference to URIs because it is
@@ -409,21 +409,35 @@ An IRI *must not* be used as a *citation element name* unless it is the
 required by §3 of this standard.
 
 The *citation elements* defined in this standard all have *citation
-element names* that begin `http://terms.fhiso.org/`.  It is
-*recommended* that any *extension citation elements* also use the `http`
-IRI scheme defined in §2.7.1 of 
-&#x5B;[RFC 7230](http://tools.ietf.org/html/rfc7230)], and an authority
-component consisting of just a domain name (or subdomain) under the
-control of the party defining the *extension citation elements*. 
+element names* that begin `https://terms.fhiso.org/`.  It is
+*recommended* that any *extension citation elements* use the `http` or
+preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of 
+&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
+an authority component consisting of just a domain name (or subdomain)
+under the control of the party defining the *extension citation
+elements*.  If 
 
-{.note} An `http` IRI scheme is *recommended* because the IRI is used to
-fetch a resource during *discovery*, and it is desirable that
-applications implementing *discovery* should only need to support a
-minimal number of transport protocols.
+{.note ...} An `http` or `https` IRI scheme is *recommended* because the
+IRI is used to fetch a resource during *discovery*, and it is desirable
+that applications implementing *discovery* should only need to support a
+minimal number of transport protocols.  URN schemes like the `uuid`
+scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
+*not recommended* as they do not have transport protocols that can be
+used during *discovery*.
+
+The preference for a `https` IRI is because of security considerations
+during *discovery*.  A man-in-the-middle attack during *discovery* could
+insert malicious content into the response, which, if undetected, could
+cause an application to process user data incorrectly, potentially
+discarding parts of it or otherwise compromising its integrity.  It is
+harder to stage a man-in-the-middle attack over TLS, especially if
+public key pinning is used per 
+&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
+{/}
  
 It is *recommended* that an HTTP 1.1 `GET` request to a *citation
-element name* IRI with an `http` scheme (once converted to a URI per
-§3.1 of &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)]),
+element name* IRI with an `http` or `https` scheme (once converted to a
+URI per §3.1 of &#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]),
 if made without an `Accept` header, *should* result in a 303 "See Other"
 redirect to a document containing a human-readable definition of the
 element.  It is *recommended* that this definition is in HTML, and that
@@ -440,9 +454,9 @@ Data, but the same considerations apply.
 
 Parties defining *extension citation elements* *may* arrange for them to
 support **discovery**.  This when an HTTP 1.1 `GET` request to a
-*citation element name* IRI with an `http` scheme, made with an
-appropriate `Accept` header, yields 303 redirect to a machine-readable
-definition of the *citation element*. 
+*citation element name* IRI with an `http` or `https` scheme, made with
+an appropriate `Accept` header, yields 303 redirect to a
+machine-readable definition of the *citation element*. 
 
 {.ednote}  FHISO does not currently define a *discovery* mechanism, but
 anticipate doing so in a future standard.  If such a standard is ready
@@ -453,7 +467,7 @@ would be *optional*.
 
 *Citation element names* are compared using the "simple string
 comparison" algorithm given in §5.3.1 of 
-&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)].  If a *citation
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  If a *citation
 element name* does not compare equal to an IRI known to the application,
 the application *must not* make any assumptions on the purpose of the
 *citation element* or the meaning of its value based on the IRI.
@@ -465,7 +479,7 @@ is how XML namespace names are compared in
 
 {.example ...}  The following IRIs are all distinct for the purpose of
 the "simple string comparison" algorithm given in §5.3.1 of 
-&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], , even though an
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], , even though an
 HTTP request to them would fetch the same resource.
 
     http://éléments.example.com/nationalité
@@ -476,9 +490,9 @@ HTTP request to them would fetch the same resource.
 
 An IRI *must not* be used as a *citation element name* unless it can be
 converted to a URI using the algorithm specified in §3.1 of 
-&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], and back to a IRI
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], and back to a IRI
 again using the algorithm specified in §3.2 of 
-&#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)], to yield the
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], to yield the
 original IRI.
 
 {.note}  This requirement ensures that *citation element names* can be
@@ -507,7 +521,7 @@ transliterated as required.  Otherwise it *shall* be a *string*.
 {.example ...}  A book published in 2015 would have its year of
 publication encoded in a *citation element* with:
 
-*    the *name* `http://terms.fhiso.org/sources/publicationDate`; and
+*    the *name* `https://terms.fhiso.org/sources/publicationDate`; and
 *    a *value* comprising the *string* "`2015`".
 
 Even though an application designed for Arabic researchers might need to
@@ -526,13 +540,13 @@ particular *string* is written.  Each *string* in a *translation set*
 *should* contain the same information, but translated, transliterated or
 localised.  The *language tag* *shall* match the `Language-Tag`
 production from
-&#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)], and *should*
+&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)], and *should*
 contain a script subtags per §2.2.3 of 
-&#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)] when
+&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] when
 transliteration has occurred.  
 
-{.example ...}  The `http://terms.fhiso.org/sources/title` element's value
-is a *translation set*.  This might contain, in order:
+{.example ...}  The `https://terms.fhiso.org/sources/title` element's
+value is a *translation set*.  This might contain, in order:
 
 *    the original title "`Η Γενεαλογία των Κομνηνών`" with
      *language tag* `el`, the language code for Greek in [ISO 639-1];
@@ -600,9 +614,9 @@ preserve the order of a *translation set*, but *must* take alternative
 steps to record the original version.  For example, the language map in
 &#x5B;[JSON-LD](https://www.w3.org/TR/json-ld/)] is very similar to a
 *translation map*, except that JSON's object notion, as given in §4 of 
-&#x5B;[RFC 7159](http://tools.ietf.org/html/rfc7159)], does not preserve
+&#x5B;[RFC 7159](https://tools.ietf.org/html/rfc7159)], does not preserve
 order.  One possible solution is to append some private use subtag (per
-§2.2.7 of &#x5B;[RFC 5646](http://tools.ietf.org/html/rfc5646)]) to the
+§2.2.7 of &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)]) to the
 first *language tag*.
 
 A *translation set* *must not* contain more than one *string* with the
@@ -680,13 +694,13 @@ some loss of meaning, and does not imply anything false about the cited
 {.example ...}  The [CEV Vocabulary] defines a *citation element* with
 the name 
 
-    http://terms.fhiso.org/sources/creatorName
+    https://terms.fhiso.org/sources/creatorName
 
 which contains name of a person, organisation or other entity who
 created or contributed to the creation of the *source*.  Several
 *sub-elements* of it are defined, including
 
-    http://terms.fhiso.org/sources/interviewerName
+    https://terms.fhiso.org/sources/interviewerName
 
 which contains the name of an interviewer when the *source* is an
 interview.  An interviewer can certainly be considered to have
@@ -694,7 +708,7 @@ contributed to the creation of the interview.
 
 The [CEV Vocabulary] also defines a *citation element* with the name 
 
-    http://terms.fhiso.org/sources/recipientName
+    https://terms.fhiso.org/sources/recipientName
 
 which contains the party to whom a *source* such as a letter is
 addressed.  In many respects it is similar to the *sub-elements* of
@@ -763,11 +777,11 @@ form of an IRI.
 {.example ...}  The [CEV Vocabulary] defines a *class* for representing
 the names of authors and other people, which has the *class name* 
 
-    http://terms.fhiso.org/sources/AgentName
+    https://terms.fhiso.org/sources/AgentName
 
 It is the *range* of several *citation elements* including
 
-    http://terms.fhiso.org/sources/editorName
+    https://terms.fhiso.org/sources/editorName
 {/}
 
 {.note} This definition of a *class* is sufficiently aligned with the
@@ -787,7 +801,7 @@ conform to the definition of the *class* used as the *range* of the
 convert it to a valid value in an implementation-defined manner.
 
 {.example}  The *range* of the 
-`http://terms.fhiso.org/sources/publicationDate` element defined in the
+`https://terms.fhiso.org/sources/publicationDate` element defined in the
 [CEV Vocabulary] is an [ISO 8601]-compatible date.  An application
 encountering a date "8 Okt 2000" in a `publicationDate` element in
 dataset that uses German as its default language *may* convert this to
@@ -804,14 +818,14 @@ translations, or variant forms of something that is logically a single
 value.  *Citation elements* that are not *multi-valued* are
 **single-valued**.
 
-{.example}  The `http://terms.fhiso.org/sources/title` *citation
+{.example}  The `https://terms.fhiso.org/sources/title` *citation
 element* is defined to be *single-valued*, as *citations* do not refer
 to the same *sources* by multiple titles (though they may translate or
 transliterate the title), so a *citation element set* *must not* contain
 more than one `title`; but it *may* contain several
-`http://terms.fhiso.org/sources/authorName` *citation elements*, as that
-is defined to be *multi-valued* to accommodate *sources* with several
-authors.
+`https://terms.fhiso.org/sources/authorName` *citation elements*, as
+that is defined to be *multi-valued* to accommodate *sources* with
+several authors.
 
 Multiple instances of *single-valued* *citation element* in the same
 *citation element set* with the same *ultimate single-valued
@@ -921,13 +935,13 @@ The following JSON serialisation is not allowed as it flattens
 *translation set* so it is no longer possible to determine how many
 authors there are, and which names are translations of which others.
 
-    [ { "name": "http://terms.fhiso.org/terms/title",
+    [ { "name": "https://terms.fhiso.org/terms/title",
         "lang": "en",      "value": "The Anglo-Japanese Treaty" },
-      { "name": "http://terms.fhiso.org/terms/authorName",
+      { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "en",      "value": "Lord Lansdowne" },
-      { "name": "http://terms.fhiso.org/terms/authorName",
+      { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp",      "value": "林 董" },
-      { "name": "http://terms.fhiso.org/terms/authorName",
+      { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
 This is an example of a *list-flattening format* that does not conform
@@ -942,7 +956,7 @@ with this standard by introducing a special *citation element* with the
 following properties:
 
 ------           -----------------------------------------------
-Name             `http://terms.fhiso.org/sources/translatedElement`     
+Name             `https://terms.fhiso.org/sources/translatedElement`     
 Range            `http://www.w3.org/2001/XMLSchema#string`
 Cardinality      multi-valued
 Translatability  translatable
@@ -973,13 +987,13 @@ not a `translatedElement`), and the `translatedElement` removed from the
 can be fixed by using a `translatedElement` to serialise the
 transliterated version of Hayashi's name:
 
-    [ { "name": "http://terms.fhiso.org/terms/title",
+    [ { "name": "https://terms.fhiso.org/terms/title",
         "lang": "en",      "value": "The Anglo-Japanese Treaty" },
-      { "name": "http://terms.fhiso.org/terms/authorName",
+      { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "en",      "value": "Lord Lansdowne" },
-      { "name": "http://terms.fhiso.org/terms/authorName",
+      { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp",      "value": "林 董" },
-      { "name": "http://terms.fhiso.org/terms/translatedElement",
+      { "name": "https://terms.fhiso.org/terms/translatedElement",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
 The two `authorName` element are assumed to be separate *citation
@@ -1086,7 +1100,7 @@ accordance with a future FHISO standard on source derivation types, or
 the following IRI which represents the most general case of derivation
 supported in this data model:
 
-    http://terms.fhiso.org/sources/derivedFrom
+    https://terms.fhiso.org/sources/derivedFrom
 
 Applications *may* discard any IRI that it knows does not conform to the
 above requirement.
@@ -1175,29 +1189,29 @@ not require that the graph be acyclic.
 [RFC 2119]
 :   IETF (Internet Engineering Task Force).  *RFC 2119:  Key words for
     use in RFCs to Indicate Requirement Levels.*  Scott Bradner, 1997.
-    (See <http://tools.ietf.org/html/rfc2119>.)
+    (See <https://tools.ietf.org/html/rfc2119>.)
 
 [RFC 3987]
 :   IETF (Internet Engineering Task Force).  *RFC 3987:
     Internationalized Resource Identifiers (IRIs).*  Martin Duerst and
-    Michel Suignard, 2005. (See <http://tools.ietf.org/html/rfc3987>.)
+    Michel Suignard, 2005. (See <https://tools.ietf.org/html/rfc3987>.)
 
 [RFC 5646]
 :   IETF (Internet Engineering Task Force).  *RFC 5646:
     Tags for Identifying Languages.*  Addison Phillips and Mark Davis,
-    eds., 2009.  (See <http://tools.ietf.org/html/rfc5646>.)
+    eds., 2009.  (See <https://tools.ietf.org/html/rfc5646>.)
 
 [RFC 7230]
 :   IETF (Internet Engineering Task Force).  *RFC 7230:  Hypertext
     Transfer Protocol (HTTP/1.1): Message Syntax and Routing.*  Roy
     Fieldind and Julian Reschke, eds., 2014.  (See
-    <http://tools.ietf.org/html/rfc7230>.)
+    <https://tools.ietf.org/html/rfc7230>.)
 
 [RFC 7231]
 :   IETF (Internet Engineering Task Force).  *RFC 7231:  Hypertext
     Transfer Protocol (HTTP/1.1): Semantics and Content.*  Roy
     Fieldind and Julian Reschke, eds., 2014.  (See
-    <http://tools.ietf.org/html/rfc7231>.)
+    <https://tools.ietf.org/html/rfc7231>.)
 
 [UAX 15]
 :   The Unicode Consortium.  "Unicode Standard Annex 15: Unicode
@@ -1246,10 +1260,20 @@ not require that the graph be acyclic.
     a Global Data Space*, 1st edition.  Morgan & Claypool, 2011.
     (See <http://linkeddatabook.com/editions/1.0/>.)
 
+[RFC 4122]
+:   IETF (Internet Engineering Task Force).  *A Universally Unique
+    IDentifier (UUID) URN Namespace*.  P. Leach, M. Mealling and R.
+    Salz, ed., 2005.  (See <https://tools.ietf.org/html/rfc4122>.)
+
 [RFC 7159]
 :   IETF (Internet Engineering Task Force).  *The JavaScript Object
-    Notation (JSON) Data Interchange Format*  Tim Bray, ed., 2014.
-    (See <http://tools.ietf.org/html/rfc7159>.)
+    Notation (JSON) Data Interchange Format*.  Tim Bray, ed., 2014.
+    (See <https://tools.ietf.org/html/rfc7159>.)
+
+[RFC 7469]
+:   IETF (Internet Engineering Task Force).  *Public Key Pinning
+    Extension for HTTP*.  C. Evans, C. Palmer and R. Sleevi, ed., 2015.
+    (See <https://tools.ietf.org/html/rfc7469>.)
 
 [SWBP XSD DT]
 :   W3C (World Wide Web Consortium). *XML Schema Datatypes in RDF and OWL*.
