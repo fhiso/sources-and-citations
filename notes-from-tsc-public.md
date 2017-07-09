@@ -82,3 +82,8 @@ This is far from complete, just what we've mentioned, and in no particular order
 -   volume
 -   where-within-source
 -   *X*-number for publisher-defined *X*
+
+# Potential additional elements
+
+-   Citation authority IRI (see <http://fhiso.org/pipermail/tsc-public_fhiso.org/2017-July/005092.html>)
+-   Citation unique identifier (UUID) (see <http://fhiso.org/pipermail/tsc-public_fhiso.org/2017-July/005092.html>)
