@@ -360,12 +360,6 @@ consists of two parts, both of which are *required*:
 *  a name, called the *citation element name*; and
 *  a value, called the *citation element value*.
 
-{.ednote}  Earlier drafts of this standard included two other parts: a
-*layer identifier* and a *language tag*.  The *layer identifier* has
-been made an implementation detail of the serialisation, and the
-*language tag* has been moved to the *citation element value* in the
-form of a *translation set*.
-
 A *citation element set* is defined to be an ordered list of *citation
 elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
@@ -1020,54 +1014,41 @@ than in *list-flattening formats* is *not recommended*.
 
 ## Layered citations
 
-In the data model defined in this standard, a *citation layer* a
-*citation layer* is represented with two components, both of which
-*must* be present:
-
-*  a **layer identifier** to allow the *citation layer* to be referenced
-   within this data model; and
-*  a *citation element set* containing the information in the *citation
-   layer*.
+In the data model defined in this standard, a *citation layer* is
+represented by a *citation element set* containing the information in
+the *citation layer*.
 
 A *citation* is represented with the following three parts:
 
-*  an ordered list of one or more *citation layers* encoded as above;
-*  the *layer identifier* of the *head citation layer*; and
+*  an ordered list of one or more *citation layers*, each represented as a
+   *citation element set*;
+*  a marker to identify one *citation layer* as the *head citation
+   layer*; and 
 *  an unordered set of *layer deriviation links* encoding the *source
    derivations* between *sources* represented by the *citation layers*.
 
-The *layer identifier* of each *citation layer* *shall* be unique
-within a given *citation*.  It exists only to provide a means of
-referring to *citation layers* in *layer derivation links* and when
-identifiying the *head citation layer*; its value *must not* be used in
-other contexts.  Applications *may* re-assign *layer identifiers* at any
-time.
-
-{.note ...} This standard places no restriction on the form of a *layer
-identifier*.  Implementations may use integers, IRIs or other convenient
-*strings*, but they may also use other means such as pointers to
-data structures in memory to represent the links represented in this
-standard by *layer identifiers*.  Serialisation formats will place their
-own restrictions on the form of a *layer identifier* which may different
-between serialisation formats.
+{.note} This standard does not specify the precise nature of the marker
+that identifies the *head citation layer*.  Implementation strategies
+include attaching a boolean flag to precisely one of the *citation
+layers*, storing a pointer to the data structure in memory that
+represented the *citation layer*, or if the *citation layers* are stored
+in a relational database, the value of the primary key might be used.
 
 In the common case of a *singe-layer citation*, the set of *layer
-derivation links* will be empty.  In this case, the *layer identifier*
-of the *citation layer* is immaterial and an empty string could be used.
-This means that a *single-layer citation* can be represented using just
-a *citation element set*.
-{/}
+derivation links* will be empty, and the sole *citation layer* present
+must be the *head citation layer*.  This means that a *single-layer
+citation* can be represented using just a *citation element set*.
 
 Applications *should not* reorder the list of *citation layers*, other
 than at the request of the user.  The order of the *citation layers* is
 an indiciation of the preferred order for displaying the *citation
-layers*, and *should* begin with the one considered most important which
-need not necessarily be the *head citation layer*.  Applications *may*
+layers*, and *should* begin with the one considered most important.
+This is not necessarily the *head citation layer*.  Applications *may*
 ignore this order when displaying or formatting *citation layers*.
 
 {.note} This is not an absolute prohibition on reording, and
-*conformant* applications *may* use a technology that does not preserve
-the order of the *citation layers*.
+*conformant* applications *may* if necessary use a technology that does
+not preserve the order of the *citation layers*.
 
 ### Layer derivation links                           {#layer-derivation}
 
@@ -1075,17 +1056,30 @@ When the *sources* represented by two *citation layers* are linked by a
 *source derivation*, a **layer derivation link** is used to encode
 this.  It has three parts, all of which are *required*:
 
-*  the *layer identifier* of the *citation layer* representing the
-   *derived source*; the 
-*  the *layer identifier* of the *citation layer* representing the *base
-   source*; and
+*  the *derived reference*, which is a reference to the *citation layer*
+   representing the *derived source*; 
+*  the *base reference*, which is a reference to the *citation layer*
+   representing the *base source*; and
 *  the *source derivation type*, which is an IRI used to describe the
    nature of the *source derivation*.
 
-The two *layer identifiers* in the *layer derivation link* *shall* refer
-to *citation layers* present in the current *citation*.  If an unknown
-*layer identifier* is present, applications *may* discard the *layer
-derivation link*.
+The two references to *citation layers* in the *layer derivation link*
+*shall* refer to *citation layers* present in the current *citation*.
+
+{.note}  This standard does not specify the precise form of these
+references, and different implementations may implement it differently.
+A database-backed implementation might choose to assign a identifier to
+each *citation layer* using an auto-increment field, and make the
+references a copy of that identifer.  Other implementations might
+implement the reference using a pointer to the data structures in memory
+that represents the *citation layer*.  Serialisation formats will define
+their own representations of these references.
+
+{.ednote}  Earlier drafts of this standard used a *layer identifier* to
+represent references, but left their form unspecfied and allowed
+implementations to use alternative implementation techniques such as
+pointers.  The new wording is not strictly a change, but makes it
+clearer that a formal *layer identifier* is not required.
 
 The **source derivation type** *shall* be either an IRI defined in
 accordance with a future FHISO standard on source derivation types, or
@@ -1119,11 +1113,11 @@ vertex is labelled as the *head citation layer*.  This graph is called
 the **citation layer graph**.
 
 A *citation layer* is **directly derived** from another *citation layer*
-if there exists a *layer derivation link* whose first *layer identifier*
-is that of the former *citation layer* and whose second *layer
-identifier* is that of the latter *citation layer*.  The **direct base
-citation layer set** of a *citation layer* is the set of *citation
-layers* from which the first *citation layer* is *directly derived*.
+if there exists a *layer derivation link* whose *derived reference* is to
+the former *citation layer* and whose *base reference* is to the latter
+*citation layer*.  The **direct base citation layer set** of a *citation
+layer* is the set of *citation layers* from which the first *citation
+layer* is *directly derived*.
 
 The **complete base citation layer set** of a *citation layer* is
 defined recursively as follows.  The *citation layer* itself is part of

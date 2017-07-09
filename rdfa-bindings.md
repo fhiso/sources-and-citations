@@ -605,6 +605,10 @@ individual *formatted citations*.  It would likely designate each
 fragment to be a *source-type element*, in which case the `typeof`
 attribute is *optional*.
 
+{.ednote}  There has been some discussion about the possibility of using
+the `resource` attribute on *source-type elements* to generate certain
+"meta" *citation elements* such as a UUID or a "citation authority IRI".
+
 ### Source-exclusion elements
 
 {.note} The concept of a *source-exclusion element* is necessary to
@@ -1039,23 +1043,13 @@ no *language tag*.
 ## Layered citations
 
 Once the *citation elements* in a document have been located, parsed and
-grouped into *citation element sets*, an application *shall* convert
-each into a *citation layer*.  The [CEV Concepts] standard models a
-*citation layer* as a *citation element set* tagged with a *layer
-identifier*.  An application parsing RDFa in accordance with this
-standard *shall* synthesise a unique *layer identifier* for each
-*citation layer* it reads.
-
-{.ednote}  It would be trivial to allow the `resource` attribute on the
-*source-type element* to be used as a *layer identifier*, but unless
-this standard is extended to allow *citation layers* to be referenced,
-this serves no purpose.  This may change if explicit *layer derivation
-links* are added, rather than just having them implicit through nesting.
+grouped into *citation element sets*, the application *shall* interpret
+each *citation element set* as a *citation layer*.
 
 In [CEV Concepts], a *citation* is represented with three parts:
 
 *  a list of *citation layers*; 
-*  the *layer identifier* of the *head citation layer*; and 
+*  a marker identifying the *head citation layer*; and 
 *  a set of *layer derivation links*.
 
 In these RDFa bindings, *citation layers* are represented by a
@@ -1171,8 +1165,10 @@ as it defaults to the *outermost source-type element*.
 In the [CEV Concepts] data model, *layer derivation links* have
 components:
 
-*  the *layer identifier* of the *derived source*; 
-*  the *layer identifier* of the *base source*; and 
+*  the *derived reference* to the *citation layer* representing the
+   *derived source*; 
+*  the *base reference* to the *citation layer* representing the *base
+   source*; and 
 *  the *source derivation type*.
 
 In this standard, *layer derivation links* are represented by `rel` and
@@ -1200,9 +1196,11 @@ the second version uses a `rel` attribute because the *nested
 source-type element* is the *base source*.
 
 {.note}  This representation of *layer derivation links* does not allow
-an arbitrary set of *layer derivation links* to be encoded, but it does
-cope with any that are anticipated to arise in practice.  Applications
-supporting a greater range of RDFa functionality can express arbitrary
+an arbitrary set of *layer derivation links* to be encoded as there is
+no way to reference a *citation layer* that is encoded elsewhere, but it
+does cope with any tree of derivations which is the case that is
+anticipated to arise in practice.  Applications supporting more RDFa
+functionality than this standard requires can express arbitrary
 collections of *layer derivation links*, and an example of this is given
 in §5.4.
 
