@@ -869,7 +869,7 @@ does not signify any additional connection between the `title` and the
 {/}
 
 Otherwise, the *current property value* *shall* be formed by
-concatenating the text contained in each of the descendant text nodes
+concatenating the text contained in each of the descendant elements
 of the *current element* in document order.
 
 {.example ...} This definition allows citation elements to nest which

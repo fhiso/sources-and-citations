@@ -371,7 +371,7 @@ elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *ultimate super-element* (as defined in §3.1).
+   have the same *ultimate super-element*.
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
@@ -427,16 +427,14 @@ fetch a resource during *discovery*, and it is desirable that
 applications implementing *discovery* should only need to support a
 minimal number of transport protocols.
  
-It is *recommended* that an HTTP `GET` request to a *citation
+It is *recommended* that an HTTP 1.1 `GET` request to a *citation
 element name* IRI with an `http` scheme (once converted to a URI per
-§3.1 of &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)]) *should*
-result in a 303 "See Other" redirect to a document containing a
-human-readable definition of the element if the request was made
-without an `Accept` header or with an `Accept` header matching the
-format of the human-readable definition.  It is *recommended* that this
-format should be HTML, and that documentation in alternative formats
-*may* be made available via HTTP content negotiation when the request
-includes a suitable `Accept` header, per §5.3.2 of 
+§3.1 of &#x5B;[RFC 3987](http://tools.ietf.org/html/rfc3987)]),
+if made without an `Accept` header, *should* result in a 303 "See Other"
+redirect to a document containing a human-readable definition of the
+element.  It is *recommended* that this definition is in HTML, and that
+documentation in alternative formats *may* be made available when the
+request includes a suitable `Accept` header, per §5.3.2 of
 &#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
 
 {.note}  A 303 redirect is considered best practice for &#x5B;[Linked
@@ -447,7 +445,7 @@ defined in this standard are not specifically designed for use in Linked
 Data, but the same considerations apply.
 
 Parties defining *extension citation elements* *may* arrange for them to
-support **discovery**.  This when an HTTP `GET` request to a
+support **discovery**.  This when an HTTP 1.1 `GET` request to a
 *citation element name* IRI with an `http` scheme, made with an
 appropriate `Accept` header, yields 303 redirect to a machine-readable
 definition of the *citation element*. 
@@ -1088,11 +1086,6 @@ The two *layer identifiers* in the *layer derivation link* *shall* refer
 to *citation layers* present in the current *citation*.  If an unknown
 *layer identifier* is present, applications *may* discard the *layer
 derivation link*.
-
-{.note} The data model allows multiple *layer derivation links* between
-the same pair of *citation layers*.  This might be used when the
-relationship between the *sources* cannot be represented adequately
-by a single *source derivation type*.
 
 The **source derivation type** *shall* be either an IRI defined in
 accordance with a future FHISO standard on source derivation types, or
