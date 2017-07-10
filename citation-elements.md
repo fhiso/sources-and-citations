@@ -12,7 +12,7 @@ is not endorsed by the FHISO membership, and may be updated, replaced or
 obsoleted by other documents at any time. 
 
 In particular, some examples in this draft use *citation elements* that
-are not even included in the draft Citation Element Vocabulary.  These
+are not even included in the draft Citation Elements: Vocabulary.  These
 elements are very likely to be changed as the vocabulary progresses.
 
 The public [tsc-public@fhiso.org](http://tech.fhiso.org/tsc-public) 
@@ -216,9 +216,13 @@ The accompanying Citation Elements: Vocabulary standard defines many
 *formatted citations* to a wide range of common *sources*.  Applications
 *may* define their own *citation elements* or use those defined by a
 third-party standard; such *citation elements* are known as **extension
-citation elements**.  *Conforming* applications *must not* discard
-unrecognised *extension citation elements*, other than at the
-instruction of the user, but *may* opt not to display them.
+citation elements**.  
+
+*Conforming* applications *must not* discard *citation elements*, except
+on the instruction of the user or as explicitly permitted in this
+standard.  This applies to unrecognised *extension citation elements*
+too, though an application *may* opt not to display any such *citation
+elements*.
 
 A **citation element set** is a collection of *citation elements* that
 completely encode the information about a *source* that is present in a

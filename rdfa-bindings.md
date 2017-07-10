@@ -13,7 +13,7 @@ membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
 
 In particular, some examples in this draft use *citation elements* that
-are not yet included in the draft Citation Element Vocabulary, and
+are not yet included in the draft Citation Element: Vocabulary, and
 *source derivation types* that may be standardised in a future Source
 Derivation Vocabulary.  These are likely to be changed as these
 vocabularies progress.
