@@ -488,9 +488,9 @@ the "simple string comparison" algorithm given in §5.3.1 of
 &#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], , even though an
 HTTP request to them would fetch the same resource.
 
-    http://éléments.example.com/nationalité
-    HTTP://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
-    http://xn--lments-9uab.example.com/nationalit%c3%a9
+    https://éléments.example.com/nationalité
+    HTTPS://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
+    https://xn--lments-9uab.example.com/nationalit%c3%a9
 
 {/}
 
