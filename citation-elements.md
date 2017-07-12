@@ -220,21 +220,6 @@ citation elements**.  *Conforming* applications *must not* discard
 unrecognised *extension citation elements*, other than at the
 instruction of the user, but *may* opt not to display them.
 
-{.ednote ...} Note that the definition of *citation element* limits it 
-to information that might reasonably appear in a citation; thus,
-most metadata (such as who created the citation and when, or a
-globally-unique identifier for the citation or its layers) are not 
-properly considered *citation elements* themselves.
-
-It is anticipated that metadata will be addressed in a future FHISO 
-standard.  Initial brainstorming on metadata implementation suggests
-that this document may be edited slightly to support metadata,
-perhaps by adding an optional identifier or context pointer to each
-element.  The exact nature of such an edit, or if it will even be
-necessary, will depend on that future metadata standard.
-{/}
-
-
 A **citation element set** is a collection of *citation elements* that
 completely encode the information about a *source* that is present in a
 particular *citation layer*.
