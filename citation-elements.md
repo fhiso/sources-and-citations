@@ -371,6 +371,131 @@ In the event of a difference between the definitions of the `Char`,
 &#x5B;[XML](https://www.w3.org/TR/xml11/)], the definitions in the
 latest edition of XML 1.1 specification are definitive.
 
+### Terms
+
+A **term** consists of a unique, machine-readable identifier, known as
+the **term name**, paired with a clearly-defined meaning for the concept
+or idea that it represents.  This standard uses *terms* as *datatypes*
+and *citation element names*, as defined in §3 and §4 of this standard
+respectively.  *Term names* *shall* take the form of an IRI
+matching the `IRI` production in §2.2 of
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].
+
+{.note} IRIs have been chosen in preference to URIs because it is
+recognised that certain culture-specific genealogical concepts may not
+have English names, and in such cases the human-legibility of IRIs is
+advantageous.  URIs are a subset of IRIs, and all the *terms* defined in
+this suite of standard are also URIs.
+
+The *terms* defined in this standard all have *term names* that begin
+`https://terms.fhiso.org/`.  Subject to the requirements herein, third
+parties may also define additional *terms* for use as *datatypes* or
+*citation elements*.  It is *recommended* that any such *terms* use the
+`http` or preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of
+&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
+an authority component consisting of just a domain name or subdomain
+under the control of the party defining the *extension citation
+elements*.
+
+{.note ...} An `http` or `https` IRI scheme is *recommended* because the
+IRI is used to fetch a resource during *discovery*, and it is desirable
+that applications implementing *discovery* should only need to support a
+minimal number of transport protocols.  URN schemes like the `uuid`
+scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
+*not recommended* as they do not have transport protocols that can be
+used during *discovery*.
+
+The preference for a `https` IRI is because of security considerations
+during *discovery*.  A man-in-the-middle attack during *discovery* could
+insert malicious content into the response, which, if undetected, could
+cause an application to process user data incorrectly, potentially
+discarding parts of it or otherwise compromising its integrity.  It is
+harder to stage a man-in-the-middle attack over TLS, especially if
+public key pinning is used per 
+&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
+{/}
+ 
+It is *recommended* that an HTTP `GET` request to a *term name* IRI with
+an `http` or `https` scheme (once converted to a URI per §4.1 of
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]), *should* result
+in a 303 "See Other" redirect to a document containing a human-readable
+definition of the *term* if the request was made without an `Accept`
+header or with an `Accept` header matching the format of the
+human-readable definition.  It is further *recommended* that this
+format should be HTML, and that documentation in alternative formats
+*may* be made available via HTTP content negotiation when the request
+includes a suitable `Accept` header, per §5.3.2 of 
+&#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
+
+{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
+Data](http://linkeddatabook.com/editions/1.0/)], so as to avoid
+confusing the *term name* IRI with the document containing its
+definition, which is found at the post-redirect URL.  The *terms*
+defined in this suite of standards are not specifically designed for
+use in Linked Data, but the same considerations apply.
+
+Parties defining *terms* *may* arrange for their *term name* to
+support **discovery**.  This when an HTTP `GET` request to a *term name*
+IRI with an `http` or `https` scheme, made with an appropriate `Accept`
+header, yields 303 redirect to a machine-readable definition of the 
+*term*. 
+
+{.ednote}  FHISO does not currently define a *discovery* mechanism, but
+anticipate doing so in a future standard.  If such a standard is
+included in the initial suite of Citation Elements standards, it is
+likely to be *recommended* that parties defining *terms* *should*
+arrange for them to support *discovery*, while application support for
+it would be *optional*.
+
+*Term names* are compared using the "simple string comparison" algorithm
+given in §5.3.1 of 
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  If a *term
+name* does not compare equal to an IRI known to the application,
+the application *must not* make any assumptions about the
+*term*, its meaning or intended use, based on the form of the IRI or any
+similarity to other IRIs.
+
+{.note} This comparison is a simple character-by-character comparison,
+with no normalisation carried out on the IRIs prior to comparison.  It
+is also how XML namespace names are compared in 
+&#x5B;[XML Names](https://www.w3.org/TR/xml-names11/)].
+
+{.example ...}  The following IRIs are all distinct for the purpose of
+the "simple string comparison" algorithm given in §5.3.1 of 
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], , even though an
+HTTP request to them would fetch the same resource.
+
+    https://éléments.example.com/nationalité
+    HTTPS://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
+    https://xn--lments-9uab.example.com/nationalit%c3%a9
+
+{/}
+
+An IRI *must not* be used as a *term name* unless it can be converted to
+a URI using the algorithm specified in §3.1 of 
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], and back to a IRI
+again using the algorithm specified in §3.2 of 
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], to yield the
+original IRI.
+
+{.note}  This requirement ensures that *term names* can be used in a
+context where a URI is required, and that the original IRI can be
+regenerated, for example for comparison with a list of known IRIs.  The
+vast majority of IRIs, including those in non-Latin scripts, have this
+property.  The effect of this requirement is to prohibit the use of IRIs
+that are already partly converted to a URI, for example through the use
+of unnecessary percent or punycode encoding.
+
+{.example}  Of the three IRIs given in the previous example on how to
+compare IRIs, only the first may be used as a *term name*.  The second
+and third are prohibited as a result of the unnecessary
+percent-encoding, and the third is additionally prohibited as a result
+of unnecessary punycode-encoding.
+
+## Datatypes
+
+{.ednote} This section needs to be written.
+
 ## Citations elements
 
 In the data model defined by this standard, a *citation element*
@@ -404,134 +529,31 @@ as JSON and RDF do not guarantee to preserve the order of elements in
 certain important serialisation mechanisms: for example, object members
 in JSON and triples in RDF other than when RDF containers are used.
 
-### Citation elements names
+### Citation element names
 
-The **citation element name** is an identifier used to identify what
-information the *citation element* contains.  It is a *string* that
-*shall* take the form of an IRI matching the `IRI` production in §2.2 of
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].
+The **citation element name** identifies the nature of the information
+contained in a particular *citation element*.  It *shall* be a *term*
+that has been defined to be used as a *citation element name* in the
+manner required by §4 of this standard; a *term* defined for this
+purpose is called a *citation element term*.
 
-{.example ...}  The [CEV Vocabulary] defines a *citation element* for
-the title of a *source*.  It has the *citation element name*
+{.note}  This nomenclature draws a distinction between a *citation
+element name* and a *citation element term*.  The former is part of a
+*citation element* and therefore part of the data describing a *source*,
+while the latter is an item of vocabulary used in the description.
+
+{.example ...}  The [CEV Vocabulary] defines a *citation element term* for
+the title of a *source*.  Its *term name* is:
 
     https://terms.fhiso.org/sources/title
+
+A dataset might contain many *citation elements* with this as their
+*citation element name*, each produced by some researcher citing a
+*source*; but there is just a single "title" *citation element term*,
+defined by FHISO.
 {/}
 
-{.note} IRIs have been chosen in preference to URIs because it is
-recognised that certain culture-specific genealogical concepts may not
-have English names, and in such cases the human-legibility of IRIs is
-advantageous.  URIs are a subset of IRIs, and all the *citation element
-names* defined by this standard are also URIs.
-
-An IRI *must not* be used as a *citation element name* unless it is the
-*citation element name* of a *citation element* defined in the manner
-required by §3 of this standard.
-
-The *citation elements* defined in this standard all have *citation
-element names* that begin `https://terms.fhiso.org/`.  It is
-*recommended* that any *extension citation elements* use the `http` or
-preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of 
-&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
-an authority component consisting of just a domain name (or subdomain)
-under the control of the party defining the *extension citation
-elements*.  If 
-
-{.note ...} An `http` or `https` IRI scheme is *recommended* because the
-IRI is used to fetch a resource during *discovery*, and it is desirable
-that applications implementing *discovery* should only need to support a
-minimal number of transport protocols.  URN schemes like the `uuid`
-scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
-*not recommended* as they do not have transport protocols that can be
-used during *discovery*.
-
-The preference for a `https` IRI is because of security considerations
-during *discovery*.  A man-in-the-middle attack during *discovery* could
-insert malicious content into the response, which, if undetected, could
-cause an application to process user data incorrectly, potentially
-discarding parts of it or otherwise compromising its integrity.  It is
-harder to stage a man-in-the-middle attack over TLS, especially if
-public key pinning is used per 
-&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
-{/}
- 
-It is *recommended* that an HTTP `GET` request to a *citation
-element name* IRI with an `http` or `https` scheme (once converted to a
-URI per §3.1 of &#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]),
-*should* result in a 303 "See Other" redirect to a document containing a
-human-readable definition of the element if the request was made
-without an `Accept` header or with an `Accept` header matching the
-format of the human-readable definition.  It is *recommended* that this
-format should be HTML, and that documentation in alternative formats
-*may* be made available via HTTP content negotiation when the request
-includes a suitable `Accept` header, per §5.3.2 of 
-&#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
-
-{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
-Data](http://linkeddatabook.com/editions/1.0/)], so as to
-avoid confusing the *citation element name* IRI with its definition,
-which is found at the post-redirect URL.  The *citation elements*
-defined in this standard are not specifically designed for use in Linked
-Data, but the same considerations apply.
-
-Parties defining *extension citation elements* *may* arrange for them to
-support **discovery**.  This when an HTTP `GET` request to a
-*citation element name* IRI with an `http` or `https` scheme, made with
-an appropriate `Accept` header, yields 303 redirect to a
-machine-readable definition of the *citation element*. 
-
-{.ednote}  FHISO does not currently define a *discovery* mechanism, but
-anticipate doing so in a future standard.  If such a standard is ready
-when this standard is released, support for *discovery* by the
-authors of *extension citation elements* is likely to be changed to be
-*recommended*, but not *required*, while application support for it
-would be *optional*.
-
-*Citation element names* are compared using the "simple string
-comparison" algorithm given in §5.3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  If a *citation
-element name* does not compare equal to an IRI known to the application,
-the application *must not* make any assumptions on the purpose of the
-*citation element* or the meaning of its value based on the IRI.
-
-{.note} This comparison is a simple character-by-character comparison,
-with no normalisation carried out on the IRIs prior to comparison.  This
-is how XML namespace names are compared in 
-&#x5B;[XML Names](https://www.w3.org/TR/xml-names11/)].
-
-{.example ...}  The following IRIs are all distinct for the purpose of
-the "simple string comparison" algorithm given in §5.3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], , even though an
-HTTP request to them would fetch the same resource.
-
-    https://éléments.example.com/nationalité
-    HTTPS://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
-    https://xn--lments-9uab.example.com/nationalit%c3%a9
-
-{/}
-
-An IRI *must not* be used as a *citation element name* unless it can be
-converted to a URI using the algorithm specified in §3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], and back to a IRI
-again using the algorithm specified in §3.2 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], to yield the
-original IRI.
-
-{.note}  This requirement ensures that *citation element names* can be
-used in a context where a URI is required, and that the original IRI can
-be regenerated, for example for comparison with a list of known IRIs.
-The vast majority of IRIs, including those in non-Latin scripts, have
-this property.  The effect of this requirement is to prohibit the use of
-IRIs that are already partly converted to a URI, for example through the
-use of unnecessary percent or punycode encoding.
-
-{.example}  Of the three IRIs given in the previous example on how to
-compare IRIs, only the first may be used as a *citation element name*.
-The second and third are prohibited as a result of the unnecessary
-percent-encoding, and the third is additionally prohibited as a result
-of unnecessary punycode-encoding.
-
-
-### Citation elements values
+### Citation element values
 
 The **citation element value** is the content of the *citation element*.
 The *citation element value* *shall* be a *translation set* if the
@@ -685,15 +707,18 @@ in a *citation element value*.  This applies both to *strings* in
 *translation sets* and when they are the *citation element value*
 directly.
 
-## Defining citation elements
+## Defining citation element terms
 
-In addition to describing the intended purpose of the *citation
-element*, the definition of a *citation element* (regardless of whether
-it is one of those defined in this standard, or whether it is a
-*conformant extension citation element*) *shall* state:
+A **citation element term** is a *term* which has been defined
+specifically for use as a *citation element name* in the following
+manner.  The party defining the *citation element term* *shall* provide
+a description of the intended purpose of the *citation element term*
+which *should* be made freely available to all interested parties,
+preferably by an HTTP request as described in §1.4 of this standard.  In
+addition, the definition *shall* state:
 
-*   its *citation element name* (an IRI);
-*   whether it is a *sub-element* of some other *citation element*,
+*   its *term name* (an IRI);
+*   whether it is a *sub-element* of some other *citation element term*,
     and if so which one;
 *   its *range*: the formal *class name* of its value space;
 *   its *cardinality*: that is, whether it is *single-valued* or
@@ -703,17 +728,17 @@ it is one of those defined in this standard, or whether it is a
 
 ### Sub-elements
 
-A *citation element* *may* be defined as a **sub-element** of another
-*citation element*, referred to as its **super-element**.  This is used
-to provide a refinement of a general *citation element*.  If an
-application is unfamiliar with the *sub-element* it *may* process it as
-if it were the *super-element*, with its *value* unchanged.  The
-*sub-element* must be defined in such as way that this only results in
-some loss of meaning, and does not imply anything false about the cited
-*source*.
+A *citation element term* *may* be defined as a **sub-element** of
+another *citation element term* which is referred to as its
+**super-element**.  This is used to provide a refinement of a general
+*citation element term*.  If an application is unfamiliar with the
+*sub-element* it *may* process it as if it were the *super-element*,
+with its *value* unchanged.  The *sub-element* must be defined in such
+as way that this only results in some loss of meaning, and does not
+imply anything false about the cited *source*.
 
-{.example ...}  The [CEV Vocabulary] defines a *citation element* with
-the name 
+{.example ...}  The [CEV Vocabulary] defines a *citation element term*
+with the name 
 
     https://terms.fhiso.org/sources/creatorName
 
@@ -734,10 +759,9 @@ The [CEV Vocabulary] also defines a *citation element* with the name
 which contains the party to whom a *source* such as a letter is
 addressed.  In many respects it is similar to the *sub-elements* of
 `creatorName`, but because a recipient of a letter cannot be said to
-have created or contributed to the creation of the letter, and might not
-even be aware of its existence if it were not delivered, the
-`recipientName` element cannot be defined as a *sub-element* of
-`creatorName`.
+have contributed to the creation of the letter, and might not even be
+aware of its existence if it were not delivered, the `recipientName`
+element cannot be defined as a *sub-element* of `creatorName`.
 {/}
 
 The *range* and *translatability* of a *sub-element* *shall* be the same
@@ -753,15 +777,15 @@ there is no clear use case for this.
 Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
 
-A *citation element's* **super-element list** is an ordered list of IRIs
-defined inductively as follows.  If the *citation element* is not a
-*sub-element*, then its *super-element list* contains just its *citation
-element name*.  Otherwise, its *super-element list* is the
-*super-element list* of its *super-element* to which its own *citation
-element name* is appended.
+The **super-element list** of a *citation element term* is an ordered
+list of IRIs defined inductively as follows.  If the *citation element
+term* is not a *sub-element*, then its *super-element list* contains
+just that *citation element term*.  Otherwise, its *super-element list*
+is the *super-element list* of its *super-element* to which its own
+*citation element term* is appended.
 
-A *citation element's* **ultimate super-element** is defined as the
-first IRI in its *super-element list*.
+The **ultimate super-element** of a *citation element term* is defined
+as the first IRI in its *super-element list*.
 
 {.note}  This definition is equivalent to following the (possibly empty)
 chain of *super-elements* until it reaches something that is not a
@@ -769,8 +793,8 @@ chain of *super-elements* until it reaches something that is not a
 to reorder *citation element sets*.
 
 The **ultimate single-valued super-element** of a *single-valued*
-*citation element* is defined as the first IRI in its *super-element
-list* that is the name of an *citation element* that is *single-valued*.
+*citation element term* is defined as the first IRI in its *super-element
+list* that is a *single-valued* *citation element term*.
 
 {.note}  This definition is equivalent to following the (possibly empty)
 chain of *super-elements*, stopping at the last *single-valued* element
@@ -778,18 +802,19 @@ in the chain.  It is used in specifying the constraints on
 *sub-elements* that are *single-valued*.
 
 The **most-refined common super-element** of a collection of *citation
-elements* is defined as the last IRI that appears in the *super-element
-list* of every *citation elements* in the collection.  It is only
-defined for *citation elements* that share a *ultimate super-element*.
+element terms* is defined as the last IRI that appears in the
+*super-element list* of every *citation element term* in the collection.
+It is only defined for *citation element terms* that share a *ultimate
+super-element*.
 
 {.note} This definition is equivalent to following the chains of
-*super-elements* for each *citation element*, stopping at the first
-element that appears in each chain.  It is used in specifying how to
-*merge* *citation elements*.
+*super-elements* for each *citation element terms*, stopping at the
+first element that appears in each chain.  It is used in specifying how
+to *merge* *citation elements*.
 
 ### Range
 
-The **range** of a *citation element* is a **class**, which is a formal
+The **range** of a *citation element term* is a **class**, which is a formal
 description of the set of possible *citation element values* for the
 *citation element*, giving both their lexical form and their semantics.
 *Classes* are identified by a **class name** which *shall* take the
@@ -800,7 +825,7 @@ the names of authors and other people, which has the *class name*
 
     https://terms.fhiso.org/sources/AgentName
 
-It is the *range* of several *citation elements* including
+It is the *range* of several *citation element terms* including
 
     https://terms.fhiso.org/sources/editorName
 {/}
@@ -808,8 +833,8 @@ It is the *range* of several *citation elements* including
 {.note} This definition of a *class* is sufficiently aligned with the
 XML Schema's notion of a simple type, as defined in 
 &#x5B;[XSD Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may*
-be used as the *range* of *citation elements*.  Best practice on how to
-get an IRI for use as the *class name* of XML Schema types can be found
+be used as the *range* of *citation element terms*.  Best practice on
+how to get an IRI for use as the *class name* of XML Schema types can be found
 in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
 
 The *class name* for the *class* of *strings* is:
@@ -818,7 +843,7 @@ The *class name* for the *class* of *strings* is:
 
 If an application encounters a *citation element value* that does not
 conform to the definition of the *class* used as the *range* of the
-*citation element*, it *may* remove the *citation element* or *may*
+*citation element term*, it *may* remove the *citation element* or *may*
 convert it to a valid value in an implementation-defined manner.
 
 {.example}  The *range* of the 
@@ -830,35 +855,36 @@ dataset that uses German as its default language *may* convert this to
 
 ### Cardinality
 
-The **cardinality** of a *citation element* records how many semantically
-distinct values it can have.  A **multi-valued** *citation element* is
-one that can logically have multiple values in a single *citation*.  It
-*should* be reserved for situations where the values genuinely contains
-different information, and not used to accommodate transliterations,
-translations, or variant forms of something that is logically a single
-value.  *Citation elements* that are not *multi-valued* are
-**single-valued**.
+The **cardinality** of a *citation element term* records how many
+semantically distinct values it can have.  A **multi-valued** *citation
+element term* is one that can logically have multiple values in a single
+*citation layer*.  It *should* be reserved for situations where the
+values genuinely contains different information, and not used to
+accommodate transliterations, translations, or variant forms of
+something that is logically a single value.  *Citation elements terms*
+that are not *multi-valued* are **single-valued**.
 
 {.example}  The `https://terms.fhiso.org/sources/title` *citation
-element* is defined to be *single-valued*, as *citations* do not refer
-to the same *sources* by multiple titles (though they may translate or
-transliterate the title), so a *citation element set* *must not* contain
-more than one `title`; but it *may* contain several
+element term* is defined to be *single-valued*, as *citations* do not
+refer to the same *sources* by multiple titles (though they may
+translate or transliterate the title), so a *citation element set* *must
+not* contain more than one *citation element* with this *citation
+element name*; but it *may* contain several
 `https://terms.fhiso.org/sources/authorName` *citation elements*, as
 that is defined to be *multi-valued* to accommodate *sources* with
 several authors.
 
-Multiple instances of *single-valued* *citation element* in the same
-*citation element set* with the same *ultimate single-valued
-super-element* are known as **duplicate citation elements**.  *Citation
-element sets* *should not* contain *duplicate citation elements*, and an
-application *must not* knowingly create *duplicate citation elements*.
-When *duplication citation elements* are present, they can be
-**deduplicated** according to the rules below.
+If a *citation element set* contains multiple *citation elements* whose
+*citation element names* have the same *ultimate single-valued
+super-element*, they are known as **duplicate citation elements**.
+*Citation element sets* *should not* contain *duplicate citation
+elements*, and an application *must not* knowingly create *duplicate
+citation elements*.  When *duplication citation elements* are present,
+they can be **deduplicated** according to the rules below.
 
 {.note} Applications might inadvertently create *duplicate citation
 elements* when they do not know the *super-element* or *cardinality* of
-*extension citation elements*.
+some of *citation element terms*.
 
 If an application encounters a *duplicate citation element* that is
 known to be not *translatable*, the application *should* favour the
@@ -906,21 +932,21 @@ necessary to prevent duplication of, say, authors.
 
 ### Translatability
 
-If a *citation element* is defined to be **translatable**, then its
+If a *citation element term* is defined to be **translatable**, then its
 *citation element value* *shall* be a *translation set*, and the
-*citation element's* *range* applies to each *string* in the
-*translation set*.  If it is not *translatable*, then the *citation
-element value* *shall* be a single *string*.  *Citation elements* with
-non-textual *citation element values* such as numbers or dates *must* be
-defined as not *translatable*.
+*range* of the *citation element term* *range* applies to each *string*
+in the *translation set*.  If it is not *translatable*, then the
+*citation element value* *shall* be a single *string*.  *Citation
+elements terms* with non-textual *citation element values* such as
+numbers or dates *must* be defined as not *translatable*.
 
-If an application encounters a *citation element* which is known to be
-not *translatable*, but whose *citation element value* is a *translation
-set*, the application *may* convert the *translation set* to a *string*
-by discarding all but the first *string* in the *translation set*.  If
-the *translation set* contains only one *string*, and if that *string*
-conforms to the *range* of the *citation element*, this conversion
-*should* be done.  
+If an application encounters a *citation element* whose *citation
+element name* is known to be not *translatable*, but whose *citation
+element value* is a *translation set*, the application *may* convert the
+*translation set* to a *string* by discarding all but the first *string*
+in the *translation set*.  If the *translation set* contains only one
+*string*, and if that *string* conforms to the *range* of the *citation
+element term*, this conversion *should* be done.  
 
 {.note} This situation may arise when an *extension citation element*
 has been serialised in a *list-flattening format* by an application that
@@ -929,7 +955,7 @@ application that knows it not to be *translatable*.
 
 If an application encounters a *citation element* whose *citation
 element value* is a *string*, but where the application knows the
-*citation element* to be defined as *translatable*, the application
+*citation element name* to be defined as *translatable*, the application
 *should* convert the *string* to a *translation set* by tagging it with
 the *language tag* `und` (defined in 
 &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)]
@@ -940,17 +966,18 @@ been processed by *conformant* applications.
 
 #### List-flattening formats                          {#list-flattening}
 
-*Conformant* applications *must* support *citation elements* that are
-both *multi-valued* and *translatable*, and *must* ensure that the
-*translation set* for each *citation element value* remains separate.
+*Conformant* applications *must* support *citation elements* whose
+*citation element names* are both *multi-valued* and *translatable*, and
+*must* ensure that the *translation set* for each *citation element
+value* remains separate.
 
-{.example ...} The `authorName` *citation element* is defined to be both
-*multi-valued* and *translatable* because a source may have multiple
-authors, each of whom may have names that have been transliterated into
-different scripts.  Suppose a researcher wants to cite the
-Anglo-Japanese Treaty document of 1902 which was (at least nominally)
-authored by the Marquess of Lansdowne and Count Hayashi Tadasu whose
-name is written in kanji as 林&nbsp;董.
+{.example ...} The `authorName` *citation element term* is defined to be
+both *multi-valued* and *translatable* because a source may have
+multiple authors, each of whom may have names that have been
+transliterated into different scripts.  Suppose a researcher wants to
+cite the Anglo-Japanese Treaty document of 1902 which was (at least
+nominally) authored by the Marquess of Lansdowne and Count Hayashi
+Tadasu whose name is written in kanji as 林&nbsp;董.
 
 The following JSON serialisation is not allowed as it flattens
 *translation set* so it is no longer possible to determine how many
@@ -973,8 +1000,8 @@ this specification is found in the next example.
 A serialisation format that does not keep the *translation sets* of each
 *citation element value* separate is called a **list-flattening format**,
 and this standard provides a facility to allow such formats to comply
-with this standard by introducing a special *citation element* with the
-following properties:
+with this standard by introducing a special *citation element term* with
+the following properties:
 
 ------           -----------------------------------------------
 Name             `https://terms.fhiso.org/sources/translatedElement`     
