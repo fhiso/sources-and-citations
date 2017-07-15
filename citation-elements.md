@@ -109,7 +109,7 @@ websites.  A full mechanism for describing *sources* is
 beyond the scope of this standard.
 
 A **source derivation** is a directional link between two *sources*,
-incidating that the first *source* was derived from, cites or otherwise
+indicating that the first *source* was derived from, cites or otherwise
 references the second *source*.   The first *source* is referred to as
 the **derived source**, and the second the **base source**.
 
@@ -494,7 +494,68 @@ of unnecessary punycode-encoding.
 
 ## Datatypes
 
-{.ednote} This section needs to be written.
+A **datatype** is a *term* which serves as a formal description of the
+values that are permissible in a particular context.  A *datatype* has a
+**lexical space** which is the set of *strings* which are interpreted
+as valid values of the *datatype*.  The definition of a *datatype*
+*shall* state how each string in its *lexical space* maps to a logical
+value, and state the semantics associated with of those values.  
+
+{.note} This definition of a *datatype* is sufficiently aligned with
+XML Schema's notion of a simple type, as defined in 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], that XML Schema's
+simple types can be used as *datatypes* in this standard.  Best
+practice on how to get an IRI for use as the *term name* of XML Schema
+types can be found
+in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
+Similarly, this standard's definition of a *datatype* is similar enough
+to the definition of a datatype in 
+&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)]
+that RDF datatypes can be used as *datatypes* in this standard.
+
+{.example ...} XML Schema defines an integer type in §3.4.13 of
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)] which is well suited
+for use in this standard.  XML Schema does not give its types IRIs, but
+it does give them `id`s, and following the best practice advice given in 
+§2.3 of &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)]
+gives it the following IRI:
+
+    http://www.w3.org/2001/XMLSchema#integer
+
+This same type is also recommended for use in RDF by §5.1 of 
+&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)] which
+explicitly gives it the IRI above.
+
+The *lexical space* of this *datatype* is the space of all *strings*
+consisting of a finite-length sequence of one or more decimal digits
+(U+0030 to U+0039, inclusive), optionally preceded by a `+` or `-` sign
+(U+002B or U+002D, respectively).  Thus the *string* "`137`" is within the
+*lexical space* of this *datatype*, but "`20.000`" and "`四十二`" are
+not, despite being normal ways of representing integers in certain
+cultures.
+{/}
+
+The mapping from lexical representations to logical values need not be
+one-to-one.  If a *datatype* has multiple lexical representations of the
+same logical value, a *conformant* application *must* treat these
+representations equivalently and *may* change a *string* of that
+*datatype* to be a different but equivalent lexical representation.
+
+{.note} This allows applications to store such *strings* internally
+using as an entity (such as a database field or a variable) of some
+appropriate type without retaining the original lexical representation.
+
+{.example}  The XML Schema `integer` *datatype* used in the previous
+example is one where the mapping from lexical representation to
+value is many-to-one rather than one-to-one.  This is due to *lexical
+space* including strings with a leading `+` sign as well as superfluous
+leading `0`s, and means that "`00137`", "`+137`" and "`137`" all
+represent the same underlying value: the number one hundred and
+thirty-seven.  Because *conformant* applications *may* convert strings
+between equivalent lexical representations, they *may* store them in a
+database in an integer field and regenerate *strings* in a canonical
+representation as required.
+
 
 ## Citations elements
 
@@ -720,7 +781,7 @@ addition, the definition *shall* state:
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
     and if so which one;
-*   its *range*: the formal *class name* of its value space;
+*   its *range*: the *datatype* of its value space;
 *   its *cardinality*: that is, whether it is *single-valued* or
     *multi-valued*; and
 *   its *translatability*: whether its *value* is a
@@ -768,8 +829,8 @@ The *range* and *translatability* of a *sub-element* *shall* be the same
 as that of its *super-element*.
 
 {.ednote}  The *range* of a *sub-element* could be allowed to be a
-sub-class of the *super-element's* *range*, where a sub-class is
-understood to reduce the value space of the *class*.  (It would
+subtype of the *super-element's* *range*, where a subtype is
+understood to reduce the *lexical space* of the *datatype*.  (It would
 correspond to concept of a restriction in §2.4.3 of 
 &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].)   At the moment
 there is no clear use case for this.
@@ -814,14 +875,13 @@ to *merge* *citation elements*.
 
 ### Range
 
-The **range** of a *citation element term* is a **class**, which is a formal
-description of the set of possible *citation element values* for the
-*citation element*, giving both their lexical form and their semantics.
-*Classes* are identified by a **class name** which *shall* take the
-form of an IRI.
+The **range** of a *citation element term* is a *datatype*, which
+describes what *citation element values* are valid in a *citation
+element* with this *citation element name*.
 
-{.example ...}  The [CEV Vocabulary] defines a *class* for representing
-the names of authors and other people, which has the *class name* 
+{.example ...}  The [CEV Vocabulary] defines a *datatype* for
+representing the names of authors and other people, which has the
+following *term name*:
 
     https://terms.fhiso.org/sources/AgentName
 
@@ -830,19 +890,8 @@ It is the *range* of several *citation element terms* including
     https://terms.fhiso.org/sources/editorName
 {/}
 
-{.note} This definition of a *class* is sufficiently aligned with the
-XML Schema's notion of a simple type, as defined in 
-&#x5B;[XSD Pt2](http://www.w3.org/TR/xmlschema11-2/)], that they *may*
-be used as the *range* of *citation element terms*.  Best practice on
-how to get an IRI for use as the *class name* of XML Schema types can be found
-in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
-
-The *class name* for the *class* of *strings* is:
-
-    http://www.w3.org/2001/XMLSchema#string
-
 If an application encounters a *citation element value* that does not
-conform to the definition of the *class* used as the *range* of the
+conform to the definition of the *datatype* used as the *range* of the
 *citation element term*, it *may* remove the *citation element* or *may*
 convert it to a valid value in an implementation-defined manner.
 
@@ -1312,6 +1361,11 @@ not require that the graph be acyclic.
 :   Heath, Tom and Christian Bizer.  *Linked Data: Evolving the Web into
     a Global Data Space*, 1st edition.  Morgan & Claypool, 2011.
     (See <http://linkeddatabook.com/editions/1.0/>.)
+
+[RDF Concepts]
+:   W3C (World Wide Web Consortium).  *RDF 1.1 Concepts and Abstract
+    Syntax.*  Richard Cyganiak, David Wood and Markus Lanthaler, eds.,
+    2014.  W3C Recommendation.  (See <https://www.w3.org/TR/rdf11-concepts/>.)
 
 [RFC 4122]
 :   IETF (Internet Engineering Task Force).  *A Universally Unique
