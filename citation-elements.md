@@ -556,6 +556,43 @@ between equivalent lexical representations, they *may* store them in a
 database in an integer field and regenerate *strings* in a canonical
 representation as required.
 
+*Strings* outside the *lexical space* of a *datatype* *must not* be
+used where a *string* of that *datatype* is required.  If an application
+encounters any such *strings*, it *may* remove them from the dataset or
+*may* convert them to a valid value in an implementation-defined manner.
+Any such conversion that is applied automatically by an application
+*must* either be locale-neutral or respect any locale given in the
+dataset.
+
+{.example}  XML Schema defines a `date` type in §3.3.9 of 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)] which has a
+*lexical space* based on [ISO 8601] dates.  If, in a dataset that is
+somehow identified as being written in German, an application
+encountering the *string* "`8 Okt 2000`" in a context where an XML
+Schema `date` is expected, it *may* convert this to "`2000-10-08`".
+However an application encountering the *string* "`8/10/2000`" *must
+not* conclude this represents 8 October or 10 August unless the document
+includes a locale that uniquely determines the date format.  In this
+case, information that the document is in English is not sufficient as
+different English-speaking countries have different conventions for
+formatting dates.
+
+### Datatype patterns
+
+A party defining a *datatype* *may* specify a **pattern** for that
+*datatype*.  This is a regular expression which provides a constraint on
+the *lexical space* of the *datatype*.  Matching the *pattern* might not
+be sufficient to validate a *string* as being in the *lexical space* of
+the *datatype*, but a *string* that fails to match the *pattern* is
+guaranteed not to be in the *lexical space*.
+
+{.ednote}  We need to specify a particular dialect of regular
+expression.  One option is the form defined in §21.2 of [ECMAScript]
+which has the advantage of being supported in most programming
+languages, but has relatively poor Unicode support (e.g. it lacks `\p`).
+Another option is to use the form defined in Appendix G of [XSD Pt2]
+which is less widely supported, but has the advantage of being the
+standard form for defining *datatypes* in XML and RDF.
 
 ## Citations elements
 
@@ -889,18 +926,6 @@ It is the *range* of several *citation element terms* including
 
     https://terms.fhiso.org/sources/editorName
 {/}
-
-If an application encounters a *citation element value* that does not
-conform to the definition of the *datatype* used as the *range* of the
-*citation element term*, it *may* remove the *citation element* or *may*
-convert it to a valid value in an implementation-defined manner.
-
-{.example}  The *range* of the 
-`https://terms.fhiso.org/sources/publicationDate` element defined in the
-[CEV Vocabulary] is an [ISO 8601]-compatible date.  An application
-encountering a date "8 Okt 2000" in a `publicationDate` element in
-dataset that uses German as its default language *may* convert this to
-"`2000-10-08`".
 
 ### Cardinality
 
@@ -1341,6 +1366,11 @@ not require that the graph be acyclic.
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
     Chicago Press, 2010.
+
+[ECMAScript]
+:   Ecma International.  *ECMAScript® 2017 Language Specification*
+    (ECMA-262), 8th ed.  2017.
+    (See <https://www.ecma-international.org/ecma-262/8.0/>.)
 
 [Evidence Explained]
 :   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
