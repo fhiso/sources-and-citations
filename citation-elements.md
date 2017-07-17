@@ -508,9 +508,9 @@ simple types can be used as *datatypes* in this standard.  Best
 practice on how to get an IRI for use as the *term name* of XML Schema
 types can be found
 in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
-Similarly, this standard's definition of a *datatype* is similar enough
-to the definition of a datatype in 
-&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)]
+Similarly, this standard's definition of a *datatype* is almost
+identical to the definition of a datatype in 
+&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)], and
 that RDF datatypes can be used as *datatypes* in this standard.
 
 {.example ...} XML Schema defines an integer type in §3.4.13 of
@@ -534,6 +534,11 @@ consisting of a finite-length sequence of one or more decimal digits
 not, despite being normal ways of representing integers in certain
 cultures.
 {/}
+
+{.ednote}  The examples in this section use various XML Schema types.
+As the [CEV Vocabulary] takes shape, these should be replaced with types
+that are actually used in our vocabulary, which may or may not be XML
+Schema types.
 
 The mapping from lexical representations to logical values need not be
 one-to-one.  If a *datatype* has multiple lexical representations of the
@@ -593,6 +598,29 @@ languages, but has relatively poor Unicode support (e.g. it lacks `\p`).
 Another option is to use the form defined in Appendix G of [XSD Pt2]
 which is less widely supported, but has the advantage of being the
 standard form for defining *datatypes* in XML and RDF.
+
+{.example ...}  The XML Schema `date` type mentioned in the previous
+example has the following *pattern* (here split onto two lines for
+readability &mdash; the second line is an optional timezone).  
+
+    -?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])
+    (Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))? 
+
+This *pattern* matches *strings* like "`1999-02-31`".  Despite matching
+the *pattern*, this *string* is not part of the *lexical space* of this
+`date` type.
+{/}
+
+### Subtypes
+
+A *datatype* *may* be defined as a **subtype** of another *datatype*
+which is referred to as its **supertype**.  This is used to provide a
+more specific version of a more general *datatype*.  The *lexical space*
+of the *subtype* *shall* be a subset of the *lexical space* of the
+*supertype*, and if an application is unfamiliar with the *subtype* it
+*may* process it as if it were the *supertype*.  The *subtype* *must* be
+defined in such a way that at most this results in some loss of meaning
+but does not introduce any false implications about the dataset.
 
 ## Citations elements
 
@@ -832,7 +860,7 @@ another *citation element term* which is referred to as its
 *citation element term*.  If an application is unfamiliar with the
 *sub-element* it *may* process it as if it were the *super-element*,
 with its *value* unchanged.  The *sub-element* must be defined in such
-as way that this only results in some loss of meaning, and does not
+a way that this only results in some loss of meaning, and does not
 imply anything false about the cited *source*.
 
 {.example ...}  The [CEV Vocabulary] defines a *citation element term*
