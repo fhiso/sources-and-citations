@@ -601,7 +601,8 @@ standard form for defining *datatypes* in XML and RDF.
 
 {.example ...}  The XML Schema `date` type mentioned in the previous
 example has the following *pattern* (here split onto two lines for
-readability &mdash; the second line is an optional timezone).  
+readability &mdash; the second line is an optional timezone which the
+XML Schema `data` type allows).  
 
     -?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])
     (Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))? 
@@ -620,7 +621,16 @@ of the *subtype* *shall* be a subset of the *lexical space* of the
 *supertype*, and if an application is unfamiliar with the *subtype* it
 *may* process it as if it were the *supertype*.  The *subtype* *must* be
 defined in such a way that at most this results in some loss of meaning
-but does not introduce any false implications about the dataset.
+but does not introduce any false implications about the dataset.  
+
+A *datatype* *may* be defined to be a **abstract datatype**.  An
+*abstract datatype* is one that *must* only be used as a *supertype* of
+other types.  A *string* *must not* be declared to have a *datatype*
+which is an *abstract datatype*.  *Abstract datatypes* *may* specify a
+*pattern*.
+
+{.note} A *pattern* defined on an *abstract datatype* serves to restrict
+the *lexical space* of all its *subtypes*.
 
 ## Citations elements
 
