@@ -582,6 +582,58 @@ case, information that the document is in English is not sufficient as
 different English-speaking countries have different conventions for
 formatting dates.
 
+### Language-tagged datatypes
+
+A **language-tagged datatype** is a *datatype* whose value consists of
+both a *string* from the *lexical space* of the *datatype* and a
+**language tag** to identify the language, and where appropriate the
+script and regional variant, in which that particular *string* is
+written.  The *language tag* *shall* match the `Language-Tag`
+production from &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)].
+
+{.note} The *language tag* is not itself part of the *lexical space* of
+the *datatype*, and is not embedded in the *string*, but is stored
+alongside it.
+
+*Language-tagged datatypes* *should* be used whenever a *datatype* is
+needed to represent textual data that is in a particular
+language or script and which cannot automatically be translated or
+transliterated as required, and *should not* be used otherwise.
+
+{.example}  In a context where a year *Anno Domini* is required, a
+*language-tagged datatype* *should not* be used, and the *lexical space*
+of the *datatype* should encompass *strings* like, say, "`2015`".  Even
+though an application designed for Arabic researchers might need to
+render this year as "<span dir="rtl">٢٠١٥</span>" using Eastern Arabic
+numerals, this conversion can be done entirely in the application's user
+interface, so a *language-tagged datatype* is not required and 
+*should not* be used.
+
+{.example ...}  The [CEV Vocabulary] defines a *datatype* for
+representing the names of authors and other people, which has the
+following *term name*:
+
+    https://terms.fhiso.org/sources/AgentName
+
+An person's name is rarely translated in usual sense, but may be
+transliterated.  For example, the name of Andalusian historian 
+<span dir="rtl">صاعد الأندلسي</span> might be transliterated
+"Ṣā‘id al-Andalusī" in the Latin script.  Because machine
+transliteration is far from perfect, a *language-tagged datatype*
+*should* be used to allow an application to store both names.  In this
+case, they would be tagged tagged `ar` and `ar-Latn` respectively,
+meaning the Arabic language in its default script and in the Latin
+script.
+
+An author's names may also be respelled to conform to the spelling and
+grammar rules of the reader's language.  An Englishman named Richard may
+be rendered "Rikardo" in Esperanto: the change of the "c" to a "k" being
+to conform to Esperanto orthography, while the final "o" marks it as a
+noun.  The respelling would be tagged `eo`, the language code for
+Esperanto.
+{/}
+
+
 ### Datatype patterns
 
 A party defining a *datatype* *may* specify a **pattern** for that
@@ -609,8 +661,13 @@ XML Schema `data` type allows).
 
 This *pattern* matches *strings* like "`1999-02-31`".  Despite matching
 the *pattern*, this *string* is not part of the *lexical space* of this
-`date` type.
+`date` type as 31 February is not a valid date.
 {/}
+
+{.note} *Patterns* may be defined for *language-tagged datatypes* just
+for other *datatypes*.  As *patterns* only constrain the *lexical space*
+of the *datatype*, they cannot be used to constrain the *language tag*
+in the value of a *language-tagged datatype*.
 
 ### Subtypes
 
@@ -623,6 +680,20 @@ of the *subtype* *shall* be a subset of the *lexical space* of the
 defined in such a way that at most this results in some loss of meaning
 but does not introduce any false implications about the dataset.  
 
+{.note}  This does not require a *subtype* to define a *pattern* if
+the *supertype* does.  Because the *lexical space* of the *subtype*
+*must* be a subset of that of the *supertype*, the *pattern* of the
+*supertype* may be used if the *subtype* does not define one.  This
+might be done if additional restrictions made on *lexical space* of the
+*subtype* cannot readily be expressed using a regular expression.
+
+{.note}  It is only the *lexical space* of the *subtype* that is
+required to be a subset of the *lexical space* of the *supertype*.  The
+set of *strings* that match the *pattern* of the *subtype* might not
+necessarily be a subset of that of the *supertype*.  This is because the
+*pattern* is permitted to match *strings* outside the *lexical space*,
+as in the example of the date "`1999-02-31`".
+
 A *datatype* *may* be defined to be a **abstract datatype**.  An
 *abstract datatype* is one that *must* only be used as a *supertype* of
 other types.  A *string* *must not* be declared to have a *datatype*
@@ -631,6 +702,40 @@ which is an *abstract datatype*.  *Abstract datatypes* *may* specify a
 
 {.note} A *pattern* defined on an *abstract datatype* serves to restrict
 the *lexical space* of all its *subtypes*.
+
+*Subtypes* may be defined of *language-tagged datatypes* as well as of
+other *datatypes*.  If the *supertype* is a *language-tagged datatype*
+then the *subtype* *must* also be; and if the *supertype* is not a
+*language-tagged datatype* then the *subtype* *must not* be.
+
+### The `rdf:langString` type
+
+Any *language-tagged datatype* that is not defined to be a *subtype* of
+some other *datatype* *shall* implicitly be considered to be a *subtype*
+of the `rdf:langString` type defined in §2.5 of [RDFS].  This *datatype*
+is a *language-tagged datatype* and has the following *term name*:
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+
+{.note} Although this type is formally defined in the RDF Schema
+specification, this standard requires no knowledge of RDF; an
+implementer may safely use this *datatype* using just the information
+given in this section, and without reading [RDFS].
+
+No constraints are placed on the *lexical space* of this *datatype*
+which is the space of all *strings*, nor are any other restrictions
+placed on the use or semantics of this *datatype*.  It is not an
+*abstract datatype* and *should* be used whenever a piece of
+unstructured, human-readable text is required, with no further
+restrictions on its content.
+
+{.note} This type is the ultimate *supertype* of all *language-tagged
+datatypes*.  No comparable *datatype* is provided to act as the ultimate
+*supertype* of all *datatypes* other than *language-tagged datatypes*,
+nor of all *datatypes*.  In particular, this role is not served by the
+`xsd:string` *datatype* from 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], which also has
+no constraints on its *lexical space*, use or semantics.
 
 ## Citations elements
 
@@ -1350,6 +1455,11 @@ not require that the graph be acyclic.
     639-2:1998.  Codes for the representation of names of languages
     &mdash; Part 2: Alpha-3 code*.  1998.  (See
     <http://www.loc.gov/standards/iso639-2/>.)
+
+[RDFS]
+:   W3C (World Wide Web Consortium). *RDF Schema 1.1*.
+    W3C Recommendation, 2014.
+    See <http://www.w3.org/TR/rdf-schema>.
 
 [RFC 2119]
 :   IETF (Internet Engineering Task Force).  *RFC 2119:  Key words for
