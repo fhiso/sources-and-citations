@@ -376,7 +376,7 @@ latest edition of XML 1.1 specification are definitive.
 A **term** consists of a unique, machine-readable identifier, known as
 the **term name**, paired with a clearly-defined meaning for the concept
 or idea that it represents.  This standard uses *terms* as *datatypes*
-and *citation element names*, as defined in §3 and §4 of this standard
+and *citation element names*, as defined in §2 and §3 of this standard
 respectively.  *Term names* *shall* take the form of an IRI
 matching the `IRI` production in §2.2 of
 &#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].
@@ -633,7 +633,6 @@ noun.  The respelling would be tagged `eo`, the language code for
 Esperanto.
 {/}
 
-
 ### Datatype patterns
 
 A party defining a *datatype* *may* specify a **pattern** for that
@@ -733,9 +732,9 @@ restrictions on its content.
 datatypes*.  No comparable *datatype* is provided to act as the ultimate
 *supertype* of all *datatypes* other than *language-tagged datatypes*,
 nor of all *datatypes*.  In particular, this role is not served by the
-`xsd:string` *datatype* from 
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], which also has
-no constraints on its *lexical space*, use or semantics.
+`xsd:string` (*term name*: `http://www.w3.org/2001/XMLSchema#string`)
+*datatype* from &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)],
+which also has no constraints on its *lexical space*, use or semantics.
 
 ## Citations elements
 
@@ -750,7 +749,7 @@ elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *ultimate super-element* (as defined in §3.1).
+   have the same *ultimate super-element* (as defined in §4.1).
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
@@ -761,7 +760,7 @@ subject to the following constraints:
    if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
-`translatedElement`s per §3.4.1 of this standard, and then removing them
+`translatedElement`s per §4.4.1 of this standard, and then removing them
 from the *citation element set*.
 
 {.note} Subject to these constraints, this standard allows *citation
@@ -782,6 +781,7 @@ purpose is called a *citation element term*.
 element name* and a *citation element term*.  The former is part of a
 *citation element* and therefore part of the data describing a *source*,
 while the latter is an item of vocabulary used in the description.
+The *citation element name* is a *citation element term*.
 
 {.example ...}  The [CEV Vocabulary] defines a *citation element term* for
 the title of a *source*.  Its *term name* is:
@@ -789,81 +789,66 @@ the title of a *source*.  Its *term name* is:
     https://terms.fhiso.org/sources/title
 
 A dataset might contain many *citation elements* with this as their
-*citation element name*, each produced by some researcher citing a
-*source*; but there is just a single "title" *citation element term*,
-defined by FHISO.
+*citation element name*.
 {/}
 
 ### Citation element values
 
-The **citation element value** is the content of the *citation element*.
-The *citation element value* *shall* be a *translation set* if the
-*citation element* contains textual data that is in a particular
-language or script and which cannot automatically be translated or
-transliterated as required.  Otherwise it *shall* be a *string*.
+The **citation element value** is the content of the *citation element*
+which *shall* be a *localisation set*.  
+A **localisation set** is an ordered list of *strings*, which
+applications *should* *whitespace-normalise*.  Each *string* in a
+*localisation set* *should* contain the same information, but
+translated, transliterated or otherwise localised. 
 
-{.example ...}  A book published in 2015 would have its year of
-publication encoded in a *citation element* with:
-
-*    the *name* `https://terms.fhiso.org/sources/publicationDate`; and
-*    a *value* comprising the *string* "`2015`".
-
-Even though an application designed for Arabic researchers might need to
-display the year as "<span dir="rtl">٢٠١٥</span>" using Eastern Arabic
-numerals, this conversion can be done entirely in the application's user
-interface, so a *translation set* is not required and *must not* be
-used.
-{/}
-
-#### Translation sets
-
-A **translation set** is an ordered list of *strings*, each of which
-*shall* be tagged with a **language tag** to identify the language, and
-where appropriate the script and regional variant, in which that
-particular *string* is written.  Each *string* in a *translation set*
-*should* contain the same information, but translated, transliterated or
-localised.  The *language tag* *shall* match the `Language-Tag`
-production from
+Each *string* in a *localisation set* *shall* be tagged with a
+*datatype*, and *shall* additionally be tagged with a *language tag* if
+and only if the specified *datatype* is a *language-tagged datatype*.
+The *language tag* *shall* match the `Language-Tag` production from
 &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)], and *should*
 contain a script subtags per §2.2.3 of 
 &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] when
 transliteration has occurred.  
 
-{.example ...}  The `https://terms.fhiso.org/sources/title` element's
-value is a *translation set*.  This might contain, in order:
+{.note} Most often a *localisation sets* will contain only a single
+*string*, either because localisation is not relevant to that particular
+*citation element*, as might be the case with a straightforward page
+number, or because the creator of the *localisation set* only provided
+the particular version the user was expected to require.  If more than
+one *string* is present, usually they will all have the same *datatype*
+and differ only in their *language tags*.  Neverthless, the mechanism
+allows for *strings* of different *datatypes* and there are rare
+situations where this functionality is needed.
+
+{.ednote}  In the first draft of this standard, instead of *localisation
+sets* there were *translation sets*, which were lists of *strings* each
+tagged with a *language tag*; there was no explicit notion of a
+*datatype*; and *citation element values* were either a *translation
+set* or a single *string*.  In the new terminology this said
+*localisation sets* had to be homogenous, i.e. they had to have a single
+*datatype*.
+
+{.example ...}  The `title` *citation element* defined in the [CEV
+Vocabulary] would normally contain *strings* tagged with the
+`rdf:langString` *datatype*.  An example `title` *citation element*
+might contain a *localisation set* with three `rdf:langString` *strings*
+in the following order:
 
 *    the original title "`Η Γενεαλογία των Κομνηνών`" with
      *language tag* `el`, the language code for Greek in [ISO 639-1];
 *    a transliteration, perhaps supplied algorithmically, with the value
      "`Hē Genealogia tōn Komnēnōn`" and *language tag* `el-Latn`,
-     `Latn` being the code for the Latin script in [ISO 15924];
-*    and a French translation, "`La généalogie des Comnènes`", tagged 
-     with the language code `fr`.
+     `Latn` being the code for the Latin script in [ISO 15924]; and
+*    a French translation, "`La généalogie des Comnènes`", tagged with
+     the language code `fr`.
 {/}
 
-{.example} *Translation sets* are not restricted to situations where
-translation is not involved.  They are also used where transliteration
-or other localisation may be needed.  An author' name is rarely
-translated in usual sense, but may be transliterated.  Andalusian
-historian <span dir="rtl">صاعد الأندلسي</span> might be transliterated
-"Ṣā‘id al-Andalusī" in the Latin script.  These two values would still
-belong in a *translation set* despite being transliterations rather than
-translations.  They would be tagged `ar` and `ar-Latn`, meaning the
-Arabic language in its default script and in the Latin script,
-respectively.  An author's names may also be respelled to conform to the
-spelling and grammar rules of the reader's language.  An Englishman
-named Richard may be rendered "Rikardo" in Esperanto: the change of the
-"c" to a "k" being to conform to Esperanto orthography, while the final
-"o" marks it as a noun.  The respelling would be tagged `eo`, the
-language code for Esperanto.
+#### Serialisation considerations
 
-{.note} Frequently *translation sets* will contain only a single
-*string*, and often most of the *strings* in *translation sets* in a
-given document will be in the same language.
-
-Although the *language tags* is *required*, it need not be explicit in
-the serialisation.  A serialisation format *may* provide a mechanism for
-stating the document's default *language tag*, and *may* provide a global
+Although the *language tags* is *required* for *language-tagged
+datatypes*, it need not be explicit in the serialisation.  A
+serialisation format *may* provide a mechanism for stating the
+document's default *language tag*, and *may* provide a global
 default which *should* be a language-neutral choice such as `und`,
 defined in &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)] to
 mean an undetermined language.  In the absence of an explicit or
@@ -880,73 +865,85 @@ be in Brazilian Portuguese.  HTML does not define a default *language
 tag* that applies in the absence of a `lang` tag, and applications 
 *must not* apply one.
 
-Where possible, the first *string* in the *translation set* *should* be
+If *localisation sets* are being serialised in XML, it is *recommended*
+that the special `xml:lang` attribute defined in §2.12 of 
+&#x5B;[XML](https://www.w3.org/TR/xml11/)] is used to encode the
+*language tag*.  
+
+Simiarly, a *datatype* is *required*, but it need not be explicit in the
+serialisation.  A serialisation format *may* specify a default
+*datatype* that applies when none is given explicitly.  Ordinarily, if a
+default is specified, it *should* be the `rdf:langString` *datatype*
+defined in §2.4 of this standard.
+
+{.note}  The serialisation format's default *datatype* *should* be a
+*language-tagged datatype* to ensure that any *language tag* that is in
+the scope is retained in the data model, and as the most general
+*language-tagged datatype*, `rdf:langString` is *recommended*.  The
+facilities in §**XXX** of this standard allow a *conformant* application
+to correct the *datatype* that have incorrectly defaulted to
+`rdf:langString`.
+
+{.example ...}  The [CEV RDFa] standard makes `rdf:langString` the default
+*datatype* in most circumstances.  Thus the *citation element*
+extracted from the following HTML fragment is interpretted as an
+`rdf:langString` *string*, even though it is not explicitly tagged as
+such:
+
+    <i lang="en" property="title">The Complete Peerage</i>
+{/}
+
+#### Reordering, deduplicating and merging
+
+Where possible, the first *string* in the *localisation set* *should* be
 the untranslated, and ideally untransliterated form of the *citation
 element value*.  If it is known that the only available values are
-translations, the first *string* in the *translation set* *should* be an
+translations, the first *string* in the *localisation set* *should* be an
 empty string tagged with the *language tag* `und`, and the translations
-listed afterwards.  An empty *string* in a *translation set* means that
+listed afterwards.  An empty *string* in a *localisation set* means that
 its value is unknown, rather than that this particular translation is
 literally an empty string.
 
-*Conformant* applications *may* reorder the *translation set*, but
+*Conformant* applications *may* reorder the *localisation set*, but
 *must* leave the first *string* first, so that applications wishing to
 use the original, untranslated, untransliterated form can do so.
 
 {.note} A standard *may* define a serialisation format that does not
-preserve the order of a *translation set*, but *must* take alternative
+preserve the order of a *localisation set*, but *must* take alternative
 steps to record the original version.  For example, the language map in
 &#x5B;[JSON-LD](https://www.w3.org/TR/json-ld/)] is very similar to a
-*translation map*, except that JSON's object notion, as given in §4 of 
-&#x5B;[RFC 7159](https://tools.ietf.org/html/rfc7159)], does not preserve
+*localisation set* containing only `rdf:langString` *strings*, except
+that JSON's object notion, as given in §4 of &#x5B;[RFC
+7159](https://tools.ietf.org/html/rfc7159)], does not preserve
 order.  One possible solution is to append some private use subtag (per
 §2.2.7 of &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)]) to the
 first *language tag*.
 
-A *translation set* *must not* contain more than one *string* with the
-same *language tag*.  If an application encounters a *translation set*
-with duplicate *language tags*, it *should* prefer the first non-empty
-*string* with that *language tag*, and *may* *deduplicate* the
-*translation set*; where possible it *should not* *deduplicate* a
-*translation set* that has been reordered from its serialised form.
+In a *localisation set* which contains more than one *string* with the
+same *datatype* and *language tag*, or more than one *string* with the
+same *datatype* if it is not a *language-tagged datatype*, any *string*
+other than the first non-empty *string* with that *datatype* and, if
+relevant, *language tag* is known as a **duplicate string**.
 
-To **deduplicate** a *translation set*, the application *shall* discard
-all *strings* other than the first non-empty *string* with any given
-*language tag*.  Before discarding any *strings* the application *shall*
-note the *language tag* of the first *string* in the *translation set*.
-If a *string* with that *language tag* remains after *deduplication*,
-the application *shall* ensure it is the first *string* in the
-*deduplicated* *translation set*; if there is not, the application shall
-insert any empty *string* with that *language tag* as the first *string*
-in the *translation set*.
+If an application encounters a *localisation set* with *duplicate
+strings*, it *should* ignore the value of any *duplicate strings* and
+*may* *deduplicate* the *localisation set*; where possible it *should
+not* *deduplicate* a *localisation set* that has been reordered from its
+serialised form.
 
-If an application needs to **merge** two or more *translation sets*, the
-contents of each *translation sets* *shall* be combined in order, and
-the application *must* *deduplicate* the resultant *translation set*.
+To **deduplicate** a *localisation set*, the application first notes the
+*datatype* and, if present, the *language tag* of the first *string* in
+the *localisation set*.  Next, all *duplicate strings* are deleted from
+the *localisation set*.  Finally, if a *string* with the noted
+*datatype* and *language tag* remains after *deduplication*, the
+application *shall* reorder the *localisation set* to ensure it is the
+first *string* in the *deduplicated* *localisation set*; if there is not,
+the application shall insert any empty *string* with that *datatype* and
+*language tag* as the first *string* in the *localisation set*.
 
-{.ednote ...} An earlier draft of this standard put the *language tag* in
-the *citation element*, and made the *citation element value* a list.
-This had the problem that all list values had to be available in all
-languages or scripts.  This caused problems with lists of authors
-containing names in different native scripts.
-
-The earlier draft also said that the original untransliterated,
-untranslated value should not have a *language tag*.  This allowed
-applications to pick out the original version, but left no way of
-distinguishing between translated and transliterated versions.
-
-These problems are solved in this version.
-{/}
-
-If *translation sets* are being serialised in XML, it is
-*recommended* that the special `xml:lang` attribute defined in §2.12 of 
-&#x5B;[XML](https://www.w3.org/TR/xml11/)] is used to encode the
-*language tag*.  
-
-Applications *should* apply *whitespace-normalisation* to any *string*
-in a *citation element value*.  This applies both to *strings* in
-*translation sets* and when they are the *citation element value*
-directly.
+If an application needs to **merge** two or more *localisation sets*, the
+contents of each *localisation sets* *shall* be combined in order, and
+the application *shall* *deduplicate* the resultant *localisation set*.
 
 ## Defining citation element terms
 
