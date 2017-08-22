@@ -391,66 +391,6 @@ have English names, and in such cases the human-legibility of IRIs is
 advantageous.  URIs are a subset of IRIs, and all the *terms* defined in
 this suite of standard are also URIs.
 
-The *terms* defined in this standard all have *term names* that begin
-`https://terms.fhiso.org/`.  Subject to the requirements herein, third
-parties may also define additional *terms* for use as *datatypes* or
-*citation elements*.  It is *recommended* that any such *terms* use the
-`http` or preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of
-&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
-an authority component consisting of just a domain name or subdomain
-under the control of the party defining the *extension citation
-elements*.
-
-{.note ...} An `http` or `https` IRI scheme is *recommended* because the
-IRI is used to fetch a resource during *discovery*, and it is desirable
-that applications implementing *discovery* should only need to support a
-minimal number of transport protocols.  URN schemes like the `uuid`
-scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
-*not recommended* as they do not have transport protocols that can be
-used during *discovery*.
-
-The preference for a `https` IRI is because of security considerations
-during *discovery*.  A man-in-the-middle attack during *discovery* could
-insert malicious content into the response, which, if undetected, could
-cause an application to process user data incorrectly, potentially
-discarding parts of it or otherwise compromising its integrity.  It is
-harder to stage a man-in-the-middle attack over TLS, especially if
-public key pinning is used per 
-&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
-{/}
- 
-It is *recommended* that an HTTP `GET` request to a *term name* IRI with
-an `http` or `https` scheme (once converted to a URI per §4.1 of
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]), *should* result
-in a 303 "See Other" redirect to a document containing a human-readable
-definition of the *term* if the request was made without an `Accept`
-header or with an `Accept` header matching the format of the
-human-readable definition.  It is further *recommended* that this
-format should be HTML, and that documentation in alternative formats
-*may* be made available via HTTP content negotiation when the request
-includes a suitable `Accept` header, per §5.3.2 of 
-&#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
-
-{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
-Data](http://linkeddatabook.com/editions/1.0/)], so as to avoid
-confusing the *term name* IRI with the document containing its
-definition, which is found at the post-redirect URL.  The *terms*
-defined in this suite of standards are not specifically designed for
-use in Linked Data, but the same considerations apply.
-
-Parties defining *terms* *may* arrange for their *term name* to
-support **discovery**.  This when an HTTP `GET` request to a *term name*
-IRI with an `http` or `https` scheme, made with an appropriate `Accept`
-header, yields 303 redirect to a machine-readable definition of the 
-*term*. 
-
-{.ednote}  FHISO does not currently define a *discovery* mechanism, but
-anticipate doing so in a future standard.  If such a standard is
-included in the initial suite of Citation Elements standards, it is
-likely to be *recommended* that parties defining *terms* *should*
-arrange for them to support *discovery*, while application support for
-it would be *optional*.
-
 *Term names* are compared using the "simple string comparison" algorithm
 given in §5.3.1 of 
 &#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  If a *term
@@ -495,6 +435,68 @@ compare IRIs, only the first may be used as a *term name*.  The second
 and third are prohibited as a result of the unnecessary
 percent-encoding, and the third is additionally prohibited as a result
 of unnecessary punycode-encoding.
+
+The *terms* defined in this standard all have *term names* that begin
+`https://terms.fhiso.org/`.  Subject to the requirements herein, third
+parties may also define additional *terms* for use as *datatypes* or
+*citation elements*.  It is *recommended* that any such *terms* use the
+`http` or preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of
+&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
+an authority component consisting of just a domain name or subdomain
+under the control of the party defining the *extension citation
+elements*.
+
+{.note ...} An `http` or `https` IRI scheme is *recommended* because the
+IRI is used to fetch a resource during *discovery*, and it is desirable
+that applications implementing *discovery* should only need to support a
+minimal number of transport protocols.  URN schemes like the `uuid`
+scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
+*not recommended* as they do not have transport protocols that can be
+used during *discovery*.
+
+The preference for a `https` IRI is because of security considerations
+during *discovery*.  A man-in-the-middle attack during *discovery* could
+insert malicious content into the response, which, if undetected, could
+cause an application to process user data incorrectly, potentially
+discarding parts of it or otherwise compromising its integrity.  It is
+harder to stage a man-in-the-middle attack over TLS, especially if
+public key pinning is used per 
+&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
+{/}
+
+#### IRI resolution
+ 
+It is *recommended* that an HTTP `GET` request to a *term name* IRI with
+an `http` or `https` scheme (once converted to a URI per §4.1 of
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]), *should* result
+in a 303 "See Other" redirect to a document containing a human-readable
+definition of the *term* if the request was made without an `Accept`
+header or with an `Accept` header matching the format of the
+human-readable definition.  It is further *recommended* that this
+format should be HTML, and that documentation in alternative formats
+*may* be made available via HTTP content negotiation when the request
+includes a suitable `Accept` header, per §5.3.2 of 
+&#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
+
+{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
+Data](http://linkeddatabook.com/editions/1.0/)], so as to avoid
+confusing the *term name* IRI with the document containing its
+definition, which is found at the post-redirect URL.  The *terms*
+defined in this suite of standards are not specifically designed for
+use in Linked Data, but the same considerations apply.
+
+Parties defining *terms* *may* arrange for their *term name* to
+support **discovery**.  This when an HTTP `GET` request to a *term name*
+IRI with an `http` or `https` scheme, made with an appropriate `Accept`
+header, yields 303 redirect to a machine-readable definition of the 
+*term*. 
+
+{.ednote}  FHISO does not currently define a *discovery* mechanism, but
+anticipate doing so in a future standard.  If such a standard is
+included in the initial suite of Citation Elements standards, it is
+likely to be *recommended* that parties defining *terms* *should*
+arrange for them to support *discovery*, while application support for
+it would be *optional*.
 
 ## Datatypes
 
