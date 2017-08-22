@@ -961,7 +961,7 @@ specifically for use as a *citation element name* in the following
 manner.  The party defining the *citation element term* *shall* provide
 a description of the intended purpose of the *citation element term*
 which *should* be made freely available to all interested parties,
-preferably by an HTTP request as described in §1.4 of this standard.  In
+preferably by an HTTP request as described in §1.4.1 of this standard.  In
 addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
