@@ -373,6 +373,10 @@ latest edition of XML 1.1 specification are definitive.
 
 ### Terms
 
+{.ednote}  The concept of a *term* is new in this draft of the standard,
+introduced to refactor wording common to both *citation element names*
+and the new concept of a *datatype* into a single place.
+
 A **term** consists of a unique, machine-readable identifier, known as
 the **term name**, paired with a clearly-defined meaning for the concept
 or idea that it represents.  This standard uses *terms* as *datatypes*
@@ -493,6 +497,9 @@ percent-encoding, and the third is additionally prohibited as a result
 of unnecessary punycode-encoding.
 
 ## Datatypes
+
+{.ednote}  The concept of a *datatypes* is new in this draft of the
+standard.
 
 A **datatype** is a *term* which serves as a formal description of the
 values that are permissible in a particular context.  A *datatype* has a
@@ -820,13 +827,13 @@ and differ only in their *language tags*.  Neverthless, the mechanism
 allows for *strings* of different *datatypes* and there are rare
 situations where this functionality is needed.
 
-{.ednote}  In the first draft of this standard, instead of *localisation
-sets* there were *translation sets*, which were lists of *strings* each
-tagged with a *language tag*; there was no explicit notion of a
-*datatype*; and *citation element values* were either a *translation
-set* or a single *string*.  In the new terminology this said
-*localisation sets* had to be homogenous, i.e. they had to have a single
-*datatype*.
+{.ednote}  In the first public draft of this standard, instead of
+*localisation sets* there were *translation sets*, which were lists of
+*strings* each tagged with a *language tag*; there was no explicit
+notion of a *datatype*; and *citation element values* were either a
+*translation set* or a single *string*.  In the new terminology this
+said *localisation sets* had to be homogenous, i.e. they had to have a
+single *datatype*.
 
 {.example ...}  The `title` *citation element* defined in the [CEV
 Vocabulary] would normally contain *strings* tagged with the
