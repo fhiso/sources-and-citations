@@ -990,6 +990,12 @@ If an application needs to **merge** two or more *localisation sets*, the
 contents of each *localisation sets* *shall* be combined in order, and
 the application *should* *deduplicate* the resultant *localisation set*.
 
+If a *citation element* has a *citation element name* which is an empty
+*localisation set*, that *citation element* *should* be discarded.
+
+{.note} This can occur as the result of removing *invalid* *strings*
+from a previously non-empty *localisation set*.
+
 ## Defining citation element terms
 
 A **citation element term** is a *term* which has been defined
@@ -1161,6 +1167,10 @@ the *citation element term* used as the *citation element name*, or the
 *Conformant* application *should* take steps to avoid creating
 *localisation sets* containing *invalid* *strings*.
 
+{.note} An application might inadvertently create *invalid* *strings*
+if it does not know the *range* of a *citation element term* or the
+definitions of some of the *datatypes* within that *range*.
+
 Applications *may* discard any *strings* that are known to be *invalid*,
 and *may* use one or more *discovery* mechanism to obtain the
 information needed to determine this.  It is *recommended* that this
@@ -1196,43 +1206,41 @@ element name*; but it *may* contain several
 that is defined to be *multi-valued* to accommodate *sources* with
 several authors.
 
-If a *citation element set* contains multiple *citation elements* whose
-*citation element names* have the same *ultimate single-valued
-super-element*, they are known as **duplicate citation elements**.
-*Citation element sets* *should not* contain *duplicate citation
-elements*, and an application *must not* knowingly create *duplicate
-citation elements*.  When *duplication citation elements* are present,
-they can be **deduplicated** according to the rules below.
+In a *citation element set* which contains more than one *citation
+element* whose *citation element names* have the same *ultimate
+single-valued super-element*, any *citation element* other than
+the first *citation element* with that *ultimate single-valued
+super-element* is known as a **duplicate citation element**.
 
-{.note} Applications might inadvertently create *duplicate citation
-elements* when they do not know the *super-element* or *cardinality* of
+{.note} *Citation element terms* that are declared as *multi-valued* do
+not have an *ultimate single-valued super-element* and are therefore
+never *duplicate citation elements*.
+
+*Citation element sets* *should not* contain *duplicate citation
+elements*, and an application *should* take steps to avoid creating
+*duplicate citation elements*.  
+
+{.note} An application might inadvertently create *duplicate citation
+elements* if it does not know the *super-element* or *cardinality* of
 some of *citation element terms*.
 
-If an application encounters a *duplicate citation element* that is
-known to be not *translatable*, the application *should* favour the
-first of the *duplicate citation elements* and *may* *deduplicate* the
-*citation element set* by discarding the other *duplicate citation
-elements*.
-
-If an application encounters a *duplicate citation element* that is
-either known to be *translatable* or whose *translatability* is unknown,
-the application *should* *deduplicate* the *citation element set* by
-replacing the *duplicate citation elements* with a single replacement
+When *duplication citation elements* are present, they *may* be
+*deduplicated*.  To **deduplicate** a *citation element set*, the
+application *should* replace all the *citation elements* with a common
+*ultimate single-valued super-element* with a single replacement
 *citation element* with the following properties:
 
 *  a *citation element name* which *shall* be the *most-refined common
-   super-element* of the *duplication citation elements*; and
-*  a *citation element value* which *shall* be a *translation set*
-   created by *merging* the *translation sets* of each *duplicate
-   citation element*.
-
+   super-element* of the *citation element terms* being replaced; and
+*  a *citation element value* which *shall* be a *localisation set*
+   created by *merging* the *localisations sets* of each *citation
+   element value* being replaced.
 
 {.note} There is no requirement for an application to check for
-*duplicate citation elements* and *deduplicate* them other than when
-merging *citation element sets*, though an application *may* do so at
-other times.  In particular, it might be advisable for an application to
-do this when importing third-party data, or if it has recently learnt of
-new *extension citation elements*.
+*duplicate citation elements* and *deduplicate* them; however it might
+be advisable for an application to do so when importing third-party
+data, or if it has recently learnt of new *extension citation elements*
+which are *single-valued*.
 
 {.ednote ...}  This standard needs to define how to merge *citation
 element sets*.  The following text is a start towards that.
@@ -1253,20 +1261,6 @@ necessary to prevent duplication of, say, authors.
 {/}
 
 ### Translatability
-
-
-If an application encounters a *citation element* whose *citation
-element name* is known to be not *translatable*, but whose *citation
-element value* is a *translation set*, the application *may* convert the
-*translation set* to a *string* by discarding all but the first *string*
-in the *translation set*.  If the *translation set* contains only one
-*string*, and if that *string* conforms to the *range* of the *citation
-element term*, this conversion *should* be done.  
-
-{.note} This situation may arise when an *extension citation element*
-has been serialised in a *list-flattening format* by an application that
-does not know whether it is *translatable*, and subsequently read by an
-application that knows it not to be *translatable*.
 
 If an application encounters a *citation element* whose *citation
 element value* is a *string*, but where the application knows the
