@@ -584,11 +584,11 @@ dataset.
 somehow identified as being written in German, an application
 encountering the *string* "`8 Okt 2000`" in a context where an XML
 Schema `date` is expected, it *may* convert this to "`2000-10-08`".
-However an application encountering the *string* "`8/10/2000`" *must
-not* conclude this represents 8 October or 10 August unless the document
-includes a locale that uniquely determines the date format.  In this
-case, information that the document is in English is not sufficient as
-different English-speaking countries have different conventions for
+However an application encountering the *string* "`8/10/2000`" 
+*must not* conclude this represents 8 October or 10 August unless the
+document includes a locale that uniquely determines the date format.  In
+this case, information that the document is in English is not sufficient
+as different English-speaking countries have different conventions for
 formatting dates.
 
 ### Language-tagged datatypes
@@ -641,6 +641,9 @@ to conform to Esperanto orthography, while the final "o" marks it as a
 noun.  The respelling would be tagged `eo`, the language code for
 Esperanto.
 {/}
+
+A *datatype* that is not a *language-tagged datatype* is called a
+**non-language-tagged datatype**.
 
 ### Datatype patterns
 
@@ -706,15 +709,26 @@ A *datatype* *may* be defined to be a **abstract datatype**.  An
 *abstract datatype* is one that *must* only be used as a *supertype* of
 other types.  A *string* *must not* be declared to have a *datatype*
 which is an *abstract datatype*.  *Abstract datatypes* *may* specify a
-*pattern*.
+*pattern* and *shall* have a *lexical space*.
 
-{.note} A *pattern* defined on an *abstract datatype* serves to restrict
-the *lexical space* of all its *subtypes*.
+{.note} The *lexical space* of an *abstract datatype* and any *pattern*
+defined on it serve to restrict the *lexical space* of all its
+*subtypes*.  If no such restriction is desired, the *lexical space* may
+be defined as the space of all *strings*.
 
 *Subtypes* may be defined of *language-tagged datatypes* as well as of
 other *datatypes*.  If the *supertype* is a *language-tagged datatype*
 then the *subtype* *must* also be; and if the *supertype* is not a
 *language-tagged datatype* then the *subtype* *must not* be.
+
+{.note} The concept of a *subtype* in this standard corresponds to
+XML Schema's concept of derivation of a simple type by restriction per
+§3.16 of &#x5B;[XSD Pt1](https://www.w3.org/TR/xmlschema11-1/)].  XML
+Schema does not have concept compatible with this standard's notion of
+an *abstract datatype*, as in XML Schema only complex types can be
+abstract.  If it is desirable to describe a FHISO *abstract datatype* in
+XML Schema, it should be defined as a normal simple type, with the
+information that it is abstract conveyed by another means. 
 
 ### The `rdf:langString` type
 
@@ -739,11 +753,32 @@ restrictions on its content.
 
 {.note} This type is the ultimate *supertype* of all *language-tagged
 datatypes*.  No comparable *datatype* is provided to act as the ultimate
-*supertype* of all *datatypes* other than *language-tagged datatypes*,
-nor of all *datatypes*.  In particular, this role is not served by the
-`xsd:string` (*term name*: `http://www.w3.org/2001/XMLSchema#string`)
-*datatype* from &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)],
-which also has no constraints on its *lexical space*, use or semantics.
+*supertype* of all *non-language-tagged datatypes*, nor of all
+*datatypes*.  In particular, this role is not served by the `xsd:string`
+(*term name*: `http://www.w3.org/2001/XMLSchema#string`) *datatype* from
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], which also has
+no constraints on its *lexical space*, use or semantics.
+
+### Unions of datatypes
+
+A **union of datatypes** is an unordered list of one or more different
+datatypes.
+
+{.note} As defined in this standard, a *union of datatypes* is not
+itself a *datatype* as it lacks a *term name* to identify it, may not
+have a *pattern*, and cannot be used as a *subtype* or *supertype*.
+This is just a matter of nomenclature, and a future version of this
+standard might broaden the definition of a *datatype* to allow a *union*
+to be a *datatype*.
+
+A *union of datatypes* *may* contain *language-tagged datatypes*,
+*non-language-tagged datatypes*, or a mixture of both.
+
+The **lexical space** of a *union of datatypes* is the union of the
+*lexical space* of each of its constituent *datatypes*.
+
+{.note}  There is no requirement that the *lexical spaces* of each
+constituent *datatype* be disjoint.
 
 ## Citations elements
 
@@ -758,7 +793,8 @@ elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *ultimate super-element* (as defined in §4.1).
+   have the same *ultimate super-element* (as defined in §4.1 of this
+   standard).
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
@@ -930,15 +966,15 @@ first *language tag*.
 
 In a *localisation set* which contains more than one *string* with the
 same *datatype* and *language tag*, or more than one *string* with the
-same *datatype* if it is not a *language-tagged datatype*, any *string*
+same *datatype* if it is a *non-language-tagged datatype*, any *string*
 other than the first non-empty *string* with that *datatype* and, if
 relevant, *language tag* is known as a **duplicate string**.
 
 If an application encounters a *localisation set* with *duplicate
 strings*, it *should* ignore the value of any *duplicate strings* and
-*may* *deduplicate* the *localisation set*; where possible it *should
-not* *deduplicate* a *localisation set* that has been reordered from its
-serialised form.
+*may* *deduplicate* the *localisation set*; where possible it 
+*should not* *deduplicate* a *localisation set* that has been reordered
+from its serialised form.
 
 To **deduplicate** a *localisation set*, the application first notes the
 *datatype* and, if present, the *language tag* of the first *string* in
@@ -952,7 +988,7 @@ the application shall insert any empty *string* with that *datatype* and
 
 If an application needs to **merge** two or more *localisation sets*, the
 contents of each *localisation sets* *shall* be combined in order, and
-the application *shall* *deduplicate* the resultant *localisation set*.
+the application *should* *deduplicate* the resultant *localisation set*.
 
 ## Defining citation element terms
 
@@ -966,12 +1002,17 @@ addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
-    and if so which one;
-*   its *range*: the *datatype* of its value space;
+    and if so which one, as defined in §4.1;
+*   its *range*: the *datatype* of its value space, as defined in §4.2; 
 *   its *cardinality*: that is, whether it is *single-valued* or
-    *multi-valued*; and
-*   its *translatability*: whether its *value* is a
-    *translation set*.
+    *multi-valued*, as defined §4.3; and
+*   an *optional* *default datatype*, as defined in §4.4. 
+
+{.ednote} Earlier drafts of this standard required the definition
+additionally to state whether the *citation element* was translatable.
+Now that all *citation element values* are *localisation sets* this
+concept is redundant, though whether the *range* is a *language-tagged
+datatype* serves a similar purpose.
 
 ### Sub-elements
 
@@ -980,9 +1021,9 @@ another *citation element term* which is referred to as its
 **super-element**.  This is used to provide a refinement of a general
 *citation element term*.  If an application is unfamiliar with the
 *sub-element* it *may* process it as if it were the *super-element*,
-with its *value* unchanged.  The *sub-element* must be defined in such
-a way that this only results in some loss of meaning, and does not
-imply anything false about the cited *source*.
+with its *citation element value* unchanged.  The *sub-element* must be
+defined in such a way that this only results in some loss of meaning,
+and does not imply anything false about the cited *source*.
 
 {.example ...}  The [CEV Vocabulary] defines a *citation element term*
 with the name 
@@ -1011,15 +1052,12 @@ aware of its existence if it were not delivered, the `recipientName`
 element cannot be defined as a *sub-element* of `creatorName`.
 {/}
 
-The *range* and *translatability* of a *sub-element* *shall* be the same
-as that of its *super-element*.
+The *range* of a *sub-element* *shall* be the same as that of its
+*super-element*.
 
 {.ednote}  The *range* of a *sub-element* could be allowed to be a
-subtype of the *super-element's* *range*, where a subtype is
-understood to reduce the *lexical space* of the *datatype*.  (It would
-correspond to concept of a restriction in §2.4.3 of 
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].)   At the moment
-there is no clear use case for this.
+*subtype* of the *super-element's* *range*, as defined in §2.3 of this
+standard.  At the moment there is no clear use case for this.
 
 Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
@@ -1061,8 +1099,8 @@ to *merge* *citation elements*.
 
 ### Range
 
-The **range** of a *citation element term* is a *datatype*, which
-describes what *citation element values* are valid in a *citation
+The **range** of a *citation element term* is a *union of datatypes*,
+which describes what *citation element values* are valid in a *citation
 element* with this *citation element name*.
 
 {.example ...}  The [CEV Vocabulary] defines a *datatype* for
@@ -1071,10 +1109,71 @@ following *term name*:
 
     https://terms.fhiso.org/sources/AgentName
 
-It is the *range* of several *citation element terms* including
+A *union of datatypes* consisting of just this one *datatype* is used as
+the *range* of several *citation element terms* defined in the 
+[CEV Vocabulary] including:
 
     https://terms.fhiso.org/sources/editorName
 {/}
+
+*Citation elements terms* with non-textual *citation element values*
+such as numbers or dates *should* have *ranges* that include one or more
+*non-language-tagged datatype*.
+
+{.example ...}  The [CEV Vocabulary] defines an *abstract datatype*
+called `AbstractDate` which is used as the *supertype* of all structured
+date *datatypes*; it has the following *term name*:
+
+    https://terms.fhiso.org/dates/AbstractDate
+
+Several *citation element terms* have a *range* consisting of a *union*
+of `AbstractDate` and `rdf:langString`.  One such *citation element
+term* is:
+
+    https://terms.fhiso.org/sources/publicationDate
+
+Because this *citation element* typically has non-textual *values*,
+frequently just a year, its *range* *should* include a
+*non-language-tagged datatype*: in this case, `AbstractData`.  The
+inclusion of `rdf:langString` is to allow dates that cannot readily be
+represented in any of the available structured formats.  An example
+might be a termly university publication dated "Michaelmas term, 1997".
+{/}
+
+{.ednote}  The previous example may need revising once FHISO's handling
+of date types has been finalised.  In particular, the IRI of
+`AbstractDate` has not been discussed yet.
+
+A *datatype* is said to be **compatible** with the *range* if either it
+is one of the *datatypes* listed in the *range*, or it is a *subtype* of
+a *datatype* that is *compatible* with the *range*.
+
+{.note} This recursive definition of *compatibility* means that the
+*datatype* may be an indirect *subtype* (e.g. a *subtype* of a
+*subtype*) of one of the *datatypes* in the *range*.
+
+A *string* in a *localisation set* which is used as a *citation element
+value* is said to be **invalid** if, after *datatypes* have been
+corrected using the facilities in §**XXX**, either the *string* is
+tagged with a *datatype* that is not *compatible* with the *range* of
+the *citation element term* used as the *citation element name*, or the
+*string* is outside the *lexical space* of that *datatype*.
+*Conformant* application *should* take steps to avoid creating
+*localisation sets* containing *invalid* *strings*.
+
+Applications *may* discard any *strings* that are known to be *invalid*,
+and *may* use one or more *discovery* mechanism to obtain the
+information needed to determine this.  It is *recommended* that this
+*should* be done prior to *deduplicating* a *localisation set*, and it
+*may* be done at other times.  A *conformant* application *must not*
+discard any *string* unless it is known to be *invalid*.
+
+{.note} In order to know whether a *datatype* is *compatible* with the
+*range*, the application will need to know or have access to the
+definition of the *datatype* and any *supertypes* to determine whether
+it is a *subtype* of a *datatype* listed in the range, as well as having
+access to definition of the *citation element term* to determine the
+*range*.
 
 ### Cardinality
 
@@ -1090,8 +1189,8 @@ that are not *multi-valued* are **single-valued**.
 {.example}  The `https://terms.fhiso.org/sources/title` *citation
 element term* is defined to be *single-valued*, as *citations* do not
 refer to the same *sources* by multiple titles (though they may
-translate or transliterate the title), so a *citation element set* *must
-not* contain more than one *citation element* with this *citation
+translate or transliterate the title), so a *citation element set* 
+*must not* contain more than one *citation element* with this *citation
 element name*; but it *may* contain several
 `https://terms.fhiso.org/sources/authorName` *citation elements*, as
 that is defined to be *multi-valued* to accommodate *sources* with
@@ -1155,13 +1254,6 @@ necessary to prevent duplication of, say, authors.
 
 ### Translatability
 
-If a *citation element term* is defined to be **translatable**, then its
-*citation element value* *shall* be a *translation set*, and the
-*range* of the *citation element term* *range* applies to each *string*
-in the *translation set*.  If it is not *translatable*, then the
-*citation element value* *shall* be a single *string*.  *Citation
-elements terms* with non-textual *citation element values* such as
-numbers or dates *must* be defined as not *translatable*.
 
 If an application encounters a *citation element* whose *citation
 element name* is known to be not *translatable*, but whose *citation
@@ -1465,7 +1557,7 @@ not require that the graph be acyclic.
 [RDFS]
 :   W3C (World Wide Web Consortium). *RDF Schema 1.1*.
     W3C Recommendation, 2014.
-    See <http://www.w3.org/TR/rdf-schema>.
+    (See <http://www.w3.org/TR/rdf-schema>.)
 
 [RFC 2119]
 :   IETF (Internet Engineering Task Force).  *RFC 2119:  Key words for
@@ -1510,12 +1602,12 @@ not require that the graph be acyclic.
 
 [CEV RDFa]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: Bindings for RDFa".  Exploratory draft of standard.
-    See <http://tech.fhiso.org/drafts/rdfa-bindings>.
+    *Citation Elements: Bindings for RDFa*.  First public draft.
+    (See <https://fhiso.org/TR/cev-rdfa-bindings>.)
 
 [CEV Vocabulary]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: Vocabulary".  Exploratory draft of standard.
+    *Citation Elements: Vocabulary*.  Exploratory draft.
 
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
@@ -1569,15 +1661,22 @@ not require that the graph be acyclic.
 [SWBP XSD DT]
 :   W3C (World Wide Web Consortium). *XML Schema Datatypes in RDF and OWL*.
     Jeremy J. Carroll and Jeff Z. Pan, 2006.
-    W3C Working Group.  See <https://www.w3.org/TR/swbp-xsch-datatypes/>.
+    W3C Working Group.  (See <https://www.w3.org/TR/swbp-xsch-datatypes/>.)
 
 [XML Names]
 :   W3 (World Wide Web Consortium). *Namespaces in XML 1.1*, 2nd edition.
-    Tim Bray, Dave Hollander, Andrew Layman and Richard Tobin, eds., 2006.  
-    W3C Recommendation.  See <https://www.w3.org/TR/xml-names11/>.
+    Tim Bray, Dave Hollander, Andrew Layman and Richard Tobin, ed., 2006. 
+    W3C Recommendation.  (See <https://www.w3.org/TR/xml-names11/>.)
+
+[XSD Pt1]
+:   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language
+    (XSD) 1.1 Part 1: Structures*.  Shudi Gao (高殊镝), C. M. 
+    Sperberg-McQueen and Henry S. Thompson, ed., 2012.  
+    W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-1/>.)
 
 [XSD Pt2]
-:   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language (XSD)
-    1.1 Part 2: Datatypes*.  W3C Recommendation.  See
-    <https://www.w3.org/TR/xmlschema11-2/>
+:   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language 
+    (XSD) 1.1 Part 2: Datatypes*.  David Peterson, Shudi Gao (高殊镝),
+    Ashok Malhotra, C. M. Sperberg-McQueen and Henry S. Thompson, ed., 2012.
+    W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-2/>.)
 
