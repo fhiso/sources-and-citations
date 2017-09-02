@@ -805,7 +805,7 @@ subject to the following constraints:
    if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
-`translatedElement`s per §4.4.1 of this standard, and then removing them
+`translatedElement`s per §4.3.1 of this standard, and then removing them
 from the *citation element set*.
 
 {.note} Subject to these constraints, this standard allows *citation
@@ -925,9 +925,9 @@ defined in §2.4 of this standard.
 *language-tagged datatype* to ensure that any *language tag* that is in
 the scope is retained in the data model, and as the most general
 *language-tagged datatype*, `rdf:langString` is *recommended*.  The
-facilities in §**XXX** of this standard allow a *conformant* application
-to correct the *datatype* that have incorrectly defaulted to
-`rdf:langString`.
+*datatype correction* mechanism defined in §4.4 of this standard allow a
+*conformant* application to correct the *datatype* that have incorrectly
+defaulted to `rdf:langString`.
 
 {.example ...}  The [CEV RDFa] standard makes `rdf:langString` the default
 *datatype* in most circumstances.  Thus the *citation element*
@@ -1159,13 +1159,13 @@ a *datatype* that is *compatible* with the *range*.
 *subtype*) of one of the *datatypes* in the *range*.
 
 A *string* in a *localisation set* which is used as a *citation element
-value* is said to be **invalid** if, after *datatypes* have been
-corrected using the facilities in §**XXX**, either the *string* is
-tagged with a *datatype* that is not *compatible* with the *range* of
-the *citation element term* used as the *citation element name*, or the
-*string* is outside the *lexical space* of that *datatype*.
-*Conformant* application *should* take steps to avoid creating
-*localisation sets* containing *invalid* *strings*.
+value* is said to be **invalid** if, after *datatype correction* has
+occurred per §4.4 of this standard, either the *string* is tagged with a
+*datatype* that is not *compatible* with the *range* of the *citation
+element term* used as the *citation element name*, or the *string* is
+outside the *lexical space* of that *datatype*.  *Conformant*
+application *should* take steps to avoid creating *localisation sets*
+containing *invalid* *strings*.
 
 {.note} An application might inadvertently create *invalid* *strings*
 if it does not know the *range* of a *citation element term* or the
@@ -1260,8 +1260,7 @@ Even though the data model doesn't require deduplication, it is still
 necessary to prevent duplication of, say, authors.
 {/}
 
-### Translatability
-
+<!--
 If an application encounters a *citation element* whose *citation
 element value* is a *string*, but where the application knows the
 *citation element name* to be defined as *translatable*, the application
@@ -1269,28 +1268,26 @@ element value* is a *string*, but where the application knows the
 the *language tag* `und` (defined in 
 &#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)]
 as representing an undetermined language).
-
-{.ednote} This scenario should not arise when data has consistently
-been processed by *conformant* applications.
+-->
 
 #### List-flattening formats                          {#list-flattening}
 
-*Conformant* applications *must* support *citation elements* whose
-*citation element names* are both *multi-valued* and *translatable*, and
-*must* ensure that the *translation set* for each *citation element
-value* remains separate.
+*Conformant* applications *must* ensure that in *citation elements*
+whose *citation element names* are *multi-valued*, the *localisation
+set* in each *citation element value* remains separate.
 
 {.example ...} The `authorName` *citation element term* is defined to be
-both *multi-valued* and *translatable* because a source may have
-multiple authors, each of whom may have names that have been
-transliterated into different scripts.  Suppose a researcher wants to
-cite the Anglo-Japanese Treaty document of 1902 which was (at least
-nominally) authored by the Marquess of Lansdowne and Count Hayashi
-Tadasu whose name is written in kanji as 林&nbsp;董.
+*multi-valued* because a source may have multiple authors, and each of
+them may have names that have been transliterated into different
+scripts.  Suppose a researcher wants to cite the Anglo-Japanese Treaty
+document of 1902 which was (at least nominally) authored by the Marquess
+of Lansdowne and Count Hayashi Tadasu whose name is written in kanji as
+林&nbsp;董.
 
-The following JSON serialisation is not allowed as it flattens
-*translation set* so it is no longer possible to determine how many
-authors there are, and which names are translations of which others.
+The following hypothetical JSON serialisation is not allowed as it
+flattens *localisation sets* so it is no longer possible to determine
+how many authors there are, and which names are translations of which
+others.
 
     [ { "name": "https://terms.fhiso.org/terms/title",
         "lang": "en",      "value": "The Anglo-Japanese Treaty" },
@@ -1301,12 +1298,16 @@ authors there are, and which names are translations of which others.
       { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
+In this example, the *datatype* of each string has been omitted on the
+assumption that it defaults to `rdf:langString` and is corrected via the
+mechanism specified in §4.4 of this standard.
+
 This is an example of a *list-flattening format* that does not conform
 to this specification; a *list-flattening format* that does conform to
 this specification is found in the next example.
 {/}
 
-A serialisation format that does not keep the *translation sets* of each
+A serialisation format that does not keep the *localisation sets* of each
 *citation element value* separate is called a **list-flattening format**,
 and this standard provides a facility to allow such formats to comply
 with this standard by introducing a special *citation element term* with
@@ -1314,28 +1315,35 @@ the following properties:
 
 ------           -----------------------------------------------
 Name             `https://terms.fhiso.org/sources/translatedElement`     
-Range            `http://www.w3.org/2001/XMLSchema#string`
+Range            *unspecified*
 Cardinality      multi-valued
-Translatability  translatable
 Super-element    *none*
 ------           -----------------------------------------------
 
+{.ednote} Should `translatedElement` be renamed to `localisedElement`?
+This might make sense given the wider scope of *localisation sets* in
+the current draft.
+
+{.note} This `translatedElement` *citation element term* has no *range*
+specified.  No other *citation element terms* defined in accordance with
+this standard may have an unspecified *range*.
+
 In a *list-flattening format*, an application *must* consider every
 value to be a separate *citation element value*, and therefore to be a
-*translation set* with one element.
+*localisation set* with one element.
 
-{.note} In most cases this assumption is expected to be valid.
-*Citation element sets* are expected to include translated or
-transliterated elements less often than not.
+{.note} More often than not this assumption is expected to be valid, as
+more often than not *citation element sets* are expected not to include
+translated or transliterated elements.
 
-When a *translation set* with two or more *strings* needs to be
+When a *localisation set* with two or more *strings* needs to be
 serialised in a *list-flattening format*, the first *string* *must* be
 serialised according to the normal rules of the format, and subsequent
 *strings* *must* be serialised as if they were separate *citation
-element*, but with the `translatedElement` *citation element name* in
+element*, but with the `translatedElement` *citation element term* in
 place of the actual *citation element name*.  This special *citation
 element* indicates that its value is not a distinct *citation element*
-and *should* instead be appended to the *translation set* of its
+and *should* instead be appended to the *localisation set* of its
 *translation base* (i.e. the last preceding *citation element* which is
 not a `translatedElement`), and the `translatedElement` removed from the
 *citation element set*.
@@ -1370,18 +1378,97 @@ still be present.  Therefore applications reading non-*list-flattening
 format* *should* cope with the possibility of `translatedElements` being
 present.
 
-If the *translation base* does not have a *translation set* as its
-*citation element value* (i.e. if its value is just a *string*), the
-`translatedElement` *should* be ignored and *may* be removed from the
-*citation element set*.  If the *translation base* is a *translation
-set* that already contains a string with the same *language tag*, an
-application *must not* overwrite or duplicate a *language tag*; the
-`translatedElement` *should* be ignored and *may* be removed from the
-the *citation element set*.
+If the *localisation set* in the *translation base* already contains a
+string with the same *datatype* and *language tag*, an application *must
+not* overwrite or duplicate a *language tag*; the `translatedElement`
+*should* be ignored and *may* be removed from the the *citation element
+set*.
 
 The use of *list-flattening formats* is *not recommended* except where
 there is a good technical reason.  The use of `translatedElement`s other
 than in *list-flattening formats* is *not recommended*.
+
+### Default datatypes
+
+{.ednote} The concept of a *default datatype* is new in this draft of
+the standard.
+
+A *citation element term* *may* have a **default datatype** defined.
+When a *default datatype* is defined, it is used to provide an
+*optional* **datatype correction** mechanism for correcting the
+*datatype* of a *string* in the *localisation set* of a *citation
+element value* in certain situations.  The *default datatype* *must* be
+a *datatype* that is *compatible* with the *range* of the *citation
+element term*.
+
+*Datatype correction* *shall* only be applied to a *string* if it
+appears in a *citation element* whose *citation element name* is a
+*citation element term* that has a *default datatype*, and that *default
+datatype* is a *datatype* which has a *pattern* defined and known to the
+application.  *Datatype correction* *shall* only be applied
+to *strings* that, prior to *datatype correction*, have one of the
+following *datatypes*:
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    http://www.w3.org/2001/XMLSchema#string
+
+Furthermore the *string* *must* match the *pattern* on the *default
+datatype*.
+
+When an application encounters a *string* which is eligible for
+*datatype correction* according to the above criteria, it *may* replace
+its *datatype* with the *default datatype*.
+
+{.note}  This standard does not say when *datatype correction* occurs.
+Ideally applications *should* apply it during the process of reading any
+serialisation format that allows *datatypes* to be omitted and defaults
+them to `rdf:langString`.  However if an application subsequently
+serialises an unknown *citation element* in a format that does not allow
+*datatypes* to be omitted, this may result in explicit *datatypes* that
+need *datatype correction*.  Therefore applications *should* cope with
+the possibility that *datatype correction* might be needed on any data
+being imported.  Likewise, when an application gains access to the
+definitions of additional *citation element terms* or *datatypes*, this
+might allow it to identify further places where *datatype correction* is
+required.  This only situation when *datatype correction* is *required*
+by this standard is immediately prior to the removal of *invalid*
+*strings*, which process is itself *optional*.
+
+If this results in replacing a *non-language-tagged datatype* with a
+*language-tagged datatype*, then the application *must* tag the *string*
+with the *language tag* `und`.
+
+{.note}  This case only applies if the *string* was previously tagged
+with the `xsd:string` *datatype* which this standard discourages.
+Support for `xsd:string` has been included in this *datatype correction*
+mechanism to accommodate certain corner cases in RDF processing.
+
+{.example ...}  The hypothetical JSON format used in several earlier
+examples included an element like this:
+
+    [ { "name": "https://terms.fhiso.org/terms/authorName",
+        "lang": "jp",      "value": "林 董" } ]
+
+This hypothetical format is supposed to default datatypes to
+`rdf:langString`, as *recommended* by this standard.
+
+The `authorName` *citation element* is defined in the [CEV Vocabulary]
+to have the following *default datatype*:
+
+    https://terms.fhiso.org/sources/AgentName
+
+This *datatype* in turn defines the following *pattern*:
+
+    ([^!#$%&@{|}]+@)[^!#$%&@{|}]+(\|[^!#$%&@{|}]*(\|[^!#$%&@{|}]+)?)?
+
+The string "`林 董`" matches this *pattern* &mdash; specifically it
+matches the second `[^!#$%&@{|}]+` block &mdash; and therefore the
+*datatype correction* will change the *datatype* to this `AgentName`
+*datatype*.
+{/}
+
+{.ednote}  The *pattern* quoted above for `AgentName` is almost
+certainly wrong.  
 
 ## Layered citations
 
