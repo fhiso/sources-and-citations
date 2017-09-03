@@ -1,12 +1,12 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 26 June 2017
+date: 3 September 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
 
-{.ednote ...} This is a **first public draft** of the core part of
+{.ednote ...} This is a **second public draft** of the core part of
 FHISO's proposed suite of standards on Citation Elements.  This document
 is not endorsed by the FHISO membership, and may be updated, replaced or
 obsoleted by other documents at any time. 
@@ -225,8 +225,8 @@ too, though an application *may* opt not to display any such *citation
 elements*.
 
 {.ednote ...} Note that the definition of *citation element* limits it 
-to information that might reasonably appear in a citation; thus,
-most metadata (such as who created the citation and when, or a
+to information that might reasonably appear in a citation; thus, most
+items of metadata (such as who created the citation and when, or a
 globally-unique identifier for the citation or its layers) are not 
 properly considered *citation elements* themselves.
 
@@ -235,7 +235,7 @@ standard.  Initial brainstorming on metadata implementation suggests
 that this document may be edited slightly to support metadata,
 perhaps by adding an optional identifier or context pointer to each
 element.  The exact nature of such an edit, or if it will even be
-necessary, will depend on that future metadata standard.
+necessary, will depend on future development of that metadata standard.
 {/}
 
 
