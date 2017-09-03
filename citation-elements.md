@@ -1195,6 +1195,14 @@ it is a *subtype* of a *datatype* listed in the range, as well as having
 access to definition of the *citation element term* to determine the
 *range*.
 
+Exceptionally, a *conformant* application *may* also discard any
+*string* which it has credible reason to believe contains malware or
+illegal content, or if it is so long that the application cannot
+reasonably handle it.
+
+{.example}  An applicaton might opt to discard all *strings* that appear
+to be Windows executables.
+
 ### Cardinality
 
 The **cardinality** of a *citation element term* records how many
