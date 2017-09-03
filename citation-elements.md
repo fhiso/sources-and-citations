@@ -662,6 +662,10 @@ Another option is to use the form defined in Appendix G of [XSD Pt2]
 which is less widely supported, but has the advantage of being the
 standard form for defining *datatypes* in XML and RDF.
 
+{.ednote} We also need to specify exactly what *matching* a *pattern*
+means.  Does "`Sept 2017`" match the pattern `[0-9]{4}`?  Should it
+implicitly anchor the full string, or should `^`...`$` be required?
+
 {.example ...}  The XML Schema `date` type mentioned in the previous
 example has the following *pattern* (here split onto two lines for
 readability &mdash; the second line is an optional timezone which the
@@ -1459,16 +1463,58 @@ to have the following *default datatype*:
 
 This *datatype* in turn defines the following *pattern*:
 
-    ([^!#$%&@{|}]+@)[^!#$%&@{|}]+(\|[^!#$%&@{|}]*(\|[^!#$%&@{|}]+)?)?
+    ([^!#$%&@{|}]+@)?[^!#$%&@{|}]+(\|[^!#$%&@{|}]*(\|[^!#$%&@{|}]+)?)?
 
-The string "`林 董`" matches this *pattern* &mdash; specifically it
-matches the second `[^!#$%&@{|}]+` block &mdash; and therefore the
-*datatype correction* will change the *datatype* to this `AgentName`
-*datatype*.
+The *string* "`林 董`" matches this *pattern* &mdash; specifically it
+matches the second `[^!#$%&@{|}]+` part of the *pattern* &mdash; and
+therefore the *datatype correction* will change the *datatype* to this
+`AgentName` *datatype*.
 {/}
 
-{.ednote}  The *pattern* quoted above for `AgentName` is almost
-certainly wrong.  
+{.ednote}  The *pattern* quoted above for `AgentName` will almost
+certainly need changing as the `AgentName` *datatype* is properly
+specified. 
+
+{.example ...}  The `publicationDate` *citation element term* defined in
+the [CEV Vocabulary] has a *range* which is the *union* of the
+`AbstractDate` and `rdf:langString` *datatypes*; its *default datatype*
+is `GregorianDate`, a *subtype* of `AbstractDate` with the following
+*pattern*:
+
+    -?[0-9]{4,}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?
+
+A *citation element set* might contain a `publicationDate` *citation
+element* whose *localisation set* contains the following two *strings*,
+both tagged with the *language tag* `en` and *datatype* `rdf:langString`
+(presumably implicitily as the result of no *datatype* being given in
+the serialisation):
+
+    Michaelmas term, 1997
+    1997-10
+
+The former *string* is not remotely close to matching the *pattern* for
+the `GregorianDate` *datatype*, so it is unaffected by *datatype
+correction*; however the latter *string* does match the *pattern* and so
+*datatype correction* *may* change its *datatype* to `GregorianDate`.
+
+This is an example of where a *localisation set* might usefully contain
+both *language-tagged datatypes* and *non-language-tagged datatypes*.
+The former gives the date in the correct form for inclusion in a
+*formatted citation*, while the latter allows an application to parse
+the date, for example to highlight contemporary sources to a user.
+{/}
+
+{.ednote}  FHISO's handling of dates is still very much unspecified, and
+in the present draft the preceding example should not be considered to
+be anything more than a hypothetical example containing situations in
+which *datatype correction* variously succeeds and fails.  In
+particular, no decision has been taken on whether there even will be a
+`GregorianDate` *datatype*, let alone whether it is actually the
+*default datatype* of the `publicationDate` *citation element term*.  If
+such a *datatype* is specified, it is unlikely to have precisely the
+*pattern* given above.  Nevertheless, it is safe to assume that this
+*citation element term* will have a *default datatype* that is some
+structured form of date.
 
 ## Layered citations
 
