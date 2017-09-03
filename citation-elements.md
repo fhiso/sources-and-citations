@@ -920,23 +920,29 @@ that the special `xml:lang` attribute defined in §2.12 of
 *language tag*.  
 
 Simiarly, a *datatype* is *required*, but it need not be explicit in the
-serialisation.  A serialisation format *may* specify a default
-*datatype* that applies when none is given explicitly.  Ordinarily, if a
-default is specified, it *should* be the `rdf:langString` *datatype*
-defined in §2.4 of this standard.
+serialisation.  A serialisation format *may* specify a *format default
+datatype* that applies when none is given explicitly.  Ordinarily, if a
+*format default datatype* is specified, it *should* be the
+`rdf:langString` *datatype* defined in §2.4 of this standard.
 
-{.note}  The serialisation format's default *datatype* *should* be a
-*language-tagged datatype* to ensure that any *language tag* that is in
-the scope is retained in the data model, and as the most general
-*language-tagged datatype*, `rdf:langString` is *recommended*.  The
-*datatype correction* mechanism defined in §4.4 of this standard allow a
-*conformant* application to correct the *datatype* that have incorrectly
-defaulted to `rdf:langString`.
+{.note}  This is called the *format default datatype* to avoid confusion
+with the *default datatype* defined per *citation element term* in §4.4
+The *format default datatype* *should* be a *language-tagged datatype*
+to ensure that any *language tag* that is in the scope is retained in
+the data model, and as the most general *language-tagged datatype*,
+`rdf:langString` is *recommended*.  The *datatype correction* mechanism
+defined in §4.4 of this standard allow a *conformant* application to
+correct the *datatype* that have incorrectly defaulted to
+`rdf:langString`.  In practice it is anticipated that many applications
+will apply *datatype correction* during import, and therefore the
+*format default datatype* becomes a fallback that applies if the
+*citation element term* does not define its own *default datatype*, or
+if this is unknown.
 
-{.example ...}  The [CEV RDFa] standard makes `rdf:langString` the default
-*datatype* in most circumstances.  Thus the *citation element*
-extracted from the following HTML fragment is interpretted as an
-`rdf:langString` *string*, even though it is not explicitly tagged as
+{.example ...}  The [CEV RDFa] standard makes `rdf:langString` the
+*format default datatype* in most circumstances.  Thus the *citation
+element* extracted from the following HTML fragment is interpretted as
+an `rdf:langString` *string*, even though it is not explicitly tagged as
 such:
 
     <i lang="en" property="title">The Complete Peerage</i>
@@ -1419,24 +1425,26 @@ following *datatypes*:
 Furthermore the *string* *must* match the *pattern* on the *default
 datatype*.
 
-When an application encounters a *string* which is eligible for
-*datatype correction* according to the above criteria, it *may* replace
-its *datatype* with the *default datatype*.
+At any time when an application encounters a *string* which is eligible
+for *datatype correction* according to the above criteria, it *may*
+replace its *datatype* with the *default datatype*.  It is *recommended*
+that applications apply *datatype correction* during or shortly after
+the import of data in any serialisation format that defines a *format
+default datatype* of `rdf:langString`.
 
-{.note}  This standard does not say when *datatype correction* occurs.
-Ideally applications *should* apply it during the process of reading any
-serialisation format that allows *datatypes* to be omitted and defaults
-them to `rdf:langString`.  However if an application subsequently
-serialises an unknown *citation element* in a format that does not allow
-*datatypes* to be omitted, this may result in explicit *datatypes* that
-need *datatype correction*.  Therefore applications *should* cope with
-the possibility that *datatype correction* might be needed on any data
-being imported.  Likewise, when an application gains access to the
+{.note}  This standard does not limit when *datatype correction*
+occurs, and it *may* be desirable to apply it at times other than as
+*recommended above*.  If an application exports an unknown
+*citation element* in a format that does not have a *format default
+datatype*, this may result in explicit *datatypes* that still need
+*datatype correction*.  Ideally, therefore, applications *should* cope
+with the possibility that *datatype correction* might be needed on any
+data being imported.  Likewise, when an application gains access to the
 definitions of additional *citation element terms* or *datatypes*, this
 might allow it to identify further places where *datatype correction* is
-required.  This only situation when *datatype correction* is *required*
-by this standard is immediately prior to the removal of *invalid*
-*strings*, which process is itself *optional*.
+required.  However, the only situation when *datatype correction* is
+*required* by this standard is immediately prior to the removal of
+*invalid* *strings*, which process is itself *optional*.
 
 If this results in replacing a *non-language-tagged datatype* with a
 *language-tagged datatype*, then the application *must* tag the *string*
@@ -1451,7 +1459,7 @@ mechanism to accommodate certain corner cases in RDF processing.
 examples included an element like this:
 
     [ { "name": "https://terms.fhiso.org/terms/authorName",
-        "lang": "jp",      "value": "林 董" } ]
+        "lang": "jp", "value": "林 董" } ]
 
 This hypothetical format is supposed to default datatypes to
 `rdf:langString`, as *recommended* by this standard.
@@ -1583,7 +1591,10 @@ their own representations of these references.
 represent references, but left their form unspecfied and allowed
 implementations to use alternative implementation techniques such as
 pointers.  The new wording is not strictly a change, but makes it
-clearer that a formal *layer identifier* is not required.
+clearer that a formal *layer identifier* is not required.  If a
+persistent identifier is subsequently required for *citation layers*, it
+is most likely to be added as a piece of metadata in a future metadata
+standard.
 
 {.note} The data model allows multiple *layer derivation links* between
 the same pair of *citation layers*.  This might be used when the
