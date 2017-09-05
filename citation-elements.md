@@ -630,7 +630,7 @@ transliterated.  For example, the name of Andalusian historian
 "Ṣā‘id al-Andalusī" in the Latin script.  Because machine
 transliteration is far from perfect, a *language-tagged datatype*
 *should* be used to allow an application to store both names.  In this
-case, they would be tagged tagged `ar` and `ar-Latn` respectively,
+case, they would be tagged `ar` and `ar-Latn` respectively,
 meaning the Arabic language in its default script and in the Latin
 script.
 
@@ -657,10 +657,12 @@ guaranteed not to be in the *lexical space*.
 {.ednote}  We need to specify a particular dialect of regular
 expression.  One option is the form defined in §21.2 of [ECMAScript]
 which has the advantage of being supported in most programming
-languages, but has relatively poor Unicode support (e.g. it lacks `\p`).
-Another option is to use the form defined in Appendix G of [XSD Pt2]
-which is less widely supported, but has the advantage of being the
-standard form for defining *datatypes* in XML and RDF.
+languages.  It currently has relatively poor Unicode support (e.g. it
+lacks `\p`), though it seems likely this will improve in the next
+version of ECMAScript.  Another option is to use the form defined in
+Appendix G of [XSD Pt2] which is much less widely supported, but has the
+advantage of being the standard form for defining *datatypes* in XML and
+RDF.
 
 {.ednote} We also need to specify exactly what *matching* a *pattern*
 means.  Does "`Sept 2017`" match the pattern `[0-9]{4}`?  Should it
@@ -679,10 +681,19 @@ the *pattern*, this *string* is not part of the *lexical space* of this
 `date` type as 31 February is not a valid date.
 {/}
 
+A *datatype* with a *pattern* defined is known as a **structured
+datatype**, and one without a *pattern* defined is known as an
+**unstructured datatype**.  It is expected that most *datatypes* in
+common use, other than the `rdf:langString` *datatype* defined in §2.4
+will be *structured datatypes*.
+
 {.note} *Patterns* may be defined for *language-tagged datatypes* just
-for other *datatypes*.  As *patterns* only constrain the *lexical space*
-of the *datatype*, they cannot be used to constrain the *language tag*
-in the value of a *language-tagged datatype*.
+for other *datatypes*.  This means the classification of *datatypes*
+as *language-tagged* or *non-language-tagged* is orthogonal to their
+classification as *structured* or *unstructured*.  Because *patterns*
+only constrain the *lexical space* of the *datatype*, they cannot be
+used to constrain the *language tag* in the value of a *language-tagged
+datatype*.
 
 ### Subtypes
 
@@ -749,19 +760,26 @@ implementer may safely use this *datatype* using just the information
 given in this section, and without reading [RDFS].
 
 No constraints are placed on the *lexical space* of this *datatype*
-which is the space of all *strings*, nor are any other restrictions
-placed on the use or semantics of this *datatype*.  It is not an
-*abstract datatype* and *should* be used whenever a piece of
-unstructured, human-readable text is required, with no further
-restrictions on its content.
+which is the space of all *strings*; nor is a *pattern* defined for it,
+meaning it is an *unstuctured datatype*.  The only restriction placed on
+the use or semantics of this *datatype* is that it *should* contain text
+in a human-readable form.  It is not an *abstract datatype* and
+*subtypes* of it *should* be defined when a *structured language-tagged
+datatype* is required.
 
 {.note} This type is the ultimate *supertype* of all *language-tagged
-datatypes*.  No comparable *datatype* is provided to act as the ultimate
-*supertype* of all *non-language-tagged datatypes*, nor of all
-*datatypes*.  In particular, this role is not served by the `xsd:string`
-(*term name*: `http://www.w3.org/2001/XMLSchema#string`) *datatype* from
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], which also has
-no constraints on its *lexical space*, use or semantics.
+datatypes*.  This standard does not specify a comparable *datatype*
+which acts as the ultimate *supertype* of all *non-language-tagged
+datatypes*, nor of all *datatypes*.
+
+{.ednote}  The `xsd:string` is not suitable for these roles as many
+other XML Schema *datatypes*, including `xsd:date` and `xsd:integer` are
+not defined to be *subtypes* of `xsd:string`.  Possibly one or more of
+the `rdfs:Resource`, `rdfs:Literal`, `xsd:anyType`, `xsd:anySimpleType`
+and `xsd:anyAtomicType` would serve, but this needs careful
+consideration of the differences between *datatypes* in XML Schema, RDF
+and this standard.  At present there is no compelling need for either of
+these additional *supertypes*.
 
 ### Unions of datatypes
 
@@ -802,14 +820,14 @@ subject to the following constraints:
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
-   `https://terms.fhiso.org/sources/translatedElement`, the previous
+   `https://terms.fhiso.org/sources/localisedElement`, the previous
    element in *citation element set* with a different *citation element
-   name* is referred to as its **translation base**.  The *translation
-   base* of any `translatedElement` *citation element* must not change
+   name* is referred to as its **localisation base**.  The *localisation
+   base* of any `localisedElement` *citation element* must not change
    if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
-`translatedElement`s per §4.3.1 of this standard, and then removing them
+`localisedElement`s per §4.3.1 of this standard, and then removing them
 from the *citation element set*.
 
 {.note} Subject to these constraints, this standard allows *citation
@@ -817,6 +835,10 @@ element sets* to be reordered because some serialisation languages such
 as JSON and RDF do not guarantee to preserve the order of elements in
 certain important serialisation mechanisms: for example, object members
 in JSON and triples in RDF other than when RDF containers are used.
+
+{.ednote}  The special `localisedElement` *citation element term* and
+the notion of its *localisation base* were called `translatedElement`
+and its *translation base* in earlier drafts of this standard.
 
 ### Citation element names
 
@@ -865,7 +887,7 @@ transliteration has occurred.
 number, or because the creator of the *localisation set* only provided
 the particular version the user was expected to require.  If more than
 one *string* is present, usually they will all have the same *datatype*
-and differ only in their *language tags*.  Neverthless, the mechanism
+and differ only in their *language tags*.  Nevertheless, the mechanism
 allows for *strings* of different *datatypes* and there are rare
 situations where this functionality is needed.
 
@@ -919,7 +941,7 @@ that the special `xml:lang` attribute defined in §2.12 of
 &#x5B;[XML](https://www.w3.org/TR/xml11/)] is used to encode the
 *language tag*.  
 
-Simiarly, a *datatype* is *required*, but it need not be explicit in the
+Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
@@ -986,6 +1008,13 @@ strings*, it *should* ignore the value of any *duplicate strings* and
 *should not* *deduplicate* a *localisation set* that has been reordered
 from its serialised form.
 
+{.ednote}  During feedback on the first public draft, concerns were
+expressed over whether *duplicate strings* might a necessary to express
+certain concepts; if so, they mustn't be ignored or *deduplicated*.
+Examples of where they might be needed are pseudonyms, places with
+multiple names, multiple page numbering systems, and dates with multiple
+prose forms.  This requires further consideration.
+
 To **deduplicate** a *localisation set*, the application first notes the
 *datatype* and, if present, the *language tag* of the first *string* in
 the *localisation set*.  Next, all *duplicate strings* are deleted from
@@ -1025,7 +1054,7 @@ addition, the definition *shall* state:
 *   an *optional* *default datatype*, as defined in §4.4. 
 
 {.ednote} Earlier drafts of this standard required the definition
-additionally to state whether the *citation element* was translatable.
+additionally to state whether the *citation element* was *translatable*.
 Now that all *citation element values* are *localisation sets* this
 concept is redundant, though whether the *range* is a *language-tagged
 datatype* serves a similar purpose.
@@ -1137,8 +1166,8 @@ such as numbers or dates *should* have *ranges* that include one or more
 *non-language-tagged datatype*.
 
 {.example ...}  The [CEV Vocabulary] defines an *abstract datatype*
-called `AbstractDate` which is used as the *supertype* of all structured
-date *datatypes*; it has the following *term name*:
+called `AbstractDate` which is used as the *supertype* of all *structured
+datatypes* for dates; it has the following *term name*:
 
     https://terms.fhiso.org/dates/AbstractDate
 
@@ -1200,8 +1229,8 @@ Exceptionally, a *conformant* application *may* also discard any
 illegal content, or if it is so long that the application cannot
 reasonably handle it.
 
-{.example}  An applicaton might opt to discard all *strings* that appear
-to be Windows executables.
+{.example}  An application might opt to discard all *strings* that
+appear to be Windows executables.
 
 ### Cardinality
 
@@ -1278,16 +1307,6 @@ Even though the data model doesn't require deduplication, it is still
 necessary to prevent duplication of, say, authors.
 {/}
 
-<!--
-If an application encounters a *citation element* whose *citation
-element value* is a *string*, but where the application knows the
-*citation element name* to be defined as *translatable*, the application
-*should* convert the *string* to a *translation set* by tagging it with
-the *language tag* `und` (defined in 
-&#x5B;[ISO 639-2](http://www.loc.gov/standards/iso639-2/)]
-as representing an undetermined language).
--->
-
 #### List-flattening formats                          {#list-flattening}
 
 *Conformant* applications *must* ensure that in *citation elements*
@@ -1332,17 +1351,13 @@ with this standard by introducing a special *citation element term* with
 the following properties:
 
 ------           -----------------------------------------------
-Name             `https://terms.fhiso.org/sources/translatedElement`     
+Name             `https://terms.fhiso.org/sources/localisedElement`     
 Range            *unspecified*
 Cardinality      multi-valued
 Super-element    *none*
 ------           -----------------------------------------------
 
-{.ednote} Should `translatedElement` be renamed to `localisedElement`?
-This might make sense given the wider scope of *localisation sets* in
-the current draft.
-
-{.note} This `translatedElement` *citation element term* has no *range*
+{.note} This `localisedElement` *citation element term* has no *range*
 specified.  No other *citation element terms* defined in accordance with
 this standard may have an unspecified *range*.
 
@@ -1358,16 +1373,16 @@ When a *localisation set* with two or more *strings* needs to be
 serialised in a *list-flattening format*, the first *string* *must* be
 serialised according to the normal rules of the format, and subsequent
 *strings* *must* be serialised as if they were separate *citation
-element*, but with the `translatedElement` *citation element term* in
+element*, but with the `localisedElement` *citation element term* in
 place of the actual *citation element name*.  This special *citation
 element* indicates that its value is not a distinct *citation element*
 and *should* instead be appended to the *localisation set* of its
-*translation base* (i.e. the last preceding *citation element* which is
-not a `translatedElement`), and the `translatedElement` removed from the
+*localisation base* (i.e. the last preceding *citation element* which is
+not a `localisedElement`), and the `localisedElement` removed from the
 *citation element set*.
 
 {.example ...}  The hypothetical JSON serialisation in the last example
-can be fixed by using a `translatedElement` to serialise the
+can be fixed by using a `localisedElement` to serialise the
 transliterated version of Hayashi's name:
 
     [ { "name": "https://terms.fhiso.org/terms/title",
@@ -1376,40 +1391,40 @@ transliterated version of Hayashi's name:
         "lang": "en",      "value": "Lord Lansdowne" },
       { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp",      "value": "林 董" },
-      { "name": "https://terms.fhiso.org/terms/translatedElement",
+      { "name": "https://terms.fhiso.org/terms/localisedElement",
         "lang": "jp-Latn", "value": "Hayashi Tadasu" } ]
 
 The two `authorName` element are assumed to be separate *citation
 elements* and therefore to refer to different authors.  The use of
-`translatedElement` signifies that this is not a different author.  It
+`localisedElement` signifies that this is not a different author.  It
 immediately follows an `authorName` *citation element* with the value 
 林&nbsp;董, and its value ("Hayashi Tadasu", tagged as `jp-Latn`) should
-be appended to that *translation set*.
+be appended to that *localisation set*.
 {/}
 
 {.note} This standard does not say when the processing of
-`translatedElements` occurs.  Ideally an application *should* do it
+`localisedElements` occurs.  Ideally an application *should* do it
 during the process of reading a *list-flattening format*, but *may* do
 it later or not at all.  If the application subsequently serialise the
-data in a non-*list-flattening format*, the `translatedElement`s *may*
+data in a non-*list-flattening format*, the `localisedElement`s *may*
 still be present.  Therefore applications reading non-*list-flattening
-format* *should* cope with the possibility of `translatedElements` being
+format* *should* cope with the possibility of `localisedElements` being
 present.
 
-If the *localisation set* in the *translation base* already contains a
-string with the same *datatype* and *language tag*, an application *must
-not* overwrite or duplicate a *language tag*; the `translatedElement`
-*should* be ignored and *may* be removed from the the *citation element
-set*.
+If the *localisation set* in the *localisation base* already contains a
+string with the same *datatype* and *language tag*, an application
+*must not* overwrite or duplicate a *language tag*; the
+`localisedElement` *should* be ignored and *may* be removed from the
+the *citation element set*.
 
 The use of *list-flattening formats* is *not recommended* except where
-there is a good technical reason.  The use of `translatedElement`s other
+there is a good technical reason.  The use of `localisedElement`s other
 than in *list-flattening formats* is *not recommended*.
 
 ### Default datatypes
 
 {.ednote} The concept of a *default datatype* is new in this draft of
-the standard.
+the standard.  
 
 A *citation element term* *may* have a **default datatype** defined.
 When a *default datatype* is defined, it is used to provide an
@@ -1419,19 +1434,26 @@ element value* in certain situations.  The *default datatype* *must* be
 a *datatype* that is *compatible* with the *range* of the *citation
 element term*.
 
-*Datatype correction* *shall* only be applied to a *string* if it
-appears in a *citation element* whose *citation element name* is a
-*citation element term* that has a *default datatype*, and that *default
-datatype* is a *datatype* which has a *pattern* defined and known to the
-application.  *Datatype correction* *shall* only be applied
-to *strings* that, prior to *datatype correction*, have one of the
-following *datatypes*:
+*Datatype correction* *shall not* be carried out unless the *datatype*
+of the *string* prior to *datatype correction* is one of the following
+*datatypes*, and not just a *subtype* of one of them:
 
     http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     http://www.w3.org/2001/XMLSchema#string
+    http://www.w3.org/2000/01/rdf-schema#Resource
 
-Furthermore the *string* *must* match the *pattern* on the *default
-datatype*.
+{.note}  It is anticipated that a large majority of times when *data
+correction* applies, the original datatype will be `rdf:langString`.
+Support for `xsd:string` and `rdfs:Resource` is only included in this
+*datatype correction* mechanism to accommodate certain corner cases in
+RDF processing that could arise in the [CEV RDFa] bindings.
+
+*Datatype correction* *shall* only be applied to a *string* if it
+appears in a *citation element* whose *citation element name* is a
+*citation element term* that has a *default datatype*, and if that
+*default datatype* is a *datatype* which has a *pattern* defined and
+known to the application, and if the *string* matches that *pattern*.
+the *default datatype*.
 
 At any time when an application encounters a *string* which is eligible
 for *datatype correction* according to the above criteria, it *may*
@@ -1453,15 +1475,6 @@ might allow it to identify further places where *datatype correction* is
 required.  However, the only situation when *datatype correction* is
 *required* by this standard is immediately prior to the removal of
 *invalid* *strings*, which process is itself *optional*.
-
-If this results in replacing a *non-language-tagged datatype* with a
-*language-tagged datatype*, then the application *must* tag the *string*
-with the *language tag* `und`.
-
-{.note}  This case only applies if the *string* was previously tagged
-with the `xsd:string` *datatype* which this standard discourages.
-Support for `xsd:string` has been included in this *datatype correction*
-mechanism to accommodate certain corner cases in RDF processing.
 
 {.example ...}  The hypothetical JSON format used in several earlier
 examples included an element like this:
@@ -1502,7 +1515,7 @@ is `GregorianDate`, a *subtype* of `AbstractDate` with the following
 A *citation element set* might contain a `publicationDate` *citation
 element* whose *localisation set* contains the following two *strings*,
 both tagged with the *language tag* `en` and *datatype* `rdf:langString`
-(presumably implicitily as the result of no *datatype* being given in
+(presumably implicitly as the result of no *datatype* being given in
 the serialisation):
 
     Michaelmas term, 1997
@@ -1530,7 +1543,15 @@ particular, no decision has been taken on whether there even will be a
 such a *datatype* is specified, it is unlikely to have precisely the
 *pattern* given above.  Nevertheless, it is safe to assume that this
 *citation element term* will have a *default datatype* that is some
-structured form of date.
+*structured datatype* for dates.
+
+If *datatype correction* would result in replacing a
+*non-language-tagged datatype* with a *language-tagged datatype*, then
+the application *must* tag the *string* with the *language tag* `und`.
+
+{.note}  This case only applies if the *string* was previously tagged
+with the `xsd:string` or `rdfs:Resource` *datatypes*, which this
+standard discourages when the data is indeed language-tagged.
 
 ## Layered citations
 
@@ -1544,7 +1565,7 @@ A *citation* is represented with the following three parts:
    *citation element set*;
 *  a marker to identify one *citation layer* as the *head citation
    layer*; and 
-*  an unordered set of *layer deriviation links* encoding the *source
+*  an unordered set of *layer derivation links* encoding the *source
    derivations* between *sources* represented by the *citation layers*.
 
 {.note} This standard does not specify the precise nature of the marker
@@ -1561,12 +1582,12 @@ citation* can be represented using just a *citation element set*.
 
 Applications *should not* reorder the list of *citation layers*, other
 than at the request of the user.  The order of the *citation layers* is
-an indiciation of the preferred order for displaying the *citation
+an indication of the preferred order for displaying the *citation
 layers*, and *should* begin with the one considered most important.
 This is not necessarily the *head citation layer*.  Applications *may*
 ignore this order when displaying or formatting *citation layers*.
 
-{.note} This is not an absolute prohibition on reording, and
+{.note} This is not an absolute prohibition on reordering, and
 *conformant* applications *may* if necessary use a technology that does
 not preserve the order of the *citation layers*.
 
@@ -1590,13 +1611,13 @@ The two references to *citation layers* in the *layer derivation link*
 references, and different implementations may implement it differently.
 A database-backed implementation might choose to assign a identifier to
 each *citation layer* using an auto-increment field, and make the
-references a copy of that identifer.  Other implementations might
+references a copy of that identifier.  Other implementations might
 implement the reference using a pointer to the data structures in memory
 that represents the *citation layer*.  Serialisation formats will define
 their own representations of these references.
 
 {.ednote}  Earlier drafts of this standard used a *layer identifier* to
-represent references, but left their form unspecfied and allowed
+represent references, but left their form unspecified and allowed
 implementations to use alternative implementation techniques such as
 pointers.  The new wording is not strictly a change, but makes it
 clearer that a formal *layer identifier* is not required.  If a
@@ -1633,7 +1654,7 @@ reference it.
 
 #### Requirements for layer derivation links
 
-{.note} The represention of a *citation* in this data model is
+{.note} The representation of a *citation* in this data model is
 equivalent to a directed graph whose vertex set is the set of *citation
 layers*, and whose edge set is the set of *layer derivation links*.
 Each edge is labelled with its *source derivation type*, while one
@@ -1703,7 +1724,7 @@ not require that the graph be acyclic.
 [RDFS]
 :   W3C (World Wide Web Consortium). *RDF Schema 1.1*.
     W3C Recommendation, 2014.
-    (See <http://www.w3.org/TR/rdf-schema>.)
+    (See <https://www.w3.org/TR/rdf-schema>.)
 
 [RFC 2119]
 :   IETF (Internet Engineering Task Force).  *RFC 2119:  Key words for
