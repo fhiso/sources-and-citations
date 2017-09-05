@@ -568,7 +568,7 @@ represent the same underlying value: the number one hundred and
 thirty-seven.  Because *conformant* applications *may* convert strings
 between equivalent lexical representations, they *may* store them in a
 database in an integer field and regenerate *strings* in a canonical
-representation as required.
+representation.
 
 *Strings* outside the *lexical space* of a *datatype* *must not* be
 used where a *string* of that *datatype* is required.  If an application
@@ -624,7 +624,7 @@ following *term name*:
 
     https://terms.fhiso.org/sources/AgentName
 
-An person's name is rarely translated in usual sense, but may be
+A person's name is rarely translated in usual sense, but may be
 transliterated.  For example, the name of Andalusian historian 
 <span dir="rtl">صاعد الأندلسي</span> might be transliterated
 "Ṣā‘id al-Andalusī" in the Latin script.  Because machine
@@ -1033,7 +1033,7 @@ If a *citation element* has a *citation element name* which is an empty
 *localisation set*, that *citation element* *should* be discarded.
 
 {.note} This can occur as the result of removing *invalid* *strings*
-from a previously non-empty *localisation set*.
+from a previously non-empty *localisation set*, as explained in §4.2.
 
 ## Defining citation element terms
 
@@ -1134,7 +1134,7 @@ in the chain.  It is used in specifying the constraints on
 The **most-refined common super-element** of a collection of *citation
 element terms* is defined as the last IRI that appears in the
 *super-element list* of every *citation element term* in the collection.
-It is only defined for *citation element terms* that share a *ultimate
+It is only defined for *citation element terms* that share an *ultimate
 super-element*.
 
 {.note} This definition is equivalent to following the chains of
@@ -1226,8 +1226,8 @@ access to definition of the *citation element term* to determine the
 
 Exceptionally, a *conformant* application *may* also discard any
 *string* which it has credible reason to believe contains malware or
-illegal content, or if it is so long that the application cannot
-reasonably handle it.
+illegal content, or any *string* that is so long that the application 
+cannot reasonably handle it.
 
 {.example}  An application might opt to discard all *strings* that
 appear to be Windows executables.
