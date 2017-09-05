@@ -520,7 +520,7 @@ in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
 Similarly, this standard's definition of a *datatype* is almost
 identical to the definition of a datatype in 
 &#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)], and
-that RDF datatypes can be used as *datatypes* in this standard.
+RDF datatypes can be used as *datatypes* in this standard.
 
 {.example ...} XML Schema defines an integer type in §3.4.13 of
 &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)] which is well suited
