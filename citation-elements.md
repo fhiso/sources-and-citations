@@ -522,8 +522,8 @@ simple types can be used as *datatypes* in this standard.  Best
 practice on how to get an IRI for use as the *term name* of XML Schema
 types can be found
 in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
-Similarly, this standard's definition of a *datatype* is almost
-identical to the definition of a datatype in 
+Similarly, this standard's definition of a *datatype* is very similar
+to the definition of a datatype in 
 &#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)], and
 RDF datatypes can be used as *datatypes* in this standard.
 
