@@ -896,7 +896,7 @@ Each *string* in a *localisation set* *shall* be tagged with a
 and only if the specified *datatype* is a *language-tagged datatype*.
 The *language tag* *shall* match the `Language-Tag` production from
 &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)], and *should*
-contain a script subtags per §2.2.3 of 
+contain a script subtag per §2.2.3 of 
 &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] when
 transliteration has occurred.  
 
@@ -982,7 +982,7 @@ if this is unknown.
 
 {.example ...}  The [CEV RDFa] standard makes `rdf:langString` the
 *format default datatype* in most circumstances.  Thus the *citation
-element* extracted from the following HTML fragment is interpretted as
+element* extracted from the following HTML fragment is interpreted as
 an `rdf:langString` *string*, even though it is not explicitly tagged as
 such:
 
