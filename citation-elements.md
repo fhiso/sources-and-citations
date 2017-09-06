@@ -329,10 +329,15 @@ Applications *may* convert any *string* into Unicode Normalization Form
 C, as defined in any version of Unicode Standard Annex #15 &#x5B;[UAX
 15](http://unicode.org/reports/tr15/)].
 
-{.note} This allows applications to store *strings* internally in either
-Normalization Form C or Normalization Form D for ease of searching,
-sorting and comparison, without also retaining the original,
-unnormalised form.
+{.note} Normalization Form C and Normalization Form D allow easier
+searching, sorting and comparison of *strings* by picking a canonical
+representation of accented characters.  The conversion between
+Normalization Forms C and D is lossless and therefore reversible, but
+the initial conversion to either form is not reversible.  This allows a 
+*conformant* application to normalise *strings* internally and not
+retain the unnormalised form; however, an application doing so *must*
+ensure the *string* is in Normalization Form C upon export, this being
+the more usual form for use in documents.
 
 *Characters* matching the `RestrictedChar` production from
 &#x5B;[XML](https://www.w3.org/TR/xml11/)] *should not* appear in
@@ -647,7 +652,7 @@ A *datatype* that is not a *language-tagged datatype* is called a
 
 ### Datatype patterns
 
-A party defining a *datatype* *may* specify a **pattern** for that
+A party defining a *datatype* *shall* specify a **pattern** for that
 *datatype*.  This is a regular expression which provides a constraint on
 the *lexical space* of the *datatype*.  Matching the *pattern* might not
 be sufficient to validate a *string* as being in the *lexical space* of
@@ -665,8 +670,9 @@ advantage of being the standard form for defining *datatypes* in XML and
 RDF.
 
 {.ednote} We also need to specify exactly what *matching* a *pattern*
-means.  Does "`Sept 2017`" match the pattern `[0-9]{4}`?  Should it
-implicitly anchor the full string, or should `^`...`$` be required?
+means.  In particular we want the complete *string* to match the
+*pattern*, so that "`Sept 2017`" does not match the *pattern*
+`[0-9]{4}`, despite the lack of `^`...`$` around the *pattern*.  
 
 {.example ...}  The XML Schema `date` type mentioned in the previous
 example has the following *pattern* (here split onto two lines for
@@ -681,8 +687,8 @@ the *pattern*, this *string* is not part of the *lexical space* of this
 `date` type as 31 February is not a valid date.
 {/}
 
-A *datatype* with a *pattern* defined is known as a **structured
-datatype**, and one without a *pattern* defined is known as an
+A *datatype* with a *pattern* other than `.*` is known as a **structured
+datatype**, while one with a *pattern* of `.*` is known as an
 **unstructured datatype**.  It is expected that most *datatypes* in
 common use, other than the `rdf:langString` *datatype* defined in §2.4
 will be *structured datatypes*.
@@ -760,7 +766,7 @@ implementer may safely use this *datatype* using just the information
 given in this section, and without reading [RDFS].
 
 No constraints are placed on the *lexical space* of this *datatype*
-which is the space of all *strings*; nor is a *pattern* defined for it,
+which is the space of all *strings*, and its *pattern* is `.*`,
 meaning it is an *unstuctured datatype*.  The only restriction placed on
 the use or semantics of this *datatype* is that it *should* contain text
 in a human-readable form.  It is not an *abstract datatype* and
@@ -801,6 +807,19 @@ The **lexical space** of a *union of datatypes* is the union of the
 
 {.note}  There is no requirement that the *lexical spaces* of each
 constituent *datatype* be disjoint.
+
+{.example ...}  *Unions of datatypes* are used as the *range* of
+*citation elements*, as defined in §4.2.  In several cases a *union* of
+the following two *datatypes* is used:
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    https://terms.fhiso.org/dates/AbstractDate
+
+The former is an *unstructured datatype*, while the latter is an
+*abstract datatype* which serves as the *supertype* for various
+*structured datatypes* for dates.  The inclusion of an *abstract
+datatype* provides a point of extensibility.
+{/}
 
 ## Citations elements
 
@@ -1424,7 +1443,7 @@ than in *list-flattening formats* is *not recommended*.
 ### Default datatypes
 
 {.ednote} The concept of a *default datatype* is new in this draft of
-the standard.  
+the standard.
 
 A *citation element term* *may* have a **default datatype** defined.
 When a *default datatype* is defined, it is used to provide an
@@ -1451,9 +1470,8 @@ RDF processing that could arise in the [CEV RDFa] bindings.
 *Datatype correction* *shall* only be applied to a *string* if it
 appears in a *citation element* whose *citation element name* is a
 *citation element term* that has a *default datatype*, and if that
-*default datatype* is a *datatype* which has a *pattern* defined and
-known to the application, and if the *string* matches that *pattern*.
-the *default datatype*.
+*default datatype* is a *datatype* whose *pattern* is known to the
+application, and if the *string* matches that *pattern*.
 
 At any time when an application encounters a *string* which is eligible
 for *datatype correction* according to the above criteria, it *may*
@@ -1544,6 +1562,25 @@ such a *datatype* is specified, it is unlikely to have precisely the
 *pattern* given above.  Nevertheless, it is safe to assume that this
 *citation element term* will have a *default datatype* that is some
 *structured datatype* for dates.
+
+Because matching the *pattern* of a *datatype* does not guarantee the
+*string* necessarily belongs to the *lexical space* of that *datatype*,
+it is possible that *data correction* may turn a valid *unstructured
+string* into an *invalid string* which *may* subsequently be discarded.
+*Data correction* *may* be suppressed in such a case by altering the
+*string* to prevent it from matching the *pattern*.  Applications 
+*must not* make such an alternation other than at the instruction of the
+user.
+
+{.example}  The *string* "`1999-02-31`" matches the *pattern* for a
+`GregorgianDate` but is nonetheless outside the *lexical space* of that
+*datatype* as there was no such date.   A *conformant* application might
+warn the user that this is not a valid Gregorian date; if the user
+confirms they really did mean to enter an *unstructured string* that
+looks like an invalid Gregorian date, the application *may* alter the
+string to make it not match the *pattern*.  One way this could be done
+would be appending "` (sic)`" to the string; another option is to append
+an invisible Unicode character such U+2060 (word joiner).
 
 If *datatype correction* would result in replacing a
 *non-language-tagged datatype* with a *language-tagged datatype*, then
