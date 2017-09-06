@@ -117,10 +117,10 @@ not require full RDFa compliance: support for the full [RDFa Core] is
 *required* by this standard *should not* be used when compatibility
 between implementations is desirable.  
 
-{.note} The specification of [RDFa Core] assumes a good working
+{.note} The specification of [RDFa Core] assumes a detailed working
 knowledge of the RDF graph model.  A more accessible introduction to
 RDFa can be found in the [RDFa Primer], but FHISO's use of RDFa
-attributes here is limited and this standard is designed to be
+attributes here is limited, and this standard is designed to be
 used without any knowledge of RDFa or RDF.  An application parsing RDFa
 attributes according to this specification does not need a full RDFa
 parser, far less to support the full RDF graph model.
@@ -148,8 +148,8 @@ fragment:
 
 The title of the book can be tagged by adding a `property` attribute to
 the existing `<i>` element.  As written above, no element contains just
-the author's name as the `<p>` element also encloses the title; however
-author's name can be wrapped in an `<span>` element and the `property`
+the author's name, as the `<p>` element also encloses the title; however
+author's name can be wrapped in an `<span>` element and a `property`
 attributed added to that.  HTML's `<span>` element has no defined
 meaning of its own, but exists to provide a place for attributes such as
 this.
@@ -174,6 +174,14 @@ because [CEV Concepts] says applications *should* *whitespace-normalise*
 *citation element values*.
 {/}
 
+{.note} In many examples in this standard, including the previous one,
+the list of *citation elements* is given as a list of name, value pairs
+with both presented as a *string*.  In practice the *citation element
+value* is a *localisation set* containing one *string* which is
+additionally tagged with a *datatype* and possibly a *language tag*.
+This detail is frequently omitted from examples where it is not germane
+to the point being illustrated.
+
 #### Index of attributes used
 
 This standard makes use of the following attributes:
@@ -189,26 +197,26 @@ This standard makes use of the following attributes:
    element* per §3.2 and is not further processed by this standard.
 
 *  The `property` attribute contains a *citation element name* as per
-   §4.2.  Full support for its RDFa semantics is *required*, other than
+   §4.  Full support for its RDFa semantics is *required*, other than
    when it is used in constructs that define *source-exclusion
    elements*, and except for the special behaviour RDFa gives to an
    `rdfa:copy` property for which support is *optional*.
 
 *  The `content` attribute can be used to represent a *citation element
-   value* as per §4.2.1.  Full support for its RDFa semantics is
+   value* as per §4.2.  Full support for its RDFa semantics is
    *required*.
 
 *  The `href` and `src` attribute can be used to represent a *citation
-   element value* as per §4.2.1.  They are not formally considered RDFa
+   element value* as per §4.2.  They are not formally considered RDFa
    attributes but are part of the *host language*.  Full support for
    their RDFa semantics is *required* if the *host language* permit
    their use, as HTML does.
 
 *  The `datetime` attribute can also be used to represent a *citation
-   element value* as per §4.2.1 if the *host language* is HTML.  
+   element value* as per §4.2 if the *host language* is HTML.  
 
 *  The `xml:lang` and `lang` attributes are used to represent a
-   *language tag* as per §4.2.3.  Full support for their RDFa semantics
+   *language tag* as per §4.4.  Full support for their RDFa semantics
    is *required*.
 
 *  The `datatype` attribute is used in this standard to determine the
@@ -216,7 +224,7 @@ This standard makes use of the following attributes:
    support for its RDFa semantics is *recommended*.  Any unsupported use
    of this attribute *shall* be ignored, except when the presence of
    this attribute (but not its value) affects the determination of the
-   *citation element value* per §4.2.
+   *citation element value* per §4.
 
 *  The `rel` and `rev` attributes are used to denote *layer derivation
    links* per §5.3.  Support for any other use of this attribute is
@@ -231,6 +239,9 @@ This standard makes use of the following attributes:
    when the presence of one of these attributes (but not its particular
    value) prevents the recognition of *nested source-type element* per
    §5.1.
+
+In addition, when the *host language* is HTML, special meaning is
+attached to the `<time>` element.
  
 ### Motivation and limitations
 
@@ -257,19 +268,19 @@ presentation by hand because it is not anticipated that an application
 will always do a perfect job.  Many citation styles use italics and some
 use bold, underlining or other text-level formatting when formatting
 certain *citation elements*.  In order to allow the user to fine-tune
-the use of such formatting, the user should be allowed the *formatted
-citation* to be edited as HTML.
+the use of such formatting, the user *should* be allowed to edit the
+*formatted citation* as HTML.
 
 If an application automatically generates an HTML *formatted citation*
 from a *citation element set*, it *should* add RDFa attributes in such a
 manner that will another application *conformant* with this standard
-will be able to extract the *citation elements* again.  This *should
-not* be an application's principal means of serialising a *citation
-element set*: applications *should* prefer a format that serialises the
-*citation element set* directly rather than after converting it to a
-*formatted citation*.
+will be able to extract the *citation elements* again.  This 
+*should not* be an application's principal means of serialising a
+*citation element set*: applications *should* prefer a format that
+serialises the *citation element set* directly rather than after
+converting it to a *formatted citation*.
 
-{.note} The use of RDFa attributes is not the recommended way of
+{.note} RDFa attributes are not the recommended way of
 serialising *citation element sets* primarily because it requires
 creating a *formatted citation*.  Doing this to a reasonable standard is
 non-trivial, and results in particular language and style being
@@ -345,6 +356,11 @@ The definitions of `NameChar` and `NCNameStartChar` are found in [XML]
 and [XML Names] respectively.
 {/}
 
+{.note} The [CEV Concepts] standard also uses the word "term", and
+defines it to mean a vocabulary item identified by an IRI.  To minimise
+confusion, this standard never uses the word "term" in that sense, and
+only uses it in the RDFa sense given above.
+
 When a `datatype`, `property`, `rel`, `rev` or `typeof` attribute
 contains a *term*, it *shall* be converted to an IRI by prepending the
 *local default vocabulary* if one exists.  The **local default
@@ -357,12 +373,12 @@ to resolving relative IRIs against a base IRI, but the process of
 applying a *local default vocabulary* is simpler as the two strings are
 simply concatenated without understanding the structure of the IRI.
 
-Markup generators *should* ensure that a `vocab` is present if *terms*
-are being used when compatibility between implementations is desirable. 
-When these attributes are used in languages other than HTML, the
-definition of that language *may* provide a *default vocabulary* that
-applies in the event that no `vocab` attribute is found; HTML provides
-no such default.
+Markup generators *should* ensure that a `vocab` attribute is present if
+*terms* are being used when compatibility between implementations is
+desirable.  When these attributes are used in a *host language* other
+than HTML, the definition of the *host language* *may* provide a
+*default vocabulary* that applies in the event that no `vocab` attribute
+is found; HTML provides no such default.
 
 If no *local default vocabulary* was found, a parser *may* use an
 *initial context* as described in §9 of [RDFa Core] to resolve the
@@ -681,61 +697,48 @@ greater use of the RDF features underlying RDFa.
 As defined in the [CEV Concepts] standard, a *citation element* consists
 of two components:
 
-*  a *citation element name*; and
-*  a *citation element value*, which shall either be a *string* or a
-   *translation set*.
+*  a *citation element name*, which *shall* be an IRI defined as a
+   *citation element term*; and
+*  a *citation element value*, which *shall* be a *localisation set*.
  
 Once a parser has identified the `property` attributes that are tagging
 *citation element* it *shall* determine each component of each *citation
 element* as described in the following sub-sections.
 
 For the purpose of this section, the **current element** refers to the
-element that has the `property` attribute which tags the current
-*citation element*.  
-
-### Citation element names
+XML or HTML element that has the `property` attribute which tags the
+current *citation element*.  
 
 The *citation element name* *shall* be the value of the `property`
 attribute, once shorthand IRIs have been expanded.  If the `property`
 attribute contains more than one IRI, each *shall* be used as the
-*citation element name* of a separate *citation element* with the same
-*citation element value*.
+*citation element name* of a separate *citation element* with a copy of
+the same *citation element value*.
 
-### Citation element values
-
-In parsing a *citation element*, an application *shall* determine its
-*current property value*.  This is used to construct its *citation
-element value*.  The *citation element value* is a *translation set*
-when the *citation element* is *translatable* and a *string* otherwise.
-To decide this, an application *shall* determine whether the element is
-*translatable*.  If the *citation element* was found (or assumed by
-default) to be *translatable*, the application *shall* also determine
-the *language tag*. The rules for determining the *current property
-value*, its *translatability* and its *language tag* are given in the
-sections below.
-
-If the *citation element* was found (or assumed by default) to be
-*translatable*, a new *translation set* *shall* be constructed to serve
-as the *citation element value*.  It *shall* comprise a single *string*,
-which *shall* be the *current property value*, and *shall* be tagged
-with the *language tag*.  If the *citation element* was found not to be
-*translatable*, its *citation element value* *shall* be a *string* which
-*shall* be the *current property value*.
+To construct the *citation element value*, an application *shall*
+determine its *current property value*, as defined in §4.2 below.  This
+is a *string* and is used to construct a new *localisation set* to be
+the *citation element value*.  The application *shall* then determine
+the *datatype* of the *string* per §4.3, and if the result is a
+*language-tagged datatype*, *shall* also determine its *language
+tag* per §4.4.  
 
 {.note}  These rules are illustrated by example in the sections below.
 
-RDFa, as used in this standard, is a *list-flattening format*.  This
-means it does not naturally provide a means of keeping the *translation
-sets* of each *citation element* separate because it has no means of
-distinguishing *multi-valued* elements from *translatable* elements.
-Applications must therefore assume every `property` attribute refers to
-a separate *citation element*.
+### List flattening
 
-{.ednote}  It would be possible to define a usage of RDFa that was not a
-*list-flattening format*.  After careful consideration is was decided
-not to do this on the grounds that it would make the RDFa usage
-excessively verbose and contrary to standard RDFa idioms, so much so
-that it would likely compromise the uptake of this standard.
+RDFa, as used in this standard, is a *list-flattening format*.  This
+means it does not naturally provide a means of keeping the *localisation
+sets* of each *citation element* separate because it has no means of
+distinguishing *multi-valued* *citation elements* from translated or
+localised versions of the same *citation element*.  Applications must
+therefore assume every `property` attribute identifies a separate
+*citation element*.
+
+{.ednote}  It would have been possible for this standard to have defined
+a usage of RDFa that was not a *list-flattening format*.  This was not
+done because it would make most straightforward uses unidiomatic, and
+likely compromise the uptake of this standard.
 
 {.example ...}  The following RDFa markup is well-formed but will be
 misinterpreted by a parser conforming to this specification.  
@@ -754,29 +757,30 @@ people: the Marquess of Lansdowne and Count Hayashi Tadasu whose name is
 written in kanji as 林&nbsp;董.  A *conformant* application will see
 three `authorName`s and make each into a separate *citation element*,
 when in fact the desired behaviour is for "林&nbsp;董" to be part of the
-same *translation set* as "Hayashi Tadasu".
+same *localisation set* as "Hayashi Tadasu".
 {/}
 
-Applications are *required* to use the `translatedElement` mechanism
-defined in §3.4.1 of [CEV Concepts] to disambiguate these cases.
+Applications are *required* to use the `localisedElement` mechanism
+defined in §3.4.1 of [CEV Concepts] when multiple translations or
+localisations of a single *citation element value* are needed.
 
 {.example ...}  The RDFa markup from the previous example can be fixed
-by using a `translatedElement` to encode the second for of Hayashi's
+by using a `localisedElement` to encode the second for of Hayashi's
 name.  At its simplest, this alters the two `<span>` elements referring
 to Hayashi to read:
 
       <span property="authorName" lang="jp-Latn">Hayashi Tadasu</span>
-      (<span property="translatedElement" lang="jp">林 董</span>)
+      (<span property="localisedElement" lang="jp">林 董</span>)
 
 However, [CEV Concepts] recommends that the first *string* in the
-*translation set* *should* be the untranslated, and ideally
+*localisation set* *should* be the untranslated, and ideally
 untransliterated form of the *citation element*.  Undoubtedly it is the
 Latin form that is the transliteration, and therefore these elements are
 the wrong way round.  While this is only a recommendation, applications
 *should* try to follow it; this can be achieved as follows:
 
       <span property="authorName" lang="jp" content="林 董" />
-      <span property="translatedElement" 
+      <span property="localisedElement" 
             lang="jp-Latn">Hayashi Tadasu</span> (林 董)
 
 This use of the `content` attribute is discussed below.  It provides a
@@ -784,7 +788,11 @@ value for the *citation element* while hiding the value from an HTML
 renderer.
 {/}
 
-#### Current property value
+### Current property value
+
+{.ednote} This section, together with the following section defining the
+*datatype*, derive from step 11 in the processing sequence given in §7.5
+of [RDFa Core], as amended by §3.1 of [HTML+RDFa].
 
 The **current property value** is a *string* which will be used to create
 the *citation element value*.  It is determined based on the RDFa
@@ -795,16 +803,16 @@ coincides with its definition in [RDFa Core].
 
 If *current element* has a `content` attribute, and either has no
 `datatype` attribute, or its `datatype` attribute is empty or has a value
-(after expanding shorthand IRIs) other than either of the following IRIs
-then the *current property value* *shall* be the value of the
+(after expanding shorthand IRIs) other than either of the following
+IRIs, then the *current property value* *shall* be the value of the
 `content` attribute.
 
     http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral
     http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML
 
 {.note} These two IRIs have special treatment in RDFa.  This standard
-excludes them for completeness, but it is not anticipated that they will
-arise in practice.
+excludes them for complete compatibility with a full RDFa parser, but it
+is not anticipated that they will arise in practice.
 
 {.example ...}  The purpose of the `content` attribute is to allow the
 *citation element value* to be something that is not rendered or
@@ -830,15 +838,12 @@ Otherwise, if the *host language* is HTML, if the *current element* has
 a `datetime` attribute, the *current property value* *shall* be the
 value of the `datetime` attribute.
 
-{.ednote} Consider adding support for the `<date>` element, even without
-a `datetime` attribute, if the *host language* is HTML.
-
 Otherwise, in HTML or in other XML languages that support an `href`
 attribute, if the *current element* has an `href` attribute and no
 `datatype` attribute, the *current property value* *shall* be the value
 of the `href` attribute, which *shall* be an IRI.  
  
-Otherwise, in HTML or in other XML languages that support an `href`
+Otherwise, in HTML or in other XML languages that support a `src`
 attribute, if the *current element* has a `src` attribute and no
 `datatype` attribute, the *current property value* *shall* be the value
 of the `src` attribute, which *shall* be an IRI.
@@ -848,7 +853,7 @@ have a `datetime`, `href` or `src` attribute.  At present, the
 `datetime` attribute is only permitted on a `<time>` element;
 most `href` attributes in HTML are found on `<a>` elements; most `src`
 attributes are on elements that display some form of media, particularly
-`<img>` and in HTML5, `<video>` and `<audio>`.  
+`<img>` and in HTML5, `<video>` and `<audio>`.
 
 {.example ...}  When an `href` or `src` attribute links to an online
 *source*, it can be tagged as a *citation element*.
@@ -891,40 +896,22 @@ taken in the years ..." by concatenating the text in the nested
 `<span>` element with the text directly in the `<i>` element.
 {/}
 
-#### Translatability
+### Datatypes
 
-A *conformant* parser *must* determine the *translatability* of a
-*citation element* as follows.
+A *conformant* parser *must* determine the *datatype* which tags the
+*string* in the *citation element value* as follows.
 
-If an application has access to the definition of the *citation
-element*, it *must* use its *translatability* as given in the
-definition.  
-
-{.note}  This is expected to be the normal case, as applications are
-expected to ship with definitions included for those *citation elements*
-their users are likely to use commonly.
-
-Otherwise, an application *may* use one or more *discovery* mechanism to
-attempt to obtain a machine-readable definition of the *citation
-element*, and if successful *should* use the *translatability* from that
-definition.
-
-{.ednote} The [CEV Concepts] standard does not currently define a
-*discovery* mechanism.  This is likely to be subject of a future FHISO
-standard.
-
-Otherwise, if the *current element* has a non-empty `datatype` attribute,
-then the *citation element* *shall* be considered not to be
-*translatable*.  The value of the `datatype` attribute (once shorthand
-IRIs have been expanded) *should* be the *range* of the citation
-element.  A `datatype` attribute *must not* be present on a *citation
-element* which is *translatable*; otherwise the use of a `datatype`
-attribute is *recommended* for *citation elements* that are not
-well-known.
+If the *current element* has a non-empty `datatype` attribute, then the
+*datatype* *shall* be the value of `datatype` attribute once shorthand
+IRIs have been expanded.  The use of a `datatype` attribute is
+*recommended* for *citation elements* that are not well-known if 
+the *datatype* is known to be a *non-language-tagged datatype*;
+*language-tagged datatypes* *must not* be specified in a `datatype`
+attribute.
 
 {.example ...}  Suppose a vendor defines a *citation element* called
 `reviewDate` which contains an [ISO 8601] date.  This third-party
-element may perhaps not be well known, so an RDFa author may mark up its
+element may not be well known, so an RDFa author *should* mark up its
 use with a `datatype` attribute:
 
     <span prefix="vendor: http://example.com/sources/
@@ -932,18 +919,23 @@ use with a `datatype` attribute:
           property="vendor:reviewDate" datatype="xsd:date" 
           content="2000-10-08" />
 
-By using a `datatype` attribute, the RDFa author is not only ensuring
-the application processing the data knows the *citation element* is not
-*translatable*, but is also telling the application that the *citation
-element value* is a date.
+By using a `datatype` attribute, the RDFa author is ensuring the
+application processing the data knows the *citation element* is a date
+and will display it to the user appropriately, even if it does not know
+exactly what the date signifies.
 {/}
+
+{.note} *Language-tagged datatypes* *must not* be placed in a `datatype`
+attribute because the RDFa parsing rules mean the *language tag* is
+discarded if a `datatype` attribute is found.  
 
 Otherwise, if the *host language* is HTML, if the *current property
 value* was found in a `datetime` attribute or was the contents of a
 `<time>` element, an application *may* examine the *current property
-value*, and if it is syntactically valid as the following data types
-from &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], it *may*
-determine the *citation element* not to be *translatable*:
+value*, and if it is syntactically valid as the following
+*structured non-language-tagged datatypes* defined in 
+&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], it *may*
+determine that to the *datatype*:
 
     http://www.w3.org/2001/XMLSchema#date
     http://www.w3.org/2001/XMLSchema#time
@@ -953,34 +945,83 @@ determine the *citation element* not to be *translatable*:
     http://www.w3.org/2001/XMLSchema#gYearMonth
 
 {.note}  This rule exists for compatibility with a full HTML+RDFa
-parser; implementation of this rule is otherwise *not recommended*.
-Document authors *should not* rely on this behaviour, and *should*
-instead add a `datetype` attribute.
+parser where this behaviour is *required*; implementation of this rule
+is otherwise *not recommended*.  Document authors *should not* rely on
+this behaviour, and *should* instead add a `datetype` attribute.
 
-{.example ...} An application that implements this rule will generate a
-*citation element value* containing the *string* `2005` from the
-following markup:
+{.example ...} An application that implements this rule would read the
+markup below and generate a *citation element value* whose single
+*string* "`2000-10-08`" would be tagged with the `xsd:date` *datatype*.
 
     <time property="vendor:reviewDate">2000-10-08</time>
 
-Had a different HTML element been used, say a `<span>`, and assuming
-this third-party element was unfamiliar to the parser, a parser not
-implementing this rule would have generated a *translation set* from
-this HTML element.
+Had a different HTML element been used, say a `<span>`, or if the parser
+does not support this rule, the *datatype* would fall back to
+`rdf:langString`.  If this third-party *citation element* were
+unfamiliar to the application, it would not undergo *datatype
+correction* per §4.4 of [CEV Concepts], and would remain with the wrong
+*datatype*.  For this reason, an explicit `datatype` attribute is
+recommended:
+
+    <time property="vendor:reviewDate" 
+          datatype="xsd:date">2000-10-08</time>
 {/}
 
 Otherwise, if the *current property value* was found in a `src` or
-`href` attribute, then the *citation element* *shall* be considered not
-to be *translatable*.
+`href` attribute, then the *datatype* *shall* be:
 
-Otherwise, the application *must* assume the *citation element* is
-*translatable* and make its *citation element value* a *translation
-set*.
+    http://www.w3.org/2000/01/rdf-schema#Resource
+
+This *datatype* IRI *must not* be given explicitly in a `datatype`
+attribute.
+
+{.note}  RDF's notion of a datatype is narrower than the definition in
+these Citation Elements standard and `rdfs:Resources` is not a datatype
+in the RDF sense which is why it *must not* be given in an RDFa
+`datatype` attribute.
+
+{.ednote}  The handling of `src` and `href` attributes should be
+revisted as the [CEV Vocabulary] progresses.  If there are no obvious
+use cases, support for them could be made *optional*, with them behaving
+as *source-exclusion elements* if not supported.  This could simply the
+data model, as making `rdfs:Resource` a *datatype* does not sit
+comfortably with the RDF data model.
+
+Otherwise, the application *shall* attempt to determine whether a
+*language tag* is in scope per §4.4; if a *language tag* can be
+determined, the *datatype* *shall* be the `rdf:langString` type: 
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
 
 {.note}  This is so that the current *language tag* is not lost, as it
 would be if the default were a *string*.
 
-#### The language tag
+Otherwise, the application *shall* determine the *datatype* to be:
+
+    http://www.w3.org/2001/XMLSchema#string
+
+{.note ...}  Applications wishing not to handle the `xsd:string` *datatype*
+are allowed by §2.4.2 of [CEV Concepts] to change this *datatype* to
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+
+and tag the *string* with a *language tag* of `und`.
+{/}
+
+{.note ...}  The *datatypes* selected in the last three cases are the three
+*datatypes* which are defined to participate in the *datatype
+correction* mechanism defined in §4.4 of [CEV Concepts]:
+
+    http://www.w3.org/2000/01/rdf-schema#Resource
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    http://www.w3.org/2001/XMLSchema#string
+
+Applications *may* opt to apply *datatype correction* while parsing RDFa
+for *citation elements*; if so, these *datatypes* will often be replaced
+by the *default datatype* of the *citation element term*.
+{/}
+
+### Language tags
 
 The *language tag* of the *citation element* *shall* be the value of
 `xml:lang` or `lang` attribute on the *current element*, failing which
@@ -991,7 +1032,6 @@ takes precedence.
 {.note}  This standard does not change when the `xml:lang` and `lang`
 attributes may be used on an HTML element.  In particular, the
 `xml:lang` attribute is only allowed in XHTML documents.
-
 
 {.example ...}
     <p vocab="https://terms.fhiso.org/sources/" typeof="Source" lang="en">
@@ -1025,9 +1065,9 @@ header may provide the default *language tag* for the whole document.
 different XML language, the value of any `xml:lang` attributes in the
 host XML will be inherited by the XHTML as defined in §2.12 of [XML].
 
-When these attributes are used in languages other than HTML, the
-definition of that language *may* provide a default *language tag* that
-applies in the event that no such attribute is found.  
+When these attributes are used in *host languages* other than HTML, the
+definition of the *host language* *may* provide a default *language tag*
+that applies in the event that no such attribute is found.  
 
 {.note} FHISO does *not recommend* the use of a default *language tag* when it 
 gives privileged status to one language.  If technical considerations
@@ -1300,7 +1340,7 @@ element set*.  If the change is not to be propagated back to the
 *citation element set*, the application might delete the `property`
 attribute so the changed data is no longer recognised as a *citation
 element*, or insert a `content` attribute containing the correct data
-per §4.3.1.
+per §4.2.
  
 {.example ...}  Suppose an application generates the following
 *formatted citation*.
@@ -1416,6 +1456,11 @@ several other instances of RDFa attributes that will not be detected as
 :   ISO (International Organization for Standardization).  *ISO
     8601:2004.  Data elements and interchange formats — Information
     interchange — Representation of dates and times*.  2004.
+
+[RDF Schema]
+:   W3C (World Wide Web Consortium). *RDF Schema 1.1*.
+    W3C Recommendation, 2014.
+    See <http://www.w3.org/TR/rdf-schema>.
 
 [RDF Semantics]
 :   W3C (World Wide Web Consortium). *RDF 1.1 Semantics*.

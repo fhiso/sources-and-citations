@@ -690,7 +690,7 @@ the *pattern*, this *string* is not part of the *lexical space* of this
 A *datatype* with a *pattern* other than `.*` is known as a **structured
 datatype**, while one with a *pattern* of `.*` is known as an
 **unstructured datatype**.  It is expected that most *datatypes* in
-common use, other than the `rdf:langString` *datatype* defined in §2.4
+common use, other than the `rdf:langString` *datatype* defined in §2.4.1
 will be *structured datatypes*.
 
 {.note} *Patterns* may be defined for *language-tagged datatypes* just
@@ -751,41 +751,109 @@ abstract.  If it is desirable to describe a FHISO *abstract datatype* in
 XML Schema, it should be defined as a normal simple type, with the
 information that it is abstract conveyed by another means. 
 
-### The `rdf:langString` type
+### Built-in datatypes
+
+#### The `rdf:langString` datatype
 
 Any *language-tagged datatype* that is not defined to be a *subtype* of
 some other *datatype* *shall* implicitly be considered to be a *subtype*
-of the `rdf:langString` type defined in §2.5 of [RDFS].  This *datatype*
-is a *language-tagged datatype* and has the following *term name*:
+of the `rdf:langString` datatype defined in §2.5 of [RDFS].  This
+*datatype* is an *unstructured language-tagged datatype* and has the
+following properties:
 
-    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+------           -----------------------------------------------
+Name             `http://www.w3.org/1999/02/22-rdf-syntax-ns#langString`
+Pattern          `.*`
+Supertype        *none*
+Abstract         no
+------           -----------------------------------------------
 
 {.note} Although this type is formally defined in the RDF Schema
 specification, this standard requires no knowledge of RDF; an
 implementer may safely use this *datatype* using just the information
 given in this section, and without reading [RDFS].
 
-No constraints are placed on the *lexical space* of this *datatype*
-which is the space of all *strings*, and its *pattern* is `.*`,
-meaning it is an *unstuctured datatype*.  The only restriction placed on
-the use or semantics of this *datatype* is that it *should* contain text
-in a human-readable form.  It is not an *abstract datatype* and
-*subtypes* of it *should* be defined when a *structured language-tagged
-datatype* is required.
+No constraints are placed on the *lexical space* of this *datatype*;
+the only restriction placed on the use or semantics of this *datatype*
+is that it *should* contain text in a human-readable form.  
 
 {.note} This type is the ultimate *supertype* of all *language-tagged
 datatypes*.  This standard does not specify a comparable *datatype*
 which acts as the ultimate *supertype* of all *non-language-tagged
 datatypes*, nor of all *datatypes*.
 
-{.ednote}  The `xsd:string` is not suitable for these roles as many
-other XML Schema *datatypes*, including `xsd:date` and `xsd:integer` are
-not defined to be *subtypes* of `xsd:string`.  Possibly one or more of
-the `rdfs:Resource`, `rdfs:Literal`, `xsd:anyType`, `xsd:anySimpleType`
-and `xsd:anyAtomicType` would serve, but this needs careful
-consideration of the differences between *datatypes* in XML Schema, RDF
-and this standard.  At present there is no compelling need for either of
-these additional *supertypes*.
+{.ednote}  Possibly one or more of the `rdfs:Resource`, `rdfs:Literal`,
+`xsd:anyType`, `xsd:anySimpleType` and `xsd:anyAtomicType` would serve,
+but this needs careful consideration of the differences between
+*datatypes* in XML Schema, RDF and this standard.  At present there is
+no compelling need for either of these additional *supertypes*.
+
+#### The `xsd:string` datatype
+
+This standard makes limited use of the `xsd:string` *datatype* defined
+in §3.3.1 of &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].
+This is an *unstructured non-language-tagged datatype* which has the
+following properties:
+
+------           -----------------------------------------------
+Name             `http://www.w3.org/2001/XMLSchema#string`
+Pattern          `.*`
+Supertype        *none*
+Abstract         no
+------           -----------------------------------------------
+
+No constraints are placed on the *lexical space* of this *datatype*;
+the only restriction placed on the use or semantics of this *datatype*
+is that it *should not* be used to contain text in a human-readable
+natural language.
+
+{.note}  This type is not the ultimate *supertype* of all
+*non-language-tagged* datatypes.  This is because many other XML Schema
+*datatypes*, including `xsd:date` and `xsd:integer` are not defined as
+*subtypes* of `xsd:string` in XML Schema. 
+
+Explicit use of this *datatype* is *not recommended*: data that is in
+a human-readable form *should* use a *language-tagged datatype*, while
+data that is not human-readable *should* use a *structured datatype*.
+
+If an application encounters a *string* with the `xsd:string`
+*datatype*, it *may* change the *datatype* to `rdf:langString` and
+assign the *string* a *language tag* of `und`, meaning an undetermined
+language.
+
+{.note} The `xsd:string` *datatype* is included in this standard in
+order to align this data model more closely with the RDF data model.
+The above rule allowing conversion to `rdf:langString` means that
+applications *may* ignore the `xsd:string` *datatype*.
+
+#### The `rdfs:Resource` datatype
+
+This standard also makes very limited use of the `rdfs:Resource`
+type defined in §2.1 of [RDFS] as the class of everything that can be
+expressed in RDF.  It is provided solely for compatibility with the RDF
+data model, and explicit use of this *datatype* is *not recommended*.
+For the purpose of this standard, it is an *unstructured
+non-language-tagged datatype* with the following properties:
+
+------           -----------------------------------------------
+Name             `http://www.w3.org/2000/01/rdf-schema#Resource`
+Pattern          `.*`
+Supertype        *none*
+Abstract         no
+------           -----------------------------------------------
+
+{.ednote}  In RDF terminology, this is not a datatype but something more
+general.  All literals in RDF have a datatype, but IRIs are a distinct
+class of entity which do not have a datatype.  Instead the thing they
+represent has a type and `rdfs:Resource` is the most general possible
+type; all RDF datatypes are also subclasses of `rdfs:Resource`.  This
+means `rdfs:Resource` doesn't quite fit seamlessly into the Citation
+Elements data model.  The chief reason for supporting it is to
+accommodate *citation element values* that are IRIs, and in particular
+the `href` attribute in the [CEV RDFa] bindings.  The handling of these
+should be revisited as the [CEV Vocabulary] progresses, and this may
+result in `rdfs:Resource` support being removed from this standard or
+made *optional*.
 
 ### Unions of datatypes
 
@@ -964,7 +1032,7 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* defined in §2.4 of this standard.
+`rdf:langString` *datatype* defined in §2.4.1 of this standard.
 
 {.note}  This is called the *format default datatype* to avoid confusion
 with the *default datatype* defined per *citation element term* in §4.4
