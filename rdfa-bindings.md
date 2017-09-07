@@ -1,12 +1,12 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 26 June 2017
+date: 7 September 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
 
-{.ednote ...} This is a **first public draft** of a standard documenting
+{.ednote ...} This is a **second public draft** of a standard documenting
 the proposed usage of the FHISO Citation Elements standard in RDFa.
 This document is not an FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
@@ -688,7 +688,8 @@ In addition, applications supporting a larger part of RDFa *must* discard
 triples where the object is an RDF blank node.
 
 {.note}  A future FHISO standard might extend this data model to include
-support for blank nodes.
+support for blank nodes, likely using them to represent objects with
+properties of their own.
 
 {.note}  This standard is designed to allow implementers to parse those
 RDFa constructs used without having to consider how they map to RDF.
@@ -1520,4 +1521,8 @@ several other instances of RDFa attributes that will not be detected as
     Edition)*.  W3C Recommendation, 8 Dec 2009.
     See <https://www.w3.org/TR/REC-xml-names/>.
 
-
+---
+Copyright © 2017, [Family History Information Standards Organisation,
+Inc](http://fhiso.org/) and contributors.  
+The text of this standard is available under the [Creative Commons
+Attribution License](https://creativecommons.org/licenses/by/4.0/).

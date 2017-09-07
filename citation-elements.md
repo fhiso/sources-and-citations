@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 3 September 2017
+date: 7 September 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -731,6 +731,12 @@ classification as *structured* or *unstructured*.  Because *patterns*
 only constrain the *lexical space* of the *datatype*, they cannot be
 used to constrain the *language tag* in the value of a *language-tagged
 datatype*.
+
+{.example}  The `AgentName` datatype used to represent the names of
+authors and other people is a microformat which is constrained by a
+*pattern* meaning it is a *structured datatype*, but it is also a
+*language-tagged datatype* as names can be translated and
+transliterated.
 
 ### Subtypes
 
@@ -1776,7 +1782,7 @@ supported in this data model:
 Applications *may* discard any IRI that it knows does not conform to the
 above requirement.
 
-{.ednote}  FHISO intend to produce a Source Derivation Vocabulary
+{.ednote}  FHISO intends to produce a Source Derivation Vocabulary
 standard giving a standard vocabulary of source derivation terms, for
 things like transcription, abstraction, translation, indexing,
 referencing, analysing, commenting on and rebutting.  These will be
@@ -1983,3 +1989,8 @@ not require that the graph be acyclic.
     Ashok Malhotra, C. M. Sperberg-McQueen and Henry S. Thompson, ed., 2012.
     W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-2/>.)
 
+---
+Copyright © 2017, [Family History Information Standards Organisation,
+Inc](http://fhiso.org/) and contributors.  
+The text of this standard is available under the [Creative Commons
+Attribution License](https://creativecommons.org/licenses/by/4.0/).
