@@ -492,9 +492,9 @@ overridden and remains in operation.
 The *prefix* consisting of a single underscore character (U+005F) has
 special meaning in §7.4.5 [RDFa Core] for referencing *blank nodes*.  It
 *must not* be used in CURIEs other than for that purpose.  Support for
-*blank nodes* is *optional* in this standard.  Applications that do not
-support *blank nodes* *must* ignore CURIEs with a *prefix* consisting of
-a single underscore.
+*blank nodes* is *not recommended* in this standard.  Applications that
+do not support *blank nodes* *must* ignore CURIEs with a *prefix*
+consisting of a single underscore.
 
 In determining the *local prefix mappings*, a parser *may* also use 
 XML namespace declarations as defined in §7.5, item 3 of [RDFa Core].
@@ -684,8 +684,11 @@ the following RDF types, or a subtype thereof:
  
     https://terms.fhiso.org/sources/Source
 
-In addition, applications supporting a larger part of RDFa *may* discard
+In addition, applications supporting a larger part of RDFa *must* discard
 triples where the object is an RDF blank node.
+
+{.note}  A future FHISO standard might extend this data model to include
+support for blank nodes.
 
 {.note}  This standard is designed to allow implementers to parse those
 RDFa constructs used without having to consider how they map to RDF.
@@ -721,7 +724,9 @@ is a *string* and is used to construct a new *localisation set* to be
 the *citation element value*.  The application *shall* then determine
 the *datatype* of the *string* per §4.3, and if the result is a
 *language-tagged datatype*, *shall* also determine its *language
-tag* per §4.4.  
+tag* per §4.4.  Alternatively, applications that opt to parse RDFa to
+RDF triples, as a full RDFa parser does, *may* determine the *current
+property value*, *datatype* and *language tag* per §4.5.
 
 {.note}  These rules are illustrated by example in the sections below.
 
@@ -1080,6 +1085,33 @@ supplied through an external mechanism and no default applies, or if
 provided *language tag* is an empty string, the *citation element* has
 no *language tag*.
 
+### Parsing RDF triples
+
+{.note} This section is only relevant if an implementation wishes to
+make greater use of the RDF features that underlie RDFa.  Support for
+everything in this section is therefore *optional*.
+
+Applications supporting more RDFa features than this standard requires
+*may* determine the *current element value*, its *datatype* and, where
+applicable, its *language tag* from the object of an RDF triple that was
+identified as representing a *citation element* per §3.2 of this
+standard.
+
+If the object of the RDF triple is a literal, then the *current element
+value* *shall* be the lexical form of the literal, as defined in §3.3 of
+&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)].  Its
+*datatype* *shall* be the datatype IRI of the literal, and its *language
+tag* *shall* be the language tag of the literal if that is present
+exists. 
+
+Otherwise, if the object of the RDF triple is an IRI, then the *current
+element value* *shall* be that IRI, and its *datatype* *shall* be:
+
+    http://www.w3.org/2000/01/rdf-schema#Resource
+
+{.note} The object of the RDF cannot be a blank node as RDF triples
+whose objects are blank nodes are discarded in §3.2.
+
 ## Layered citations
 
 Once the *citation elements* in a document have been located, parsed and
@@ -1247,7 +1279,8 @@ in §5.4.
 ### Full RDFa considerations
 
 {.note} This section is only relevant if an implementation wishes to
-make greater use of the RDF features that underlie RDFa.
+make greater use of the RDF features that underlie RDFa.  Support for
+everything in this section is therefore *optional*.
 
 Documents that use more RDFa features than this standard requires to be
 supported *must not* include any *source-type elements*, other than the
@@ -1401,6 +1434,11 @@ several other instances of RDFa attributes that will not be detected as
 :   FHISO (Family History Information Standards Organisation).
     *Citation Elements: General Concepts".  Exploratory draft of standard.
     See <http://tech.fhiso.org/drafts/cev-concepts>.
+
+[RDF Concepts]
+:   W3C (World Wide Web Consortium). *RDF 1.1 Concepts and Abstract
+    Syntax*.  W3C Recommendation, 2014.
+    See <http://www.w3.org/TR/rdf11-concepts>.
 
 [RDFa Core]
 :   W3C (World Wide Web Consortium). *RDFa Core 1.1*.
