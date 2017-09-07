@@ -1405,7 +1405,35 @@ application *should* replace all the *citation elements* with a common
    super-element* of the *citation element terms* being replaced; and
 *  a *citation element value* which *shall* be a *localisation set*
    created by *merging* the *localisations sets* of each *citation
-   element value* being replaced.
+   element value* being replaced in the order they appear in the
+   *citation element set*.
+
+{.example ...}  Consider the following *citation element set*, written
+in a hypothetical JSON format (which is different to the
+*list-flattening* example JSON format used in earlier examples).  
+
+    [ "title": [ "fr": "Les ancêtres des Charlemagne",
+                 "en": "The Ancestors of Charlemagne" ],
+      "title": [ "fr": "Les Ancêtres des Charlemagne",
+                 "de": "Die Vorfahren von Karl dem Großen" ] ]
+
+Assuming the `title` *citation element term* is *single-valued*, an
+application *may* *deduplicate* the *citation element set* by *merging*
+the two *localisation sets* in order to get the following:
+
+    [ "title": [ "fr": "Les ancêtres des Charlemagne",
+                 "en": "The Ancestors of Charlemagne",
+                 "fr": "Les Ancêtres des Charlemagne",
+                 "de": "Die Vorfahren von Karl dem Großen" ] ]
+
+After *merging* the *localisation sets*, §3.2.2 says the application
+*should* *deduplicate* the resultant *localisation set*.  This removes
+the second French title to give the following:
+
+    [ "title": [ "fr": "Les ancêtres des Charlemagne",
+                 "en": "The Ancestors of Charlemagne",
+                 "de": "Die Vorfahren von Karl dem Großen" ] ]
+{/}
 
 {.note} There is no requirement for an application to check for
 *duplicate citation elements* and *deduplicate* them; however it might
