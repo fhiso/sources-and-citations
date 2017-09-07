@@ -329,13 +329,13 @@ layer links*.
 
 RDFa provides two separate mechanisms for abbreviating the IRIs in these
 attributes: by setting a *local default vocabulary*, and by using
-prefixes to create compact URIs expressions (CURIEs).  Applications
-processing *formatted citations* in accordance with this standard *must*
-support both of these mechanisms.  Expansion of *terms* using the
-*local default vocabulary* *shall* be done before the expansion of
-CURIEs.  An application *must* behave as if all `datatype`, `property`,
-`rel`, `rev` and `typeof` attributes have been expanded before
-continuing to process the data.
+prefixes to create compact URIs expressions (CURIEs) as a form of
+*prefix notation*.  Applications processing *formatted citations* in
+accordance with this standard *must* support both of these mechanisms.
+Expansion of *terms* using the *local default vocabulary* *shall* be
+done before the expansion of CURIEs.  An application *must* behave as if
+all `datatype`, `property`, `rel`, `rev` and `typeof` attributes have
+been expanded before continuing to process the data.
 
 {.note} Applications *may* opt to expand these attributes on demand,
 provided the effect is the same.  The `typeof` attribute is the only one

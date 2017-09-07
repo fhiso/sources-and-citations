@@ -469,6 +469,37 @@ public key pinning is used per
 &#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
 {/}
 
+#### Prefix notation
+
+*Term names* in the Citation Elements standard are sometimes referred to
+in **prefix notation**.  This is a system whereby **prefixes** are
+assigned to IRIs that occur frequently as the leading portion of a *term
+name*.  Then, instead of writing the *term name* in full, the leading
+portion of the *term name* is replaced by its *prefix* followed by a
+colon (U+003A) separator.
+
+{.example}  The *term name* `https://terms.fhiso.org/sources/title` is
+used in several of the examples in this standard.  Instead of writing
+this in full, if the `cev` *prefix* is bound to the IRI
+`https://terms.fhiso.org/sources/`, then this IRI can be written in
+*prefix form* as `cev:title`.
+
+The following *prefix* bindings are assumed in this standard:
+
+------           -----------------------------------------------
+`rdf`            `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
+`rdfs`           `http://www.w3.org/2000/01/rdf-schema#`
+`xsd`            `http://www.w3.org/2001/XMLSchema#`
+------           -----------------------------------------------
+
+{.note}  The particular *prefixes* assigned above have no relevance
+outside this standard document as *prefix notation* is not used in the
+formal data model defined by this standard.  This notation is simply a
+notational convenience to make the standard easier to read.
+Nevertheless, some serialisation formats, including the [CEV RDFa]
+bindings, do make use of *prefix notation* to shorten the serialised
+form of data.
+
 #### IRI resolution
  
 It is *recommended* that an HTTP `GET` request to a *term name* IRI with
@@ -1129,7 +1160,7 @@ specifically for use as a *citation element name* in the following
 manner.  The party defining the *citation element term* *shall* provide
 a description of the intended purpose of the *citation element term*
 which *should* be made freely available to all interested parties,
-preferably by an HTTP request as described in §1.4.1 of this standard.  In
+preferably by an HTTP request as described in §1.4.2 of this standard.  In
 addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
