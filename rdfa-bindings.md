@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 7 September 2017
+date: 8 September 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -219,12 +219,9 @@ This standard makes use of the following attributes:
    *language tag* as per §4.4.  Full support for their RDFa semantics
    is *required*.
 
-*  The `datatype` attribute is used in this standard to determine the
-   type of the *citation element value* in certain situations.  Full
-   support for its RDFa semantics is *recommended*.  Any unsupported use
-   of this attribute *shall* be ignored, except when the presence of
-   this attribute (but not its value) affects the determination of the
-   *citation element value* per §4.
+*  The `datatype` attribute is used to identify the *datatype* of
+   *strings* in a *citation element value*.  Full support for its RDFa
+   semantics is *required*. 
 
 *  The `rel` and `rev` attributes are used to denote *layer derivation
    links* per §5.3.  Support for any other use of this attribute is
@@ -320,8 +317,8 @@ application, it will likely be ignored.
 {/}
 
 In the uses described by this standard the `property` attribute will
-always contain a *citation element name*, and the `datatype` attribute
-will always contain a *class name*.  The `typeof` attribute will contain
+always contain a *citation element term*, and the `datatype` attribute
+will always contain a *datatype name*.  The `typeof` attribute will contain
 an IRI that allows this standard's use of RDFa to be distinguished from
 any other uses also present in the document.  The `rev` and `rel`
 attributes will contain a *source derivation type* to denote *citation
@@ -909,11 +906,11 @@ A *conformant* parser *must* determine the *datatype* which tags the
 
 If the *current element* has a non-empty `datatype` attribute, then the
 *datatype* *shall* be the value of `datatype` attribute once shorthand
-IRIs have been expanded.  The use of a `datatype` attribute is
-*recommended* for *citation elements* that are not well-known if 
-the *datatype* is known to be a *non-language-tagged datatype*;
-*language-tagged datatypes* *must not* be specified in a `datatype`
-attribute.
+IRIs have been expanded.  The `datatype` attribute *must not* contain
+the name of a *language-tagged datatype* or the built-in `rdfs:Resource`
+*datatype*.  The use of a `datatype` attribute is *recommended* for
+*citation elements* that are not well-known if the *datatype* is known
+not to be one that is prohibited in a `datatype` attribute.
 
 {.example ...}  Suppose a vendor defines a *citation element* called
 `reviewDate` which contains an [ISO 8601] date.  This third-party
@@ -1523,6 +1520,6 @@ several other instances of RDFa attributes that will not be detected as
 
 ---
 Copyright © 2017, [Family History Information Standards Organisation,
-Inc](http://fhiso.org/) and contributors.  
+Inc](http://fhiso.org/).  
 The text of this standard is available under the [Creative Commons
 Attribution License](https://creativecommons.org/licenses/by/4.0/).

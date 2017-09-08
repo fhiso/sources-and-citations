@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 7 September 2017
+date: 8 September 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -540,11 +540,15 @@ it would be *optional*.
 standard.
 
 A **datatype** is a *term* which serves as a formal description of the
-values that are permissible in a particular context.  A *datatype* has a
-**lexical space** which is the set of *strings* which are interpreted
-as valid values of the *datatype*.  The definition of a *datatype*
-*shall* state how each string in its *lexical space* maps to a logical
-value, and state the semantics associated with of those values.  
+values that are permissible in a particular context.  Being a *term*, a
+*datatype* is identified by a *term name* which is an IRI.  The *term
+name* of a *datatype* is also referred to as a *datatype name*.
+
+A *datatype* has a **lexical space** which is the set of *strings* which
+are interpreted as valid values of the *datatype*.  The definition of a
+*datatype* *shall* state how each string in its *lexical space* maps to
+a logical value, and state the semantics associated with of those
+values.  
 
 {.note} This definition of a *datatype* is sufficiently aligned with
 XML Schema's notion of a simple type, as defined in 
@@ -790,6 +794,9 @@ information that it is abstract conveyed by another means.
 
 ### Built-in datatypes
 
+This standard gives special treatment to three *datatypes* defined in
+third-party standards.   
+
 #### The `rdf:langString` datatype
 
 Any *language-tagged datatype* that is not defined to be a *subtype* of
@@ -828,7 +835,7 @@ no compelling need for either of these additional *supertypes*.
 #### The `xsd:string` datatype
 
 This standard makes limited use of the `xsd:string` *datatype* defined
-in §3.3.1 of &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)].
+in §3.3.1 of &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)]. 
 This is an *unstructured non-language-tagged datatype* which has the
 following properties:
 
@@ -839,9 +846,9 @@ Supertype        *none*
 Abstract         no
 ------           -----------------------------------------------
 
-No constraints are placed on the *lexical space* of this *datatype*;
-the only restriction placed on the use or semantics of this *datatype*
-is that it *should not* be used to contain text in a human-readable
+It is a general-purpose *datatype* whose lexical space is the space of
+all *strings*; however it is not a *language-tagged datatype* and
+therefore it *should not* be used to contain text in a human-readable
 natural language.
 
 {.note}  This type is not the ultimate *supertype* of all
@@ -849,7 +856,7 @@ natural language.
 *datatypes*, including `xsd:date` and `xsd:integer` are not defined as
 *subtypes* of `xsd:string` in XML Schema. 
 
-Explicit use of this *datatype* is *not recommended*: data that is in
+Use of this *datatype* is generally *not recommended*: data that is in
 a human-readable form *should* use a *language-tagged datatype*, while
 data that is not human-readable *should* use a *structured datatype*.
 
@@ -859,38 +866,69 @@ assign the *string* a *language tag* of `und`, meaning an undetermined
 language.
 
 {.note} The `xsd:string` *datatype* is included in this standard in
-order to align this data model more closely with the RDF data model.
-The above rule allowing conversion to `rdf:langString` means that
-applications *may* ignore the `xsd:string` *datatype*.
+order to align this data model more closely with the RDF data model, and
+in particular the [CEV RFDa] bindings which use this *datatype* as the
+default when no *language tag* is present.  The above rule allowing
+conversion to `rdf:langString` means that applications *may* ignore the
+`xsd:string` *datatype*.
 
 #### The `rdfs:Resource` datatype
 
-This standard also makes very limited use of the `rdfs:Resource`
-type defined in §2.1 of [RDFS] as the class of everything that can be
-expressed in RDF.  It is provided solely for compatibility with the RDF
-data model, and explicit use of this *datatype* is *not recommended*.
-For the purpose of this standard, it is an *unstructured
-non-language-tagged datatype* with the following properties:
+This standard also makes use of the `rdfs:Resource` type defined in §2.1
+of [RDFS] as the class of everything that can be expressed in RDF.  In
+these Citation Elements standards, its use is more specific, and it is 
+used as a *datatype* to represent resources identified by IRIs.  In this
+context a resource might be a document or file that can be retrieved
+from that IRI, but it also includes an physical and abstract concept
+that are merely identified by an IRI.
+
+{.example}  The `rdfs:Resource` *datatype* is used to represent the
+website from which an online *source* can be retrieved.
+
+{.note}  The fact that FHISO is using `rdfs:Resource` in a more specific
+manner than RDF does not introduce a incompatibility between RDF and
+this FHISO standard.  This is because, in RDF terminology,
+`rdfs:Resource` is not a datatype but something more general.  All
+literals in RDF have a datatype, but IRIs are a distinct class of entity
+which do not have an RDF datatype.  Instead the thing they represent has
+a type and `rdfs:Resource` is the most general possible type.  A further
+complication is that all RDF datatypes are also subclasses of
+`rdfs:Resource`, but as `rdfs:Resource` is not itself an RDF datatype,
+it cannot appear in contexts where an RDF datatype is expected.  For the
+purpose of FHISO's Citation Elements standards, the `rdfs:Resource`
+*datatype* is not a *supertype* of any other *datatype*.
+
+The *lexical space* of thus *datatype* is the space of valid IRIs
+matching the `IRI` production in §2.2 of
+&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  It is a 
+*non-language-tagged datatype* with the following properties:
 
 ------           -----------------------------------------------
 Name             `http://www.w3.org/2000/01/rdf-schema#Resource`
-Pattern          `.*`
+Pattern          `[a-z][a-z0-9+.-]+:[^ ]+`
 Supertype        *none*
 Abstract         no
 ------           -----------------------------------------------
 
-{.ednote}  In RDF terminology, this is not a datatype but something more
-general.  All literals in RDF have a datatype, but IRIs are a distinct
-class of entity which do not have a datatype.  Instead the thing they
-represent has a type and `rdfs:Resource` is the most general possible
-type; all RDF datatypes are also subclasses of `rdfs:Resource`.  This
-means `rdfs:Resource` doesn't quite fit seamlessly into the Citation
-Elements data model.  The chief reason for supporting it is to
-accommodate *citation element values* that are IRIs, and in particular
-the `href` attribute in the [CEV RDFa] bindings.  The handling of these
-should be revisited as the [CEV Vocabulary] progresses, and this may
-result in `rdfs:Resource` support being removed from this standard or
-made *optional*.
+{.ednote}  This *pattern* almost certainly needs revising.
+
+Applications *must not* define *subtypes* of `rdfs:Resource`.
+
+{.note}  This restriction is likely to be removed in a future version of
+this standard.  If and when *subtypes* of `rdfs:Resource` are permitted,
+they will be almost certainly be used to describe the type of resource
+being referenced, rather than the type of IRI used to reference it.
+Therefore it is very unlikely that *subtypes* of `rdfs:Resource` will be
+permitted to define a *pattern* or further constrain the *lexical space*
+of the *datatype*.
+
+{.ednote} A future draft of this standard may clarify its relationship
+with the `xsd:anyURI` *datatype*.  In RDF, the two are entirely
+unrelated as `xsd:anyURI` is used in RDF as the datatype of a literal,
+whereas `rdfs:Resource` is used as the type of the resource referenced
+by an IRI.  But there may be a use case to make the two interchangeable,
+much as `xsd:string` is with an `rdf:langString` tagged with the
+*language tag* `und`.
 
 ### Unions of datatypes
 
@@ -1409,8 +1447,7 @@ application *should* replace all the *citation elements* with a common
    *citation element set*.
 
 {.example ...}  Consider the following *citation element set*, written
-in a hypothetical JSON format (which is different to the
-*list-flattening* example JSON format used in earlier examples).  
+in a hypothetical JSON format:
 
     [ "title": [ "fr": "Les ancêtres des Charlemagne",
                  "en": "The Ancestors of Charlemagne" ],
@@ -1700,10 +1737,12 @@ Because matching the *pattern* of a *datatype* does not guarantee the
 *string* necessarily belongs to the *lexical space* of that *datatype*,
 it is possible that *data correction* may turn a valid *unstructured
 string* into an *invalid string* which *may* subsequently be discarded.
-*Data correction* *may* be suppressed in such a case by altering the
-*string* to prevent it from matching the *pattern*.  Applications 
-*must not* make such an alternation other than at the instruction of the
-user.
+Applications *should* try to ensure that no *strings* are entered which
+match the *pattern* but are outside the *lexical space* of the
+*datatype*.  One strategy for avoiding this is to suppress *datatype
+correction* by altering the *string* to prevent it from matching the
+*pattern*.  Applications *must not* make such an alternation other than
+at the instruction of the user.
 
 {.example}  The *string* "`1999-02-31`" matches the *pattern* for a
 `GregorgianDate` but is nonetheless outside the *lexical space* of that
@@ -1806,6 +1845,11 @@ the following IRI which represents the most general case of derivation
 supported in this data model:
 
     https://terms.fhiso.org/sources/derivedFrom
+
+{.ednote}  Should we reuse the `prov:wasDerivedFrom` or
+`prov:wasInfluencedBy` properties from 
+&#x5B;[PROV-O](https://www.w3.org/TR/prov-o/)] instead of inventing our
+own `derivedFrom` *term*?
 
 Applications *may* discard any IRI that it knows does not conform to the
 above requirement.
@@ -1975,6 +2019,12 @@ not require that the graph be acyclic.
     a Global Data Space*, 1st edition.  Morgan & Claypool, 2011.
     (See <http://linkeddatabook.com/editions/1.0/>.)
 
+[PROV-O]
+:   W3C (World Wide Web Consortium).  *PROV-O: The PROV Ontology.*
+    Khalid Belhajjame, James Cheney, David Corsar, Daniel Garijo, 
+    Stian Soiland-Reyes, Stephan Zednik and Jun Zhao, eds., 2013.
+    W3C Recommendation.  (See <https://www.w3.org/TR/prov-o/>.)
+
 [RDF Concepts]
 :   W3C (World Wide Web Consortium).  *RDF 1.1 Concepts and Abstract
     Syntax.*  Richard Cyganiak, David Wood and Markus Lanthaler, eds.,
@@ -2019,6 +2069,6 @@ not require that the graph be acyclic.
 
 ---
 Copyright © 2017, [Family History Information Standards Organisation,
-Inc](http://fhiso.org/) and contributors.  
+Inc](http://fhiso.org/).  
 The text of this standard is available under the [Creative Commons
 Attribution License](https://creativecommons.org/licenses/by/4.0/).
