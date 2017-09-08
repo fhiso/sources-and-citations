@@ -99,6 +99,9 @@ publication-year
 
 * Or should it be a publication date?
 
+* Richard Tallent has [suggested](http://fhiso.org/pipermail/tsc-public_fhiso.org/2017-July/005066.html) 
+  using [ISO 8601-2](http://www.loc.gov/standards/datetime/iso-tc154-wg5_n0039_iso_wd_8601-2_2016-02-16.pdf).
+
 publication-place-name
 ----------------------
 
