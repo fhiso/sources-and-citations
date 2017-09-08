@@ -312,7 +312,7 @@ the citation's creator anticipated it being processed by applications
 that support [Dublin Core] metadata as well as FHISO's Citation Elements
 standards.  A parser conforming to this standard will treat both IRIs as
 valid and create two *citation elements*, both with the same *citation
-element value*, however if the Dublic Core IRI is not known to the
+element value*, however if the Dublin Core IRI is not known to the
 application, it will likely be ignored.
 {/}
 
@@ -950,7 +950,7 @@ determine that to the *datatype*:
 {.note}  This rule exists for compatibility with a full HTML+RDFa
 parser where this behaviour is *required*; implementation of this rule
 is otherwise *not recommended*.  Document authors *should not* rely on
-this behaviour, and *should* instead add a `datetype` attribute.
+this behaviour, and *should* instead add a `datatype` attribute.
 
 {.example ...} An application that implements this rule would read the
 markup below and generate a *citation element value* whose single
@@ -984,11 +984,9 @@ in the RDF sense which is why it *must not* be given in an RDFa
 `datatype` attribute.
 
 {.ednote}  The handling of `src` and `href` attributes should be
-revisted as the [CEV Vocabulary] progresses.  If there are no obvious
+revisited as the [CEV Vocabulary] progresses.  If there are no obvious
 use cases, support for them could be made *optional*, with them behaving
-as *source-exclusion elements* if not supported.  This could simply the
-data model, as making `rdfs:Resource` a *datatype* does not sit
-comfortably with the RDF data model.
+as *source-exclusion elements* if not supported.  
 
 Otherwise, the application *shall* attempt to determine whether a
 *language tag* is in scope per §4.4; if a *language tag* can be
