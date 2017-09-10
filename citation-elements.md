@@ -1369,22 +1369,37 @@ application *should* take steps to avoid creating *localisation sets*
 containing *invalid* *strings*.
 
 {.note} An application might inadvertently create *invalid* *strings*
-if it does not know the *range* of a *citation element term* or the
-definitions of some of the *datatypes* within that *range*.
+if it does not know the *range* of a *citation element term* or does not
+properly understand the *lexical space* of some of the *datatypes*
+within that *range*.  Applications *may* use the *pattern* of the
+*datatype* to identify some *strings* outside the *lexical space* of the
+*datatype* as a *string* that fails to match the *pattern* is guaranteed
+not to be in the *lexical space*; applications *may* also use deeper
+knowledge of the *lexical space* to identify more *invalid* *strings*.
 
-Applications *may* discard any *strings* that are known to be *invalid*,
-and *may* use one or more *discovery* mechanism to obtain the
-information needed to determine this.  It is *recommended* that this
-*should* be done prior to *deduplicating* a *localisation set*, and it
-*may* be done at other times.  A *conformant* application *must not*
-discard any *string* unless it is known to be *invalid*.
+Applications *may* use one or more *discovery* mechanism to obtain the
+information needed to determine which *strings* are *invalid*.  
 
-{.note} In order to know whether a *datatype* is *compatible* with the
-*range*, the application will need to know or have access to the
+{.note} In order to determine whether a *datatype* is *compatible* with
+the *range*, the application will need to know or have access to the
 definition of the *datatype* and any *supertypes* to determine whether
 it is a *subtype* of a *datatype* listed in the range, as well as having
 access to definition of the *citation element term* to determine the
 *range*.
+
+If the *range* of the *citation element term* includes one of the
+following *datatypes*, applications *should* change the *datatype* of
+the *invalid* *string* to that *datatype*:  
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    http://www.w3.org/2001/XMLSchema#string
+
+If the *range* does not include either of these *datatypes*,
+applications *may* discard any *strings* that are found to be *invalid*.
+It is *recommended* that this *should* be done prior to *deduplicating*
+a *localisation set*, and it *may* be done at other times.  A
+*conformant* application *must not* discard any *string* unless it is
+known to be *invalid* or as otherwise permitted by this standard.
 
 Exceptionally, a *conformant* application *may* also discard any
 *string* which it has credible reason to believe contains malware or
@@ -1665,7 +1680,7 @@ required.  However, the only situation when *datatype correction* is
 *invalid* *strings*, which process is itself *optional*.
 
 {.example ...}  The hypothetical JSON format used in several earlier
-examples included an element like this:
+examples included the following *citation element*:
 
     [ { "name": "https://terms.fhiso.org/terms/authorName",
         "lang": "jp", "value": "林 董" } ]
@@ -1733,16 +1748,23 @@ such a *datatype* is specified, it is unlikely to have precisely the
 *citation element term* will have a *default datatype* that is some
 *structured datatype* for dates.
 
-Because matching the *pattern* of a *datatype* does not guarantee the
-*string* necessarily belongs to the *lexical space* of that *datatype*,
-it is possible that *data correction* may turn a valid *unstructured
-string* into an *invalid string* which *may* subsequently be discarded.
+Matching the *pattern* of a *datatype* does not guarantee the *string*
+necessarily belongs to the *lexical space* of that *datatype*, so it is
+possible that *data correction* might turn a valid *unstructured string*
+into an *invalid string*.  An application *should not* perform *data
+correction* when it knows the result would be an *invalid string*.
+
+{.note} The mechanism for handling *invalid strings* in §4.2 means that
+any *invalid string* that is inadvertently created as a result of this
+will be converted back to an `rdf:langString` or `xsd:string` rather
+than being discarded.
+
 Applications *should* try to ensure that no *strings* are entered which
-match the *pattern* but are outside the *lexical space* of the
-*datatype*.  One strategy for avoiding this is to suppress *datatype
-correction* by altering the *string* to prevent it from matching the
-*pattern*.  Applications *must not* make such an alternation other than
-at the instruction of the user.
+match the *pattern* of the *default datatype* but are outside its
+*lexical space*.  One strategy for ensuring this is to suggest an
+alteration to the *string* that would prevent it from matching the
+*pattern*; however applications *must not* make such an alternation
+other than at the instruction of the user.
 
 {.example}  The *string* "`1999-02-31`" matches the *pattern* for a
 `GregorgianDate` but is nonetheless outside the *lexical space* of that
