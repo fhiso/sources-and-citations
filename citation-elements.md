@@ -694,6 +694,11 @@ be sufficient to validate a *string* as being in the *lexical space* of
 the *datatype*, but a *string* that fails to match the *pattern* is
 guaranteed not to be in the *lexical space*.
 
+{.note}  Patterns are included in this standard to provide a way for
+an application to find out about the *lexical space* of a unfamiliar
+*datatype* through *discovery*.  They are used during the *datatype
+correction* process defined in §4.4.
+
 {.ednote}  We need to specify a particular dialect of regular
 expression.  One option is the form defined in §21.2 of [ECMAScript]
 which has the advantage of being supported in most programming
