@@ -1188,8 +1188,14 @@ the application shall insert any empty *string* with that *datatype* and
 *language tag* as the first *string* in the *localisation set*.
 
 If an application needs to **merge** two or more *localisation sets*, the
-contents of each *localisation sets* *shall* be combined in order, and
-the application *should* *deduplicate* the resultant *localisation set*.
+contents of each *localisation sets* *shall* be combined in the order
+specified by this standard, and the application *should* *deduplicate*
+the resultant *localisation set*.
+
+{.note}  *Merging* of *localisation sets* only occurs as the result of
+the *deduplication* of *citation element sets* per §4.3.  It specifies
+the *localisation sets* are merged in the order they appear in the
+*citation element set*.
 
 If a *citation element* has a *citation element name* which is an empty
 *localisation set*, that *citation element* *should* be discarded.
@@ -1485,6 +1491,12 @@ the second French title to give the following:
     [ "title": [ "fr": "Les ancêtres des Charlemagne",
                  "en": "The Ancestors of Charlemagne",
                  "de": "Die Vorfahren von Karl dem Großen" ] ]
+
+These rules mean that *single-valued* *citation elements* with the same
+*ultimate single-valued super-element* (in this example, with the same
+*citation element name*) are assumed to be given in order of preference
+for the purpose of *deduplicating* the *merged* *localisation set*,
+with the most preferred value first.
 {/}
 
 {.note} There is no requirement for an application to check for
