@@ -1582,6 +1582,7 @@ Name             `https://terms.fhiso.org/sources/localisedElement`
 Range            *unspecified*
 Cardinality      multi-valued
 Super-element    *none*
+Default datatype *none*
 ------           -----------------------------------------------
 
 {.note} This `localisedElement` *citation element term* has no *range*
