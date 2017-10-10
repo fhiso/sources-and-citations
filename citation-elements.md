@@ -161,6 +161,24 @@ the consulted *source* or one of *sources* from which it was derived, is
 known as a **citation layer**.  A *citation* with just a single *citation
 layer* is called a **single-layer citation**.
 
+{.note} Some authorities define these terms in a more general manner, so
+that information about the *source* is considered to be a separate
+*citation layer* to information about the repository containing the
+*source*.  For the purpose of FHISO's Citation Elements standards,
+information about a source and its repository do not constitute separate
+*citation layers* because containment is not something that can be
+represented by a *source derivation link*.
+
+{.ednote} We may need to reconsider how we model containment if it
+proves significantly more complex than at present it seems.  If we
+do, one option is to generalise the concept of a *source derivation
+link* to something that include containment.  While this may seem an
+attractive generalisation, doing so adds significantly to the complexity
+of the model, and in particular to the formatting process.  If we do
+this, we should do it because there's a compelling use case for it, not
+simply because some authorities use the term *citation layer*
+differently.
+
 {.note} A reference note containing information about multiple sources
 is not necessarily a *layered citation*.  If the sources are unrelated,
 such as when several sources are being cited in support of some fact or
