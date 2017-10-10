@@ -161,9 +161,16 @@ the consulted *source* or one of *sources* from which it was derived, is
 known as a **citation layer**.  A *citation* with just a single *citation
 layer* is called a **single-layer citation**.
 
+{.note} A reference note containing information about multiple sources
+is not necessarily a *layered citation*.  If the sources are unrelated,
+such as when several sources are being cited in support of some fact or
+comment, the note would comprise be series of separate *single-layered
+citations*.  This is true even if the note is formatted as a single
+sentence.
+
 The *citation layer* containing the information about the specific *source*
 which was consulted is known as the **head citation layer**.  For a
-*single-layer citation*, its sole *citation layer* is necessarily the
+*single-layer citation*, the sole *citation layer* is necessarily the
 *head citation layer*.
 
 {.example ...} A *citation* to a census return that was consulted on
