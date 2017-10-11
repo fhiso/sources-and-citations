@@ -1,8 +1,8 @@
 Sources and Citations
 =====================
 
-This repository contains drafts and miscellaneous other material use in
-[FHISO](http://fhiso.org/)'s work on sources and citations.  Our
+This repository contains drafts and miscellaneous other material for use
+in [FHISO](http://fhiso.org/)'s work on sources and citations.  Our
 immediate [priority](http://tech.fhiso.org/priorities) is the production
 of a citation elements vocabulary.  This work is being carried out on
 the [**tsc-public** mailing list](http://tech.fhiso.org/tsc-public).
