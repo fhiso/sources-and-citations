@@ -166,8 +166,8 @@ that information about the *source* is considered to be a separate
 *citation layer* to information about the repository containing the
 *source*.  For the purpose of FHISO's Citation Elements standards,
 information about a source and its repository do not constitute separate
-*citation layers* because containment is not something that can be
-represented by a *source derivation link*.
+*citation layers* because containment is not represented by a *source
+derivation link*.
 
 {.ednote} We may need to reconsider how we model containment if it
 proves significantly more complex than at present it seems.  If we
