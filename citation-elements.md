@@ -6,7 +6,7 @@ numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
 
-{.ednote ...} This is a **second public draft** of the core part of
+{.ednote ...} This is a **third public draft** of the core part of
 FHISO's proposed suite of standards on Citation Elements.  This document
 is not endorsed by the FHISO membership, and may be updated, replaced or
 obsoleted by other documents at any time. 
@@ -15,7 +15,7 @@ In particular, some examples in this draft use *citation elements* that
 are not even included in the draft Citation Elements: Vocabulary.  These
 elements are very likely to be changed as the vocabulary progresses.
 
-The public [tsc-public@fhiso.org](http://tech.fhiso.org/tsc-public) 
+The public [tsc-public@fhiso.org](https://tech.fhiso.org/tsc-public) 
 mailing list is the preferred place for comments, discussion and other
 feedback on this draft.
 
@@ -2044,7 +2044,7 @@ not require that the graph be acyclic.
 
 [Basic Concepts]
 :   FHISO (Family History Information Standards Organisation).
-    *Basic Concepts for Genealogical Standards*.  Public draft.
+    *Basic Concepts for Genealogical Standards*.  First public draft.
     (See <https://fhiso.org/TR/basic-concepts>.)
 
 [ISO 15924]
@@ -2105,7 +2105,7 @@ not require that the graph be acyclic.
 
 [CEV RDFa]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: Bindings for RDFa*.  Public draft.
+    *Citation Elements: Bindings for RDFa*.  Third public draft.
     (See <https://fhiso.org/TR/cev-rdfa-bindings>.)
 
 [CEV Vocabulary]
@@ -2219,6 +2219,6 @@ not require that the graph be acyclic.
 
 ----
 Copyright © 2017, [Family History Information Standards Organisation,
-Inc](http://fhiso.org/).  
+Inc](https://fhiso.org/).  
 The text of this standard is available under the [Creative Commons
 Attribution License](https://creativecommons.org/licenses/by/4.0/).
