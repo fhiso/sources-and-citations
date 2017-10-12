@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 11 September 2017
+date: 12 October 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -90,6 +90,11 @@ If a *conformant* application encounters data that does not conform to
 this standard, it *may* issue a warning or error message, and *may*
 terminate processing of the document or data fragment.
 
+This standard depends on FHISO's **Basic Concepts for Genealogical
+Standards** standard.  To be *conformant* with this standard, an
+application *must* also be *conformant* with [Basic Concepts].  Concepts
+defined in that standard are used here without further definition.
+
 Indented text in grey or coloured boxes, such as preceding paragraph,
 does not form a normative part of this standard, and is labelled as
 either an example or a note.  
@@ -106,7 +111,7 @@ applications *must not* generate data not conforming to the syntax given
 here, but non-conforming syntax *may* be accepted and processed by a
 *conforming* application in an implementation-defined manner.
 
-### Basic concepts
+### Sources and citations
 
 A **source** is any resource from which information is obtained during
 the genealogical research process.  *Sources* come in many forms,
@@ -326,86 +331,6 @@ the email addresses, phone numbers or academic affiliations of authors,
 so they should not be included in the *citation element set*.  A more
 general mechanism for describing *sources* may well include such
 elements, but they are beyond the scope of this standard.
-
-### Characters and strings
-
-**Characters** are specified by reference to their *code point* number
-in [ISO 10646], without regard to any particular character encoding.  In
-this standard, *characters* may be identified in this standard by their
-hexadecimal code point prefixed with "U+".
-
-{.note} The character encoding is a property of the serialisation, and
-not defined in this standard.  Non-Unicode encodings are not precluded,
-so long as it is defined how characters in that encoding corresponds to
-Unicode characters.
-
-*Characters* *must* match the `Char` production from
-&#x5B;[XML](https://www.w3.org/TR/xml11/)].
-
-    Char  ::=  [#1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-
-{.note} This includes all *code points* except the null character,
-surrogates (which are reserved for encodings such as UTF-16 and not
-characters in their own right), and the invalid characters U+FFFE and
-U+FFFF.
-
-A **string** is a sequence of zero or more *characters*.
-
-{.note} The definition of a *string* is identical to the definition of
-the `string` datatype defined in 
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], used in many XML
-and Semantic Web technologies.
-
-Applications *may* convert any *string* into Unicode Normalization Form
-C, as defined in any version of Unicode Standard Annex #15 &#x5B;[UAX
-15](http://unicode.org/reports/tr15/)].
-
-{.note} Normalization Form C and Normalization Form D allow easier
-searching, sorting and comparison of *strings* by picking a canonical
-representation of accented characters.  The conversion between
-Normalization Forms C and D is lossless and therefore reversible, but
-the initial conversion to either form is not reversible.  This allows a 
-*conformant* application to normalise *strings* internally and not
-retain the unnormalised form; however, an application doing so *must*
-ensure the *string* is in Normalization Form C upon export, this being
-the more usual form for use in documents.
-
-*Characters* matching the `RestrictedChar` production from
-&#x5B;[XML](https://www.w3.org/TR/xml11/)] *should not* appear in
-*strings*, and applications *may* process such characters in an
-implementation-defined manner or reject *strings* containing them.
-
-    RestrictedChar  ::=  [#x1-#x8] | [#xB-#xC] | [#xE-#x1F]
-                           | [#x7F-#x84] | [#x86-#x9F]
-
-{.note} This includes all C0 and C1 control characters except tab
-(U+0009), line feed (U+000A), carriage return (U+000D) and next line
-(U+0085).
-
-{.example} As *conformant* applications can process C1 control
-characters in an implementation-defined manner, they can opt to handle
-Windows-1252 quotation marks in data masquerading as Unicode.
-Applications *must not* treat non-ASCII characters as ANSEL, the
-character set properly used in GEDCOM, as ANSEL's non-ASCII characters
-do not correspond to `RestrictedChar`s.
-
-**Whitespace** is defined as a sequence of one or more space
-*characters*, carriage returns, line feeds, or tabs.  It matches the
-production `S` from &#x5B;[XML](https://www.w3.org/TR/xml11/)].
-
-    S  ::=  (#x20 | #x9 | #xD | #xA)+
-
-**Whitespace normalisation** is the process of discarding any leading
-or trailing *whitespace*, and replacing other *whitespace* with a single
-space (U+0020) *character*.  
-
-{.note}  The definition of *whitespace normalisation* is identical to
-that in &#x5B;[XML](https://www.w3.org/TR/xml11/)].
-
-In the event of a difference between the definitions of the `Char`,
-`RestrictedChar` and `S` productions given here and those in
-&#x5B;[XML](https://www.w3.org/TR/xml11/)], the definitions in the
-latest edition of XML 1.1 specification are definitive.
 
 ### Terms
 
@@ -1376,7 +1301,7 @@ specifically for use as a *citation element name* in the following
 manner.  The party defining the *citation element term* *shall* provide
 a description of the intended purpose of the *citation element term*
 which *should* be made freely available to all interested parties,
-preferably by an HTTP request as described in §1.4.2 of this standard.  In
+preferably by an HTTP request as described in §1.3.2 of this standard.  In
 addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
@@ -2115,10 +2040,10 @@ not require that the graph be acyclic.
 
 ### Normative references
 
-[ISO 10646]
-:   ISO (International Organization for Standardization).  *ISO/IEC
-    10646:2014. Information technology &mdash; Universal Coded Character
-    Set (UCS).*  2014.
+[Basic Concepts]
+:   FHISO (Family History Information Standards Organisation).
+    *Basic Concepts for Genealogical Standards*.  Public draft.
+    (See <https://fhiso.org/TR/basic-concepts>.)
 
 [ISO 15924]
 :   ISO (International Organization for Standardization).  *ISO
@@ -2168,12 +2093,6 @@ not require that the graph be acyclic.
     Fieldind and Julian Reschke, eds., 2014.  (See
     <https://tools.ietf.org/html/rfc7231>.)
 
-[UAX 15]
-:   The Unicode Consortium.  "Unicode Standard Annex 15: Unicode
-    Normalization Forms" in *The Unicode Standard, Version 8.0.0.*
-    Mark Davis and Ken Whistler, eds., 2015.  (See
-    <http://unicode.org/reports/tr15/>.)
-
 [XML]
 :   W3C (World Wide Web Consortium). *Extensible Markup Language (XML) 1.1*, 
     2nd edition.  Tim Bray, Jean Paoli, C. M. Sperberg-McQueen, Eve
@@ -2184,7 +2103,7 @@ not require that the graph be acyclic.
 
 [CEV RDFa]
 :   FHISO (Family History Information Standards Organisation).
-    *Citation Elements: Bindings for RDFa*.  First public draft.
+    *Citation Elements: Bindings for RDFa*.  Public draft.
     (See <https://fhiso.org/TR/cev-rdfa-bindings>.)
 
 [CEV Vocabulary]
