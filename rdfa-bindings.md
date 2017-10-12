@@ -281,18 +281,76 @@ will be able to extract the *citation elements* again.  This
 *should not* be an application's principal means of serialising a
 *citation element set*: applications *should* prefer a format that
 serialises the *citation element set* directly rather than after
-converting it to a *formatted citation*.
+converting it to a *formatted citation*.  
 
-{.note} RDFa attributes are not the recommended way of
+{.note ...} RDFa attributes are not the recommended way of
 serialising *citation element sets* primarily because it requires
 creating a *formatted citation*.  Doing this to a reasonable standard is
 non-trivial, and results in particular language and style being
 favoured.  This standard is provided for situations when a *formatted
-citation* is desired or required anyway.  For example, an enormous
-amount of genealogical research has been published online and includes
-*formatted citations*.  If they are tagged according to this standard,
-these *formatted citations* can be copied and pasted into a genealogy
-application which can convert them back to a *citation element set*.
+citation* is desired or required anyway.  For example, much genealogical
+research has been published online in HTML and includes *formatted
+citations*.  If they are tagged according to this standard, these
+*formatted citations* can be copied into a genealogy application which
+can convert them back to a *citation element set*.
+
+The process for generating a *formatted citation*, with or without RDFa
+attributes, is outside the scope of this standard, and this standard
+does not require applications to produce *formatted citations*.
+{/}
+
+### Processing sequence
+
+Application parsing an HTML or XML file for *citation elements* in
+accordance with this standard *shall* follow the steps outlined in this
+section.  *Conformant* applications *may* deviate from this processing
+sequence only if it has no effect on the observable behaviour of the
+application.
+
+{.note} In particular, this processing sequence implies multiple passes
+over the input document.  Applications *may* merge the steps in such a
+way as to reduce the number of passes needed providing the behaviour is
+the same as specified here.
+ 
+The application *shall* first parse the *host language* according to the
+applicable standards for the *host language*.  The application *may*
+carry out any for of validation that is defined for the *host language*
+and reject input that fails.  The application *may* also accept input
+that is not well-formed according to the rules of the *host language*,
+and parse it in some implementation-defined manner.  It is *recommended*
+that XML that is not well-formed be rejected.
+
+{.note} Much HTML found on the Internet does not strictly conform to the
+applicable HTML standards.  Applications *may* parse invalid HTML for
+*citation elements*, but are not *required* to, and may deviate from the
+parsing procedure set out in the HTML standards in doing so: this is
+permitted provided the application correctly parses valid HTML.  The
+purpose of this relaxation is to allow applications to use commodity
+HTML parsers that deliberately do not precisely follow HTML standard in
+the interest of being more tolerant of malformed HTML.
+
+If the application is following the procedure described in this standard
+rather than using a full RDFa parser, the application *shall* process
+the document as follows:
+
+*  Any shorthand IRIs in `datatype`, `property`, `rel`, `rev` and
+   `typeof` attributes *shall* be expanded according to the rules in
+   §2.
+*  Those `property` attributes that identify *citation elements*
+   *shall* be located according to the process defined in §3, and the
+   value of the `property` attribute becomes the *citation element
+   name*.
+*  The *citation element value* *shall* be a *localisation set*
+   constructed according to §4.
+
+Alternatively, if a full RDFa parser is being used, the application
+*shall* process the document as follows:
+
+*  The document *shall* be processed according to [RDFa Core] which
+   results in a sequence of RDF triples, from which *citation element
+   triples* *shall* be identified per §3.2 of this standard.
+*  Each RDF triple *shall* be converted into a *citation element* using
+   the process given in §4.5.
 
 ## Shorthand IRIs
 
@@ -547,40 +605,39 @@ ability to ignore unknown schemes should probably be dropped.
 
 ## Locating citation elements
 
-In general a document will contain more than just a single *citation
-element set*, and other parts of the document may also contain RDFa
-attributes for entirely different purposes; even if the only use of RDFa
-is for tagging *citation elements* it is important not to confuse the
-*citation elements* from one *formatted citation* or *citation layer*
-with those of another.
+In general, a document will contain more than just a single *citation
+element set*, and parts of the document may also contain RDFa attributes
+for entirely different purposes; even if the only use of RDFa is for
+tagging *citation elements* it is important not to confuse the *citation
+elements* from one *formatted citation* or *citation layer* with those
+of another.
 
-*Citation elements* are identified using `property` attributes.  However
+*Citation elements* are represented by `property` attributes; however
 a `property` attribute *shall* only be interpreted as representing a
 *citation element* if:
 
-*   it is on an element contained inside a *source-type element* (but
-    is not directly on the *source-type element* itself); and
+*   the `property` attribute is on an element contained within a
+    *source-type element* (as defined in §3.1) known as its **associated
+    source-type element**, but is not located on the *source-type
+    element* itself; and
 
-*   it is not located on a *source-exclusion element* within the
-    *source-type element*, nor is it on an element contained within a
-    *source-exclusion element*.
+*   the `property` attribute is not located on a *source-exclusion
+    element* (as defined in §3.2) within its *associated source-type
+    element*, nor is it located on an element contained within a
+    *source-exclusion element* within its *associated source-type
+    element*.
 
-Any `property` attributes matching the above criteria *shall* be
-considered in the order they appear in the document and used to generate
-*citation elements* as described in §4. 
+The `property` attributes matching the above criteria *shall* be used to
+generate *citation elements* as described in §4.  The set of *citation
+elements* generated from `property` attributes with a common *associated
+source-type element* *shall* form a *citation element set*, which
+represents a *citation layer* or a *single-layered citation*, as
+described in §5.  The order of the *citation elements* in the *citation
+element set* *shall* be the order in which the `property` attribute from
+which they were generated appear in the document.
 
-{.note}  The detailed specification in §7.5 of [RDFa Core] requires that
-`property` attributes are processed and used to generate RDF triples in
-document order.  However the [RDFa Core] processing model requires these
-triples be added to an RDF graph, and RDFa graphs are not required to
-preserve the order of triples; nevertheless, most current RDFa
-processors do output properties in document order.  Implementations
-using an RDFa parser to implement this specification should verify that
-the document order of properties can be determined.
-
-The *citation elements* contained within a *source-type element* *shall*
-form a *citation element set* which represents a *citation layer* (or a
-*single-layered citation*) as described in §5.
+Alternatively an application using a full RDFa parser may identify
+*citation element triples* per §3.3 and parse them according to §4.5. 
 
 ### Source-type elements                             {#source-type-elts}
 
@@ -666,8 +723,8 @@ The `<p>` element has one *source-exclusion element*: the outer `<span>`
 element due to its `rel` attribute.  Parsers are not expected to
 understand the meaning of this `rel` attribute, just to note its
 presence.  As the inner `<span>` element is contained within this
-*source-exclusion element*, the `property="foaf:name"` attribute *must
-not* be treated as a *citation element*.  
+*source-exclusion element*, the `property="foaf:name"` attribute 
+*must not* be treated as a *citation element*.  
 
 The `property` attribute on the `<i>` element is not located within a
 *source-exclusion element*, and therefore it does denote a *citation
@@ -682,22 +739,118 @@ of *layered citations*, as discussed in §5.
 Applications which support a larger part of RDFa than this standard
 requires *may* treat fewer elements as *source-exclusion elements*.  If
 so, they *must* ensure that RDFa constructs are only treated as
-*citation elements* when they produce an RDF triples whose subject has
-the following RDF types, or a subtype thereof:
- 
-    https://terms.fhiso.org/sources/Source
+*citation elements* when they produce a relevant RDF triples as defined
+in §3.3.
 
-In addition, applications supporting a larger part of RDFa *must* discard
-triples where the object is an RDF blank node.
+{.note}  This standard is designed to allow implementers to parse the
+RDFa constructs that are used without having to consider how they map to
+RDF.  Only implementers wishing to make greater use of the RDF features
+underlying RDFa than this standard requires need consider this.
+
+### Citation element triples
+
+{.note} This section is only relevant if an implementation wishes to
+make greater use of the RDF features that underlie RDFa.  Support for
+everything in this section is therefore *optional*.
+
+Instead of identifying *source-type elements* and *source-exclusion
+elements*, as specified in §3.1 and §3.2, applications supporting more
+RDFa features than this standard requires *may* parse the document 
+in accordance with [RDFa Core] to generate a sequence of RDF triples
+which *must* be in the order in which §7.5 of [RDFa Core] states that
+they are produced.
+
+{.note}  The detailed specification in §7.5 of [RDFa Core] requires that
+`property` attributes are processed and used to generate RDF triples in
+document order.  However the [RDFa Core] processing model requires these
+triples be added to an RDF graph, and RDFa graphs are not required to
+preserve the order of triples; nevertheless, most current RDFa
+processors do output properties in document order.  Implementations
+using an RDFa parser to implement this specification *must* verify that
+the document order of properties can be determined.
+
+Triples whose predicate is the following IRI have a special role in RDF:
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+
+This IRI is referred to as the `rdf:type` IRI, and such triples are
+referred to as `rdf:type` triples.  They are used to state that the
+**declared type** of the subject of triple is the object of the triple.
+
+{.example ...}  Suppose the RDF graph extracted from a document contains
+a triple whose subject is a blank node `_:1`, whose predicate is the
+`rdf:type` IRI, and whose object is the following IRI:
+
+    https://terms.fhiso.org/sources/CitedSource
+
+This means that the *declared source* of the blank node `_:1` is 
+
+    https://terms.fhiso.org/sources/CitedSource
+{/}
+
+If there is no triple stating the *declared type* of a particular
+entity, it has no *declared type*.  An entity might have multiple
+*declared types* if an RDF graph has multiple `rdf:type` triples with
+the same subject and different objects.
+
+Not all the RDF triples extracted from a document will necessarily
+correspond to *citation elements*.  RDF triples that do represent a
+*citation element* are known as **citation element triples**.
+Applications *shall* determine which RDF triples are *citation element
+triples* as follows.
+
+If the object of the RDF triple is an RDF blank node, the triple *shall
+not* be considered a *citation element triple*.
 
 {.note}  A future FHISO standard might extend this data model to include
 support for blank nodes, likely using them to represent objects with
-properties of their own.
+properties of their own, i.e. as a form of structured value.
 
-{.note}  This standard is designed to allow implementers to parse those
-RDFa constructs used without having to consider how they map to RDF.
-The preceding text is only of relevant if an implementer wishes to make
-greater use of the RDF features underlying RDFa.
+Otherwise, if the predicate of the RDF triple is the `rdf:type` IRI or
+is known to be a *source derivation type* defined, as defined in §5.1 of
+[CEV Concepts], the triple *shall not* be considered a *citation element
+triple*.
+
+{.note ...}  If the IRI is a *source derivation type*, the triple
+represents a *layer derivation link* rather than a *citation element*.
+Because §5.1 of [CEV Concepts] leaves the mechanism for defining new
+*source derivation types* to a future FHISO standard, applications might
+not know whether the IRI is a *source derivation type*.  The only IRI
+that a *conformant* application *must* recognise as a *source derivation
+type* is the one defined in [CEV Concepts]:
+
+    https://terms.fhiso.org/sources/derivedFrom
+{/}
+
+Otherwise, if the object of the RDF triple has a *declared type* which
+is or includes one of the following IRIs, the triple *shall not* be
+considered a *citation element triple*.
+
+    https://terms.fhiso.org/sources/Source
+    https://terms.fhiso.org/sources/CitedSource
+
+{.note} Such triples are excluded as they represent links between
+*citation layers* such as the *layer derivation links* defined in §5.1
+of [CEV Concepts].  This rule is needed because application might not
+have recognised the *source derivation type* used.
+ 
+Otherwise, if the subject of the RDF triple has a *declared type* which
+is or includes one of the following IRIs, the triple *shall* be
+considered a *citation element triple*.
+
+    https://terms.fhiso.org/sources/Source
+    https://terms.fhiso.org/sources/CitedSource
+
+Otherwise, if the application can infer the RDF type of the subject of
+the RDF triple to be one of the two previous IRIs, the triple *should*
+be considered a *citation element triple*.
+
+{.note}  The term "infer" is meant broadly, and includes inferences made
+through entailment regimes, as defined in [RDF Semantics].  Support for
+any such inference mechanism is completely *optional*.
+ 
+Otherwise, the RDF triple *should not* be considered a *citation element
+triple*.
 
 ## Parsing citation elements
 
@@ -708,13 +861,9 @@ of two components:
    *citation element term*; and
 *  a *citation element value*, which *shall* be a *localisation set*.
  
-Once a parser has identified the `property` attributes that are tagging
-*citation element* it *shall* determine each component of each *citation
-element* as described in the following sub-sections.
-
-For the purpose of this section, the **current element** refers to the
-XML or HTML element that has the `property` attribute which tags the
-current *citation element*.  
+Once an application has identified the `property` attributes that are
+representing *citation element* according to the process given in §3, it
+*shall* determine each component of each *citation element* as follows.
 
 The *citation element name* *shall* be the value of the `property`
 attribute, once shorthand IRIs have been expanded.  If the `property`
@@ -733,6 +882,10 @@ RDF triples, as a full RDFa parser does, *may* determine the *current
 property value*, *datatype* and *language tag* per §4.5.
 
 {.note}  These rules are illustrated by example in the sections below.
+
+For the purpose of this section, the **current element** refers to the
+XML or HTML element that has the `property` attribute which tags the
+current *citation element*.  
 
 ### List flattening
 
@@ -1093,11 +1246,10 @@ no *language tag*.
 make greater use of the RDF features that underlie RDFa.  Support for
 everything in this section is therefore *optional*.
 
-Applications supporting more RDFa features than this standard requires
+Applications supporting more RDFa features than required by this standard
 *may* determine the *current element value*, its *datatype* and, where
-applicable, its *language tag* from the object of an RDF triple that was
-identified as representing a *citation element* per §3.2 of this
-standard.
+applicable, its *language tag* from the object of a *citation element
+triple* that was identified per §3.3 of this standard.
 
 If the object of the RDF triple is a literal, then the *current element
 value* *shall* be the lexical form of the literal, as defined in §3.3 of
@@ -1303,10 +1455,10 @@ is an RDF subclass of
 `https://terms.fhiso.org/sources/Source`.
 
 Applications which support a larger part of RDFa *may* find additional
-*layer derivation links*.  If so, they *must* ensure that RDFa
-constructs are only treated as *layer derivation links* when they
-produce an RDF triple whose subject and object both have the following
-RDF types, or a subtype thereof:
+*layer derivation links*.  If so, or if a full RDFa parser is being
+used, they *must* ensure that RDFa constructs are only treated as *layer
+derivation links* when they produce an RDF triple whose subject and
+object both have the following RDF types, or a subtype thereof:
 
     https://terms.fhiso.org/sources/Source
 
