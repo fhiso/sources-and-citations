@@ -1916,18 +1916,6 @@ not require that the graph be acyclic.
     Tags for Identifying Languages.*  Addison Phillips and Mark Davis,
     eds., 2009.  (See <https://tools.ietf.org/html/rfc5646>.)
 
-[RFC 7230]
-:   IETF (Internet Engineering Task Force).  *RFC 7230:  Hypertext
-    Transfer Protocol (HTTP/1.1): Message Syntax and Routing.*  Roy
-    Fieldind and Julian Reschke, eds., 2014.  (See
-    <https://tools.ietf.org/html/rfc7230>.)
-
-[RFC 7231]
-:   IETF (Internet Engineering Task Force).  *RFC 7231:  Hypertext
-    Transfer Protocol (HTTP/1.1): Semantics and Content.*  Roy
-    Fieldind and Julian Reschke, eds., 2014.  (See
-    <https://tools.ietf.org/html/rfc7231>.)
-
 [XML]
 :   W3C (World Wide Web Consortium). *Extensible Markup Language (XML) 1.1*, 
     2nd edition.  Tim Bray, Jean Paoli, C. M. Sperberg-McQueen, Eve
@@ -2032,11 +2020,6 @@ not require that the graph be acyclic.
 :   United Nations, Statistics Division.  *Standard Country or Area
     Codes for Statistical Use*, revision 4.  United Nations publication,
     Sales No. 98.XVII.9, 1999.
-
-[XML Names]
-:   W3 (World Wide Web Consortium). *Namespaces in XML 1.1*, 2nd edition.
-    Tim Bray, Dave Hollander, Andrew Layman and Richard Tobin, ed., 2006. 
-    W3C Recommendation.  (See <https://www.w3.org/TR/xml-names11/>.)
 
 [XSD Pt1]
 :   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language
