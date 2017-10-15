@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 12 October 2017
+date: 15 October 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -95,8 +95,9 @@ Standards** standard.  To be *conformant* with this standard, an
 application *must* also be *conformant* with [Basic Concepts].  Concepts
 defined in that standard are used here without further definition.
 
-{.note} In particular, precise meaning of *string* and
-*whitespace-normalisation* are given in [Basic Concepts].
+{.note} In particular, precise meaning of *string*,
+*whitespace-normalisation*, *term*, *prefix notation*, *prefix* and
+*discovery* are given in [Basic Concepts].
 
 Indented text in grey or coloured boxes does not form a normative part
 of this standard, and is labelled as either an example or a note.  
@@ -112,6 +113,29 @@ attached to the capitalisation of grammar symbols.  *Conforming*
 applications *must not* generate data not conforming to the syntax given
 here, but non-conforming syntax *may* be accepted and processed by a
 *conforming* application in an implementation-defined manner.
+
+This standard uses *prefix notation* when discussing specific *terms*.
+The following *prefix* bindings are assumed in this standard:
+
+------           -----------------------------------------------
+`rdf`            `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
+`rdfs`           `http://www.w3.org/2000/01/rdf-schema#`
+`xsd`            `http://www.w3.org/2001/XMLSchema#`
+------           -----------------------------------------------
+
+{.note}  The particular *prefixes* assigned above have no relevance
+outside this standard document as *prefix notation* is not used in the
+formal data model defined by this standard.  This notation is simply a
+notational convenience to make the standard easier to read.
+Nevertheless, some serialisation formats, including the [CEV RDFa]
+bindings, do make use of *prefix notation* to shorten the serialised
+form of data.
+
+{.example ...} When this standard discusses the `xsd:string` *datatype*,
+this means the *datatype* whose *term name* is:
+
+    http://www.w3.org/2001/XMLSchema#string
+{/}
 
 ### Sources and citations
 
@@ -334,168 +358,7 @@ so they should not be included in the *citation element set*.  A more
 general mechanism for describing *sources* may well include such
 elements, but they are beyond the scope of this standard.
 
-### Terms
-
-{.ednote}  The concept of a *term* is new in this draft of the standard,
-introduced to refactor wording common to both *citation element names*
-and the new concept of a *datatype* into a single place.
-
-A **term** consists of a unique, machine-readable identifier, known as
-the **term name**, paired with a clearly-defined meaning for the concept
-or idea that it represents.  This standard uses *terms* as *datatypes*
-and *citation element names*, as defined in §2 and §3 of this standard
-respectively.  *Term names* *shall* take the form of an IRI
-matching the `IRI` production in §2.2 of
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].
-
-{.note} IRIs have been chosen in preference to URIs because it is
-recognised that certain culture-specific genealogical concepts may not
-have English names, and in such cases the human-legibility of IRIs is
-advantageous.  URIs are a subset of IRIs, and all the *terms* defined in
-this suite of standard are also URIs.
-
-*Term names* are compared using the "simple string comparison" algorithm
-given in §5.3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  If a *term
-name* does not compare equal to an IRI known to the application,
-the application *must not* make any assumptions about the
-*term*, its meaning or intended use, based on the form of the IRI or any
-similarity to other IRIs.
-
-{.note} This comparison is a simple character-by-character comparison,
-with no normalisation carried out on the IRIs prior to comparison.  It
-is also how XML namespace names are compared in 
-&#x5B;[XML Names](https://www.w3.org/TR/xml-names11/)].
-
-{.example ...}  The following IRIs are all distinct for the purpose of
-the "simple string comparison" algorithm given in §5.3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], , even though an
-HTTP request to them would fetch the same resource.
-
-    https://éléments.example.com/nationalité
-    HTTPS://ÉLÉMENTS.EXAMPLE.COM/nationalit%C3%A9
-    https://xn--lments-9uab.example.com/nationalit%c3%a9
-
-{/}
-
-An IRI *must not* be used as a *term name* unless it can be converted to
-a URI using the algorithm specified in §3.1 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], and back to a IRI
-again using the algorithm specified in §3.2 of 
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)], to yield the
-original IRI.
-
-{.note}  This requirement ensures that *term names* can be used in a
-context where a URI is required, and that the original IRI can be
-regenerated, for example for comparison with a list of known IRIs.  The
-vast majority of IRIs, including those in non-Latin scripts, have this
-property.  The effect of this requirement is to prohibit the use of IRIs
-that are already partly converted to a URI, for example through the use
-of unnecessary percent or punycode encoding.
-
-{.example}  Of the three IRIs given in the previous example on how to
-compare IRIs, only the first may be used as a *term name*.  The second
-and third are prohibited as a result of the unnecessary
-percent-encoding, and the third is additionally prohibited as a result
-of unnecessary punycode-encoding.
-
-The *terms* defined in this standard all have *term names* that begin
-`https://terms.fhiso.org/`.  Subject to the requirements herein, third
-parties may also define additional *terms* for use as *datatypes* or
-*citation elements*.  It is *recommended* that any such *terms* use the
-`http` or preferably `https` IRI scheme defined in §2.7.1 and §2.7.2 of
-&#x5B;[RFC 7230](https://tools.ietf.org/html/rfc7230)] respectively, and
-an authority component consisting of just a domain name or subdomain
-under the control of the party defining the *extension citation
-elements*.
-
-{.note ...} An `http` or `https` IRI scheme is *recommended* because the
-IRI is used to fetch a resource during *discovery*, and it is desirable
-that applications implementing *discovery* should only need to support a
-minimal number of transport protocols.  URN schemes like the `uuid`
-scheme of &#x5B;[RFC 4122](https://tools.ietf.org/html/rfc4122)] are
-*not recommended* as they do not have transport protocols that can be
-used during *discovery*.
-
-The preference for a `https` IRI is because of security considerations
-during *discovery*.  A man-in-the-middle attack during *discovery* could
-insert malicious content into the response, which, if undetected, could
-cause an application to process user data incorrectly, potentially
-discarding parts of it or otherwise compromising its integrity.  It is
-harder to stage a man-in-the-middle attack over TLS, especially if
-public key pinning is used per 
-&#x5B;[RFC 7469](https://tools.ietf.org/html/rfc7469)].
-{/}
-
-#### Prefix notation
-
-*Term names* in the Citation Elements standard are sometimes referred to
-in **prefix notation**.  This is a system whereby **prefixes** are
-assigned to IRIs that occur frequently as the leading portion of a *term
-name*.  Then, instead of writing the *term name* in full, the leading
-portion of the *term name* is replaced by its *prefix* followed by a
-colon (U+003A) separator.
-
-{.example}  The *term name* `https://terms.fhiso.org/sources/title` is
-used in several of the examples in this standard.  Instead of writing
-this in full, if the `cev` *prefix* is bound to the IRI
-`https://terms.fhiso.org/sources/`, then this IRI can be written in
-*prefix form* as `cev:title`.
-
-The following *prefix* bindings are assumed in this standard:
-
-------           -----------------------------------------------
-`rdf`            `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
-`rdfs`           `http://www.w3.org/2000/01/rdf-schema#`
-`xsd`            `http://www.w3.org/2001/XMLSchema#`
-------           -----------------------------------------------
-
-{.note}  The particular *prefixes* assigned above have no relevance
-outside this standard document as *prefix notation* is not used in the
-formal data model defined by this standard.  This notation is simply a
-notational convenience to make the standard easier to read.
-Nevertheless, some serialisation formats, including the [CEV RDFa]
-bindings, do make use of *prefix notation* to shorten the serialised
-form of data.
-
-#### IRI resolution
- 
-It is *recommended* that an HTTP `GET` request to a *term name* IRI with
-an `http` or `https` scheme (once converted to a URI per §4.1 of
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)]), *should* result
-in a 303 "See Other" redirect to a document containing a human-readable
-definition of the *term* if the request was made without an `Accept`
-header or with an `Accept` header matching the format of the
-human-readable definition.  It is further *recommended* that this
-format should be HTML, and that documentation in alternative formats
-*may* be made available via HTTP content negotiation when the request
-includes a suitable `Accept` header, per §5.3.2 of 
-&#x5B;[RFC 7231](//tools.ietf.org/html/rfc7231)].
-
-{.note}  A 303 redirect is considered best practice for &#x5B;[Linked
-Data](http://linkeddatabook.com/editions/1.0/)], so as to avoid
-confusing the *term name* IRI with the document containing its
-definition, which is found at the post-redirect URL.  The *terms*
-defined in this suite of standards are not specifically designed for
-use in Linked Data, but the same considerations apply.
-
-Parties defining *terms* *may* arrange for their *term name* to
-support **discovery**.  This when an HTTP `GET` request to a *term name*
-IRI with an `http` or `https` scheme, made with an appropriate `Accept`
-header, yields 303 redirect to a machine-readable definition of the 
-*term*. 
-
-{.ednote}  FHISO does not currently define a *discovery* mechanism, but
-anticipate doing so in a future standard.  If such a standard is
-included in the initial suite of Citation Elements standards, it is
-likely to be *recommended* that parties defining *terms* *should*
-arrange for them to support *discovery*, while application support for
-it would be *optional*.
-
 ## Datatypes
-
-{.ednote}  The concept of a *datatypes* is new in this draft of the
-standard.
 
 A **datatype** is a *term* which serves as a formal description of the
 values that are permissible in a particular context.  Being a *term*, a
@@ -959,10 +822,6 @@ as JSON and RDF do not guarantee to preserve the order of elements in
 certain important serialisation mechanisms: for example, object members
 in JSON and triples in RDF other than when RDF containers are used.
 
-{.ednote}  The special `localisedElement` *citation element term* and
-the notion of its *localisation base* were called `translatedElement`
-and its *translation base* in earlier drafts of this standard.
-
 ### Citation element names
 
 The **citation element name** identifies the nature of the information
@@ -1013,14 +872,6 @@ one *string* is present, usually they will all have the same *datatype*
 and differ only in their *language tags*.  Nevertheless, the mechanism
 allows for *strings* of different *datatypes* and there are rare
 situations where this functionality is needed.
-
-{.ednote}  In the first public draft of this standard, instead of
-*localisation sets* there were *translation sets*, which were lists of
-*strings* each tagged with a *language tag*; there was no explicit
-notion of a *datatype*; and *citation element values* were either a
-*translation set* or a single *string*.  In the new terminology this
-said *localisation sets* had to be homogenous, i.e. they had to have a
-single *datatype*.
 
 {.example ...}  The `title` *citation element* defined in the [CEV
 Vocabulary] would normally contain *strings* tagged with the
@@ -1303,8 +1154,8 @@ specifically for use as a *citation element name* in the following
 manner.  The party defining the *citation element term* *shall* provide
 a description of the intended purpose of the *citation element term*
 which *should* be made freely available to all interested parties,
-preferably by an HTTP request as described in §1.3.2 of this standard.  In
-addition, the definition *shall* state:
+preferably by an HTTP request as described in §3.2 of [Basic Concepts].
+In addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
@@ -1313,12 +1164,6 @@ addition, the definition *shall* state:
 *   its *cardinality*: that is, whether it is *single-valued* or
     *multi-valued*, as defined §4.3; and
 *   an *optional* *default datatype*, as defined in §4.4. 
-
-{.ednote} Earlier drafts of this standard required the definition
-additionally to state whether the *citation element* was *translatable*.
-Now that all *citation element values* are *localisation sets* this
-concept is redundant, though whether the *range* is a *language-tagged
-datatype* serves a similar purpose.
 
 ### Sub-elements
 
@@ -1733,9 +1578,6 @@ than in *list-flattening formats* is *not recommended*.
 
 ### Default datatypes
 
-{.ednote} The concept of a *default datatype* is new in this draft of
-the standard.
-
 A *citation element term* *may* have a **default datatype** defined.
 When a *default datatype* is defined, it is used to provide an
 *optional* **datatype correction** mechanism for correcting the
@@ -1952,15 +1794,6 @@ references a copy of that identifier.  Other implementations might
 implement the reference using a pointer to the data structures in memory
 that represents the *citation layer*.  Serialisation formats will define
 their own representations of these references.
-
-{.ednote}  Earlier drafts of this standard used a *layer identifier* to
-represent references, but left their form unspecified and allowed
-implementations to use alternative implementation techniques such as
-pointers.  The new wording is not strictly a change, but makes it
-clearer that a formal *layer identifier* is not required.  If a
-persistent identifier is subsequently required for *citation layers*, it
-is most likely to be added as a piece of metadata in a future metadata
-standard.
 
 {.note} The data model allows multiple *layer derivation links* between
 the same pair of *citation layers*.  This might be used when the
