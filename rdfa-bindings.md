@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 12 October 2017
+date: 15 October 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -1022,8 +1022,8 @@ attributes are on elements that display some form of media, particularly
 
     <div vocab="https://terms.fhiso.org/sources/" typeof="Source">
       <a href="http://discovery.nationalarchives.gov.uk/"
-         property="accessURL"><span property="title">Discovery</span></a>
-      (online catalogue)
+         property="accessURL"><span property="title">Discovery</span>
+      </a> (online catalogue)
     </div>
 
 This example has two *citation elements*:
@@ -1194,7 +1194,8 @@ attributes may be used on an HTML element.  In particular, the
 `xml:lang` attribute is only allowed in XHTML documents.
 
 {.example ...}
-    <p vocab="https://terms.fhiso.org/sources/" typeof="Source" lang="en">
+    <p vocab="https://terms.fhiso.org/sources/" 
+       typeof="Source" lang="en">
       <span property="authorName"
             content="Settipani, Christian">Christian Settipani</span>, 
       <i property="title" lang="fr">Les ancêtres de Charlemagne</i>, 
