@@ -2006,11 +2006,6 @@ not require that the graph be acyclic.
     Notation (JSON) Data Interchange Format*.  Tim Bray, ed., 2014.
     (See <https://tools.ietf.org/html/rfc7159>.)
 
-[RFC 7469]
-:   IETF (Internet Engineering Task Force).  *Public Key Pinning
-    Extension for HTTP*.  C. Evans, C. Palmer and R. Sleevi, ed., 2015.
-    (See <https://tools.ietf.org/html/rfc7469>.)
-
 [SWBP XSD DT]
 :   W3C (World Wide Web Consortium). *XML Schema Datatypes in RDF and OWL*.
     Jeremy J. Carroll and Jeff Z. Pan, 2006.
