@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 15 October 2017
+date: 19 October 2017
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -805,6 +805,15 @@ not* be considered a *citation element triple*.
 {.note}  A future FHISO standard might extend this data model to include
 support for blank nodes, likely using them to represent objects with
 properties of their own, i.e. as a form of structured value.
+
+Otherwise, if the predicate of the RDF triple is a *term* whose *type*
+is known to be the following *class*, the triple *shall* be considered a
+*citation element*:
+
+    https://terms.fhiso.org/sources/CitationElement
+
+{.note}  An application may be able to determine this by *discovery* on
+the predicate IRI.
 
 Otherwise, if the predicate of the RDF triple is the `rdf:type` IRI or
 is known to be a *source derivation type* defined, as defined in §5.1 of
