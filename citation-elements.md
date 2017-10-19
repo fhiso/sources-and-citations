@@ -96,8 +96,8 @@ application *must* also be *conformant* with [Basic Concepts].  Concepts
 defined in that standard are used here without further definition.
 
 {.note} In particular, precise meaning of *string*,
-*whitespace-normalisation*, *term*, *prefix notation*, *prefix* and
-*discovery* are given in [Basic Concepts].
+*whitespace-normalisation*, *term*, *prefix notation*, *prefix*,
+*discovery*, *class* and *class name* are given in [Basic Concepts].
 
 Indented text in grey or coloured boxes does not form a normative part
 of this standard, and is labelled as either an example or a note.  
@@ -363,7 +363,7 @@ elements, but they are beyond the scope of this standard.
 A **datatype** is a *term* which serves as a formal description of the
 values that are permissible in a particular context.  Being a *term*, a
 *datatype* is identified by a *term name* which is an IRI.  The *term
-name* of a *datatype* is also referred to as a *datatype name*.
+name* of a *datatype* is also referred to as its **datatype name**.
 
 A *datatype* has a **lexical space** which is the set of *strings* which
 are interpreted as valid values of the *datatype*.  The definition of a
@@ -451,6 +451,8 @@ document includes a locale that uniquely determines the date format.  In
 this case, information that the document is in English is not sufficient
 as different English-speaking countries have different conventions for
 formatting dates.
+
+The *class* of *datatypes* has the *class name* `rdfs:Datatype`.
 
 ### Language-tagged datatypes
 
@@ -1165,6 +1167,10 @@ In addition, the definition *shall* state:
     *multi-valued*, as defined §4.3; and
 *   an *optional* *default datatype*, as defined in §4.4. 
 
+The *class* of *citation element terms* has the following *class name*:
+
+    https://terms.fhiso.org/sources/CitationElement
+
 ### Sub-elements
 
 A *citation element term* *may* be defined as a **sub-element** of
@@ -1826,6 +1832,10 @@ provide a means of determining whether a given IRI is a *source
 derivation type*.  If this document is ready for standardisation at the
 same time as this document, the previous paragraph will be updated to
 reference it.
+
+The *class* of *source derivation types* has the following *class name*:
+
+    https://terms.fhiso.org/sources/SourceDerivationType
 
 #### Requirements for layer derivation links
 
