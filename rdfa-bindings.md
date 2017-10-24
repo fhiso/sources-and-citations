@@ -1692,5 +1692,7 @@ several other instances of RDFa attributes that will not be detected as
 ---
 Copyright © 2017, [Family History Information Standards Organisation,
 Inc](https://fhiso.org/).  
-The text of this standard is available under the [Creative Commons
-Attribution License](https://creativecommons.org/licenses/by/4.0/).
+The text of this standard is available under the
+[Creative Commons Attribution 4.0 International
+License](https://creativecommons.org/licenses/by/4.0/).
+
