@@ -97,7 +97,8 @@ defined in that standard are used here without further definition.
 
 {.note} In particular, precise meaning of *string*,
 *whitespace-normalisation*, *term*, *prefix notation*, *prefix*,
-*discovery*, *class* and *class name* are given in [Basic Concepts].
+*discovery*, *class*, *class name*, *property* and *property name* are
+given in [Basic Concepts].
 
 Indented text in grey or coloured boxes does not form a normative part
 of this standard, and is labelled as either an example or a note.  
@@ -548,6 +549,19 @@ the *pattern*, this *string* is not part of the *lexical space* of this
 `date` type as 31 February is not a valid date.
 {/}
 
+The *property* representing the *pattern* of a *datatype* has the
+following *property name*:
+
+    https://terms.fhiso.org/types/pattern
+
+{.ednote}  An alternative option is to use `xsd:pattern`, which is
+used as a *property* in [OWL 2](https://www.w3.org/TR/owl2-syntax/).
+This poses a difficulty because none of the relevant W3 specifications
+indicate what the `rdfs:domain` of `xsd:pattern` is supposed to be.
+Possibly it is an `owl:Restriction`, which would be incompatible with
+this use.  Using `xsd:pattern` would also require us to use the form of
+regular expression defined in Appendix G of [XSD Pt2].
+
 A *datatype* with a *pattern* other than `.*` is known as a **structured
 datatype**, while one with a *pattern* of `.*` is known as an
 **unstructured datatype**.  It is expected that most *datatypes* in
@@ -593,6 +607,29 @@ necessarily be a subset of that of the *supertype*.  This is because the
 *pattern* is permitted to match *strings* outside the *lexical space*,
 as in the example of the date "`1999-02-31`".
 
+The *property* representing the *supertype* of a *datatype* has the
+following *property name*:
+
+    https://terms.fhiso.org/types/supertype
+
+{.ednote ...}  An alternative option is to use the `rdfs:subClassOf`
+*property*, however it is anticipated that it will be desirable to have
+a *property* whose *domain* is exactly `rdfs:Datatype`.  The *domain* of
+`rdfs:subClassOf` is `rdfs:Class`; nevertheless, it is possible to apply
+`rdfs:subClassOf` to *datatypes* because
+
+    rdfs:Datatype rdfs:subClassOf rdfs:Class .
+
+In order to make our `supertype` *property* accessible to RDF reasoners,
+we should document that
+
+    </types/supertype> rdfs:subPropertyOf rdfs:subClassOf .
+
+We will need a way of explicitly saying that a *datatype* has no
+*supertype*.  In RDF, all *datatypes* are subtypes of `rdfs:Literal`,
+so this *datatype* can be used as a special value to signify that.
+{/}
+
 A *datatype* *may* be defined to be a **abstract datatype**.  An
 *abstract datatype* is one that *must* only be used as a *supertype* of
 other types.  A *string* *must not* be declared to have a *datatype*
@@ -603,6 +640,14 @@ which is an *abstract datatype*.  *Abstract datatypes* *may* specify a
 defined on it serve to restrict the *lexical space* of all its
 *subtypes*.  If no such restriction is desired, the *lexical space* may
 be defined as the space of all *strings*.
+
+{.note} The *property* that represents whether or not a *datatype* is an
+*abstract datatype* has the following *property name*:
+
+    https://terms.fhiso.org/types/isAbstract
+
+{.ednote}  The intention is that the *range* of this *property* will be
+a boolean.
 
 *Subtypes* may be defined of *language-tagged datatypes* as well as of
 other *datatypes*.  If the *supertype* is a *language-tagged datatype*
