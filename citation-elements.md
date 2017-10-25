@@ -610,7 +610,7 @@ as in the example of the date "`1999-02-31`".
 The *property* representing the *supertype* of a *datatype* has the
 following *property name*:
 
-    https://terms.fhiso.org/types/supertype
+    https://terms.fhiso.org/types/subTypeOf
 
 {.ednote ...}  An alternative option is to use the `rdfs:subClassOf`
 *property*, however it is anticipated that it will be desirable to have
@@ -620,10 +620,10 @@ a *property* whose *domain* is exactly `rdfs:Datatype`.  The *domain* of
 
     rdfs:Datatype rdfs:subClassOf rdfs:Class .
 
-In order to make our `supertype` *property* accessible to RDF reasoners,
+In order to make our `subTypeOf` *property* accessible to RDF reasoners,
 we should document that
 
-    </types/supertype> rdfs:subPropertyOf rdfs:subClassOf .
+    </types/subTypeOf> rdfs:subPropertyOf rdfs:subClassOf .
 
 We will need a way of explicitly saying that a *datatype* has no
 *supertype*.  In RDF, all *datatypes* are subtypes of `rdfs:Literal`,
@@ -641,7 +641,7 @@ defined on it serve to restrict the *lexical space* of all its
 *subtypes*.  If no such restriction is desired, the *lexical space* may
 be defined as the space of all *strings*.
 
-{.note} The *property* that represents whether or not a *datatype* is an
+The *property* that represents whether or not a *datatype* is an
 *abstract datatype* has the following *property name*:
 
     https://terms.fhiso.org/types/isAbstract
@@ -1216,6 +1216,9 @@ The *class* of *citation element terms* has the following *class name*:
 
     https://terms.fhiso.org/sources/CitationElement
 
+{.ednote}  Care is needed to ensure this is not contradictory, because
+*citation element terms* are used as *properties* in RDF.
+
 ### Sub-elements
 
 A *citation element term* *may* be defined as a **sub-element** of
@@ -1263,6 +1266,11 @@ standard.  At the moment there is no clear use case for this.
 
 Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
+
+The *property* representing the *super-element* of a *citation element
+term* has the following *property name*:
+
+    https://terms.fhiso.org/sources/subElementOf
 
 The **super-element list** of a *citation element term* is an ordered
 list of IRIs defined inductively as follows.  If the *citation element
@@ -1346,6 +1354,54 @@ might be a termly university publication dated "Michaelmas term, 1997".
 of date types has been finalised.  In particular, the IRI of
 `AbstractDate` has not been discussed yet.
 
+The *property* representing an individual *datatype* from the *range* of
+a *citation element term* has the following *property name*:
+
+    https://terms.fhiso.org/sources/elementRangeMember
+
+For convenience during *discovery*, an additional *property* is
+provided representing the number of *datatypes* in the *range* of
+the *citation element term*.  It has thhe following *property
+name*:
+
+    https://terms.fhiso.org/sources/elementRangeSize
+
+{.ednote ...} This will need careful thought.  The *range* of a
+*citation element* is a *union of datatypes*, which is an unordered list
+of *datatypes*.  List are represented using blank nodes in N-Triples,
+and we don't want applications to have to support blank nodes during
+discovery and reassemble them into lists.  The current suggestion is to
+use multiple `elementRangeMember` *properties* for each *datatype*
+within the *range* of the *citation element*, and a `elementRangeSize`
+*property* to be sure we have the whole *union*.  The latter is
+necessary because losing a triples during discovery must not result in
+an application rejecting valid data.  An application *must not* deduce
+the *range* during *discovery* unless it has receive both an
+`elementRangeSize` *property* and the requisite number of distinct
+`elementRangeMember` *properties*.
+
+The meaning of the *range* defined here is just a specical case of the
+*range* of a *property* as defined in [Basic Concepts].  However it may
+be desirable to provide an additional *property* for the *range* of a
+*citation element term*, e.g. 
+
+    https://terms.fhiso.org/sources/elementRange
+
+... so that the `rdfs:range` of `elementRange` can be `CitationElement`,
+rather than `rdf:Property`.  If so, we should document that
+
+    <elementRange> rdfs:subPropertyOf rdfs:range .
+
+A standard (ideally a separate RDF bindings) will need to state
+how the `rdfs:range` is formed in RDF terms.  This is likely to be
+complicated, and would probably best use `owl:unionOf`, e.g. 
+
+    <publicationDate> rdfs:range [ 
+      a rdfs:Class ;
+      owl:unionOf ( <AbstractDate> rdf:langString ) 
+    ] .
+{/}
+
 A *datatype* is said to be **compatible** with the *range* if either it
 is one of the *datatypes* listed in the *range*, or it is a *subtype* of
 a *datatype* that is *compatible* with the *range*.
@@ -1424,6 +1480,16 @@ element name*; but it *may* contain several
 `https://terms.fhiso.org/sources/authorName` *citation elements*, as
 that is defined to be *multi-valued* to accommodate *sources* with
 several authors.
+
+The *property* representing the *cardinality* of a *citation element
+term* has the following *property name*:
+
+    https://terms.fhiso.org/sources/cardinality
+
+{.ednote}  What should its *range* be?  We could follow [XSD Pt1] and
+use strings `1` and `unbounded`, perhaps as part of a {`0`, `1`, `∞`}
+datatype; or we could define *terms* for *single-valued* and
+*multi-valued*.
 
 In a *citation element set* which contains more than one *citation
 element* whose *citation element names* have the same *ultimate
@@ -1636,6 +1702,11 @@ When a *default datatype* is defined, it is used to provide an
 element value* in certain situations.  The *default datatype* *must* be
 a *datatype* that is *compatible* with the *range* of the *citation
 element term*.
+
+The *property* representing the *default datatype* of a *citation
+element term* has the following *property name*:
+
+    https://terms.fhiso.org/sources/defaultDatatype
 
 *Datatype correction* *shall not* be carried out unless the *datatype*
 of the *string* prior to *datatype correction* is one of the following
