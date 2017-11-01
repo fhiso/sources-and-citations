@@ -1380,8 +1380,8 @@ missed *datatype* would incorrectly be thought *invalid* and potentially
 discarded as permitted by this section.
 
 Similar concerns do not apply to the other *properties* described in
-this standard, as if they are missed, the data is treated more
-permissively rather than less permissively.
+this standard, as if they are missed, the data is treated more rather
+than less permissively.
 {/}
 
 {.ednote ...} The meaning of the *range* defined here is just a special
