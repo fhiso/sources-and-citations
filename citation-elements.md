@@ -1359,31 +1359,35 @@ a *citation element term* has the following *property name*:
 
     https://terms.fhiso.org/sources/elementRangeMember
 
-For convenience during *discovery*, an additional *property* is
-provided representing the number of *datatypes* in the *range* of
-the *citation element term*.  It has thhe following *property
-name*:
+As a way of checking for data integrity during *discovery*, an
+additional *property* is provided representing the number of *datatypes*
+in the *range* of the *citation element term*.  It has the following
+*property name*:
 
     https://terms.fhiso.org/sources/elementRangeSize
 
-{.ednote ...} This will need careful thought.  The *range* of a
-*citation element* is a *union of datatypes*, which is an unordered list
-of *datatypes*.  List are represented using blank nodes in N-Triples,
-and we don't want applications to have to support blank nodes during
-discovery and reassemble them into lists.  The current suggestion is to
-use multiple `elementRangeMember` *properties* for each *datatype*
-within the *range* of the *citation element*, and a `elementRangeSize`
-*property* to be sure we have the whole *union*.  The latter is
-necessary because losing a triples during discovery must not result in
-an application rejecting valid data.  An application *must not* deduce
-the *range* during *discovery* unless it has receive both an
-`elementRangeSize` *property* and the requisite number of distinct
-`elementRangeMember` *properties*.
+Applications *must not* assume they know the *range* of a *citation
+element term* unless they have received both a `elementRangeSize` and a
+matching number of distinct `elementRangeMember`s.
 
-The meaning of the *range* defined here is just a specical case of the
-*range* of a *property* as defined in [Basic Concepts].  However it may
-be desirable to provide an additional *property* for the *range* of a
-*citation element term*, e.g. 
+{.note ...}  This error checking facility is provided because of the
+risk that a missed `elementRangeMember` could result in widespread
+deletion of data.  Without this facility, if some but not all
+`elementRangeMember` *properties* are missed, an application could
+believe it knows the *range* of the *citation element*, when in fact it
+only knows part of the *range*.  As a result, *strings* that use the
+missed *datatype* would incorrectly be thought *invalid* and potentially
+discarded as permitted by this section.
+
+Similar concerns do not affect the other *properties* described in this
+standard, as if they are missed, the data is treated more permissively
+rather than less permissively.
+{/}
+
+{.ednote ...} The meaning of the *range* defined here is just a special
+case of the *range* of a *property* as defined in [Basic Concepts].
+However it may be desirable to provide an additional *property* for the
+*range* of a *citation element term*, e.g. 
 
     https://terms.fhiso.org/sources/elementRange
 
