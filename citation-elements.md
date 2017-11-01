@@ -361,100 +361,6 @@ elements, but they are beyond the scope of this standard.
 
 ## Datatypes
 
-A **datatype** is a *term* which serves as a formal description of the
-values that are permissible in a particular context.  Being a *term*, a
-*datatype* is identified by a *term name* which is an IRI.  The *term
-name* of a *datatype* is also referred to as its **datatype name**.
-
-A *datatype* has a **lexical space** which is the set of *strings* which
-are interpreted as valid values of the *datatype*.  The definition of a
-*datatype* *shall* state how each string in its *lexical space* maps to
-a logical value, and state the semantics associated with of those
-values.  
-
-{.note} This definition of a *datatype* is sufficiently aligned with
-XML Schema's notion of a simple type, as defined in 
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)], that XML Schema's
-simple types can be used as *datatypes* in this standard.  Best
-practice on how to get an IRI for use as the *term name* of XML Schema
-types can be found
-in &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)].
-Similarly, this standard's definition of a *datatype* is very similar
-to the definition of a datatype in 
-&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)], and
-RDF datatypes can be used as *datatypes* in this standard.
-
-{.example ...} XML Schema defines an integer type in §3.4.13 of
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)] which is well suited
-for use in this standard.  XML Schema does not give its types IRIs, but
-it does give them `id`s, and following the best practice advice given in 
-§2.3 of &#x5B;[SWBP XSD DT](https://www.w3.org/TR/swbp-xsch-datatypes/)]
-gives it the following IRI:
-
-    http://www.w3.org/2001/XMLSchema#integer
-
-This same type is also recommended for use in RDF by §5.1 of 
-&#x5B;[RDF Concepts](https://www.w3.org/TR/rdf11-concepts/)] which
-explicitly gives it the IRI above.
-
-The *lexical space* of this *datatype* is the space of all *strings*
-consisting of a finite-length sequence of one or more decimal digits
-(U+0030 to U+0039, inclusive), optionally preceded by a `+` or `-` sign
-(U+002B or U+002D, respectively).  Thus the *string* "`137`" is within the
-*lexical space* of this *datatype*, but "`20.000`" and "`四十二`" are
-not, despite being normal ways of representing integers in certain
-cultures.
-{/}
-
-{.ednote}  The examples in this section use various XML Schema types.
-As the [CEV Vocabulary] takes shape, these should be replaced with types
-that are actually used in our vocabulary, which may or may not be XML
-Schema types.
-
-The mapping from lexical representations to logical values need not be
-one-to-one.  If a *datatype* has multiple lexical representations of the
-same logical value, a *conformant* application *must* treat these
-representations equivalently and *may* change a *string* of that
-*datatype* to be a different but equivalent lexical representation.
-
-{.note} This allows applications to store such *strings* internally
-using as an entity (such as a database field or a variable) of some
-appropriate type without retaining the original lexical representation.
-
-{.example}  The XML Schema `integer` *datatype* used in the previous
-example is one where the mapping from lexical representation to
-value is many-to-one rather than one-to-one.  This is due to *lexical
-space* including strings with a leading `+` sign as well as superfluous
-leading `0`s, and means that "`00137`", "`+137`" and "`137`" all
-represent the same underlying value: the number one hundred and
-thirty-seven.  Because *conformant* applications *may* convert strings
-between equivalent lexical representations, they *may* store them in a
-database in an integer field and regenerate *strings* in a canonical
-representation.
-
-*Strings* outside the *lexical space* of a *datatype* *must not* be
-used where a *string* of that *datatype* is required.  If an application
-encounters any such *strings*, it *may* remove them from the dataset or
-*may* convert them to a valid value in an implementation-defined manner.
-Any such conversion that is applied automatically by an application
-*must* either be locale-neutral or respect any locale given in the
-dataset.
-
-{.example}  XML Schema defines a `date` type in §3.3.9 of 
-&#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)] which has a
-*lexical space* based on [ISO 8601] dates.  If, in a dataset that is
-somehow identified as being written in German, an application
-encountering the *string* "`8 Okt 2000`" in a context where an XML
-Schema `date` is expected, it *may* convert this to "`2000-10-08`".
-However an application encountering the *string* "`8/10/2000`" 
-*must not* conclude this represents 8 October or 10 August unless the
-document includes a locale that uniquely determines the date format.  In
-this case, information that the document is in English is not sufficient
-as different English-speaking countries have different conventions for
-formatting dates.
-
-The *class* of *datatypes* has the *class name* `rdfs:Datatype`.
-
 ### Language-tagged datatypes
 
 A **language-tagged datatype** is a *datatype* whose value consists of
@@ -1902,16 +1808,6 @@ not require that the graph be acyclic.
     *Basic Concepts for Genealogical Standards*.  First public draft.
     (See <https://fhiso.org/TR/basic-concepts>.)
 
-[ISO 15924]
-:   ISO (International Organization for Standardization).  *ISO
-    15924:2004.  Codes for the representation of names of scripts.*
-    2004.
-
-[ISO 639-1]
-:   ISO (International Organization for Standardization).  *ISO
-    639-1:2002.  Codes for the representation of names of languages
-    &mdash; Part 1: Alpha-2 code*.  2002.
-
 [ISO 639-2]
 :   ISO (International Organization for Standardization).  *ISO
     639-2:1998.  Codes for the representation of names of languages
@@ -1973,28 +1869,20 @@ not require that the graph be acyclic.
     Registry*.  Online data file.  (See
     <http://www.iana.org/assignments/language-subtag-registry>.)
 
-[ISO 639-3]
+[ISO 639-1]
 :   ISO (International Organization for Standardization).  *ISO
-    639-3:2007.  Codes for the representation of names of languages
-    &mdash; Part 3: Alpha-3 code for comprehensive coverage of
-    languages*.  2007.  
-
-[ISO 639-5]
-:   ISO (International Organization for Standardization).  *ISO
-    639-5:2007.  Codes for the representation of names of languages
-    &mdash; Part 5: Alpha-3 code for language families and groups*.
-    2008.  
-
-[ISO 3166-1]
-:   ISO (International Organization for Standardization).  *ISO
-    3166-1:2006.  Codes for the representation of names of countries and
-    their subdivisions -- Part 1: Country codes*.  2006.
-    (See <https://www.iso.org/iso-3166-country-codes.html>.)
+    639-1:2002.  Codes for the representation of names of languages
+    &mdash; Part 1: Alpha-2 code*.  2002.
 
 [ISO 8601]
 :   ISO (Internation Organization for Standardization).  *ISO
     8601:2004.  Data elements and interchange formats — Information
     interchange — Representation of dates and times*.  2004.
+
+[ISO 15924]
+:   ISO (International Organization for Standardization).  *ISO
+    15924:2004.  Codes for the representation of names of scripts.*
+    2004.
 
 [JSON-LD]
 :   W3C (World Wide Web Consortium).  *JSON-LD 1.0 &mdash;  A JSON-based
@@ -2013,11 +1901,6 @@ not require that the graph be acyclic.
     Stian Soiland-Reyes, Stephan Zednik and Jun Zhao, eds., 2013.
     W3C Recommendation.  (See <https://www.w3.org/TR/prov-o/>.)
 
-[RDF Concepts]
-:   W3C (World Wide Web Consortium).  *RDF 1.1 Concepts and Abstract
-    Syntax.*  Richard Cyganiak, David Wood and Markus Lanthaler, eds.,
-    2014.  W3C Recommendation.  (See <https://www.w3.org/TR/rdf11-concepts/>.)
-
 [RFC 4122]
 :   IETF (Internet Engineering Task Force).  *A Universally Unique
     IDentifier (UUID) URN Namespace*.  P. Leach, M. Mealling and R.
@@ -2027,16 +1910,6 @@ not require that the graph be acyclic.
 :   IETF (Internet Engineering Task Force).  *The JavaScript Object
     Notation (JSON) Data Interchange Format*.  Tim Bray, ed., 2014.
     (See <https://tools.ietf.org/html/rfc7159>.)
-
-[SWBP XSD DT]
-:   W3C (World Wide Web Consortium). *XML Schema Datatypes in RDF and OWL*.
-    Jeremy J. Carroll and Jeff Z. Pan, 2006.
-    W3C Working Group.  (See <https://www.w3.org/TR/swbp-xsch-datatypes/>.)
-
-[UN M.49]
-:   United Nations, Statistics Division.  *Standard Country or Area
-    Codes for Statistical Use*, revision 4.  United Nations publication,
-    Sales No. 98.XVII.9, 1999.
 
 [XSD Pt1]
 :   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language
