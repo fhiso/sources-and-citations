@@ -96,9 +96,9 @@ application *must* also be *conformant* with [Basic Concepts].  Concepts
 defined in that standard are used here without further definition.
 
 {.note} In particular, precise meaning of *string*,
-*whitespace-normalisation*, *term*, *prefix notation*, *prefix*,
-*discovery*, *class*, *class name*, *property* and *property name* are
-given in [Basic Concepts].
+*whitespace-normalisation*, *language tag*, *term*, *prefix notation*,
+*prefix*, *discovery*, *class*, *class name*, *property* and *property
+name* are given in [Basic Concepts].
 
 Indented text in grey or coloured boxes does not form a normative part
 of this standard, and is labelled as either an example or a note.  
@@ -459,11 +459,9 @@ The *class* of *datatypes* has the *class name* `rdfs:Datatype`.
 
 A **language-tagged datatype** is a *datatype* whose value consists of
 both a *string* from the *lexical space* of the *datatype* and a
-**language tag** to identify the language, and where appropriate the
+*language tag* to identify the language, and where appropriate the
 script and regional variant, in which that particular *string* is
-written.  The *language tag* *shall* match the `Language-Tag`
-production from &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)],
-as specified in §3.2.1 of this standard.
+written.  
 
 {.note} The *language tag* is not itself part of the *lexical space* of
 the *datatype*, and is not embedded in the *string*, but is stored
@@ -474,7 +472,7 @@ needed to represent textual data that is in a particular
 language or script and which cannot automatically be translated or
 transliterated as required, and *should not* be used otherwise.
 
-{.example}  In a context where a year *Anno Domini* is required, a
+{.example}  In a context where a year Anno Domini is required, a
 *language-tagged datatype* *should not* be used, and the *lexical space*
 of the *datatype* should encompass *strings* like, say, "`2015`".  Even
 though an application designed for Arabic researchers might need to
@@ -904,11 +902,6 @@ translated, transliterated or otherwise localised.
 Each *string* in a *localisation set* *shall* be tagged with a
 *datatype*, and *shall* additionally be tagged with a *language tag* if
 and only if the specified *datatype* is a *language-tagged datatype*.
-The *language tag* *shall* match the `Language-Tag` production from
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)], or from any
-future RFC published by the IEFT that obsoletes 
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] (hereinafter
-referred to as RFC 5646's successor RFC).
 
 {.note} Most often a *localisation sets* will contain only a single
 *string*, either because localisation is not relevant to that particular
@@ -933,76 +926,6 @@ in the following order:
      `Latn` being the code for the Latin script in [ISO 15924]; and
 *    a French translation, "`La généalogie des Comnènes`", tagged with
      the language code `fr`.
-{/}
-
-#### Language tags
-
-All *language tags* used to tag *strings* in *localisation sets*
-*must* be well-formed and *should* be valid, as defined in §2.2.9 of
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] or an equivalent
-section of a successor RFC.  Valid *language tags* have the meaning
-assigned to them in 
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] and any successor
-RFC.  Applications *may* discard any *language tag* that is not
-well-formed and replace it with `und`, meaning a undetermined language,
-but *must not* discard any *language tag* that is well-formed even if it
-is not valid.  
-
-{.note ...} &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] says
-that to be valid, a *language tag* *must* consist of tags that have
-been registered in the &#x5B;[IANA Lang 
-Subtags](http://www.iana.org/assignments/language-subtag-registry)]
-registry.  This is freely available online in a machine-readable form
-defined in §3.1.1 of 
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)], and gives the
-meaning of every tag.  Currently it includes:
-
-*  two-letter language tags from [ISO 639-1];
-*  three-letter language tags from [ISO 639-2]  (the "terminology" codes
-   where they differ from the "bibliographic" codes), [ISO 639-3] and 
-   [ISO 639-5] for languages with no two-letter code; 
-*  four-letter script tags from [ISO 15924]; 
-*  two-letter country codes currently assigned in [ISO 3166-1], together
-   with certain formerly assigned or reserved codes; 
-*  three-digit codes for supranational geographical areas and
-   exceptionally countries from [UN M.49]; and
-*  a small number of legacy tags that have been grandfathered into the
-   scheme.
-
-The meanings of codes in the source ISO standards may change over time,
-but the procedure set out in §3.4 of &#x5B;[RFC
-5646](https://tools.ietf.org/html/rfc5646)] governing the addition of
-tags to &#x5B;[IANA Lang
-Subtags](http://www.iana.org/assignments/language-subtag-registry)]
-ensures the meanings there stable.  This particularly affects 
-[ISO 3166-1] country codes which historically have been reused, and may 
-result in a gradual divergence between and &#x5B;[IANA Lang
-Subtags](http://www.iana.org/assignments/language-subtag-registry)].
-Applications *should* therefore avoid using [ISO 3166-1] codes that have
-not been registered in &#x5B;[IANA Lang
-Subtags](http://www.iana.org/assignments/language-subtag-registry)]. 
-{/}
-
-{.example ...} A *string* tagged with the *language tag* `hu-CS` *must*
-be interpreted by a *conformant* application as being in the Hungarian
-language localised for use in the former state of Serbia and Montenegro,
-because this is how `hu` and `CS` are listed in &#x5B;[IANA Lang
-Subtags](http://www.iana.org/assignments/language-subtag-registry)].
-The code `CS` is perhaps better known as representing the former state
-of Czechoslovakia and appears in older lists of [ISO 3166-1] country
-codes as such, but neither IANA nor FHISO recognise this former meaning.
-
-This is one of five country codes whose meaning has materially changed
-in [ISO 3166-1], the other four being `AI`, `BQ`, `GE` and `SK`.  In
-each case, because the reuse occurred before the creation of &#x5B;[IANA Lang
-Subtags](http://www.iana.org/assignments/language-subtag-registry)], it
-is the current meaning that is listed in &#x5B;[IANA Lang 
-Subtags](http://www.iana.org/assignments/language-subtag-registry)].
-If there is further reuse of country codes in the future, &#x5B;[RFC
-5646](https://tools.ietf.org/html/rfc5646)] requires that the current
-meaning of the tag be retained and a numeric code be given to the new
-country in &#x5B;[IANA Lang 
-Subtags](http://www.iana.org/assignments/language-subtag-registry)].
 {/}
 
 *Language tags* *should* contain a script subtag per §2.2.3 of
@@ -1035,37 +958,6 @@ while &#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] recommends
 against one because the transliteration is to the default script.  Both
 are recommendations rather than requirements, meaning that after careful
 consideration they may be ignored in particular circumstances.
-
-A *conformant* application *may* convert any *language tag* into its
-canonical form, as defined by §4.5 of &#x5B;[RFC
-5646](https://tools.ietf.org/html/rfc5646)] or an equivalent section of
-a successor RFC.  
-
-{.note} The chief purpose of canonical form is to replace deprecated
-language codes and other subtags with the value found in the
-`Preferred-Value` field in [IANA Lang Subtags].  It never result in the
-removal of script subtag, even when they are the default script for the
-language as defined by a `Suppress-Script` field.
-
-{.example}  The *language tag* `iw` is listed in [IANA Lang Subtags] as
-a deprecated language code for Hebrew which has now been removed from
-[ISO 639-1].  Its `Preferred-Value` field is `he`, so an application
-*may* replace `iw` with `he`.
-
-A *conformant* application *may* alter a *language tag* in any other way
-that leaves its canonical form unchanged when compared in a
-case-insensitive manner.
-
-{.note}  Such changes are permitted for three reasons.  First, it allows
-applications to revert new tags to older deprecated forms when exporting
-data to an older application.  Secondly, it allows applications to
-remain *conformant* even if they are basing conversions on an outdated
-copy of the [IANA Lang Subtags] registry.  This is because §3.4 of
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)] only allows
-certain compatible changes to the registry.  Thirdly, it allows
-applications to apply the conventional capitalisation of *language tags*
-defined in §2.1.1 of 
-&#x5B;[RFC 5646](https://tools.ietf.org/html/rfc5646)].
 
 #### Serialisation considerations
 
@@ -1543,7 +1435,7 @@ the two *localisation sets* in order to get the following:
                  "fr": "Les Ancêtres des Charlemagne",
                  "de": "Die Vorfahren von Karl dem Großen" ] ]
 
-After *merging* the *localisation sets*, §3.2.3 says the application
+After *merging* the *localisation sets*, §3.2.2 says the application
 *should* *deduplicate* the resultant *localisation set*.  This removes
 the second French title to give the following:
 
