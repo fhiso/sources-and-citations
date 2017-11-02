@@ -451,6 +451,10 @@ The *property* that represents whether or not a *datatype* is an
 {.ednote}  The intention is that the *range* of this *property* will be
 a boolean.
 
+{.ednote}  Are *abstract datatypes* a necessary part of our data model
+at all?  They were introduced to allow an `AbstractDate` *datatype*, but
+is it necessary for this datatype to be an *abstract datatype*?
+
 ### Built-in datatypes
 
 This standard gives special treatment to three *datatypes* defined in
