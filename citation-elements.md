@@ -1178,8 +1178,8 @@ term* has the following *property name*:
 
 {.ednote}  What should its *range* be?  We could follow [XSD Pt1] and
 use strings `1` and `unbounded`, perhaps as part of a {`0`, `1`, `∞`}
-datatype; or we could define *terms* for *single-valued* and
-*multi-valued*.
+datatype, or using `xsd:allNNI`; or we could define *terms* for
+*single-valued* and *multi-valued*.
 
 In a *citation element set* which contains more than one *citation
 element* whose *citation element names* have the same *ultimate
