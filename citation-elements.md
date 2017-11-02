@@ -365,9 +365,8 @@ elements, but they are beyond the scope of this standard.
 
 A **language-tagged datatype** is a *datatype* whose value consists of
 both a *string* from the *lexical space* of the *datatype* and a
-*language tag* to identify the language, and where appropriate the
-script and regional variant, in which that particular *string* is
-written.  
+*language tag* to identify the language in which that particular
+*string* is written.  
 
 {.note} The *language tag* is not itself part of the *lexical space* of
 the *datatype*, and is not embedded in the *string*, but is stored
@@ -408,131 +407,30 @@ noun.  The respelling would be tagged `eo`, the language code for
 Esperanto.
 {/}
 
+*Patterns* may be defined for *language-tagged datatypes* as for other
+*datatypes*.  Because *patterns* only constrain the *lexical space* of
+the *datatype*, they cannot be used to constrain the *language tag* in
+the value of a *language-tagged datatype*.
+
 A *datatype* that is not a *language-tagged datatype* is called a
 **non-language-tagged datatype**.
 
-### Datatype patterns
+{.note}  This means the classification of *datatypes* as
+*language-tagged* or *non-language-tagged* is orthogonal to their
+classification as *structured* or *unstructured*.  It is anticipated
+that most *non-language-tagged datatypes* will be *structured datatype*.
 
-A party defining a *datatype* *shall* specify a **pattern** for that
-*datatype*.  This is a regular expression which provides a constraint on
-the *lexical space* of the *datatype*.  Matching the *pattern* might not
-be sufficient to validate a *string* as being in the *lexical space* of
-the *datatype*, but a *string* that fails to match the *pattern* is
-guaranteed not to be in the *lexical space*.
+{.example}  The `AgentName` datatype from the previous example is a
+microformat which is constrained by a *pattern* meaning it is a
+*structured datatype*, but it is also a *language-tagged datatype* as
+names can be translated and transliterated.
 
-{.note}  Patterns are included in this standard to provide a way for
-an application to find out about the *lexical space* of a unfamiliar
-*datatype* through *discovery*.  They are used during the *datatype
-correction* process defined in §4.4.
+*Subtypes* may be defined of *language-tagged datatypes* as well as of
+other *datatypes*.  If the *supertype* is a *language-tagged datatype*
+then the *subtype* *must* also be; and if the *supertype* is not a
+*language-tagged datatype* then the *subtype* *must not* be.
 
-{.ednote}  We need to specify a particular dialect of regular
-expression.  One option is the form defined in §21.2 of [ECMAScript]
-which has the advantage of being supported in most programming
-languages.  It currently has relatively poor Unicode support (e.g. it
-lacks `\p`), though it seems likely this will improve in the next
-version of ECMAScript.  Another option is to use the form defined in
-Appendix G of [XSD Pt2] which is much less widely supported, but has the
-advantage of being the standard form for defining *datatypes* in XML and
-RDF.
-
-{.ednote} We also need to specify exactly what *matching* a *pattern*
-means.  In particular we want the complete *string* to match the
-*pattern*, so that "`Sept 2017`" does not match the *pattern*
-`[0-9]{4}`, despite the lack of `^`...`$` around the *pattern*.  
-
-{.example ...}  The XML Schema `date` type mentioned in the previous
-example has the following *pattern* (here split onto two lines for
-readability &mdash; the second line is an optional timezone which the
-XML Schema `data` type allows).  
-
-    -?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])
-    (Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))? 
-
-This *pattern* matches *strings* like "`1999-02-31`".  Despite matching
-the *pattern*, this *string* is not part of the *lexical space* of this
-`date` type as 31 February is not a valid date.
-{/}
-
-The *property* representing the *pattern* of a *datatype* has the
-following *property name*:
-
-    https://terms.fhiso.org/types/pattern
-
-{.ednote}  An alternative option is to use `xsd:pattern`, which is
-used as a *property* in [OWL 2](https://www.w3.org/TR/owl2-syntax/).
-This poses a difficulty because none of the relevant W3 specifications
-indicate what the `rdfs:domain` of `xsd:pattern` is supposed to be.
-Possibly it is an `owl:Restriction`, which would be incompatible with
-this use.  Using `xsd:pattern` would also require us to use the form of
-regular expression defined in Appendix G of [XSD Pt2].
-
-A *datatype* with a *pattern* other than `.*` is known as a **structured
-datatype**, while one with a *pattern* of `.*` is known as an
-**unstructured datatype**.  It is expected that most *datatypes* in
-common use, other than the `rdf:langString` *datatype* defined in §2.4.1
-will be *structured datatypes*.
-
-{.note} *Patterns* may be defined for *language-tagged datatypes* just
-for other *datatypes*.  This means the classification of *datatypes*
-as *language-tagged* or *non-language-tagged* is orthogonal to their
-classification as *structured* or *unstructured*.  Because *patterns*
-only constrain the *lexical space* of the *datatype*, they cannot be
-used to constrain the *language tag* in the value of a *language-tagged
-datatype*.
-
-{.example}  The `AgentName` datatype used to represent the names of
-authors and other people is a microformat which is constrained by a
-*pattern* meaning it is a *structured datatype*, but it is also a
-*language-tagged datatype* as names can be translated and
-transliterated.
-
-### Subtypes
-
-A *datatype* *may* be defined as a **subtype** of another *datatype*
-which is referred to as its **supertype**.  This is used to provide a
-more specific version of a more general *datatype*.  The *lexical space*
-of the *subtype* *shall* be a subset of the *lexical space* of the
-*supertype*, and if an application is unfamiliar with the *subtype* it
-*may* process it as if it were the *supertype*.  The *subtype* *must* be
-defined in such a way that at most this results in some loss of meaning
-but does not introduce any false implications about the dataset.  
-
-{.note}  This does not require a *subtype* to define a *pattern* if
-the *supertype* does.  Because the *lexical space* of the *subtype*
-*must* be a subset of that of the *supertype*, the *pattern* of the
-*supertype* may be used if the *subtype* does not define one.  This
-might be done if additional restrictions made on *lexical space* of the
-*subtype* cannot readily be expressed using a regular expression.
-
-{.note}  It is only the *lexical space* of the *subtype* that is
-required to be a subset of the *lexical space* of the *supertype*.  The
-set of *strings* that match the *pattern* of the *subtype* might not
-necessarily be a subset of that of the *supertype*.  This is because the
-*pattern* is permitted to match *strings* outside the *lexical space*,
-as in the example of the date "`1999-02-31`".
-
-The *property* representing the *supertype* of a *datatype* has the
-following *property name*:
-
-    https://terms.fhiso.org/types/subTypeOf
-
-{.ednote ...}  An alternative option is to use the `rdfs:subClassOf`
-*property*, however it is anticipated that it will be desirable to have
-a *property* whose *domain* is exactly `rdfs:Datatype`.  The *domain* of
-`rdfs:subClassOf` is `rdfs:Class`; nevertheless, it is possible to apply
-`rdfs:subClassOf` to *datatypes* because
-
-    rdfs:Datatype rdfs:subClassOf rdfs:Class .
-
-In order to make our `subTypeOf` *property* accessible to RDF reasoners,
-we should document that
-
-    </types/subTypeOf> rdfs:subPropertyOf rdfs:subClassOf .
-
-We will need a way of explicitly saying that a *datatype* has no
-*supertype*.  In RDF, all *datatypes* are subtypes of `rdfs:Literal`,
-so this *datatype* can be used as a special value to signify that.
-{/}
+### Abstract datatypes
 
 A *datatype* *may* be defined to be a **abstract datatype**.  An
 *abstract datatype* is one that *must* only be used as a *supertype* of
@@ -552,20 +450,6 @@ The *property* that represents whether or not a *datatype* is an
 
 {.ednote}  The intention is that the *range* of this *property* will be
 a boolean.
-
-*Subtypes* may be defined of *language-tagged datatypes* as well as of
-other *datatypes*.  If the *supertype* is a *language-tagged datatype*
-then the *subtype* *must* also be; and if the *supertype* is not a
-*language-tagged datatype* then the *subtype* *must not* be.
-
-{.note} The concept of a *subtype* in this standard corresponds to
-XML Schema's concept of derivation of a simple type by restriction per
-§3.16 of &#x5B;[XSD Pt1](https://www.w3.org/TR/xmlschema11-1/)].  XML
-Schema does not have concept compatible with this standard's notion of
-an *abstract datatype*, as in XML Schema only complex types can be
-abstract.  If it is desirable to describe a FHISO *abstract datatype* in
-XML Schema, it should be defined as a normal simple type, with the
-information that it is abstract conveyed by another means. 
 
 ### Built-in datatypes
 
@@ -896,7 +780,7 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* defined in §2.4.1 of this standard.
+`rdf:langString` *datatype* defined in §2.3.1 of this standard.
 
 {.note}  This is called the *format default datatype* to avoid confusion
 with the *default datatype* defined per *citation element term* in §4.4
@@ -1059,8 +943,8 @@ The *range* of a *sub-element* *shall* be the same as that of its
 *super-element*.
 
 {.ednote}  The *range* of a *sub-element* could be allowed to be a
-*subtype* of the *super-element's* *range*, as defined in §2.3 of this
-standard.  At the moment there is no clear use case for this.
+*subtype* of the *super-element's* *range*.  At the moment there is no
+clear use case for this.
 
 Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
