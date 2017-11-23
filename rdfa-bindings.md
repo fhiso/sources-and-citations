@@ -1689,7 +1689,7 @@ several other instances of RDFa attributes that will not be detected as
     Edition)*.  W3C Recommendation, 8 Dec 2009.
     See <https://www.w3.org/TR/REC-xml-names/>.
 
----
+----
 Copyright © 2017, [Family History Information Standards Organisation,
 Inc](https://fhiso.org/).  
 The text of this standard is available under the
