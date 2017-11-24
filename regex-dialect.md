@@ -181,8 +181,8 @@ adjusted as necessary to reflect the more narrow dialect needed for this project
         quantMin ::= QuantExact ','
         QuantExact ::= 0 | [1-9] [0-9]*
         atom ::= NormalChar | escapedChar | charClass | '(' regExp ')'
-		NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
-		escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
+        NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
+        escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
         charClass ::= posCharClass | negCharClass | wildcard
         posCharClass ::= '[' charRange+ ']'
         charRange ::= classChar | classChar '-' classChar
