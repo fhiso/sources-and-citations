@@ -172,24 +172,24 @@ Every regular expression must follow the production `regExp` in the following gr
 This grammar is modeled after that defined in XML Schema <https://www.w3.org/TR/xmlschema-2/#regexs>,
 adjusted as necessary to reflect the more narrow dialect needed for this project
 
-        regExp ::= branch ( '|' branch )*
-        branch ::= piece piece*
-        piece ::= atom quantifier?
-        quantifier ::= [?*+] | ( '{' quantity '}' )`
-        quantity ::= quantRange | quantMin | QuantExact
-        quantRange ::= QuantExact ',' QuantExact
-        quantMin ::= QuantExact ','
-        QuantExact ::= 0 | [1-9] [0-9]*
-        atom ::= NormalChar | escapedChar | charClass | '(' regExp ')'
-        NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
-        escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
-        charClass ::= posCharClass | negCharClass | wildcard
-        posCharClass ::= '[' charRange+ ']'
-        charRange ::= classChar | classChar '-' classChar
-        classChar ::= [^.\|&$#x2D#x5B#x5D#5E]
-        negCharClass ::= '[^` charRange+ ']'
-        wildcard ::= '.'
-    
+    regExp ::= branch ( '|' branch )*
+    branch ::= piece piece*
+    piece ::= atom quantifier?
+    quantifier ::= [?*+] | ( '{' quantity '}' )`
+    quantity ::= quantRange | quantMin | QuantExact
+    quantRange ::= QuantExact ',' QuantExact
+    quantMin ::= QuantExact ','
+    QuantExact ::= 0 | [1-9] [0-9]*
+    atom ::= NormalChar | escapedChar | charClass | '(' regExp ')'
+    NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
+    escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
+    charClass ::= posCharClass | negCharClass | wildcard
+    posCharClass ::= '[' charRange+ ']'
+    charRange ::= classChar | classChar '-' classChar
+    classChar ::= [^.\|&$#x2D#x5B#x5D#5E]
+    negCharClass ::= '[^` charRange+ ']'
+    wildcard ::= '.'
+
 
 ### Semantics Tables
 
