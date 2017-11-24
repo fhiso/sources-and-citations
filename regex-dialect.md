@@ -161,6 +161,80 @@ Wildcard
 {.note} The above definition includes new line characters in the language of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
 
 
+Semantics Tables
+----------------
+
+The following tables provide the complete semantics of regular expressions in mathematical form.
+
+### Metacharacters
+
+The following metacharacters are used in the semantics tables.
+
+| Metacharacter | Meaning                                             |
+|:-----|:-------------------------------------------------------------|
+| $c$ | a *normal character* |
+| $c'$ | a *class character* |
+| $e$ | a *metacharacter*, a *banned character*, or U+002D |
+| $s$, $s_1$, ... | a string |
+| $i$, $i_1$, ... | a positive integer |
+| $s_1 s_2$     | a string made of the characters in $s_1$ followed by the characters in $s_2$ |
+| $\epsilon$ | the empty string |
+| $r$ | a *regular expression* |
+| $a$ | an *atom* |
+| $b$ | a *branch* |
+| $p$ | a *piece* |
+| $w$ | a *positive character class* |
+| $g$ | a *character range* |
+| $L(...)$ | the *language* of a regular expression |
+| $S(...)$ | the *character set* of a character class |
+| $C$, $C_1$, ... | a *class character* or U+005C followed by a character |
+
+: Metacharacters used in semantics tables
+
+### Semantics Tables
+
+The following table provides the semantics of regular expressions.
+
+| Expression | Language                                                |
+|:-----------|:--------------------------------------------------------|
+| $b$`|`$r$     | $\{s \;|\; s \in L(b) \mbox{ or } s \in L(r)\}$ |
+| $p b$         | $\{s_1 s_2 \;|\; s_1 \in L(p) \mbox{ and } s_2 \in L(b)\}$ |
+| $c$           | $\{s\}$ where $s$ consists only of the single character $c$ |
+| `\n`          | $\{s\}$ where $s$ consists only of the single character U+000A |
+| `\r`          | $\{s\}$ where $s$ consists only of the single character U+000D |
+| `\t`          | $\{s\}$ where $s$ consists only of the single character U+0009 |
+| `\`$e$        | $\{s\}$ where $s$ consists only of the single character $e$ |
+| $a$`?`        | $\{\epsilon\} \;\cup\; L(a)$ |
+| $a$`*`        | $\{\epsilon\} \;\cup\; L(a$`+`$)$ |
+| $a$`+`        | $\{s_1 s_2 \;|\; s_1 \in L(a) \mbox{ and } s_2 \in L(a$`*`$)\}$ |
+| $a$`{0,0}`    | $\{\epsilon\}$ |
+| $a$`{0,`$i$`}`| $\{\epsilon\} \;\cup\; L(a a$`{0,`$i-1$`}`$)$ |
+| $a$`{`$i_1$`,`$i_2$`}`| $L(a a$`{`$i_1-1$`,`$i_2-1$`}`$)$ |
+| $a$`{0,}`     | $L(a$`*`$)$ |
+| $a$`{`$i$`,}` | $L(a a$`{`$i-1$`,}`$)$ |
+| `(`$r$`)`     | $L(r)$ |
+| `[`$w$`]`     | $\{s\}$ where $s$ consists only of a single character in $w$ |
+| `[^`$w$`]`    | $\{s\}$ where $s$ consists only of a single character not in $w$ |
+| `.`           | $\{s\}$ where $s$ consists only of a single character |
+
+: Regular Expression Semantics
+
+
+The following table provides the semantics of character classes.
+
+
+| Expression | Character Set  |
+|:-----------|:---------------|
+| $g w$         | $S(g) \;\cup\; S(w)$ |
+| $c'$          | the single character $c'$ |
+| `\n`          | the single character U+000A |
+| `\r`          | the single character U+000D |
+| `\t`          | the single character U+0009 |
+| `\`$e$        | the single character $e$ |
+| $C_1$`-`$C_2$ | any single character $x$ such that $C_1 \le x \le C_2$ |
+
+: Character Class Semantics
+
 
 
 Dialect Guide
@@ -178,7 +252,7 @@ C++11 std::regex
 
 C++ boost::regex
 :   Use the `ECMAScript` variety.
-    How to ensure full match not known.
+    How to ensure full match not known to the author of this document.
 
 ECMAScript
 :   Surround expression with `^(`...`)$`.
@@ -213,7 +287,7 @@ POSIX
 
 Python
 :   Use the `re.DOTALL` option.
-    In Python 3.4 and later, use the `fullmatch` function; otherwise use `match` and append a `$` to the expression.
+    In Python 3.4 and later, use the `fullmatch` function; otherwise use `match` and surround the expression with `(`...`)$`.
 
 Ruby
 :   Surround expression with `/\A(`...`)\Z$/m`.
