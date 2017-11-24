@@ -275,9 +275,9 @@ The following table provides the semantics of character classes.
 | *c* | a *normal character* |
 | *c*′ | a *class character* |
 | *e* | a *metacharacter*, a *banned character*, or U+002D |
-| *s*, *s*~1~, ... | a string |
-| *i*, *i*~1~, ... | a positive integer |
-| *s*~1~*s*~2~ | a string made of the characters in *s*~1~ followed by the characters in *s*~2~ |
+| *s*, *s*<sub>1</sub>, ... | a string |
+| *i*, *i*<sub>1</sub>, ... | a positive integer |
+| *s*<sub>1</sub>*s*<sub>2</sub> | a string made of the characters in *s*<sub>1</sub> followed by the characters in *s*<sub>2</sub> |
 | ε   | the empty string |
 | *r* | a *regular expression* |
 | *a* | an *atom* |
@@ -287,7 +287,7 @@ The following table provides the semantics of character classes.
 | *g* | a *character range* |
 | *L*(...) | the *language* of a regular expression |
 | *S*(...) | the *character set* of a character class |
-| *C*, *C*~1~, ... | a *class character* or U+005C followed by a character |
+| *C*, *C*<sub>1</sub>, ... | a *class character* or U+005C followed by a character |
 
 : Metacharacters used in semantics tables
 
@@ -296,7 +296,7 @@ The following table provides the semantics of character classes.
 | Expression | Language                                                |
 |:-----------|:--------------------------------------------------------|
 | *b*`|`*r*     | {*s* \| *s* ∈  *L*(*b*) or *s* ∈  *L*(*r*)} |
-| *pb*       | {*s*~1~*s*~2~ \| *s*~1~ ∈  *L*(*p*) and *s*~2~ ∈  *L*(*b*)} |
+| *pb*       | {*s*<sub>1</sub>*s*<sub>2</sub> \| *s*<sub>1</sub> ∈  *L*(*p*) and *s*<sub>2</sub> ∈  *L*(*b*)} |
 | *c*           | {*s*} where *s* consists only of the single character *c* |
 | `\n`          | {*s*} where *s* consists only of the single character U+000A |
 | `\r`          | {*s*} where *s* consists only of the single character U+000D |
@@ -304,11 +304,11 @@ The following table provides the semantics of character classes.
 | `\`*e*        | {*s*} where *s* consists only of the single character *e* |
 | *a*`?`        | {ε} ∪ *L*(*a*) |
 | *a*`*`        | {ε} ∪ *L*(*a*`+`) |
-| *a*`+`        | {*s*~1~ *s*~2~ \| *s*~1~ ∈ L(a) and *s*~2~ ∈ *L*(*a*`*`)} |
-| *a*`+`        | {*s*~1~*s*~2~ \| *s*~1~ ∈  *L*(*a*) and *s*~2~ ∈  *L*(*a*`*`)} |
+| *a*`+`        | {*s*<sub>1</sub> *s*<sub>2</sub> \| *s*<sub>1</sub> ∈ L(a) and *s*<sub>2</sub> ∈ *L*(*a*`*`)} |
+| *a*`+`        | {*s*<sub>1</sub>*s*<sub>2</sub> \| *s*<sub>1</sub> ∈  *L*(*a*) and *s*<sub>2</sub> ∈  *L*(*a*`*`)} |
 | *a*`{0,0}`    | {ε} |
 | *a*`{0,`*i*`}`| {ε} ∪ *L*(*aa*`{0,`*i* − 1`}`) |
-| *a*`{`*i*~1~`,`*i*~2~`}`| *L*(*aa*`{`*i*~1~ − 1`,`*i*~2~ − 1`}`) |
+| *a*`{`*i*<sub>1</sub>`,`*i*<sub>2</sub>`}`| *L*(*aa*`{`*i*<sub>1</sub> − 1`,`*i*<sub>2</sub> − 1`}`) |
 | *a*`{0,}`     | *L*(*a*`*`) |
 | *a*`{`*i*`,}` | *L*(*aa*`{`*i* − 1`,}`) |
 | `(`*r*`)`     | *L*(*r*) |
@@ -327,7 +327,7 @@ The following table provides the semantics of character classes.
 | `\r`          | the single character U+000D |
 | `\t`          | the single character U+0009 |
 | `\`*e*        | the single character *e* |
-| *C*~1~`-`*C*~2~ | any single character *x* such that *C*~1~ ≤ x ≤ *C*~2~ |
+| *C*<sub>1</sub>`-`*C*<sub>2</sub> | any single character *x* such that *C*<sub>1</sub> ≤ x ≤ *C*<sub>2</sub> |
 
 : Character Class Semantics
 
