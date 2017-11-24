@@ -69,7 +69,7 @@ Normal Character
 
     The **metacharacters** are '`.`', '`\`', '`?`', '`*`', '`+`', '`{`', '`}`', '`(`', '`)`', '`|`', '`[`', and '`]`'.
 
-    The **banned characters** are '`^`', '`$`', '`&`', '`/`', and the escapable control characters U+0000, U+0009, U+000A, and U+000D.
+    The **banned characters** are '`^`', '`$`', '`&`', '`/`', and the escapable control characters U+0009, U+000A, and U+000D.
 
 {.note} The above requires metacharacters not appear as normal characters unescaped. Some dialects are more permissive, allowing e.g. `}` to appear unescaped, but that is prohibited in this specification.
 
@@ -83,7 +83,6 @@ Escaped Character
     
     | Escaped Character | Represents               |
     |-------------------|--------------------------|
-    | `\0` | U+0000 (null) |
     | `\t` | U+0009 (tab) |
     | `\n` | U+000A (line feed) |
     | `\r` | U+000D (carriage return) |
@@ -141,12 +140,12 @@ Character Range
     A character is within a two-character *character range* if its code point is ≥ the first character's code point and ≤ the second character's code point.
 
 Class Character
-:   A **class character** is either an *escaped character* or a single character that is neither a *class metachracter* nor a *banned character*.
+:   A **class character** is either an *escaped character* or a single character that is neither a *class metacharacter* nor a *banned character*.
 
     The **class metacharacters** are '`.`', '`\`', '`-`', '`|`', '`[`', and '`]`'.
 
 Negative Character Class
-:   A **negative character class** is a set of one or more *character ranges*, preceeded by U+005E `^`, within brackets.
+:   A **negative character class** is a set of one or more *character ranges*, preceded by U+005E `^`, within brackets.
 
         negCharClass ::= '[^` charRange+ ']'
     
@@ -159,7 +158,9 @@ Wildcard
     
     The language of a *wildcard* is the set of all single-character strings.
 
-{.note} The above definition includes new line characters in the langauge of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
+{.note} The above definition includes new line characters in the language of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
+
+
 
 
 Dialect Guide
@@ -174,63 +175,51 @@ Following are some suggestions for making regular expressions in the above diale
 C++11 std::regex
 :   Use the `ECMAScript` variety and `regex_match` (not `regex_search`).
     Replace non-escaped `.` with `(.|\s)`.
-    Proper use of `\0` is not yet known.
 
 C++ boost::regex
 :   Use the `ECMAScript` variety.
     How to ensure full match not known.
-    Proper use of `\0` is not yet known.
 
 ECMAScript
 :   Surround expression with `^(`...`)$`.
     Replace non-escaped `.` with `(.|\s)`.
-    Leave `\0` as is.
 
 Java
 :   Surround expression with `^(?s`...`)$`.
-    Proper use of `\0` is not yet known.
 
 .NET
 :   Use the `RegexOptions.Multiline` option or replace non-escaped `.` with `(.|\n)`.
     Surround expression with `^(`...`)$`.
-    Proper use of `\0` is not yet known.
 
 Perl
 :   Use `m/^(`...`)$/s`. 
-    Proper use of `\0` is not yet known.
 
 
 PCRE
 :   Use the `PCRE_UTF8` option.
     Surround expression with `^(`...`)$`.
-    Proper use of `\0` is not yet known.
 
 PCRE2
 :   Use the `PCRE2_UTF` and `PCRE2_DOTALL` options.
-    Replace `\0` with `\x{0}`.
     Surround expression with `^(`...`)$`.
 
 PHP
 :   Surround expression with `/^(`...`)$/us` with the `preg_`... functions.
-    Proper use of `\0` is not yet known.
 
 POSIX
 :   Requires extensive modifications.
-    Basic mode swaps what gets escaped and what does not.
+    Basic mode required escaping metacharacters.
     Things that do not require escaping may forbid escaping and require pre-processing to strip `\`s.
 
 Python
 :   Use the `re.DOTALL` option.
     In Python 3.4 and later, use the `fullmatch` function; otherwise use `match` and append a `$` to the expression.
-    Leave `\0` as is.
 
 Ruby
 :   Surround expression with `/\A(`...`)\Z$/m`.
-    Proper use of `\0` is not yet known.
     
 XML
-:   Replace `.` with `[\s\S]`.
-    Proper use of `\0` is not yet known.
+:   Replace non-escaped `.` with `[\s\S]`.
 
 
 Comments
