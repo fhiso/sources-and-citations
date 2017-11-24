@@ -160,11 +160,40 @@ Wildcard
 
 {.note} The above definition includes new line characters in the language of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
 
+CFG + Semantics
+---------------
 
-Semantics Tables
-----------------
+This section contains an alternative presentation of the above material.
+It is more succinct, but that may or may not be a positive characteristic.
 
-The following tables provide the complete semantics of regular expressions in mathematical form.
+### Regular Expression Grammar
+
+Every regular expression must follow the production `regExp` in the following grammar.
+This grammar is modeled after that defined in XML Schema <https://www.w3.org/TR/xmlschema-2/#regexs>,
+adjusted as necessary to reflect the more narrow dialect needed for this project
+
+        regExp ::= branch ( '|' branch )*
+        branch ::= piece piece*
+        piece ::= atom quantifier?
+        quantifier ::= [?*+] | ( '{' quantity '}' )`
+        quantity ::= quantRange | quantMin | QuantExact
+        quantRange ::= QuantExact ',' QuantExact
+        quantMin ::= QuantExact ','
+        QuantExact ::= 0 | [1-9] [0-9]*
+        atom ::= NormalChar | escapedChar | charClass | '(' regExp ')'
+		NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
+		escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
+        charClass ::= posCharClass | negCharClass | wildcard
+        posCharClass ::= '[' charRange+ ']'
+        charRange ::= classChar | classChar '-' classChar
+        classChar ::= [^.\|&$#x2D#x5B#x5D#5E]
+        negCharClass ::= '[^` charRange+ ']'
+        wildcard ::= '.'
+    
+
+### Semantics Tables
+
+The following tables provide the complete semantics of regular expressions.
 
 ### Metacharacters
 
@@ -236,8 +265,7 @@ The following table provides the semantics of character classes.
 : Character Class Semantics
 
 
-Same tables, different syntax
------------------------------
+### Same tables, different syntax
 
 {.ednote} This section is intended to be a clone of the previous section's tables, but written using UTF-8 and basic markdown instead of \$-delimited math mode. Both included as a test to see if one or the other is better for conversion to HTML and PDF.
 
