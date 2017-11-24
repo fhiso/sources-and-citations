@@ -213,8 +213,8 @@ The following table provides the semantics of regular expressions.
 | $a$`{0,}`     | $L(a$`*`$)$ |
 | $a$`{`$i$`,}` | $L(a a$`{`$i-1$`,}`$)$ |
 | `(`$r$`)`     | $L(r)$ |
-| `[`$w$`]`     | $\{s\}$ where $s$ consists only of a single character in $w$ |
-| `[^`$w$`]`    | $\{s\}$ where $s$ consists only of a single character not in $w$ |
+| `[`$w$`]`     | $\{s\}$ where $s$ consists only of a single character in $S(w)$ |
+| `[^`$w$`]`    | $\{s\}$ where $s$ consists only of a single character not in $S(w)$ |
 | `.`           | $\{s\}$ where $s$ consists only of a single character |
 
 : Regular Expression Semantics
@@ -232,6 +232,74 @@ The following table provides the semantics of character classes.
 | `\t`          | the single character U+0009 |
 | `\`$e$        | the single character $e$ |
 | $C_1$`-`$C_2$ | any single character $x$ such that $C_1 \le x \le C_2$ |
+
+: Character Class Semantics
+
+
+Same tables, different syntax
+-----------------------------
+
+{.ednote} This section is intended to be a clone of the previous section's tables, but written using UTF-8 and basic markdown instead of \$-delimited math mode. Both included as a test to see if one or the other is better for conversion to HTML and PDF.
+
+
+| Metacharacter | Meaning                                         |
+|:-----|:---------------------------------------------------------|
+| *c* | a *normal character* |
+| *c*′ | a *class character* |
+| *e* | a *metacharacter*, a *banned character*, or U+002D |
+| *s*, *s*~1~, ... | a string |
+| *i*, *i*~1~, ... | a positive integer |
+| *s*~1~*s*~2~ | a string made of the characters in *s*~1~ followed by the characters in *s*~2~ |
+| ε   | the empty string |
+| *r* | a *regular expression* |
+| *a* | an *atom* |
+| *b* | a *branch* |
+| *p* | a *piece* |
+| *w* | a *positive character class* |
+| *g* | a *character range* |
+| *L*(...) | the *language* of a regular expression |
+| *S*(...) | the *character set* of a character class |
+| *C*, *C*~1~, ... | a *class character* or U+005C followed by a character |
+
+: Metacharacters used in semantics tables
+
+
+
+| Expression | Language                                                |
+|:-----------|:--------------------------------------------------------|
+| *b*`|`*r*     | {*s* \| *s* ∈  *L*(*b*) or *s* ∈  *L*(*r*)} |
+| *pb*       | {*s*~1~*s*~2~ \| *s*~1~ ∈  *L*(*p*) and *s*~2~ ∈  *L*(*b*)} |
+| *c*           | {*s*} where *s* consists only of the single character *c* |
+| `\n`          | {*s*} where *s* consists only of the single character U+000A |
+| `\r`          | {*s*} where *s* consists only of the single character U+000D |
+| `\t`          | {*s*} where *s* consists only of the single character U+0009 |
+| `\`*e*        | {*s*} where *s* consists only of the single character *e* |
+| *a*`?`        | {ε} ∪ *L*(*a*) |
+| *a*`*`        | {ε} ∪ *L*(*a*`+`) |
+| *a*`+`        | {*s*~1~ *s*~2~ \| *s*~1~ ∈ L(a) and *s*~2~ ∈ *L*(*a*`*`)} |
+| *a*`+`        | {*s*~1~*s*~2~ \| *s*~1~ ∈  *L*(*a*) and *s*~2~ ∈  *L*(*a*`*`)} |
+| *a*`{0,0}`    | {ε} |
+| *a*`{0,`*i*`}`| {ε} ∪ *L*(*aa*`{0,`*i* − 1`}`) |
+| *a*`{`*i*~1~`,`*i*~2~`}`| *L*(*aa*`{`*i*~1~ − 1`,`*i*~2~ − 1`}`) |
+| *a*`{0,}`     | *L*(*a*`*`) |
+| *a*`{`*i*`,}` | *L*(*aa*`{`*i* − 1`,}`) |
+| `(`*r*`)`     | *L*(*r*) |
+| `[`*w*`]`     | {*s*} where *s* consists only of a single character in *S*(*w*) |
+| `[^`*w*`]`    | {*s*} where *s* consists only of a single character not in *S*(*w*) |
+| `.`           | {*s*} where *s* consists only of a single character |
+
+: Regular Expression Semantics
+
+
+| Expression | Character Set  |
+|:-----------|:---------------|
+| *gw*         | *S*(*g*) ∪ *S*(*w*) |
+| *c*′          | the single character *c*′ |
+| `\n`          | the single character U+000A |
+| `\r`          | the single character U+000D |
+| `\t`          | the single character U+0009 |
+| `\`*e*        | the single character *e* |
+| *C*~1~`-`*C*~2~ | any single character *x* such that *C*~1~ ≤ x ≤ *C*~2~ |
 
 : Character Class Semantics
 
