@@ -186,7 +186,7 @@ adjusted as necessary to reflect the more narrow dialect needed for this project
     charClass ::= posCharClass | negCharClass | wildcard
     posCharClass ::= '[' charRange+ ']'
     charRange ::= classChar | classChar '-' classChar
-    classChar ::= [^.\|&$#x2D#x5B#x5D#5E]
+    classChar ::= [^.\|&$#x2D#x5B#x5D#5E] | escapedChar
     negCharClass ::= '[^` charRange+ ']'
     wildcard ::= '.'
 
