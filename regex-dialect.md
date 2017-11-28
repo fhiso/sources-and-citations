@@ -1,3 +1,6 @@
+---
+title: Regular Expressions
+...
 Regular Expressions
 -------------------
 
@@ -69,7 +72,7 @@ Normal Character
 
     The **metacharacters** are '`.`', '`\`', '`?`', '`*`', '`+`', '`{`', '`}`', '`(`', '`)`', '`|`', '`[`', and '`]`'.
 
-    The **banned characters** are '`^`', '`$`', '`&`', '`/`', and the escapable control characters U+0000, U+0009, U+000A, and U+000D.
+    The **banned characters** are '`^`', '`$`', '`&`', '`/`', and the escapable control characters U+0009, U+000A, and U+000D.
 
 {.note} The above requires metacharacters not appear as normal characters unescaped. Some dialects are more permissive, allowing e.g. `}` to appear unescaped, but that is prohibited in this specification.
 
@@ -83,7 +86,6 @@ Escaped Character
     
     | Escaped Character | Represents               |
     |-------------------|--------------------------|
-    | `\0` | U+0000 (null) |
     | `\t` | U+0009 (tab) |
     | `\n` | U+000A (line feed) |
     | `\r` | U+000D (carriage return) |
@@ -141,12 +143,12 @@ Character Range
     A character is within a two-character *character range* if its code point is ≥ the first character's code point and ≤ the second character's code point.
 
 Class Character
-:   A **class character** is either an *escaped character* or a single character that is neither a *class metachracter* nor a *banned character*.
+:   A **class character** is either an *escaped character* or a single character that is neither a *class metacharacter* nor a *banned character*.
 
     The **class metacharacters** are '`.`', '`\`', '`-`', '`|`', '`[`', and '`]`'.
 
 Negative Character Class
-:   A **negative character class** is a set of one or more *character ranges*, preceeded by U+005E `^`, within brackets.
+:   A **negative character class** is a set of one or more *character ranges*, preceded by U+005E `^`, within brackets.
 
         negCharClass ::= '[^` charRange+ ']'
     
@@ -159,7 +161,179 @@ Wildcard
     
     The language of a *wildcard* is the set of all single-character strings.
 
-{.note} The above definition includes new line characters in the langauge of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
+{.note} The above definition includes new line characters in the language of `.`. When using an engine that does not do so, replace all `.` with something else, such as `(.|[\r\n])`, `(.|\s)`, or `[\s\S]`. Which one works depends on the engine in question.
+
+CFG + Semantics
+---------------
+
+This section contains an alternative presentation of the above material.
+It is more succinct, but that may or may not be a positive characteristic.
+
+### Regular Expression Grammar
+
+Every regular expression must follow the production `regExp` in the following grammar.
+This grammar is modeled after that defined in XML Schema <https://www.w3.org/TR/xmlschema-2/#regexs>,
+adjusted as necessary to reflect the more narrow dialect needed for this project
+
+    regExp ::= branch ( '|' branch )*
+    branch ::= piece piece*
+    piece ::= atom quantifier?
+    quantifier ::= [?*+] | ( '{' quantity '}' )`
+    quantity ::= quantRange | quantMin | QuantExact
+    quantRange ::= QuantExact ',' QuantExact
+    quantMin ::= QuantExact ','
+    QuantExact ::= 0 | [1-9] [0-9]*
+    atom ::= NormalChar | escapedChar | charClass | '(' regExp ')'
+    NormalChar ::= [^.\?*+(){}|&$#x5B#x5D#5E]
+    escapedChar ::= '\' [.\?*+(){}|&$#x2D#x5B#x5D#x5E]
+    charClass ::= posCharClass | negCharClass | wildcard
+    posCharClass ::= '[' charRange+ ']'
+    charRange ::= classChar | classChar '-' classChar
+    classChar ::= [^.\|&$#x2D#x5B#x5D#5E] | escapedChar
+    negCharClass ::= '[^` charRange+ ']'
+    wildcard ::= '.'
+
+
+### Semantics Tables
+
+The following tables provide the complete semantics of regular expressions.
+
+### Metacharacters
+
+The following metacharacters are used in the semantics tables.
+
+| Metacharacter | Meaning                                             |
+|:-----|:-------------------------------------------------------------|
+| $c$ | a *normal character* |
+| $c'$ | a *class character* |
+| $e$ | a *metacharacter*, a *banned character*, or U+002D |
+| $s$, $s_1$, ... | a string |
+| $i$, $i_1$, ... | a positive integer |
+| $s_1 s_2$     | a string made of the characters in $s_1$ followed by the characters in $s_2$ |
+| $\epsilon$ | the empty string |
+| $r$ | a *regular expression* |
+| $a$ | an *atom* |
+| $b$ | a *branch* |
+| $p$ | a *piece* |
+| $w$ | a *positive character class* |
+| $g$ | a *character range* |
+| $L(...)$ | the *language* of a regular expression |
+| $S(...)$ | the *character set* of a character class |
+| $C$, $C_1$, ... | a *class character* or U+005C followed by a character |
+
+: Metacharacters used in semantics tables
+
+### Semantics Tables
+
+The following table provides the semantics of regular expressions.
+
+| Expression | Language                                                |
+|:-----------|:--------------------------------------------------------|
+| $b$`|`$r$     | $\{s \;|\; s \in L(b) \mbox{ or } s \in L(r)\}$ |
+| $p b$         | $\{s_1 s_2 \;|\; s_1 \in L(p) \mbox{ and } s_2 \in L(b)\}$ |
+| $c$           | $\{s\}$ where $s$ consists only of the single character $c$ |
+| `\n`          | $\{s\}$ where $s$ consists only of the single character U+000A |
+| `\r`          | $\{s\}$ where $s$ consists only of the single character U+000D |
+| `\t`          | $\{s\}$ where $s$ consists only of the single character U+0009 |
+| `\`$e$        | $\{s\}$ where $s$ consists only of the single character $e$ |
+| $a$`?`        | $\{\epsilon\} \;\cup\; L(a)$ |
+| $a$`*`        | $\{\epsilon\} \;\cup\; L(a$`+`$)$ |
+| $a$`+`        | $\{s_1 s_2 \;|\; s_1 \in L(a) \mbox{ and } s_2 \in L(a$`*`$)\}$ |
+| $a$`{0,0}`    | $\{\epsilon\}$ |
+| $a$`{0,`$i$`}`| $\{\epsilon\} \;\cup\; L(a a$`{0,`$i-1$`}`$)$ |
+| $a$`{`$i_1$`,`$i_2$`}`| $L(a a$`{`$i_1-1$`,`$i_2-1$`}`$)$ |
+| $a$`{0,}`     | $L(a$`*`$)$ |
+| $a$`{`$i$`,}` | $L(a a$`{`$i-1$`,}`$)$ |
+| `(`$r$`)`     | $L(r)$ |
+| `[`$w$`]`     | $\{s\}$ where $s$ consists only of a single character in $S(w)$ |
+| `[^`$w$`]`    | $\{s\}$ where $s$ consists only of a single character not in $S(w)$ |
+| `.`           | $\{s\}$ where $s$ consists only of a single character |
+
+: Regular Expression Semantics
+
+
+The following table provides the semantics of character classes.
+
+
+| Expression | Character Set  |
+|:-----------|:---------------|
+| $g w$         | $S(g) \;\cup\; S(w)$ |
+| $c'$          | the single character $c'$ |
+| `\n`          | the single character U+000A |
+| `\r`          | the single character U+000D |
+| `\t`          | the single character U+0009 |
+| `\`$e$        | the single character $e$ |
+| $C_1$`-`$C_2$ | any single character $x$ such that $C_1 \le x \le C_2$ |
+
+: Character Class Semantics
+
+
+### Same tables, different syntax
+
+{.ednote} This section is intended to be a clone of the previous section's tables, but written using UTF-8 and basic markdown instead of \$-delimited math mode. Both included as a test to see if one or the other is better for conversion to HTML and PDF.
+
+
+| Metacharacter | Meaning                                         |
+|:-----|:---------------------------------------------------------|
+| *c* | a *normal character* |
+| *c*′ | a *class character* |
+| *e* | a *metacharacter*, a *banned character*, or U+002D |
+| *s*, *s*<sub>1</sub>, ... | a string |
+| *i*, *i*<sub>1</sub>, ... | a positive integer |
+| *s*<sub>1</sub>*s*<sub>2</sub> | a string made of the characters in *s*<sub>1</sub> followed by the characters in *s*<sub>2</sub> |
+| ε   | the empty string |
+| *r* | a *regular expression* |
+| *a* | an *atom* |
+| *b* | a *branch* |
+| *p* | a *piece* |
+| *w* | a *positive character class* |
+| *g* | a *character range* |
+| *L*(...) | the *language* of a regular expression |
+| *S*(...) | the *character set* of a character class |
+| *C*, *C*<sub>1</sub>, ... | a *class character* or U+005C followed by a character |
+
+: Metacharacters used in semantics tables
+
+
+
+| Expression | Language                                                |
+|:-----------|:--------------------------------------------------------|
+| *b*`|`*r*     | {*s* \| *s* ∈  *L*(*b*) or *s* ∈  *L*(*r*)} |
+| *pb*       | {*s*<sub>1</sub>*s*<sub>2</sub> \| *s*<sub>1</sub> ∈  *L*(*p*) and *s*<sub>2</sub> ∈  *L*(*b*)} |
+| *c*           | {*s*} where *s* consists only of the single character *c* |
+| `\n`          | {*s*} where *s* consists only of the single character U+000A |
+| `\r`          | {*s*} where *s* consists only of the single character U+000D |
+| `\t`          | {*s*} where *s* consists only of the single character U+0009 |
+| `\`*e*        | {*s*} where *s* consists only of the single character *e* |
+| *a*`?`        | {ε} ∪ *L*(*a*) |
+| *a*`*`        | {ε} ∪ *L*(*a*`+`) |
+| *a*`+`        | {*s*<sub>1</sub> *s*<sub>2</sub> \| *s*<sub>1</sub> ∈ L(a) and *s*<sub>2</sub> ∈ *L*(*a*`*`)} |
+| *a*`+`        | {*s*<sub>1</sub>*s*<sub>2</sub> \| *s*<sub>1</sub> ∈  *L*(*a*) and *s*<sub>2</sub> ∈  *L*(*a*`*`)} |
+| *a*`{0,0}`    | {ε} |
+| *a*`{0,`*i*`}`| {ε} ∪ *L*(*aa*`{0,`*i* − 1`}`) |
+| *a*`{`*i*<sub>1</sub>`,`*i*<sub>2</sub>`}`| *L*(*aa*`{`*i*<sub>1</sub> − 1`,`*i*<sub>2</sub> − 1`}`) |
+| *a*`{0,}`     | *L*(*a*`*`) |
+| *a*`{`*i*`,}` | *L*(*aa*`{`*i* − 1`,}`) |
+| `(`*r*`)`     | *L*(*r*) |
+| `[`*w*`]`     | {*s*} where *s* consists only of a single character in *S*(*w*) |
+| `[^`*w*`]`    | {*s*} where *s* consists only of a single character not in *S*(*w*) |
+| `.`           | {*s*} where *s* consists only of a single character |
+
+: Regular Expression Semantics
+
+
+| Expression | Character Set  |
+|:-----------|:---------------|
+| *gw*         | *S*(*g*) ∪ *S*(*w*) |
+| *c*′          | the single character *c*′ |
+| `\n`          | the single character U+000A |
+| `\r`          | the single character U+000D |
+| `\t`          | the single character U+0009 |
+| `\`*e*        | the single character *e* |
+| *C*<sub>1</sub>`-`*C*<sub>2</sub> | any single character *x* such that *C*<sub>1</sub> ≤ x ≤ *C*<sub>2</sub> |
+
+: Character Class Semantics
+
 
 
 Dialect Guide
@@ -174,63 +348,51 @@ Following are some suggestions for making regular expressions in the above diale
 C++11 std::regex
 :   Use the `ECMAScript` variety and `regex_match` (not `regex_search`).
     Replace non-escaped `.` with `(.|\s)`.
-    Proper use of `\0` is not yet known.
 
 C++ boost::regex
 :   Use the `ECMAScript` variety.
-    How to ensure full match not known.
-    Proper use of `\0` is not yet known.
+    How to ensure full match not known to the author of this document.
 
 ECMAScript
 :   Surround expression with `^(`...`)$`.
     Replace non-escaped `.` with `(.|\s)`.
-    Leave `\0` as is.
 
 Java
 :   Surround expression with `^(?s`...`)$`.
-    Proper use of `\0` is not yet known.
 
 .NET
 :   Use the `RegexOptions.Multiline` option or replace non-escaped `.` with `(.|\n)`.
     Surround expression with `^(`...`)$`.
-    Proper use of `\0` is not yet known.
 
 Perl
 :   Use `m/^(`...`)$/s`. 
-    Proper use of `\0` is not yet known.
 
 
 PCRE
 :   Use the `PCRE_UTF8` option.
     Surround expression with `^(`...`)$`.
-    Proper use of `\0` is not yet known.
 
 PCRE2
 :   Use the `PCRE2_UTF` and `PCRE2_DOTALL` options.
-    Replace `\0` with `\x{0}`.
     Surround expression with `^(`...`)$`.
 
 PHP
 :   Surround expression with `/^(`...`)$/us` with the `preg_`... functions.
-    Proper use of `\0` is not yet known.
 
 POSIX
 :   Requires extensive modifications.
-    Basic mode swaps what gets escaped and what does not.
+    Basic mode required escaping metacharacters.
     Things that do not require escaping may forbid escaping and require pre-processing to strip `\`s.
 
 Python
 :   Use the `re.DOTALL` option.
-    In Python 3.4 and later, use the `fullmatch` function; otherwise use `match` and append a `$` to the expression.
-    Leave `\0` as is.
+    In Python 3.4 and later, use the `fullmatch` function; otherwise use `match` and surround the expression with `(`...`)$`.
 
 Ruby
 :   Surround expression with `/\A(`...`)\Z$/m`.
-    Proper use of `\0` is not yet known.
     
 XML
-:   Replace `.` with `[\s\S]`.
-    Proper use of `\0` is not yet known.
+:   Replace non-escaped `.` with `[\s\S]`.
 
 
 Comments
