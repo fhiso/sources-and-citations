@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 1 November 2017
+date: 26 November 2017
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -360,75 +360,6 @@ general mechanism for describing *sources* may well include such
 elements, but they are beyond the scope of this standard.
 
 ## Datatypes
-
-### Language-tagged datatypes
-
-A **language-tagged datatype** is a *datatype* whose value consists of
-both a *string* from the *lexical space* of the *datatype* and a
-*language tag* to identify the language in which that particular
-*string* is written.  
-
-{.note} The *language tag* is not itself part of the *lexical space* of
-the *datatype*, and is not embedded in the *string*, but is stored
-alongside it.
-
-*Language-tagged datatypes* *should* be used whenever a *datatype* is
-needed to represent textual data that is in a particular
-language or script and which cannot automatically be translated or
-transliterated as required, and *should not* be used otherwise.
-
-{.example}  In a context where a year Anno Domini is required, a
-*language-tagged datatype* *should not* be used, and the *lexical space*
-of the *datatype* should encompass *strings* like, say, "`2015`".  Even
-though an application designed for Arabic researchers might need to
-render this year as "<span dir="rtl">٢٠١٥</span>" using Eastern Arabic
-numerals, this conversion can be done entirely in the application's user
-interface, so a *language-tagged datatype* is not required and 
-*should not* be used.
-
-{.example ...}  The [CEV Vocabulary] defines a *datatype* for
-representing the names of authors and other people, which has the
-following *term name*:
-
-    https://terms.fhiso.org/sources/AgentName
-
-A person's name is rarely translated in usual sense, but may be
-transliterated.  For example, the name of Andalusian historian 
-<span dir="rtl">صاعد الأندلسي</span> might be transliterated
-"Ṣā‘id al-Andalusī" in the Latin script.  Because machine
-transliteration is far from perfect, a *language-tagged datatype*
-*should* be used to allow an application to store both names.
-
-An author's names may also be respelled to conform to the spelling and
-grammar rules of the reader's language.  An Englishman named Richard may
-be rendered "Rikardo" in Esperanto: the change of the "c" to a "k" being
-to conform to Esperanto orthography, while the final "o" marks it as a
-noun.  The respelling would be tagged `eo`, the language code for
-Esperanto.
-{/}
-
-*Patterns* may be defined for *language-tagged datatypes* as for other
-*datatypes*.  Because *patterns* only constrain the *lexical space* of
-the *datatype*, they cannot be used to constrain the *language tag* in
-the value of a *language-tagged datatype*.
-
-A *datatype* that is not a *language-tagged datatype* is called a
-**non-language-tagged datatype**.
-
-{.note}  This means the classification of *datatypes* as
-*language-tagged* or *non-language-tagged* is orthogonal to their
-classification as *structured* or *unstructured*.  It is anticipated
-that most *non-language-tagged datatypes* will be *structured datatype*.
-
-{.example}  The `AgentName` datatype from the previous example is a
-microformat which is constrained by a *pattern* meaning it is a
-*structured datatype*, but it is also a *language-tagged datatype* as
-names can be translated and transliterated.
-
-*Subtypes* may be defined of *language-tagged datatypes* as well as of
-other *datatypes*.  If the *supertype* is a *language-tagged datatype*
-then the *subtype* *must* also be; and if the *supertype* is not a
-*language-tagged datatype* then the *subtype* *must not* be.
 
 ### Abstract datatypes
 
