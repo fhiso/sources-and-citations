@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 26 November 2017
+date: 17 January 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -361,34 +361,9 @@ elements, but they are beyond the scope of this standard.
 
 ## Datatypes
 
-### Abstract datatypes
-
-A *datatype* *may* be defined to be a **abstract datatype**.  An
-*abstract datatype* is one that *must* only be used as a *supertype* of
-other types.  A *string* *must not* be declared to have a *datatype*
-which is an *abstract datatype*.  *Abstract datatypes* *may* specify a
-*pattern* and *shall* have a *lexical space*.
-
-{.note} The *lexical space* of an *abstract datatype* and any *pattern*
-defined on it serve to restrict the *lexical space* of all its
-*subtypes*.  If no such restriction is desired, the *lexical space* may
-be defined as the space of all *strings*.
-
-The *property* that represents whether or not a *datatype* is an
-*abstract datatype* has the following *property name*:
-
-    https://terms.fhiso.org/types/isAbstract
-
-{.ednote}  The intention is that the *range* of this *property* will be
-a boolean.
-
-{.ednote}  Are *abstract datatypes* a necessary part of our data model
-at all?  They were introduced to allow an `AbstractDate` *datatype*, but
-is it necessary for this datatype to be an *abstract datatype*?
-
 ### Built-in datatypes
 
-This standard gives special treatment to three *datatypes* defined in
+This standard gives special treatment to two *datatypes* defined in
 third-party standards.   
 
 #### The `rdf:langString` datatype
@@ -425,46 +400,6 @@ datatypes*, nor of all *datatypes*.
 but this needs careful consideration of the differences between
 *datatypes* in XML Schema, RDF and this standard.  At present there is
 no compelling need for either of these additional *supertypes*.
-
-#### The `xsd:string` datatype
-
-This standard makes limited use of the `xsd:string` *datatype* defined
-in §3.3.1 of &#x5B;[XSD Pt2](https://www.w3.org/TR/xmlschema11-2/)]. 
-This is an *unstructured non-language-tagged datatype* which has the
-following properties:
-
-------           -----------------------------------------------
-Name             `http://www.w3.org/2001/XMLSchema#string`
-Pattern          `.*`
-Supertype        *none*
-Abstract         no
-------           -----------------------------------------------
-
-It is a general-purpose *datatype* whose lexical space is the space of
-all *strings*; however it is not a *language-tagged datatype* and
-therefore it *should not* be used to contain text in a human-readable
-natural language.
-
-{.note}  This type is not the ultimate *supertype* of all
-*non-language-tagged* datatypes.  This is because many other XML Schema
-*datatypes*, including `xsd:date` and `xsd:integer` are not defined as
-*subtypes* of `xsd:string` in XML Schema. 
-
-Use of this *datatype* is generally *not recommended*: data that is in
-a human-readable form *should* use a *language-tagged datatype*, while
-data that is not human-readable *should* use a *structured datatype*.
-
-If an application encounters a *string* with the `xsd:string`
-*datatype*, it *may* change the *datatype* to `rdf:langString` and
-assign the *string* a *language tag* of `und`, meaning an undetermined
-language.
-
-{.note} The `xsd:string` *datatype* is included in this standard in
-order to align this data model more closely with the RDF data model, and
-in particular the [CEV RFDa] bindings which use this *datatype* as the
-default when no *language tag* is present.  The above rule allowing
-conversion to `rdf:langString` means that applications *may* ignore the
-`xsd:string` *datatype*.
 
 #### The `rdfs:Resource` datatype
 
@@ -715,7 +650,7 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* defined in §2.3.1 of this standard.
+`rdf:langString` *datatype* defined in §2.2.1 of this standard.
 
 {.note}  This is called the *format default datatype* to avoid confusion
 with the *default datatype* defined per *citation element term* in §4.4
