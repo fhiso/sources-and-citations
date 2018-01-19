@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 17 January 2018
+date: 19 January 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -764,12 +764,28 @@ In addition, the definition *shall* state:
     *multi-valued*, as defined §4.3; and
 *   an *optional* *default datatype*, as defined in §4.4. 
 
-The *class* of *citation element terms* has the following *class name*:
+The *class* of *citation element terms* has the following *class name* 
+and *properties*:
 
-    https://terms.fhiso.org/sources/CitationElement
+: Class definition
 
-{.ednote}  Care is needed to ensure this is not contradictory, because
-*citation element terms* are used as *properties* in RDF.
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/CitationElement`
+
+Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+
+Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`<br/>
+                    `https://terms.fhiso.org/sources/elementRangeMember`<br/>
+                    `https://terms.fhiso.org/sources/elementRangeSize`<br/>
+                    `https://terms.fhiso.org/sources/cardinality`
+------              -----------------------------------------------------------
+
+{.ednote}  The *super-element* and *default datatype* are not listed as
+*required properties* because they are *optional*.  It would be possible
+to make them *required* and use `rdfs:Literal` and/or `rdfs:Resource` to
+mean there is no meaningful *default datatype*, and the *citation
+element name* itself or `rdfs:Resource` to mean there is no
+*super-element*.
 
 ### Sub-elements
 
@@ -820,9 +836,17 @@ Any *sub-element* of a *single-valued* *super-element* *must* be
 *single-valued*.
 
 The *property* representing the *super-element* of a *citation element
-term* has the following *property name*:
+term* is defined as follows:
 
-    https://terms.fhiso.org/sources/subElementOf
+: Property definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/subElementOf`
+
+Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
+Range               `https://terms.fhiso.org/sources/CitationElement`
+------              -----------------------------------------------------------
 
 The **super-element list** of a *citation element term* is an ordered
 list of IRIs defined inductively as follows.  If the *citation element
@@ -907,16 +931,32 @@ of date types has been finalised.  In particular, the IRI of
 `AbstractDate` has not been discussed yet.
 
 The *property* representing an individual *datatype* from the *range* of
-a *citation element term* has the following *property name*:
+a *citation element term* is defined as follows:
 
-    https://terms.fhiso.org/sources/elementRangeMember
+: Property definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/elementRangeMember`
+
+Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
+Range               `http://www.w3.org/2000/01/rdf-schema#Datatype`
+------              -----------------------------------------------------------
 
 As a way of checking for data integrity during *discovery*, an
 additional *property* is provided representing the number of *datatypes*
-in the *range* of the *citation element term*.  It has the following
-*property name*:
+in the *range* of the *citation element term*.  It is defined as
+follows:
 
-    https://terms.fhiso.org/sources/elementRangeSize
+: Property definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/elementRangeSize`
+
+Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
+Range               `http://www.w3.org/2001/XMLSchema#integer`
+------              -----------------------------------------------------------
 
 Applications *must not* assume they know the *range* of a *citation
 element term* unless they have received both a `elementRangeSize` and a
@@ -1038,9 +1078,17 @@ that is defined to be *multi-valued* to accommodate *sources* with
 several authors.
 
 The *property* representing the *cardinality* of a *citation element
-term* has the following *property name*:
+term* is defined as follows:
 
-    https://terms.fhiso.org/sources/cardinality
+: Property definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/cardinality`
+
+Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
+Range               *See editorial note below*
+------              -----------------------------------------------------------
 
 {.ednote}  What should its *range* be?  We could follow [XSD Pt1] and
 use strings `1` and `unbounded`, perhaps as part of a {`0`, `1`, `∞`}
@@ -1177,13 +1225,16 @@ and this standard provides a facility to allow such formats to comply
 with this standard by introducing a special *citation element term* with
 the following properties:
 
-------           -----------------------------------------------
-Name             `https://terms.fhiso.org/sources/localisedElement`     
-Range            *unspecified*
-Cardinality      multi-valued
-Super-element    *none*
-Default datatype *none*
-------           -----------------------------------------------
+: Citation element definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/localisedElement`     
+Type                `https://terms.fhiso.org/sources/CitationElement`
+Range               *unspecified*
+Cardinality         multi-valued
+Super-element       *none*
+Default datatype    *none*
+------              -----------------------------------------------------------
 
 {.note} This `localisedElement` *citation element term* has no *range*
 specified.  No other *citation element terms* defined in accordance with
@@ -1260,9 +1311,17 @@ a *datatype* that is *compatible* with the *range* of the *citation
 element term*.
 
 The *property* representing the *default datatype* of a *citation
-element term* has the following *property name*:
+element term* is defined as follows:
 
-    https://terms.fhiso.org/sources/defaultDatatype
+: Property definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/defaultDatatype`
+
+Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
+Range               `http://www.w3.org/2000/01/rdf-schema#Datatype`
+------              -----------------------------------------------------------
 
 *Datatype correction* *shall not* be carried out unless the *datatype*
 of the *string* prior to *datatype correction* is one of the following
@@ -1505,9 +1564,18 @@ derivation type*.  If this document is ready for standardisation at the
 same time as this document, the previous paragraph will be updated to
 reference it.
 
-The *class* of *source derivation types* has the following *class name*:
+The *class* of *source derivation types* has the following *class name*
+and *properties*:
 
-    https://terms.fhiso.org/sources/SourceDerivationType
+: Class definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/SourceDerivationType`
+
+Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+
+Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
+------              -----------------------------------------------------------
 
 #### Requirements for layer derivation links
 
