@@ -314,7 +314,7 @@ the same as specified here.
  
 The application *shall* first parse the *host language* according to the
 applicable standards for the *host language*.  The application *may*
-carry out any for of validation that is defined for the *host language*
+carry out any form of validation that is defined for the *host language*
 and reject input that fails.  The application *may* also accept input
 that is not well-formed according to the rules of the *host language*,
 and parse it in some implementation-defined manner.  It is *recommended*
