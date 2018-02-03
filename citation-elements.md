@@ -999,6 +999,9 @@ Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
 Range               `http://www.w3.org/2001/XMLSchema#integer`
 ------              -----------------------------------------------------------
 
+{.ednote}  Should this use `xsd:positiveInteger` instead?  If so, this
+type should be mentioned in [Basic Concepts].
+
 Applications *must not* assume they know the *range* of a *citation
 element term* unless they have received both a `elementRangeSize` and a
 matching number of distinct `elementRangeMember`s.
