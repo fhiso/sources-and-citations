@@ -1574,7 +1574,7 @@ case of derivation supported in this data model:
 
 ------              -----------------------------------------------------------
 Name                `https://terms.fhiso.org/sources/derivedFrom`
-Type                `https://terms.fhiso.org/sources/SourceDerivationType`
+Type                `https://terms.fhiso.org/sources/SourceDerivation`
 ------              -----------------------------------------------------------
 
 {.ednote}  Should we reuse the `prov:wasDerivedFrom` or
@@ -1603,7 +1603,7 @@ and *properties*:
 : Class definition
 
 ------              -----------------------------------------------------------
-Name                `https://terms.fhiso.org/sources/SourceDerivationType`
+Name                `https://terms.fhiso.org/sources/SourceDerivation`
 
 Type                `http://www.w3.org/2000/01/rdf-schema#Class`
 

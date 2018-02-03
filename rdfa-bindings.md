@@ -648,6 +648,30 @@ the following IRIs:
     https://terms.fhiso.org/sources/Source
     https://terms.fhiso.org/sources/CitedSource
 
+{.ednote ...}  Either this standard or another will need to define
+exactly what these IRIs.  They probably need to be *class names*
+
+: Class definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/Source`
+Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
+------              -----------------------------------------------------------
+
+: Class definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/CitedSource`
+Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
+Superclass          `https://terms.fhiso.org/sources/CitedSource`
+------              -----------------------------------------------------------
+
+Note that the later definition uses the notion of a *superclass* which
+does not currently exist in [Basic Concepts].
+{/}
+
 HTML or XML content is only considered to be part of a *formatted
 citation* if it is a *source-type element* or is contained within one. 
 
@@ -854,11 +878,12 @@ Otherwise, if the application can infer the RDF type of the subject of
 the RDF triple to be one of the two previous IRIs, the triple *should*
 be considered a *citation element triple*.
 
-{.note}  The term "infer" is meant broadly, and includes inferences made
-through entailment regimes, as defined in [RDF Semantics].  Support for
-any such inference mechanism is completely *optional*.
+{.note}  The word "infer" is intended to be interpreted broadly, and
+includes inferences made through entailment regimes, as those defined in
+[RDF Semantics].  Support for any such inference mechanism is completely
+*optional*.
  
-Otherwise, the RDF triple *should not* be considered a *citation element
+Otherwise, the RDF triple *should* be considered a *citation element
 triple*.
 
 ## Parsing citation elements
