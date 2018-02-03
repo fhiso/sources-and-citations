@@ -1264,6 +1264,10 @@ Default datatype    *none*
 specified.  No other *citation element terms* defined in accordance with
 this standard may have an unspecified *range*.
 
+{.ednote} This is contrary to the fact that the *range* is a *required
+property* of a *citation element*.  This will probably require us to
+introduce `rdfs:Literal` as a magic value to represent any *datatype*.
+
 In a *list-flattening format*, an application *must* consider every
 value to be a separate *citation element value*, and therefore to be a
 *localisation set* with one element.
@@ -1563,10 +1567,15 @@ by a single *source derivation type*.
 
 The **source derivation type** *shall* be either an IRI defined in
 accordance with a future FHISO standard on source derivation types, or
-the following IRI which represents the most general case of derivation
-supported in this data model:
+the following `cev:derivedFrom` IRI which represents the most general
+case of derivation supported in this data model:
 
-    https://terms.fhiso.org/sources/derivedFrom
+: Source derivation type definition
+
+------              -----------------------------------------------------------
+Name                `https://terms.fhiso.org/sources/derivedFrom`
+Type                `https://terms.fhiso.org/sources/SourceDerivationType`
+------              -----------------------------------------------------------
 
 {.ednote}  Should we reuse the `prov:wasDerivedFrom` or
 `prov:wasInfluencedBy` properties from 
