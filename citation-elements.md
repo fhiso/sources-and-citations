@@ -363,43 +363,10 @@ elements, but they are beyond the scope of this standard.
 
 ### Built-in datatypes
 
-This standard gives special treatment to two *datatypes* defined in
-third-party standards.   
+This standard gives special treatment to *datatype* defined in a
+third-party standard.
 
-#### The `rdf:langString` datatype
-
-Any *language-tagged datatype* that is not defined to be a *subtype* of
-some other *datatype* *shall* implicitly be considered to be a *subtype*
-of the `rdf:langString` datatype defined in §2.5 of [RDFS].  This
-*datatype* is an *unstructured language-tagged datatype* and has the
-following properties:
-
-------           -----------------------------------------------
-Name             `http://www.w3.org/1999/02/22-rdf-syntax-ns#langString`
-Pattern          `.*`
-Supertype        *none*
-Abstract         no
-------           -----------------------------------------------
-
-{.note} Although this type is formally defined in the RDF Schema
-specification, this standard requires no knowledge of RDF; an
-implementer may safely use this *datatype* using just the information
-given in this section, and without reading [RDFS].
-
-No constraints are placed on the *lexical space* of this *datatype*;
-the only restriction placed on the use or semantics of this *datatype*
-is that it *should* contain text in a human-readable form.  
-
-{.note} This type is the ultimate *supertype* of all *language-tagged
-datatypes*.  This standard does not specify a comparable *datatype*
-which acts as the ultimate *supertype* of all *non-language-tagged
-datatypes*, nor of all *datatypes*.
-
-{.ednote}  Possibly one or more of the `rdfs:Resource`, `rdfs:Literal`,
-`xsd:anyType`, `xsd:anySimpleType` and `xsd:anyAtomicType` would serve,
-but this needs careful consideration of the differences between
-*datatypes* in XML Schema, RDF and this standard.  At present there is
-no compelling need for either of these additional *supertypes*.
+{.ednote} This *datatype* needs moving to [Basic Concepts].
 
 #### The `rdfs:Resource` datatype
 
@@ -1635,11 +1602,6 @@ not require that the graph be acyclic.
     639-2:1998.  Codes for the representation of names of languages
     &mdash; Part 2: Alpha-3 code*.  1998.  (See
     <http://www.loc.gov/standards/iso639-2/>.)
-
-[RDFS]
-:   W3C (World Wide Web Consortium). *RDF Schema 1.1*.
-    W3C Recommendation, 2014.
-    (See <https://www.w3.org/TR/rdf-schema>.)
 
 [RFC 2119]
 :   IETF (Internet Engineering Task Force).  *RFC 2119:  Key words for
