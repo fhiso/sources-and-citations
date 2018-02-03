@@ -426,40 +426,6 @@ by an IRI.  But there may be a use case to make the two interchangeable,
 much as `xsd:string` is with an `rdf:langString` tagged with the
 *language tag* `und`.
 
-### Unions of datatypes
-
-A **union of datatypes** is an unordered list of one or more different
-datatypes.
-
-{.note} As defined in this standard, a *union of datatypes* is not
-itself a *datatype* as it lacks a *term name* to identify it, may not
-have a *pattern*, and cannot be used as a *subtype* or *supertype*.
-This is just a matter of nomenclature, and a future version of this
-standard might broaden the definition of a *datatype* to allow a *union*
-to be a *datatype*.
-
-A *union of datatypes* *may* contain *language-tagged datatypes*,
-*non-language-tagged datatypes*, or a mixture of both.
-
-The **lexical space** of a *union of datatypes* is the union of the
-*lexical space* of each of its constituent *datatypes*.
-
-{.note}  There is no requirement that the *lexical spaces* of each
-constituent *datatype* be disjoint.
-
-{.example ...}  *Unions of datatypes* are used as the *range* of
-*citation elements*, as defined in §4.2.  In several cases a *union* of
-the following two *datatypes* is used:
-
-    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    https://terms.fhiso.org/dates/AbstractDate
-
-The former is an *unstructured datatype*, while the latter is an
-*abstract datatype* which serves as the *supertype* for various
-*structured datatypes* for dates.  The inclusion of an *abstract
-datatype* provides a point of extensibility.
-{/}
-
 ## Citations elements
 
 In the data model defined by this standard, a *citation element*
@@ -617,7 +583,7 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* defined in §2.2.1 of this standard.
+`rdf:langString` *datatype* described in §5.5.4 of [Basic Concepts].
 
 {.note}  This is called the *format default datatype* to avoid confusion
 with the *default datatype* defined per *citation element term* in §4.4
@@ -711,7 +677,7 @@ If a *citation element* has a *citation element name* which is an empty
 *localisation set*, that *citation element* *should* be discarded.
 
 {.note} This can occur as the result of removing *invalid* *strings*
-from a previously non-empty *localisation set*, as explained in §4.2.
+from a previously non-empty *localisation set*, as explained in §4.2.3.
 
 ## Defining citation element terms
 
@@ -726,7 +692,8 @@ In addition, the definition *shall* state:
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
     and if so which one, as defined in §4.1;
-*   its *range*: the *datatype* of its value space, as defined in §4.2; 
+*   its *range*: the *union of datatypes* defining its value space, as
+    defined in §4.2; 
 *   its *cardinality*: that is, whether it is *single-valued* or
     *multi-valued*, as defined §4.3; and
 *   an *optional* *default datatype*, as defined in §4.4. 
@@ -856,9 +823,14 @@ The **range** of a *citation element term* is a *union of datatypes*,
 which describes what *citation element values* are valid in a *citation
 element* with this *citation element name*.
 
+#### Unions of datatypes
+
+A **union of datatypes** is an unordered list of one or more different
+*datatypes*.
+
 {.example ...}  The [CEV Vocabulary] defines a *datatype* for
 representing the names of authors and other people, which has the
-following *term name*:
+following *datatype name*:
 
     https://terms.fhiso.org/sources/AgentName
 
@@ -867,6 +839,36 @@ the *range* of several *citation element terms* defined in the
 [CEV Vocabulary] including:
 
     https://terms.fhiso.org/sources/editorName
+{/}
+
+{.note} As defined in this standard, a *union of datatypes* is not
+itself a *datatype* as it lacks a *term name* to identify it, may not
+have a *pattern*, and cannot be used as a *subtype* or *supertype*.
+This is just a matter of nomenclature, and a future version of this
+standard might broaden the definition of a *datatype* so that a *union
+of datatypes* is considered to be a *datatype*.
+
+A *union of datatypes* *may* contain *language-tagged datatypes*,
+*non-language-tagged datatypes*, or a mixture of both.
+
+The **lexical space** of a *union of datatypes* is the union of the
+*lexical space* of each of its constituent *datatypes*.
+
+{.note}  There is no requirement that the *lexical spaces* of each
+constituent *datatype* be disjoint.
+
+{.example ...}  In several cases a *union of datatypes* consisting of
+the following two *datatypes* is used:
+
+    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    https://terms.fhiso.org/dates/AbstractDate
+
+The former is an *unstructured datatype*, while the latter is an
+*abstract datatype* which serves as the *supertype* for various
+*structured datatypes* for dates.  The inclusion of an *abstract
+datatype* provides a point of extensibility.  Because `rdf:langString`
+is an *unstructured datatype*, every possible *string*, including those
+that are valid dates, are part of its lexical space.  
 {/}
 
 *Citation elements terms* with non-textual *citation element values*
@@ -893,9 +895,10 @@ represented in any of the available structured formats.  An example
 might be a termly university publication dated "Michaelmas term, 1997".
 {/}
 
-{.ednote}  The previous example may need revising once FHISO's handling
-of date types has been finalised.  In particular, the IRI of
-`AbstractDate` has not been discussed yet.
+{.ednote}  The previous examples may need revising once FHISO's handling
+of date types has been finalised.
+
+#### Range properties
 
 The *property* representing an individual *datatype* from the *range* of
 a *citation element term* is defined as follows:
@@ -965,6 +968,8 @@ complicated, and would probably best use `owl:unionOf`, e.g.
     ] .
 {/}
 
+#### Invalid citatation element values
+
 A *datatype* is said to be **compatible** with the *range* if either it
 is one of the *datatypes* listed in the *range*, or it is a *subtype* of
 a *datatype* that is *compatible* with the *range*.
@@ -1008,6 +1013,9 @@ the *invalid* *string* to that *datatype*:
     http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     http://www.w3.org/2001/XMLSchema#string
 
+If the *range* contains both of these *datatypes*, applications *should*
+change the *datatype* of an *invalid* *language-tagged string* to
+`rdf:langString`.
 If the *range* does not include either of these *datatypes*,
 applications *may* discard any *strings* that are found to be *invalid*.
 It is *recommended* that this *should* be done prior to *deduplicating*
@@ -1406,7 +1414,7 @@ possible that *data correction* might turn a valid *unstructured string*
 into an *invalid string*.  An application *should not* perform *data
 correction* when it knows the result would be an *invalid string*.
 
-{.note} The mechanism for handling *invalid strings* in §4.2 means that
+{.note} The mechanism for handling *invalid strings* in §4.2.3 means that
 any *invalid string* that is inadvertently created as a result of this
 will be converted back to an `rdf:langString` or `xsd:string` rather
 than being discarded.
