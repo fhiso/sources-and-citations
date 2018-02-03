@@ -122,6 +122,8 @@ The following *prefix* bindings are assumed in this standard:
 `rdf`            `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
 `rdfs`           `http://www.w3.org/2000/01/rdf-schema#`
 `xsd`            `http://www.w3.org/2001/XMLSchema#`
+`types`          `https://terms.fhiso.org/types/`
+`cev`            `https://terms.fhiso.org/sources/`
 ------           -----------------------------------------------
 
 {.note}  The particular *prefixes* assigned above have no relevance
@@ -363,12 +365,9 @@ elements, but they are beyond the scope of this standard.
 
 ### Built-in datatypes
 
-This standard gives special treatment to *datatype* defined in a
-third-party standard.
+#### The `rdfs:Resource` datatype
 
 {.ednote} This *datatype* needs moving to [Basic Concepts].
-
-#### The `rdfs:Resource` datatype
 
 This standard also makes use of the `rdfs:Resource` type defined in §2.1
 of [RDFS] as the class of everything that can be expressed in RDF.  In
@@ -823,6 +822,78 @@ The **range** of a *citation element term* is a *union of datatypes*,
 which describes what *citation element values* are valid in a *citation
 element* with this *citation element name*.
 
+{.note} The word *range* is also defined in §4.4.1 of [Basic Concepts]
+where it is used to describe the permissible *property values* for a
+given *property*.  This is conceptually very similar to the *range*
+defined here for *citation element terms*, and it is normally clear from
+context which type of *range* is meant.  Where ambiguitiy might result,
+the form of *range* defined here may be referred to as the **citation
+element range**, while the form of *range* defined in [Basic Concepts]
+may be referred to as the **property range**.
+
+{.ednote ...}  Ideally these two concepts would be merged, but there are
+non-trivial technical issues involved in doing so which would need
+resolving.  
+
+First, a *citation element* would need to become a type of *property*.
+This is not intrinsically problematic, but it requires us to define the
+notion of a *subclass* which does not currently exist.
+
+For compatibility with existing ontologies, the *range* should continue
+to be defined with the `rdfs:range` *property*.  However it may
+be desirable to provide an additional *property* for the *range* of a
+*citation element term*, e.g. 
+
+    https://terms.fhiso.org/sources/elementRange
+
+... so that the `rdfs:range` of `elementRange` can be `CitationElement`,
+rather than `rdf:Property`.  If so, we should document that
+
+    cev:elementRange rdfs:subPropertyOf rdfs:range .
+
+Because *citation element ranges* would now be defined using
+`rdfs:range` or a sub-property thereof, its value has to be a *class* or
+a *datatype* which currently the *union of datatypes* is not.  To make
+the *union of datatypes* a usable *class* it either needs to be given a
+*class name* IRI or our data model needs to allow anonymous *classes*
+(as the RDF data model does).  *Unions* would also need moving to [Basic
+Concepts].
+
+Some FHISO standard, perhaps a separate RDF bindings, will need to state
+how the `rdfs:range` is formed in RDF terms.  The idiomatic RDF way of
+doing this would probably be to use `owl:unionOf`, e.g.:
+
+    cev:publicationDate rdfs:range [ 
+      a rdfs:Class ;
+      owl:unionOf ( types:AbstractDate rdf:langString ) 
+    ] .
+
+The value of the `owl:unionOf` property is an `rdf:List`, which is an
+ordered linked list *class*, and neatly solves the problem that this
+standard introduces `cev:elementRangeSize` to solve, as missing list
+values in an `rdf:List` can always be detected.  
+
+While introducing `rdf:List` is appealing and potentially solves various
+other problems, it causes implementation difficulties in [Triples
+Discovery].  This is because, for simplicity's sake, we use N-Triples as
+the serialisation format, and N-Triples lacks any clean syntax for 
+representing an `rdf:List`.  Instead, the N-Triples representation would
+involve a Lisp-like representation of the `rdf:List` with a series of
+blank nodes:
+
+    cev:publicationDate rdfs:range _:1 . 
+    _:1 rdf:type rdfs:Class .
+    _:1 owl:unionOf _:2 .
+    _:2 rdf:type rdf:List .
+    _:2 rdf:first types:AbstractDate .
+    _:2 rdf:rest _:3 .
+    _:3 rdf:type rdf:List .
+    _:3 rdf:first rdf:langString .
+    _:3 rdf:rest rdf:nil .
+
+[Triples Discovery] does not currently require support for blank nodes.
+{/}
+
 #### Unions of datatypes
 
 A **union of datatypes** is an unordered list of one or more different
@@ -944,28 +1015,6 @@ discarded as permitted by this section.
 Similar concerns do not apply to the other *properties* described in
 this standard, as if they are missed, the data is treated more rather
 than less permissively.
-{/}
-
-{.ednote ...} The meaning of the *range* defined here is just a special
-case of the *range* of a *property* as defined in [Basic Concepts].
-However it may be desirable to provide an additional *property* for the
-*range* of a *citation element term*, e.g. 
-
-    https://terms.fhiso.org/sources/elementRange
-
-... so that the `rdfs:range` of `elementRange` can be `CitationElement`,
-rather than `rdf:Property`.  If so, we should document that
-
-    <elementRange> rdfs:subPropertyOf rdfs:range .
-
-A standard (ideally a separate RDF bindings) will need to state
-how the `rdfs:range` is formed in RDF terms.  This is likely to be
-complicated, and would probably best use `owl:unionOf`, e.g. 
-
-    <publicationDate> rdfs:range [ 
-      a rdfs:Class ;
-      owl:unionOf ( <AbstractDate> rdf:langString ) 
-    ] .
 {/}
 
 #### Invalid citatation element values
