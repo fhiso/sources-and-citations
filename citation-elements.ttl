@@ -10,7 +10,7 @@
 # §4
 cev:CitationElement
 	rdf:type rdfs:Class ;
-	types:requiredProperty rdf:type, cev:cardinality,
+	types:requiredProperty rdf:type, cev:isSingleValued,
 		cev:elementRangeMember, cev:elementRangeSize .
 
 # §4.1
@@ -28,9 +28,9 @@ cev:elementRangeSize
 	rdfs:range xsd:integer .
 
 # §4.3
-cev:cardinality
+cev:isSingleValued
 	rdf:type rdf:Property ;
-	rdfs:range xsd:string .  # TODO
+	rdfs:range xsd:boolean .
 
 # §4.3.1
 cev:localisedElement

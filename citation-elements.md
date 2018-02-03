@@ -710,7 +710,7 @@ Type                `http://www.w3.org/2000/01/rdf-schema#Class`
 Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`<br/>
                     `https://terms.fhiso.org/sources/elementRangeMember`<br/>
                     `https://terms.fhiso.org/sources/elementRangeSize`<br/>
-                    `https://terms.fhiso.org/sources/cardinality`
+                    `https://terms.fhiso.org/sources/isSingleValued`
 ------              -----------------------------------------------------------
 
 {.ednote}  The *super-element* and *default datatype* are not listed as
@@ -1104,23 +1104,18 @@ element name*; but it *may* contain several
 that is defined to be *multi-valued* to accommodate *sources* with
 several authors.
 
-The *property* representing the *cardinality* of a *citation element
-term* is defined as follows:
+The *cardinality* of a *citation element term* is represented by a
+*boolean* property called `isSingleValued`, which *shall* have the value
+"`true`" for single-valued *citation element terms* and "`false`"
+otherwise.
 
 : Property definition
 
 ------              -----------------------------------------------------------
-Name                `https://terms.fhiso.org/sources/cardinality`
-
+Name                `https://terms.fhiso.org/sources/isSingleValued`
 Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
-
-Range               *See editorial note below*
+Range               `http://www.w3.org/2001/XMLSchema#boolean`
 ------              -----------------------------------------------------------
-
-{.ednote}  What should its *range* be?  We could follow [XSD Pt1] and
-use strings `1` and `unbounded`, perhaps as part of a {`0`, `1`, `∞`}
-datatype, or using `xsd:allNNI`; or we could define *terms* for
-*single-valued* and *multi-valued*.
 
 In a *citation element set* which contains more than one *citation
 element* whose *citation element names* have the same *ultimate
