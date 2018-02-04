@@ -11,43 +11,61 @@
 cev:CitationElement
 	rdf:type rdfs:Class ;
 	types:requiredProperty rdf:type, cev:isSingleValued,
-		cev:elementRangeMember, cev:elementRangeSize .
+		cev:elementRangeMember, cev:elementRangeSize ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#defining-elts> .
 
 # §4.1
 cev:subElementOf
 	rdf:type rdf:Property ;
-	rdfs:range cev:CitationElement .
+	rdfs:range cev:CitationElement ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#sub-elements> .
 
-# §4.2
+# §4.2.2
 cev:elementRangeMember
 	rdf:type rdf:Property ;
-	rdfs:range rdfs:Datatype .
+	rdfs:range rdfs:Datatype ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#range-props> .
 
 cev:elementRangeSize
 	rdf:type rdf:Property ;
-	rdfs:range xsd:integer .
+	rdfs:range xsd:integer ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#range-props> .
 
 # §4.3
 cev:isSingleValued
 	rdf:type rdf:Property ;
-	rdfs:range xsd:boolean .
+	rdfs:range xsd:boolean ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#cardinality> .
 
 # §4.3.1
 cev:localisedElement
 	rdf:type cev:CitationElement ;
 	cev:elementRangeMember rdfs:Literal ; # TODO
 	cev:elementRangeSize 1 ;
-	cev:cardinality "multi" . # TODO
+	cev:isSingleValued false ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#list-flattening> .
 
 # §4.4
 cev:defaultDatatype
 	rdf:type rdf:Property ;
-	rdfs:range rdfs:Datatype .
+	rdfs:range rdfs:Datatype ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#default-datatypes> .
 
 # §5.1
 cev:derivedFrom
-	rdf:type cev:SourceDerivation .
+	rdf:type cev:SourceDerivation ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#layer-derivation> .
 
 cev:SourceDerivation
 	rdf:type rdfs:Class ;
-	types:requiredProperty rdf:type .
+	types:requiredProperty rdf:type ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-concepts#layer-derivation> .
