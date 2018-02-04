@@ -1,0 +1,53 @@
+# This file is written in the [RDF 1.1 Turtle] language.
+# It contains all the RDF triples implied by [CEV Concepts]. 
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix types: <https://terms.fhiso.org/types/> .
+@prefix cev: <https://terms.fhiso.org/sources/> .
+
+# §4
+cev:CitationElement
+	rdf:type rdfs:Class ;
+	types:requiredProperty rdf:type, cev:isSingleValued,
+		cev:elementRangeMember, cev:elementRangeSize .
+
+# §4.1
+cev:subElementOf
+	rdf:type rdf:Property ;
+	rdfs:range cev:CitationElement .
+
+# §4.2
+cev:elementRangeMember
+	rdf:type rdf:Property ;
+	rdfs:range rdfs:Datatype .
+
+cev:elementRangeSize
+	rdf:type rdf:Property ;
+	rdfs:range xsd:integer .
+
+# §4.3
+cev:isSingleValued
+	rdf:type rdf:Property ;
+	rdfs:range xsd:boolean .
+
+# §4.3.1
+cev:localisedElement
+	rdf:type cev:CitationElement ;
+	cev:elementRangeMember rdfs:Literal ; # TODO
+	cev:elementRangeSize 1 ;
+	cev:cardinality "multi" . # TODO
+
+# §4.4
+cev:defaultDatatype
+	rdf:type rdf:Property ;
+	rdfs:range rdfs:Datatype .
+
+# §5.1
+cev:derivedFrom
+	rdf:type cev:SourceDerivation .
+
+cev:SourceDerivation
+	rdf:type rdfs:Class ;
+	types:requiredProperty rdf:type .
