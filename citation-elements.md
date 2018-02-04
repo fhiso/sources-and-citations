@@ -864,7 +864,7 @@ how the `rdfs:range` is formed in RDF terms.  The idiomatic RDF way of
 doing this would probably be to use `owl:unionOf`, e.g.:
 
     cev:publicationDate rdfs:range [ 
-      a rdfs:Class ;
+      a rdfs:Datatype ;
       owl:unionOf ( types:AbstractDate rdf:langString ) 
     ] .
 
@@ -882,7 +882,7 @@ involve a Lisp-like representation of the `rdf:List` with a series of
 blank nodes:
 
     cev:publicationDate rdfs:range _:1 . 
-    _:1 rdf:type rdfs:Class .
+    _:1 rdf:type rdfs:Datatype .
     _:1 owl:unionOf _:2 .
     _:2 rdf:type rdf:List .
     _:2 rdf:first types:AbstractDate .
