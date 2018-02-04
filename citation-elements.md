@@ -678,7 +678,7 @@ If a *citation element* has a *citation element name* which is an empty
 {.note} This can occur as the result of removing *invalid* *strings*
 from a previously non-empty *localisation set*, as explained in §4.2.3.
 
-## Defining citation element terms
+## Defining citation element terms                      {#defining-elts}
 
 A **citation element term** is a *term* which has been defined
 specifically for use as a *citation element name* in the following
@@ -720,7 +720,7 @@ mean there is no meaningful *default datatype*, and the *citation
 element name* itself or `rdfs:Resource` to mean there is no
 *super-element*.
 
-### Sub-elements
+### Sub-elements                                         {#sub-elements}
 
 A *citation element term* *may* be defined as a **sub-element** of
 another *citation element term* which is referred to as its
@@ -969,7 +969,7 @@ might be a termly university publication dated "Michaelmas term, 1997".
 {.ednote}  The previous examples may need revising once FHISO's handling
 of date types has been finalised.
 
-#### Range properties
+#### Range properties                                     {#range-props}
 
 The *property* representing an individual *datatype* from the *range* of
 a *citation element term* is defined as follows:
@@ -1083,7 +1083,7 @@ cannot reasonably handle it.
 {.example}  An application might opt to discard all *strings* that
 appear to be Windows executables.
 
-### Cardinality
+### Cardinality                                           {#cardinality}
 
 The **cardinality** of a *citation element term* records how many
 semantically distinct values it can have.  A **multi-valued** *citation
@@ -1326,7 +1326,7 @@ The use of *list-flattening formats* is *not recommended* except where
 there is a good technical reason.  The use of `localisedElement`s other
 than in *list-flattening formats* is *not recommended*.
 
-### Default datatypes
+### Default datatypes                               {#default-datatypes}
 
 A *citation element term* *may* have a **default datatype** defined.
 When a *default datatype* is defined, it is used to provide an
