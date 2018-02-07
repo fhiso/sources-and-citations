@@ -826,7 +826,7 @@ element* with this *citation element name*.
 where it is used to describe the permissible *property values* for a
 given *property*.  This is conceptually very similar to the *range*
 defined here for *citation element terms*, and it is normally clear from
-context which type of *range* is meant.  Where ambiguitiy might result,
+context which type of *range* is meant.  Where ambiguity might result,
 the form of *range* defined here may be referred to as the **citation
 element range**, while the form of *range* defined in [Basic Concepts]
 may be referred to as the **property range**.
@@ -1020,7 +1020,7 @@ this standard, as if they are missed, the data is treated more rather
 than less permissively.
 {/}
 
-#### Invalid citatation element values
+#### Invalid citation element values
 
 A *datatype* is said to be **compatible** with the *range* if either it
 is one of the *datatypes* listed in the *range*, or it is a *subtype* of
