@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 19 January 2018
+date: 3 March 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -361,70 +361,6 @@ so they should not be included in the *citation element set*.  A more
 general mechanism for describing *sources* may well include such
 elements, but they are beyond the scope of this standard.
 
-## Datatypes
-
-### Built-in datatypes
-
-#### The `rdfs:Resource` datatype
-
-{.ednote} This *datatype* needs moving to [Basic Concepts].
-
-This standard also makes use of the `rdfs:Resource` type defined in §2.1
-of [RDFS] as the class of everything that can be expressed in RDF.  In
-these Citation Elements standards, its use is more specific, and it is 
-used as a *datatype* to represent resources identified by IRIs.  In this
-context a resource might be a document or file that can be retrieved
-from that IRI, but it also includes an physical and abstract concept
-that are merely identified by an IRI.
-
-{.example}  The `rdfs:Resource` *datatype* is used to represent the
-website from which an online *source* can be retrieved.
-
-{.note}  The fact that FHISO is using `rdfs:Resource` in a more specific
-manner than RDF does not introduce a incompatibility between RDF and
-this FHISO standard.  This is because, in RDF terminology,
-`rdfs:Resource` is not a datatype but something more general.  All
-literals in RDF have a datatype, but IRIs are a distinct class of entity
-which do not have an RDF datatype.  Instead the thing they represent has
-a type and `rdfs:Resource` is the most general possible type.  A further
-complication is that all RDF datatypes are also subclasses of
-`rdfs:Resource`, but as `rdfs:Resource` is not itself an RDF datatype,
-it cannot appear in contexts where an RDF datatype is expected.  For the
-purpose of FHISO's Citation Elements standards, the `rdfs:Resource`
-*datatype* is not a *supertype* of any other *datatype*.
-
-The *lexical space* of thus *datatype* is the space of valid IRIs
-matching the `IRI` production in §2.2 of
-&#x5B;[RFC 3987](https://tools.ietf.org/html/rfc3987)].  It is a 
-*non-language-tagged datatype* with the following properties:
-
-------           -----------------------------------------------
-Name             `http://www.w3.org/2000/01/rdf-schema#Resource`
-Pattern          `[a-z][a-z0-9+.-]+:[^ ]+`
-Supertype        *none*
-Abstract         no
-------           -----------------------------------------------
-
-{.ednote}  This *pattern* almost certainly needs revising.
-
-Applications *must not* define *subtypes* of `rdfs:Resource`.
-
-{.note}  This restriction is likely to be removed in a future version of
-this standard.  If and when *subtypes* of `rdfs:Resource` are permitted,
-they will be almost certainly be used to describe the type of resource
-being referenced, rather than the type of IRI used to reference it.
-Therefore it is very unlikely that *subtypes* of `rdfs:Resource` will be
-permitted to define a *pattern* or further constrain the *lexical space*
-of the *datatype*.
-
-{.ednote} A future draft of this standard may clarify its relationship
-with the `xsd:anyURI` *datatype*.  In RDF, the two are entirely
-unrelated as `xsd:anyURI` is used in RDF as the datatype of a literal,
-whereas `rdfs:Resource` is used as the type of the resource referenced
-by an IRI.  But there may be a use case to make the two interchangeable,
-much as `xsd:string` is with an `rdf:langString` tagged with the
-*language tag* `und`.
-
 ## Citations elements
 
 In the data model defined by this standard, a *citation element*
@@ -438,7 +374,7 @@ elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *ultimate super-element* (as defined in §4.1 of this
+   have the same *ultimate super-element* (as defined in §3.1 of this
    standard).
 
 *  When a *citation element set* contains a *citation element* with the
@@ -450,7 +386,7 @@ subject to the following constraints:
    if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
-`localisedElement`s per §4.3.1 of this standard, and then removing them
+`localisedElement`s per §3.3.1 of this standard, and then removing them
 from the *citation element set*.
 
 {.note} Subject to these constraints, this standard allows *citation
@@ -464,7 +400,7 @@ in JSON and triples in RDF other than when RDF containers are used.
 The **citation element name** identifies the nature of the information
 contained in a particular *citation element*.  It *shall* be a *term*
 that has been defined to be used as a *citation element name* in the
-manner required by §4 of this standard; a *term* defined for this
+manner required by §3 of this standard; a *term* defined for this
 purpose is called a *citation element term*.
 
 {.note}  This nomenclature draws a distinction between a *citation
@@ -582,15 +518,15 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* described in §5.5.4 of [Basic Concepts].
+`rdf:langString` *datatype* described in §6.5.4 of [Basic Concepts].
 
 {.note}  This is called the *format default datatype* to avoid confusion
-with the *default datatype* defined per *citation element term* in §4.4
+with the *default datatype* defined per *citation element term* in §3.4
 The *format default datatype* *should* be a *language-tagged datatype*
 to ensure that any *language tag* that is in the scope is retained in
 the data model, and as the most general *language-tagged datatype*,
 `rdf:langString` is *recommended*.  The *datatype correction* mechanism
-defined in §4.4 of this standard allow a *conformant* application to
+defined in §3.4 of this standard allow a *conformant* application to
 correct the *datatype* that have incorrectly defaulted to
 `rdf:langString`.  In practice it is anticipated that many applications
 will apply *datatype correction* during import, and therefore the
@@ -668,7 +604,7 @@ specified by this standard, and the application *should* *deduplicate*
 the resultant *localisation set*.
 
 {.note}  *Merging* of *localisation sets* only occurs as the result of
-the *deduplication* of *citation element sets* per §4.3.  It specifies
+the *deduplication* of *citation element sets* per §3.3.  It specifies
 the *localisation sets* are merged in the order they appear in the
 *citation element set*.
 
@@ -676,7 +612,7 @@ If a *citation element* has a *citation element name* which is an empty
 *localisation set*, that *citation element* *should* be discarded.
 
 {.note} This can occur as the result of removing *invalid* *strings*
-from a previously non-empty *localisation set*, as explained in §4.2.3.
+from a previously non-empty *localisation set*, as explained in §3.2.3.
 
 ## Defining citation element terms                      {#defining-elts}
 
@@ -690,12 +626,12 @@ In addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
-    and if so which one, as defined in §4.1;
+    and if so which one, as defined in §3.1;
 *   its *range*: the *union of datatypes* defining its value space, as
-    defined in §4.2; 
+    defined in §3.2; 
 *   its *cardinality*: that is, whether it is *single-valued* or
-    *multi-valued*, as defined §4.3; and
-*   an *optional* *default datatype*, as defined in §4.4. 
+    *multi-valued*, as defined in §3.3; and
+*   an *optional* *default datatype*, as defined in §3.4. 
 
 The *class* of *citation element terms* has the following *class name* 
 and *properties*:
@@ -822,7 +758,7 @@ The **range** of a *citation element term* is a *union of datatypes*,
 which describes what *citation element values* are valid in a *citation
 element* with this *citation element name*.
 
-{.note} The word *range* is also defined in §4.4.1 of [Basic Concepts]
+{.note} The word *range* is also defined in §5.2.1 of [Basic Concepts]
 where it is used to describe the permissible *property values* for a
 given *property*.  This is conceptually very similar to the *range*
 defined here for *citation element terms*, and it is normally clear from
@@ -1032,7 +968,7 @@ a *datatype* that is *compatible* with the *range*.
 
 A *string* in a *localisation set* which is used as a *citation element
 value* is said to be **invalid** if, after *datatype correction* has
-occurred per §4.4 of this standard, either the *string* is tagged with a
+occurred per §3.4 of this standard, either the *string* is tagged with a
 *datatype* that is not *compatible* with the *range* of the *citation
 element term* used as the *citation element name*, or the *string* is
 outside the *lexical space* of that *datatype*.  *Conformant*
@@ -1165,7 +1101,7 @@ the two *localisation sets* in order to get the following:
                  "fr": "Les Ancêtres des Charlemagne",
                  "de": "Die Vorfahren von Karl dem Großen" ] ]
 
-After *merging* the *localisation sets*, §3.2.2 says the application
+After *merging* the *localisation sets*, §2.2.2 says the application
 *should* *deduplicate* the resultant *localisation set*.  This removes
 the second French title to give the following:
 
@@ -1234,7 +1170,7 @@ others.
 
 In this example, the *datatype* of each string has been omitted on the
 assumption that it defaults to `rdf:langString` and is corrected via the
-mechanism specified in §4.4 of this standard.
+mechanism specified in §3.4 of this standard.
 
 This is an example of a *list-flattening format* that does not conform
 to this specification; a *list-flattening format* that does conform to
@@ -1465,7 +1401,7 @@ possible that *data correction* might turn a valid *unstructured string*
 into an *invalid string*.  An application *should not* perform *data
 correction* when it knows the result would be an *invalid string*.
 
-{.note} The mechanism for handling *invalid strings* in §4.2.3 means that
+{.note} The mechanism for handling *invalid strings* in §3.2.3 means that
 any *invalid string* that is inadvertently created as a result of this
 will be converted back to an `rdf:langString` or `xsd:string` rather
 than being discarded.
@@ -1672,11 +1608,6 @@ not require that the graph be acyclic.
     use in RFCs to Indicate Requirement Levels.*  Scott Bradner, 1997.
     (See <https://tools.ietf.org/html/rfc2119>.)
 
-[RFC 3987]
-:   IETF (Internet Engineering Task Force).  *RFC 3987:
-    Internationalized Resource Identifiers (IRIs).*  Martin Duerst and
-    Michel Suignard, 2005. (See <https://tools.ietf.org/html/rfc3987>.)
-
 [RFC 5646]
 :   IETF (Internet Engineering Task Force).  *RFC 5646:
     Tags for Identifying Languages.*  Addison Phillips and Mark Davis,
@@ -1702,11 +1633,6 @@ not require that the graph be acyclic.
 [Chicago]
 :   *The Chicago Manual of Style*, 16th ed.  Chicago: University of
     Chicago Press, 2010.
-
-[ECMAScript]
-:   Ecma International.  *ECMAScript® 2017 Language Specification*
-    (ECMA-262), 8th ed.  2017.
-    (See <https://www.ecma-international.org/ecma-262/8.0/>.)
 
 [Evidence Explained]
 :   Elizabeth Shown Mills.  *Evidence Explained*, 2nd ed.  Baltimore:
@@ -1749,30 +1675,13 @@ not require that the graph be acyclic.
     Stian Soiland-Reyes, Stephan Zednik and Jun Zhao, eds., 2013.
     W3C Recommendation.  (See <https://www.w3.org/TR/prov-o/>.)
 
-[RFC 4122]
-:   IETF (Internet Engineering Task Force).  *A Universally Unique
-    IDentifier (UUID) URN Namespace*.  P. Leach, M. Mealling and R.
-    Salz, ed., 2005.  (See <https://tools.ietf.org/html/rfc4122>.)
-
 [RFC 7159]
 :   IETF (Internet Engineering Task Force).  *The JavaScript Object
     Notation (JSON) Data Interchange Format*.  Tim Bray, ed., 2014.
     (See <https://tools.ietf.org/html/rfc7159>.)
 
-[XSD Pt1]
-:   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language
-    (XSD) 1.1 Part 1: Structures*.  Shudi Gao (高殊镝), C. M. 
-    Sperberg-McQueen and Henry S. Thompson, ed., 2012.  
-    W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-1/>.)
-
-[XSD Pt2]
-:   W3 (World Wide Web Consortium). *W3C XML Schema Definition Language 
-    (XSD) 1.1 Part 2: Datatypes*.  David Peterson, Shudi Gao (高殊镝),
-    Ashok Malhotra, C. M. Sperberg-McQueen and Henry S. Thompson, ed., 2012.
-    W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-2/>.)
-
 ----
-Copyright © 2017, [Family History Information Standards Organisation,
+Copyright © 2017–18, [Family History Information Standards Organisation,
 Inc](https://fhiso.org/).  
 The text of this standard is available under the
 [Creative Commons Attribution 4.0 International
