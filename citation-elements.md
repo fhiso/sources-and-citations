@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 3 March 2018
+date: 11 March 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -1188,7 +1188,7 @@ the following properties:
 ------              -----------------------------------------------------------
 Name                `https://terms.fhiso.org/sources/localisedElement`     
 Type                `https://terms.fhiso.org/sources/CitationElement`
-Range               *unspecified*
+Range               `http://www.w3.org/2001/XMLSchema#anyAtomicType`
 Cardinality         multi-valued
 Super-element       *none*
 Default datatype    *none*
@@ -1291,13 +1291,12 @@ of the *string* prior to *datatype correction* is one of the following
 
     http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     http://www.w3.org/2001/XMLSchema#string
-    http://www.w3.org/2000/01/rdf-schema#Resource
 
 {.note}  It is anticipated that a large majority of times when *data
 correction* applies, the original datatype will be `rdf:langString`.
-Support for `xsd:string` and `rdfs:Resource` is only included in this
-*datatype correction* mechanism to accommodate certain corner cases in
-RDF processing that could arise in the [CEV RDFa] bindings.
+Support for `xsd:string` is only included in this *datatype correction*
+mechanism to accommodate certain corner cases in RDF processing that could
+arise in the [CEV RDFa] bindings.
 
 *Datatype correction* *shall* only be applied to a *string* if it
 appears in a *citation element* whose *citation element name* is a
@@ -1428,8 +1427,8 @@ If *datatype correction* would result in replacing a
 the application *must* tag the *string* with the *language tag* `und`.
 
 {.note}  This case only applies if the *string* was previously tagged
-with the `xsd:string` or `rdfs:Resource` *datatypes*, which this
-standard discourages when the data is indeed language-tagged.
+with the `xsd:string` *datatype*, which this standard discourages when
+the data is indeed language-tagged.
 
 ## Layered citations
 
@@ -1543,6 +1542,9 @@ Type                `http://www.w3.org/2000/01/rdf-schema#Class`
 
 Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
 ------              -----------------------------------------------------------
+
+{.ednote}  A future draft of this standard might make
+`SourceDerivation` *class* a *subclass* of `rdfs:Property`.
 
 #### Requirements for layer derivation links
 
