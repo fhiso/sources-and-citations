@@ -45,7 +45,7 @@ cev:isSingleValued
 # §4.3.1
 cev:localisedElement
 	rdf:type cev:CitationElement ;
-	cev:elementRangeMember rdfs:Literal ; # TODO
+	cev:elementRangeMember xsd:anyAtomicType ;
 	cev:elementRangeSize 1 ;
 	cev:isSingleValued false ;
 	rdfs:isDefinedBy
@@ -69,3 +69,17 @@ cev:SourceDerivation
 	types:requiredProperty rdf:type ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#layer-derivation> .
+
+# [CEV RDFa] §3.1
+cev:Source
+	rdf:type rdfs:Class ;
+	types:requiredProperty rdf:type ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-rdf-bindings#source-type-elts> .
+
+cev:CitedSource
+	rdf:type rdfs:Class ;
+	rdfs:subClassOf cev:Source ;
+	types:requiredProperty rdf:type ;
+	rdfs:isDefinedBy
+		<https://fhiso.org/TR/cev-rdf-bindings#source-type-elts> .
