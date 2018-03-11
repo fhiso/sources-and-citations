@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 19 October 2017
+date: 11 March 2018
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -648,14 +648,14 @@ the following IRIs:
     https://terms.fhiso.org/sources/Source
     https://terms.fhiso.org/sources/CitedSource
 
-{.ednote ...}  Either this standard or another will need to define
-exactly what these IRIs.  They probably need to be *class names*
+Formally these *terms* are defined as follows:
 
 : Class definition
 
 ------              -----------------------------------------------------------
 Name                `https://terms.fhiso.org/sources/Source`
 Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+Superclass          `http://www.w3.org/2000/01/rdf-schema#Resource`
 Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
 ------              -----------------------------------------------------------
 
@@ -664,13 +664,12 @@ Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
 ------              -----------------------------------------------------------
 Name                `https://terms.fhiso.org/sources/CitedSource`
 Type                `http://www.w3.org/2000/01/rdf-schema#Class`
+Superclass          `https://terms.fhiso.org/sources/Source`
 Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`
-Superclass          `https://terms.fhiso.org/sources/CitedSource`
 ------              -----------------------------------------------------------
 
-Note that the later definition uses the notion of a *superclass* which
-does not currently exist in [Basic Concepts].
-{/}
+{.ednote} These definitions will likely need to be moved to [CEV
+Concepts].
 
 HTML or XML content is only considered to be part of a *formatted
 citation* if it is a *source-type element* or is contained within one. 
@@ -1100,8 +1099,8 @@ A *conformant* parser *must* determine the *datatype* which tags the
 If the *current element* has a non-empty `datatype` attribute, then the
 *datatype* *shall* be the value of `datatype` attribute once shorthand
 IRIs have been expanded.  The `datatype` attribute *must not* contain
-the name of a *language-tagged datatype* or the built-in `rdfs:Resource`
-*datatype*.  The use of a `datatype` attribute is *recommended* for
+the name of a *language-tagged datatype* or the name of an *abstract
+datatype*.  The use of a `datatype` attribute is *recommended* for
 *citation elements* that are not well-known if the *datatype* is known
 not to be one that is prohibited in a `datatype` attribute.
 
@@ -1166,20 +1165,11 @@ recommended:
 Otherwise, if the *current property value* was found in a `src` or
 `href` attribute, then the *datatype* *shall* be:
 
-    http://www.w3.org/2000/01/rdf-schema#Resource
+    http://www.w3.org/2001/XMLSchema#anyURI
 
-This *datatype* IRI *must not* be given explicitly in a `datatype`
-attribute.
-
-{.note}  RDF's notion of a datatype is narrower than the definition in
-these Citation Elements standard and `rdfs:Resources` is not a datatype
-in the RDF sense which is why it *must not* be given in an RDFa
-`datatype` attribute.
-
-{.ednote}  The handling of `src` and `href` attributes should be
-revisited as the [CEV Vocabulary] progresses.  If there are no obvious
-use cases, support for them could be made *optional*, with them behaving
-as *source-exclusion elements* if not supported.  
+{.note}  This differs from the behaviour specified in [RFDa Core].  An
+application using a full RDFa parser will parse this as an RDF
+IRI and then apply this *datatype* per §4.5.
 
 Otherwise, the application *shall* attempt to determine whether a
 *language tag* is in scope per §4.4; if a *language tag* can be
@@ -1204,9 +1194,8 @@ and tag the *string* with a *language tag* of `und`.
 
 {.note ...}  The *datatypes* selected in the last three cases are the three
 *datatypes* which are defined to participate in the *datatype
-correction* mechanism defined in §4.4 of [CEV Concepts]:
+correction* mechanism defined in §3.4 of [CEV Concepts]:
 
-    http://www.w3.org/2000/01/rdf-schema#Resource
     http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     http://www.w3.org/2001/XMLSchema#string
 
@@ -1296,7 +1285,7 @@ exists.
 Otherwise, if the object of the RDF triple is an IRI, then the *current
 element value* *shall* be that IRI, and its *datatype* *shall* be:
 
-    http://www.w3.org/2000/01/rdf-schema#Resource
+    http://www.w3.org/2001/XMLSchema#anyURI
 
 {.note} The object of the RDF cannot be a blank node as RDF triples
 whose objects are blank nodes are discarded in §3.2.
@@ -1715,7 +1704,7 @@ several other instances of RDFa attributes that will not be detected as
     See <https://www.w3.org/TR/REC-xml-names/>.
 
 ----
-Copyright © 2017, [Family History Information Standards Organisation,
+Copyright © 2017–18, [Family History Information Standards Organisation,
 Inc](https://fhiso.org/).  
 The text of this standard is available under the
 [Creative Commons Attribution 4.0 International
