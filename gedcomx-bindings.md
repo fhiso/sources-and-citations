@@ -8,7 +8,7 @@ numbersections: true
 
 {.ednote ...} This is an **exploratory draft** of a standard documenting
 the proposed usage of the FHISO Citation Elements standard in GEDCOM X.
-This document is not an FHISO standard and is not endorsed by the FHISO
+This document is not a FHISO standard and is not endorsed by the FHISO
 membership.  It may be updated, replaced or obsoleted by other documents
 at any time.
 
