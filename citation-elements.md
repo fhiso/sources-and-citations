@@ -651,10 +651,9 @@ Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`<br/>
 
 {.ednote}  The *super-element* and *default datatype* are not listed as
 *required properties* because they are *optional*.  It would be possible
-to make them *required* and use `rdfs:Literal` and/or `rdfs:Resource` to
-mean there is no meaningful *default datatype*, and the *citation
-element name* itself or `rdfs:Resource` to mean there is no
-*super-element*.
+to make them *required* and use `xsd:anyAtomicType` to mean there is no
+meaningful *default datatype*, and the *citation element name* itself or
+`rdfs:Resource` to mean there is no *super-element*.
 
 ### Sub-elements                                         {#sub-elements}
 
