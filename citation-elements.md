@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 11 March 2018
+date: 12 March 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -1194,13 +1194,12 @@ Super-element       *none*
 Default datatype    *none*
 ------              -----------------------------------------------------------
 
-{.note} This `localisedElement` *citation element term* has no *range*
-specified.  No other *citation element terms* defined in accordance with
-this standard may have an unspecified *range*.
-
-{.ednote} This is contrary to the fact that the *range* is a *required
-property* of a *citation element*.  This will probably require us to
-introduce `rdfs:Literal` as a magic value to represent any *datatype*.
+{.note} The *range* of `localisedElement` is given here as 
+`xsd:anyAtomicType`, which is the ultimate *supertype* of all
+*datatypes* defined in §6.5.6 of [Basic Concepts].  This is an explicit
+statement of the fact that the *citation element value* of a
+`localisedElement` *citation element* *may* be tagged with an arbitrary
+*datatype*.
 
 In a *list-flattening format*, an application *must* consider every
 value to be a separate *citation element value*, and therefore to be a
