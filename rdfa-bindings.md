@@ -960,7 +960,7 @@ defined in §3.4.1 of [CEV Concepts] when multiple translations or
 localisations of a single *citation element value* are needed.
 
 {.example ...}  The RDFa markup from the previous example can be fixed
-by using a `localisedElement` to encode the second for of Hayashi's
+by using a `localisedElement` to encode the second form of Hayashi's
 name.  At its simplest, this alters the two `<span>` elements referring
 to Hayashi to read:
 
