@@ -662,11 +662,12 @@ to be reused.
 {.ednote}  There is still not a perfect match between *properties* and
 *citation elements*.  In particular, a *property value* is defined in
 §5.2 of [Basic Concepts] to be a *term*, *string* or *language-tagged
-string*, whereas a *citation element value* is defined in
-{§element-values} of this standard as a *localisation set*.  This
-largely goes away if *properties* are considered to be a
-list-flattened version of *citation elements*.  However it will be
-necessary to add *datatype* tags to *property values*, as RDF allows.
+string*, optionally accompanied by a *datatype name*, whereas a
+*citation element value* is defined in {§element-values} of this
+standard as a *localisation set*, which is a set of *strings* or
+*language-tagged strings* which are necessarily accompanied by a
+*datatype name*.  These differences largely goes away if *properties*
+are considered to be a list-flattened version of *citation elements*.
 
 {.ednote}  The *super-element* and *default datatype* are not listed as
 *required properties* because they are *optional*.  It would be possible
