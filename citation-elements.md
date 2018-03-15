@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: General Concepts
-date: 12 March 2018
+date: 15 March 2018
 numbersections: true
 ...
 # Citation Elements:<br/> General Concepts
@@ -518,7 +518,7 @@ Similarly, a *datatype* is *required*, but it need not be explicit in the
 serialisation.  A serialisation format *may* specify a *format default
 datatype* that applies when none is given explicitly.  Ordinarily, if a
 *format default datatype* is specified, it *should* be the
-`rdf:langString` *datatype* described in §6.5.4 of [Basic Concepts].
+`rdf:langString` *datatype* described in §6.6.5 of [Basic Concepts].
 
 {.note}  This is called the *format default datatype* to avoid confusion
 with the *default datatype* defined per *citation element term* in §3.4
@@ -1195,7 +1195,7 @@ Default datatype    *none*
 
 {.note} The *range* of `localisedElement` is given here as 
 `xsd:anyAtomicType`, which is the ultimate *supertype* of all
-*datatypes* defined in §6.5.6 of [Basic Concepts].  This is an explicit
+*datatypes* defined in §6.6.6 of [Basic Concepts].  This is an explicit
 statement of the fact that the *citation element value* of a
 `localisedElement` *citation element* *may* be tagged with an arbitrary
 *datatype*.
