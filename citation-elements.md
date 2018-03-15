@@ -374,8 +374,8 @@ elements*; *conformant* applications *may* reorder the list
 subject to the following constraints:
 
 *  The relative order of *citation elements* must be preserved when they 
-   have the same *ultimate super-element* (as defined in §3.1 of this
-   standard).
+   have the same *ultimate super-element* (as defined in {§sub-elements}
+   of this standard).
 
 *  When a *citation element set* contains a *citation element* with the
    *citation element name*
@@ -386,8 +386,8 @@ subject to the following constraints:
    if a *citation element set* is reordered.
 
 {.note} The latter requirement can be avoided by processing
-`localisedElement`s per §3.3.1 of this standard, and then removing them
-from the *citation element set*.
+`localisedElement`s per {§list-flattening} of this standard, and then
+removing them from the *citation element set*.
 
 {.note} Subject to these constraints, this standard allows *citation
 element sets* to be reordered because some serialisation languages such
@@ -418,7 +418,7 @@ A dataset might contain many *citation elements* with this as their
 *citation element name*.
 {/}
 
-### Citation element values
+### Citation element values                            {#element-values}
 
 The **citation element value** is the content of the *citation element*
 which *shall* be a *localisation set*.  
@@ -521,13 +521,14 @@ datatype* that applies when none is given explicitly.  Ordinarily, if a
 `rdf:langString` *datatype* described in §6.6.5 of [Basic Concepts].
 
 {.note}  This is called the *format default datatype* to avoid confusion
-with the *default datatype* defined per *citation element term* in §3.4
+with the *default datatype* defined per *citation element term* in
+{§default-datatypes}.
 The *format default datatype* *should* be a *language-tagged datatype*
 to ensure that any *language tag* that is in the scope is retained in
 the data model, and as the most general *language-tagged datatype*,
 `rdf:langString` is *recommended*.  The *datatype correction* mechanism
-defined in §3.4 of this standard allow a *conformant* application to
-correct the *datatype* that have incorrectly defaulted to
+defined in {§default-datatypes} of this standard allow a *conformant*
+application to correct the *datatype* that have incorrectly defaulted to
 `rdf:langString`.  In practice it is anticipated that many applications
 will apply *datatype correction* during import, and therefore the
 *format default datatype* becomes a fallback that applies if the
@@ -604,15 +605,16 @@ specified by this standard, and the application *should* *deduplicate*
 the resultant *localisation set*.
 
 {.note}  *Merging* of *localisation sets* only occurs as the result of
-the *deduplication* of *citation element sets* per §3.3.  It specifies
-the *localisation sets* are merged in the order they appear in the
-*citation element set*.
+the *deduplication* of *citation element sets* per {§cardinality}.  It
+specifies the *localisation sets* are merged in the order they appear in
+the *citation element set*.
 
 If a *citation element* has a *citation element name* which is an empty
 *localisation set*, that *citation element* *should* be discarded.
 
 {.note} This can occur as the result of removing *invalid* *strings*
-from a previously non-empty *localisation set*, as explained in §3.2.3.
+from a previously non-empty *localisation set*, as explained in
+{§invalid-elts}.
 
 ## Defining citation element terms                      {#defining-elts}
 
@@ -626,12 +628,13 @@ In addition, the definition *shall* state:
 
 *   its *term name* (an IRI);
 *   whether it is a *sub-element* of some other *citation element term*,
-    and if so which one, as defined in §3.1;
-*   its *range*: the *union of datatypes* defining its value space, as
-    defined in §3.2; 
+    and if so which one, as defined in {§sub-elements};
+*   its *range*: the *datatype* defining its value space, as
+    defined in {§range};
 *   its *cardinality*: that is, whether it is *single-valued* or
-    *multi-valued*, as defined in §3.3; and
-*   an *optional* *default datatype*, as defined in §3.4. 
+    *multi-valued*, as defined in {§cardinality}; and
+*   an *optional* *default datatype*, as defined in
+    {§default-datatypes}. 
 
 The *class* of *citation element terms* has the following *class name* 
 and *properties*:
@@ -643,11 +646,27 @@ Name                `https://terms.fhiso.org/sources/CitationElement`
 
 Type                `http://www.w3.org/2000/01/rdf-schema#Class`
 
+Superclass          `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
+
 Required properties `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`<br/>
-                    `https://terms.fhiso.org/sources/elementRangeMember`<br/>
-                    `https://terms.fhiso.org/sources/elementRangeSize`<br/>
+                    `http://www.w3.org/2000/01/rdf-schema#range`<br/>
                     `https://terms.fhiso.org/sources/isSingleValued`
 ------              -----------------------------------------------------------
+
+{.note}  The `CitationElement` *class* is defined as a *subclass* of the
+`rdfs:Property` *class* defined in §5.2 of [Basic Concepts].  Logically
+this makes sense, as a *citation element* can be considered a *property*
+of a *source*, and it allows the concept of the *range* of a *property*
+to be reused.
+
+{.ednote}  There is still not a perfect match between *properties* and
+*citation elements*.  In particular, a *property value* is defined in
+§5.2 of [Basic Concepts] to be a *term*, *string* or *language-tagged
+string*, whereas a *citation element value* is defined in
+{§element-values} of this standard as a *localisation set*.  This
+largely goes away if *properties* are considered to be a
+list-flattened version of *citation elements*.  However it will be
+necessary to add *datatype* tags to *property values*, as RDF allows.
 
 {.ednote}  The *super-element* and *default datatype* are not listed as
 *required properties* because they are *optional*.  It would be possible
@@ -751,228 +770,75 @@ super-element*.
 first element that appears in each chain.  It is used in specifying how
 to *merge* *citation elements*.
 
-### Range
+### Range                                                       {#range}
 
-The **range** of a *citation element term* is a *union of datatypes*,
+The **range** of a *citation element term* *shall* be a *datatype*,
 which describes what *citation element values* are valid in a *citation
 element* with this *citation element name*.
 
 {.note} The word *range* is also defined in §5.2.1 of [Basic Concepts]
 where it is used to describe the permissible *property values* for a
-given *property*.  This is conceptually very similar to the *range*
-defined here for *citation element terms*, and it is normally clear from
-context which type of *range* is meant.  Where ambiguity might result,
-the form of *range* defined here may be referred to as the **citation
-element range**, while the form of *range* defined in [Basic Concepts]
-may be referred to as the **property range**.
-
-{.ednote ...}  Ideally these two concepts would be merged, but there are
-non-trivial technical issues involved in doing so which would need
-resolving.  
-
-First, a *citation element* would need to become a type of *property*.
-This is not intrinsically problematic, but it requires us to define the
-notion of a *subclass* which does not currently exist.
-
-For compatibility with existing ontologies, the *range* should continue
-to be defined with the `rdfs:range` *property*.  However it may
-be desirable to provide an additional *property* for the *range* of a
-*citation element term*, e.g. 
-
-    https://terms.fhiso.org/sources/elementRange
-
-... so that the `rdfs:range` of `elementRange` can be `CitationElement`,
-rather than `rdf:Property`.  If so, we should document that
-
-    cev:elementRange rdfs:subPropertyOf rdfs:range .
-
-Because *citation element ranges* would now be defined using
-`rdfs:range` or a sub-property thereof, its value has to be a *class* or
-a *datatype* which currently the *union of datatypes* is not.  To make
-the *union of datatypes* a usable *class* it either needs to be given a
-*class name* IRI or our data model needs to allow anonymous *classes*
-(as the RDF data model does).  *Unions* would also need moving to [Basic
-Concepts].
-
-Some FHISO standard, perhaps a separate RDF bindings, will need to state
-how the `rdfs:range` is formed in RDF terms.  The idiomatic RDF way of
-doing this would probably be to use `owl:unionOf`, e.g.:
-
-    cev:publicationDate rdfs:range [ 
-      a rdfs:Datatype ;
-      owl:unionOf ( types:AbstractDate rdf:langString ) 
-    ] .
-
-The value of the `owl:unionOf` property is an `rdf:List`, which is an
-ordered linked list *class*, and neatly solves the problem that this
-standard introduces `cev:elementRangeSize` to solve, as missing list
-values in an `rdf:List` can always be detected.  
-
-While introducing `rdf:List` is appealing and potentially solves various
-other problems, it causes implementation difficulties in [Triples
-Discovery].  This is because, for simplicity's sake, we use N-Triples as
-the serialisation format, and N-Triples lacks any clean syntax for 
-representing an `rdf:List`.  Instead, the N-Triples representation would
-involve a Lisp-like representation of the `rdf:List` with a series of
-blank nodes:
-
-    cev:publicationDate rdfs:range _:1 . 
-    _:1 rdf:type rdfs:Datatype .
-    _:1 owl:unionOf _:2 .
-    _:2 rdf:type rdf:List .
-    _:2 rdf:first types:AbstractDate .
-    _:2 rdf:rest _:3 .
-    _:3 rdf:type rdf:List .
-    _:3 rdf:first rdf:langString .
-    _:3 rdf:rest rdf:nil .
-
-[Triples Discovery] does not currently require support for blank nodes.
-{/}
-
-#### Unions of datatypes
-
-A **union of datatypes** is an unordered list of one or more different
-*datatypes*.
-
-{.example ...}  The [CEV Vocabulary] defines a *datatype* for
-representing the names of authors and other people, which has the
-following *datatype name*:
-
-    https://terms.fhiso.org/sources/AgentName
-
-A *union of datatypes* consisting of just this one *datatype* is used as
-the *range* of several *citation element terms* defined in the 
-[CEV Vocabulary] including:
-
-    https://terms.fhiso.org/sources/editorName
-{/}
-
-{.note} As defined in this standard, a *union of datatypes* is not
-itself a *datatype* as it lacks a *term name* to identify it, may not
-have a *pattern*, and cannot be used as a *subtype* or *supertype*.
-This is just a matter of nomenclature, and a future version of this
-standard might broaden the definition of a *datatype* so that a *union
-of datatypes* is considered to be a *datatype*.
-
-A *union of datatypes* *may* contain *language-tagged datatypes*,
-*non-language-tagged datatypes*, or a mixture of both.
-
-The **lexical space** of a *union of datatypes* is the union of the
-*lexical space* of each of its constituent *datatypes*.
-
-{.note}  There is no requirement that the *lexical spaces* of each
-constituent *datatype* be disjoint.
-
-{.example ...}  In several cases a *union of datatypes* consisting of
-the following two *datatypes* is used:
-
-    http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    https://terms.fhiso.org/dates/AbstractDate
-
-The former is an *unstructured datatype*, while the latter is an
-*abstract datatype* which serves as the *supertype* for various
-*structured datatypes* for dates.  The inclusion of an *abstract
-datatype* provides a point of extensibility.  Because `rdf:langString`
-is an *unstructured datatype*, every possible *string*, including those
-that are valid dates, are part of its lexical space.  
-{/}
+given *property*.  The two concepts are the same as *citation elements*
+are a *subclass* of *properties*.  The extra requirement made here is
+that the *range* of a *citation element term* is a *datatype*, while the
+*range* of a *property* is more generally a *class* (which includes
+*datatypes*).  
 
 *Citation elements terms* with non-textual *citation element values*
-such as numbers or dates *should* have *ranges* that include one or more
+such as numbers or dates *should* have *ranges* that are
 *non-language-tagged datatype*.
 
-{.example ...}  The [CEV Vocabulary] defines an *abstract datatype*
-called `AbstractDate` which is used as the *supertype* of all *structured
+{.example ...}  FHISO defines an *abstract datatype* called
+`AbstractDate` which is used as the *supertype* of all *structured
 datatypes* for dates; it has the following *term name*:
 
     https://terms.fhiso.org/dates/AbstractDate
 
 Several *citation element terms* have a *range* consisting of a *union*
-of `AbstractDate` and `rdf:langString`.  One such *citation element
-term* is:
+of `AbstractDate` and `rdf:langString`.  This *union of datatypes* is
+itself a *non-language-tagged datatype* because not all of its
+*constituent datatypes* are *language-tagged datatypes*, as specified in
+§6.5 of [Basic Concepts].
+
+One such *citation element term* is:
 
     https://terms.fhiso.org/sources/publicationDate
 
 Because this *citation element* typically has non-textual *values*,
-frequently just a year, its *range* *should* include a
-*non-language-tagged datatype*: in this case, `AbstractData`.  The
-inclusion of `rdf:langString` is to allow dates that cannot readily be
-represented in any of the available structured formats.  An example
+frequently just a year, its *range* *should* be a
+*non-language-tagged datatype* which the inclusion of `AbstractDate` in
+the *union* ensures.  
+
+The inclusion of `rdf:langString` is to allow dates that cannot readily
+be represented in any of the available structured formats.  An example
 might be a termly university publication dated "Michaelmas term, 1997".
 {/}
 
 {.ednote}  The previous examples may need revising once FHISO's handling
 of date types has been finalised.
 
-#### Range properties                                     {#range-props}
+The *property* representing the *range* of a *citation element term* is
+the `rdfs:range` *property* defined in §5.2.1 of [Basic Concepts].
 
-The *property* representing an individual *datatype* from the *range* of
-a *citation element term* is defined as follows:
+#### Invalid citation element values                     {#invalid-elts}
 
-: Property definition
+A *datatype* is said to be **compatible** with the *range* if it is a
+*subtype* of the *datatype* identified as the *range*.
 
-------              -----------------------------------------------------------
-Name                `https://terms.fhiso.org/sources/elementRangeMember`
-
-Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
-
-Range               `http://www.w3.org/2000/01/rdf-schema#Datatype`
-------              -----------------------------------------------------------
-
-As a way of checking for data integrity during *discovery*, an
-additional *property* is provided representing the number of *datatypes*
-in the *range* of the *citation element term*.  It is defined as
-follows:
-
-: Property definition
-
-------              -----------------------------------------------------------
-Name                `https://terms.fhiso.org/sources/elementRangeSize`
-
-Type                `http://www.w3.org/1999/02/22-rdf-syntax-ns#Property`
-
-Range               `http://www.w3.org/2001/XMLSchema#integer`
-------              -----------------------------------------------------------
-
-{.ednote}  Should this use `xsd:positiveInteger` instead?  If so, this
-type should be mentioned in [Basic Concepts].
-
-Applications *must not* assume they know the *range* of a *citation
-element term* unless they have received both a `elementRangeSize` and a
-matching number of distinct `elementRangeMember`s.
-
-{.note ...}  This error checking facility is provided because of the
-risk that a missed `elementRangeMember` could result in widespread
-deletion of data.  Without this facility, if some but not all
-`elementRangeMember` *properties* are missed, an application could
-believe it knows the *range* of the *citation element*, when in fact it
-only knows part of the *range*.  As a result, *strings* that use the
-missed *datatype* would incorrectly be thought *invalid* and potentially
-discarded as permitted by this section.
-
-Similar concerns do not apply to the other *properties* described in
-this standard, as if they are missed, the data is treated more rather
-than less permissively.
-{/}
-
-#### Invalid citation element values
-
-A *datatype* is said to be **compatible** with the *range* if either it
-is one of the *datatypes* listed in the *range*, or it is a *subtype* of
-a *datatype* that is *compatible* with the *range*.
-
-{.note} This recursive definition of *compatibility* means that the
-*datatype* may be an indirect *subtype* (e.g. a *subtype* of a
-*subtype*) of one of the *datatypes* in the *range*.
+{.note}  Because the *subtype* relationship is reflexive, the *datatype*
+identified as the *range* is a *subtype* of itself and therefore
+*compatible* with the *range*.  Similarly, because the *subtype*
+relationship is transitive, a *subtype* of a *subtype* of the *datatype*
+identified as the *range* is *compatible* with the *range*.
 
 A *string* in a *localisation set* which is used as a *citation element
 value* is said to be **invalid** if, after *datatype correction* has
-occurred per §3.4 of this standard, either the *string* is tagged with a
-*datatype* that is not *compatible* with the *range* of the *citation
-element term* used as the *citation element name*, or the *string* is
-outside the *lexical space* of that *datatype*.  *Conformant*
-application *should* take steps to avoid creating *localisation sets*
-containing *invalid* *strings*.
+occurred per {§default-datatypes} of this standard, either the *string*
+is tagged with a *datatype* that is not *compatible* with the *range* of
+the *citation element term* used as the *citation element name*, or the
+*string* is outside the *lexical space* of that *datatype*.
+*Conformant* application *should* take steps to avoid creating
+*localisation sets* containing *invalid* *strings*.
 
 {.note} An application might inadvertently create *invalid* *strings*
 if it does not know the *range* of a *citation element term* or does not
@@ -1169,7 +1035,7 @@ others.
 
 In this example, the *datatype* of each string has been omitted on the
 assumption that it defaults to `rdf:langString` and is corrected via the
-mechanism specified in §3.4 of this standard.
+mechanism specified in {§default-datatypes} of this standard.
 
 This is an example of a *list-flattening format* that does not conform
 to this specification; a *list-flattening format* that does conform to
@@ -1398,10 +1264,10 @@ possible that *data correction* might turn a valid *unstructured string*
 into an *invalid string*.  An application *should not* perform *data
 correction* when it knows the result would be an *invalid string*.
 
-{.note} The mechanism for handling *invalid strings* in §3.2.3 means that
-any *invalid string* that is inadvertently created as a result of this
-will be converted back to an `rdf:langString` or `xsd:string` rather
-than being discarded.
+{.note} The mechanism for handling *invalid strings* in {§invalid-elts}
+means that any *invalid string* that is inadvertently created as a
+result of this will be converted back to an `rdf:langString` or
+`xsd:string` rather than being discarded.
 
 Applications *should* try to ensure that no *strings* are entered which
 match the *pattern* of the *default datatype* but are outside its
