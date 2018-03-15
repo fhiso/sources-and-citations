@@ -1,5 +1,6 @@
 # This file is written in the [RDF 1.1 Turtle] language.
-# It contains all the RDF triples implied by [CEV Concepts]. 
+# It contains all the RDF triples implied by [CEV Concepts] and
+# [CEV RDFa].
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -7,58 +8,38 @@
 @prefix types: <https://terms.fhiso.org/types/> .
 @prefix cev: <https://terms.fhiso.org/sources/> .
 
-# §4
 cev:CitationElement
 	rdf:type rdfs:Class ;
-	types:requiredProperty rdf:type, cev:isSingleValued,
-		cev:elementRangeMember, cev:elementRangeSize ;
+	rdfs:subClassOf rdf:Property ;
+	types:requiredProperty rdf:type, rdfs:range, cev:isSingleValued ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#defining-elts> .
 
-# §4.1
 cev:subElementOf
 	rdf:type rdf:Property ;
 	rdfs:range cev:CitationElement ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#sub-elements> .
 
-# §4.2.2
-cev:elementRangeMember
-	rdf:type rdf:Property ;
-	rdfs:range rdfs:Datatype ;
-	rdfs:isDefinedBy
-		<https://fhiso.org/TR/cev-concepts#range-props> .
-
-cev:elementRangeSize
-	rdf:type rdf:Property ;
-	rdfs:range xsd:integer ;
-	rdfs:isDefinedBy
-		<https://fhiso.org/TR/cev-concepts#range-props> .
-
-# §4.3
 cev:isSingleValued
 	rdf:type rdf:Property ;
 	rdfs:range xsd:boolean ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#cardinality> .
 
-# §4.3.1
 cev:localisedElement
 	rdf:type cev:CitationElement ;
-	cev:elementRangeMember xsd:anyAtomicType ;
-	cev:elementRangeSize 1 ;
+	rdfs:range xsd:anyAtomicType ;
 	cev:isSingleValued false ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#list-flattening> .
 
-# §4.4
 cev:defaultDatatype
 	rdf:type rdf:Property ;
 	rdfs:range rdfs:Datatype ;
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#default-datatypes> .
 
-# §5.1
 cev:derivedFrom
 	rdf:type cev:SourceDerivation ;
 	rdfs:isDefinedBy
@@ -70,7 +51,6 @@ cev:SourceDerivation
 	rdfs:isDefinedBy
 		<https://fhiso.org/TR/cev-concepts#layer-derivation> .
 
-# [CEV RDFa] §3.1
 cev:Source
 	rdf:type rdfs:Class ;
 	types:requiredProperty rdf:type ;
