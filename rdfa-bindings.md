@@ -1,7 +1,7 @@
 ---
 title: Citation Elements
 subtitle: Bindings for RDFa
-date: 11 March 2018
+date: 16 March 2018
 numbersections: true
 ...
 # FHISO Citation Elements: Bindings for RDFa
@@ -24,8 +24,8 @@ feedback on this draft.
 
 --------------           ---------------------------------------------
 Latest public version:   `https://fhiso.org/TR/cev-rdfa-bindings`
-This version:            `https://fhiso.org/TR/cev-rdfa-bindings-20170911`
-Previous version:        `https://fhiso.org/TR/cev-rdfa-bindings-20170626`
+This version:            `https://fhiso.org/TR/cev-rdfa-bindings-20180316`
+Previous version:        `https://fhiso.org/TR/cev-rdfa-bindings-20170911`
 --------------           ---------------------------------------------
 {/}
 
