@@ -20,9 +20,9 @@ mailing list is the preferred place for comments, discussion and other
 feedback on this draft.
 
 --------------           ---------------------------------------------
-Latest public version:   `https://fhiso.org/TR/cev-rdfa-bindings`
-This version:            `https://fhiso.org/TR/cev-rdfa-bindings-20170911`
-Previous version:        `https://fhiso.org/TR/cev-rdfa-bindings-20170626`
+Latest public version:   `https://fhiso.org/TR/cev-concepts`
+This version:            `https://fhiso.org/TR/cev-concepts-20170911`
+Previous version:        `https://fhiso.org/TR/cev-concepts-20170626`
 --------------           ---------------------------------------------
 {/}
 
@@ -2113,7 +2113,7 @@ not require that the graph be acyclic.
     Ashok Malhotra, C. M. Sperberg-McQueen and Henry S. Thompson, ed., 2012.
     W3C Recommendation.  (See <https://www.w3.org/TR/xmlschema11-2/>.)
 
-----
+---
 Copyright © 2017, [Family History Information Standards Organisation,
 Inc](http://fhiso.org/).  
 The text of this standard is available under the [Creative Commons
