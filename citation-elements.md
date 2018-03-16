@@ -20,9 +20,9 @@ mailing list is the preferred place for comments, discussion and other
 feedback on this draft.
 
 --------------           ---------------------------------------------
-Latest public version:   `https://fhiso.org/TR/cev-rdfa-bindings`
-This version:            `https://fhiso.org/TR/cev-rdfa-bindings-20170911`
-Previous version:        `https://fhiso.org/TR/cev-rdfa-bindings-20170626`
+Latest public version:   `https://fhiso.org/TR/cev-concepts`
+This version:            `https://fhiso.org/TR/cev-concepts-20170911`
+Previous version:        `https://fhiso.org/TR/cev-concepts-20170626`
 --------------           ---------------------------------------------
 {/}
 
