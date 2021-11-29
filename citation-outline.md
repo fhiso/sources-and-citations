@@ -205,7 +205,7 @@ The primary advantage of a graph over a set for describing a single layer is fle
 2. Process citation set.
 3. Generate citations to conform to a style guide.
 4. Shorten citations for repeated reference.
-5. Customise citation text beyond what can be done algorithmic ally.
+5. Customise citation text beyond what can be done algorithmically.
 
 **Models**:
 
