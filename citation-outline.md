@@ -15,17 +15,17 @@ Comments on this draft should be directed to the
 
 One of the most common requests made of FHISO is to create a citation standard. Conversations with interested parties on this subject show that citations are often surprisingly complex: in particular, even people who have invested effort in considering citations often have incompatible visions motivated in part by different objectives.
 
-This document's goal is to outline the breadth of the problem space, as we currently understand it, and to give a summary of a few possible solution approaches that have been proposed by various parties.
+This document's goal is to outline the breadth of the problem space, as we currently understand it, and to give a summary of possible solution approaches that have been proposed by various parties.
 
 The concepts documented herein come from many sources, mostly unpublished, though some of the earliest conversations are documented on the [sources-citations mailing list archives](http://fhiso.org/pipermail/sources-citations_fhiso.org/).
 Some sources, particularly those where some party explained why their effort to develop a system for handling citations failed, were shared with FHISO on condition of anonymity.
-Other concepts emerged as common threads in conversation with dozens of parties and cannot be clearly traced to any of them.
+Other concepts emerged as common threads in conversation with dozens of parties and cannot be clearly attributed to any one of them.
 
 ## Citations
 
 ### Purposes of Citations
 
-Citations are included in documents in many fields, including family history, multiple reasons. While rarely explicitly enumerated by citation users, we have identified the following purposes:
+Citations are included in documents in many fields, including family history, for multiple reasons. While rarely explicitly enumerated by citation users, we have identified the following purposes:
 
 1. Help others locate the source.
     These "others" may be the citation creator's future self.
@@ -39,7 +39,7 @@ Citations are included in documents in many fields, including family history, mu
     
     Academic citations indicate relevance and reliability by publication date, venue, and publisher.
     
-    Family history citations indicate relevance and reliability by indicating the provenance chain from content creation to researcher acquisition.
+    Family history citations indicate relevance and reliability by the provenance chain from content creation to researcher acquisition.
 
 4. Conform to an expected style guide.
     Those who read many citations can understand them more easily if they are all presented the same way.
@@ -47,7 +47,7 @@ Citations are included in documents in many fields, including family history, mu
 
 Not all users of citations care about all of these purposes, but enough care about each that a citation standard that does not serve all four purposes is unlikely to be widely accepted.
 
-The difference in how family history and academic citations indicate relevance and reliability is on way of viewing why academic citation standards like [CSL](https://citationstyles.org/) are inadequate for family history citation needs.
+The difference in how family history and academic citations indicate relevance and reliability is one way of viewing why academic citation standards like [CSL](https://citationstyles.org/) are inadequate for family history citation needs.
 
 ### Citations with Provenance
 
@@ -61,7 +61,7 @@ Not all family history citation styles express both kinds of layering, but enoug
 
 Most forms of layering are linear in structure: each source derives from one other source and was in the possession of one steward at a time.
 However, some derivations are compilations with multiple sources; examples include a book of obituaries from multiple newspapers, a translation informed by multiple versions of a manuscript, or a conclusion informed by multiple pieces of evidence.
-Stewardship can also be recorded in a way that makes order ambiguous or that combines several collections into one without tracking which source came from which.
+Stewardship can also be recorded in a way that makes order ambiguous or that combines several repositories into one without tracking which source came from which repository.
 Thus, a citation model should be able to support branching provenance structure.
 
 ### Single-Layer Citations
