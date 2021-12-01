@@ -135,7 +135,7 @@ Display is supported by processing that data with a presentation **template**. S
 |:---------- |:-------:|:-------:|:--------:|:-----------|:-------:|:---------:|
 | PS&T       | Yes     | Yes     | Yes      | No         | Yes     | No        |
 
-*Property sets and templates* are used by BibTeX, CiteProc, CSL, EndNote, Zotero, and other academic document preparation toolchains. *Citation data* is provided in this format by most academic-oriented online repositories and archives. *Templates* in this format are offered by most academic publication venues.
+*Property sets* and *templates* are used by BibTeX, CiteProc, CSL, EndNote, Zotero, and other academic document preparation toolchains. *Citation data* is provided in this format by most academic-oriented online repositories and archives. *Templates* in this format are offered by most academic publication venues.
 
 *Property set* design requires a trade-off between complexity and expressiveness. Academic *property set* citation standards typically have between 25 and 100 defined property names, with some sort of catch-all "miscellaneous" name to handle citations with properties outside that set. FHISO representatives have spoken with teams who attempted extending this model to family history citations who reported requiring hundreds more names to cover source types like rows in a tabular census and inscriptions on a grave marker. When they attempted to add in names for common provenance relationships, the number of names quickly passed a thousand and the projects were abandoned as leading to an unusable end.
 
@@ -180,7 +180,7 @@ FHISO is unaware of any implemention of *graphs of layers* citation data.
 
 ### Graphs of Items
 
-*Graphs of items* is like *graphs of layers*, but with per-layer information stored in a graph-based model instead of a set of properties model.
+*Graphs of items* is like *graphs of layers*, but with per-layer information stored in a graph-based model instead of a *property set* model.
 
 | Data Model | Display | Process | Generate | Provenance | Shorten | Customise |
 |:---------- |:-------:|:-------:|:--------:|:-----------|:-------:|:---------:|
