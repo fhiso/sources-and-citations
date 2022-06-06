@@ -47,12 +47,50 @@ We'll need to define how style files use XRef components; how to do so TBD
 
 # Embedding in GEDCOM
 
-- `_CSL_SOUR` has to be a record because we need them to point to each other
-- Substructures of `_CSL_SOUR` are unordered
+- `_CSLSOUR` has to be a record because we need them to point to each other
+- Substructures of `_CSLSOUR` are unordered
 - We could add all verbs from CSL, but that would (a) be roughly a hundred new tags and (b) mean a new version of the tags would be needed with every CSL update
 - We could add one tag for each value type, with subordinate `TYPE` fields naming the appropriate CSL variable name
-    - If we go this route, need to clarify that types cannot be repeated
+
+    ````gedstruct
+    n @XREF:_CSLSOUR@ _CSLSOUR  {1:1}
+    +1 _DVAR <CslDate>          {0:M}
+    +2 TYPE <Enum>              {1:1}
+    +1 _TVAR <Text>             {0:M}
+    +2 TYPE <Enum>              {1:1}
+    +1 _NVAR                    {0:M}
+    +2 _CSLNAME                 {0:M}
+    +3 _NAMEPART <Text>         {0:M}
+    +4 TYPE <Enum>              {1:1}
+    +1 _SOUR @<XREF:_CSLSOUR>@  {0:M}
+    +2 TYPE <Enum>              {1:1}
+    ````
+    
+    Allowable type enums are
+    
+    - _DVAR.TYPE: any "Date Variable" from CSL Specification Appendix IV - Variables
+    - _TVAR.TYPE: any "Standard Variable" (including "Number Variable") from CSL Specification Appendix IV - Variables
+    - _NVAR.TYPE: any "Name Variable" from CSL Specification Appendix IV - Variables
+    - _NAMEPART.TYPE:
+        - SURN -- csl's "family"
+        - GIVN -- csl's "given"
+        - NSFX -- csl's "suffix"
+        - _DROPPING_PARTICLE
+        - _NON_DROPPING_PARTICLE
+        - _LITERAL
+        - possibly others, like "_CSL_JSON_NAME" and "_FHISO_CREATOR_NAME"?
+
 - CSL dates are mostly a subset of GEDCOM dates, but also include four seasons. We can probably express them as a new datatype that uses mostly GEDCOM's date ABNF
+
+    ````abnf
+    CslDate = cslOneDate
+            / FROM cslOneDate TO cslOneDate
+            / ABT cslOneDate
+    cslOneDate = [[day D] month D] year [D epoch]
+               / season D year
+    season = %s"Q1" / %s"Q2" / %s"Q3" / %s"Q4"
+    ````
+
 - CSL names are compatible with neither [FHISO's creator's name draft](https://fhiso.org/TR/creators-name) nor [GEDOCM's personal name datatype](https://gedcom.io/specifications/FamilySearchGEDCOMv7.html#personal-name), so that will likely require a new set of structures to represent names
 
 # Embedding in GEDOCM-X
