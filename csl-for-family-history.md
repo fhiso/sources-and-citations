@@ -95,8 +95,8 @@ We'll need to define how style files use XRef components; how to do so TBD
     season = %s"Q1" / %s"Q2" / %s"Q3" / %s"Q4"
     ````
 
-- CSL names are compatible with neither [FHISO's creator's name draft](https://fhiso.org/TR/creators-name) nor [GEDOCM's personal name datatype](https://gedcom.io/specifications/FamilySearchGEDCOMv7.html#personal-name), so that will likely require a new set of structures to represent names
+- CSL names are compatible with neither [FHISO's creator's name draft](https://fhiso.org/TR/creators-name) nor [GEDCOM's personal name datatype](https://gedcom.io/specifications/FamilySearchGEDCOMv7.html#personal-name), so that will likely require a new set of structures to represent names
 
-# Embedding in GEDOCM-X
+# Embedding in GEDCOM-X
 
-Presumably the [XML input format](https://raw.githubusercontent.com/citation-style-language/schema/v1.0.1/csl-data.rnc) could be used as-is in GEDOM-X, with appropriate extensions to add layering to it.
+Presumably the [XML input format](https://raw.githubusercontent.com/citation-style-language/schema/v1.0.1/csl-data.rnc) could be used as-is in GEDCOM-X, with appropriate extensions to add layering to it.
