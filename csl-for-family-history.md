@@ -20,6 +20,10 @@ CSL is missing some components needed for use in family history.
 - microfilm
 - microfiche
 - monument/grave marker
+- deed
+- birth/marriage/death license
+- court filing
+- court proceedings/ruling
 - latitude / longitude
 
 # Layering
