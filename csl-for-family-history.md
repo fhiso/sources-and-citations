@@ -10,6 +10,7 @@ Relevant documents include
     - aside: the JSON name-variable type has properties not in the corresponding XML
 - URIs for some CSL variables are defined in the [CSL Ontology](https://citationstyles.org/ontology/).
 - The [citeproc-js](https://github.com/Juris-M/citeproc-js) project defines [a JSON format](https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html) for `csl-data`.
+- Citeproc also has several XSLT-based implementations mentioned in the [Apache OpenOffice page](https://www.openoffice.org/bibliographic/citeproc/index.html)
 
 CSL is missing some components needed for use in family history.
 
